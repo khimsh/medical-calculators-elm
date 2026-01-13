@@ -1,9 +1,9 @@
-module Main exposing (main, update)
+module Main exposing (main, update, Model, Msg(..), init)
 
 import Browser
 import Functions exposing (..)
 import Html exposing (button, div, form, h1, h2, input, label, p, text)
-import Html.Attributes exposing (placeholder, value)
+import Html.Attributes exposing (class, placeholder, type_, value)
 import Html.Events exposing (onClick, onInput)
 
 
@@ -45,6 +45,7 @@ type Msg
     | CalculateLiquidDosage
 
 
+update : Msg -> Model -> Model
 update msg model =
     case msg of
         ChangePrescribed newPrescribed ->
@@ -69,47 +70,92 @@ update msg model =
             { model | liquidResult = floatToStr ((strToFloat model.prescribedLiquid / strToFloat model.liquidDosageAthand) * strToFloat model.liquidVolumeAtHand) }
 
 
+view : Model -> Html.Html Msg
 view model =
-    div []
-        [ h1 [] [ text "Medical Calculators implemented in Elm" ]
-        , div []
-            [ h2 [] [ text "Peroral Pill Dosage" ]
-            , form []
-                [ label [] [ text "Prescribed amount" ]
-                , input [ placeholder "0.0", value model.prescribed, onInput ChangePrescribed ] []
+    div [ class "container" ]
+        [ h1 [ class "title" ] [ text "Medical Calculators" ]
+        , div [ class "subtitle" ] [ text "Implemented in Elm" ]
+        , div [ class "calculators-container" ]
+            [ div [ class "calculator-card" ]
+                [ h2 [ class "card-title" ] [ text "Peroral Pill Dosage" ]
+                , form [ class "form" ]
+                    [ div [ class "field-group" ]
+                        [ label [ class "label" ] [ text "Prescribed amount (mg)" ]
+                        , input
+                            [ class "input"
+                            , placeholder "0.0"
+                            , value model.prescribed
+                            , onInput ChangePrescribed
+                            , type_ "number"
+                            ]
+                            []
+                        ]
+                    , div [ class "field-group" ]
+                        [ label [ class "label" ] [ text "Pill strength (mg)" ]
+                        , input
+                            [ class "input"
+                            , placeholder "0.0"
+                            , value model.tabletMg
+                            , onInput ChangeTabletMg
+                            , type_ "number"
+                            ]
+                            []
+                        ]
+                    , div [ class "button-container" ]
+                        [ button [ class "button", onClick CalculateResult ] [ text "Calculate" ]
+                        ]
+                    , div [ class "result-container" ]
+                        [ p [ class "result-label" ] [ text "Result:" ]
+                        , p [ class "result-value" ] [ text model.result ]
+                        , p [ class "result-unit" ] [ text "tablets" ]
+                        ]
+                    ]
                 ]
-            , div []
-                [ label [] [ text "Pill Mg" ]
-                , input [ placeholder "0.0", value model.tabletMg, onInput ChangeTabletMg ] []
-                ]
-            , div []
-                [ button [ onClick CalculateResult ] [ text "Calculate" ]
-                ]
-            , div []
-                [ p [] [ text "Result:" ]
-                , p [] [ text model.result ]
-                ]
-            ]
-        , div []
-            [ h2 [] [ text "Peroral Liquids Dosage" ]
-            , form []
-                [ label [] [ text "Prescribed amount" ]
-                , input [ placeholder "0.0", value model.prescribedLiquid, onInput ChangePrescribedLiquid ] []
-                ]
-            , div []
-                [ label [] [ text "Amount at hand" ]
-                , input [ placeholder "0.0", value model.liquidDosageAthand, onInput ChangeLiquidDosageAthand ] []
-                ]
-            , div []
-                [ label [] [ text "Volume at hand" ]
-                , input [ placeholder "0.0", value model.liquidVolumeAtHand, onInput ChangeLiquidVolumeAtHand ] []
-                ]
-            , div []
-                [ button [ onClick CalculateLiquidDosage ] [ text "Calculate" ]
-                ]
-            , div []
-                [ p [] [ text "Result:" ]
-                , p [] [ text model.liquidResult ]
+            , div [ class "calculator-card" ]
+                [ h2 [ class "card-title" ] [ text "Peroral Liquids Dosage" ]
+                , form [ class "form" ]
+                    [ div [ class "field-group" ]
+                        [ label [ class "label" ] [ text "Prescribed amount (mg)" ]
+                        , input
+                            [ class "input"
+                            , placeholder "0.0"
+                            , value model.prescribedLiquid
+                            , onInput ChangePrescribedLiquid
+                            , type_ "number"
+                            ]
+                            []
+                        ]
+                    , div [ class "field-group" ]
+                        [ label [ class "label" ] [ text "Amount at hand (mg)" ]
+                        , input
+                            [ class "input"
+                            , placeholder "0.0"
+                            , value model.liquidDosageAthand
+                            , onInput ChangeLiquidDosageAthand
+                            , type_ "number"
+                            ]
+                            []
+                        ]
+                    , div [ class "field-group" ]
+                        [ label [ class "label" ] [ text "Volume at hand (mL)" ]
+                        , input
+                            [ class "input"
+                            , placeholder "0.0"
+                            , value model.liquidVolumeAtHand
+                            , onInput ChangeLiquidVolumeAtHand
+                            , type_ "number"
+                            ]
+                            []
+                        ]
+                    , div [ class "button-container" ]
+                        [ button [ class "button", onClick CalculateLiquidDosage ] [ text "Calculate" ]
+                        ]
+                    , div [ class "result-container" ]
+                        [ p [ class "result-label" ] [ text "Result:" ]
+                        , p [ class "result-value" ] [ text model.liquidResult ]
+                        , p [ class "result-unit" ] [ text "mL" ]
+                        ]
+                    ]
                 ]
             ]
         ]
