@@ -2,9 +2,9 @@ module Main exposing (main, update, Model, Msg(..), init)
 
 import Browser
 import Functions exposing (..)
-import Translations exposing (Language(..), Strings, getStrings)
-import Html exposing (button, div, form, h1, h2, input, label, option, p, select, text)
-import Html.Attributes exposing (checked, class, placeholder, type_, value)
+import Translations exposing (Language(..), getStrings)
+import Html exposing (button, div, form, h1, h2, header, main_, nav, section, input, label, option, p, select, text)
+import Html.Attributes exposing (attribute, checked, class, for, id, placeholder, type_, value)
 import Html.Events exposing (onClick, onInput, onCheck)
 
 
@@ -156,22 +156,30 @@ view model =
             getStrings model.language
     in
     div [ class "container" ]
-        [ h1 [ class "title" ] [ text strings.title ]
-        , div [ class "subtitle" ] [ text strings.subtitle ]
-        , div [ class "language-toggle" ]
-            [ button
-                [ class "language-button"
-                , type_ "button"
-                , onClick ToggleLanguage
+        [ header [ class "header", attribute "aria-label" "Site header" ]
+            [ div [ class "header-left" ]
+                [ h1 [ class "title" ] [ text strings.title ]
+                , div [ class "subtitle" ] [ text strings.subtitle ]
                 ]
-                [ text (if model.language == English then "ქართული" else "English") ]
+            , div [ class "header-right" ]
+                [ button
+                    [ class "language-button"
+                    , type_ "button"
+                    , onClick ToggleLanguage
+                    , attribute "aria-label" (if model.language == English then "Switch to Georgian" else "Switch to English")
+                    , attribute "title" (if model.language == English then "ქართული" else "English")
+                    ]
+                    [ text (if model.language == English then "ქართული" else "English") ]
+                ]
             ]
-        , div [ class "menu-container" ]
+        , nav [ class "menu-container", attribute "aria-label" "Calculator selection" ]
             [ button
                 [ class "menu-button"
                 , classList [ ( "active", model.selectedCalculator == Pills ) ]
                 , type_ "button"
                 , onClick (SelectCalculator Pills)
+                , attribute "aria-current" (if model.selectedCalculator == Pills then "page" else "false")
+                , attribute "aria-label" strings.pillDosage
                 ]
                 [ text strings.pillDosage ]
             , button
@@ -179,6 +187,8 @@ view model =
                 , classList [ ( "active", model.selectedCalculator == Liquids ) ]
                 , type_ "button"
                 , onClick (SelectCalculator Liquids)
+                , attribute "aria-current" (if model.selectedCalculator == Liquids then "page" else "false")
+                , attribute "aria-label" strings.liquidDosage
                 ]
                 [ text strings.liquidDosage ]
             , button
@@ -186,19 +196,22 @@ view model =
                 , classList [ ( "active", model.selectedCalculator == Nutrition ) ]
                 , type_ "button"
                 , onClick (SelectCalculator Nutrition)
+                , attribute "aria-current" (if model.selectedCalculator == Nutrition then "page" else "false")
+                , attribute "aria-label" strings.nutrition
                 ]
                 [ text strings.nutrition ]
             ]
-        , div [ class "calculators-container" ]
+        , main_ [ class "calculators-container" ]
             [ case model.selectedCalculator of
                 Pills ->
-                    div [ class "calculator-card" ]
+                    section [ class "calculator-card", attribute "aria-label" strings.peroralpill ]
                         [ h2 [ class "card-title" ] [ text strings.peroralpill ]
                         , form [ class "form" ]
                             [ div [ class "field-group" ]
-                                [ label [ class "label" ] [ text strings.prescribedAmount ]
+                                [ label [ class "label", for "prescribed-amount" ] [ text strings.prescribedAmount ]
                                 , input
                                     [ class "input"
+                                    , id "prescribed-amount"
                                     , placeholder "0.0"
                                     , value model.prescribed
                                     , onInput ChangePrescribed
@@ -208,9 +221,10 @@ view model =
                                     []
                                 ]
                             , div [ class "field-group" ]
-                                [ label [ class "label" ] [ text strings.pillStrength ]
+                                [ label [ class "label", for "pill-strength" ] [ text strings.pillStrength ]
                                 , input
                                     [ class "input"
+                                    , id "pill-strength"
                                     , placeholder "0.0"
                                     , value model.tabletMg
                                     , onInput ChangeTabletMg
@@ -220,24 +234,25 @@ view model =
                                     []
                                 ]
                             , div [ class "button-container" ]
-                                [ button [ class "button", type_ "button", onClick CalculateResult ] [ text strings.calculate ]
+                                [ button [ class "button", type_ "button", onClick CalculateResult, attribute "aria-label" ("Calculate " ++ strings.pillDosage) ] [ text strings.calculate ]
                                 ]
-                            , div [ class "result-container" ]
+                            , div [ class "result-container", attribute "role" "region", attribute "aria-label" "Calculation result" ]
                                 [ p [ class "result-label" ] [ text strings.result ]
-                                , p [ class "result-value" ] [ text model.result ]
+                                , p [ class "result-value", attribute "aria-live" "polite" ] [ text model.result ]
                                 , p [ class "result-unit" ] [ text strings.tablets ]
                                 ]
                             ]
                         ]
 
                 Liquids ->
-                    div [ class "calculator-card" ]
+                    section [ class "calculator-card", attribute "aria-label" strings.peroralliquid ]
                         [ h2 [ class "card-title" ] [ text strings.peroralliquid ]
                         , form [ class "form" ]
                             [ div [ class "field-group" ]
-                                [ label [ class "label" ] [ text strings.prescribedAmount ]
+                                [ label [ class "label", for "liquid-prescribed-amount" ] [ text strings.prescribedAmount ]
                                 , input
                                     [ class "input"
+                                    , id "liquid-prescribed-amount"
                                     , placeholder "0.0"
                                     , value model.prescribedLiquid
                                     , onInput ChangePrescribedLiquid
@@ -247,9 +262,10 @@ view model =
                                     []
                                 ]
                             , div [ class "field-group" ]
-                                [ label [ class "label" ] [ text strings.amountAtHand ]
+                                [ label [ class "label", for "liquid-dosage-athand" ] [ text strings.amountAtHand ]
                                 , input
                                     [ class "input"
+                                    , id "liquid-dosage-athand"
                                     , placeholder "0.0"
                                     , value model.liquidDosageAthand
                                     , onInput ChangeLiquidDosageAthand
@@ -259,9 +275,10 @@ view model =
                                     []
                                 ]
                             , div [ class "field-group" ]
-                                [ label [ class "label" ] [ text strings.volumeAtHand ]
+                                [ label [ class "label", for "liquid-volume-athand" ] [ text strings.volumeAtHand ]
                                 , input
                                     [ class "input"
+                                    , id "liquid-volume-athand"
                                     , placeholder "0.0"
                                     , value model.liquidVolumeAtHand
                                     , onInput ChangeLiquidVolumeAtHand
@@ -271,24 +288,25 @@ view model =
                                     []
                                 ]
                             , div [ class "button-container" ]
-                                [ button [ class "button", type_ "button", onClick CalculateLiquidDosage ] [ text strings.calculate ]
+                                [ button [ class "button", type_ "button", onClick CalculateLiquidDosage, attribute "aria-label" ("Calculate " ++ strings.liquidDosage) ] [ text strings.calculate ]
                                 ]
-                            , div [ class "result-container" ]
+                            , div [ class "result-container", attribute "role" "region", attribute "aria-label" "Calculation result" ]
                                 [ p [ class "result-label" ] [ text strings.result ]
-                                , p [ class "result-value" ] [ text model.liquidResult ]
+                                , p [ class "result-value", attribute "aria-live" "polite" ] [ text model.liquidResult ]
                                 , p [ class "result-unit" ] [ text strings.ml ]
                                 ]
                             ]
                         ]
 
                 Nutrition ->
-                    div [ class "calculator-card" ]
+                    section [ class "calculator-card", attribute "aria-label" strings.nutritionCalc ]
                         [ h2 [ class "card-title" ] [ text strings.nutritionCalc ]
                         , form [ class "form" ]
                             [ div [ class "field-group" ]
-                                [ label [ class "label" ] [ text strings.weight ]
+                                [ label [ class "label", for "nutrition-weight" ] [ text strings.weight ]
                                 , input
                                     [ class "input"
+                                    , id "nutrition-weight"
                                     , placeholder "0.0"
                                     , value model.nutritionWeight
                                     , onInput ChangeNutritionWeight
@@ -298,9 +316,10 @@ view model =
                                     []
                                 ]
                             , div [ class "field-group" ]
-                                [ label [ class "label" ] [ text strings.height ]
+                                [ label [ class "label", for "nutrition-height" ] [ text strings.height ]
                                 , input
                                     [ class "input"
+                                    , id "nutrition-height"
                                     , placeholder "0.0"
                                     , value model.nutritionHeight
                                     , onInput ChangeNutritionHeight
@@ -310,9 +329,10 @@ view model =
                                     []
                                 ]
                             , div [ class "field-group" ]
-                                [ label [ class "label" ] [ text strings.weightLoss ]
+                                [ label [ class "label", for "nutrition-weight-loss" ] [ text strings.weightLoss ]
                                 , select
                                     [ class "input"
+                                    , id "nutrition-weight-loss"
                                     , onInput (\v -> ChangeNutritionWeightLoss (Maybe.withDefault 0 (String.toInt v)))
                                     ]
                                     [ option [ value "0" ] [ text strings.weightLossNone ]
@@ -324,20 +344,21 @@ view model =
                             , div [ class "field-group checkbox-group" ]
                                 [ input
                                     [ type_ "checkbox"
+                                    , id "nutrition-critical"
                                     , checked model.nutritionCritical
                                     , onCheck ChangeNutritionCritical
                                     , class "checkbox-input"
                                     ]
                                     []
-                                , label [ class "checkbox-label" ] [ text strings.critical ]
+                                , label [ class "checkbox-label", for "nutrition-critical" ] [ text strings.critical ]
                                 ]
                             , div [ class "button-container" ]
-                                [ button [ class "button", type_ "button", onClick CalculateNutrition ] [ text strings.calculate ]
+                                [ button [ class "button", type_ "button", onClick CalculateNutrition, attribute "aria-label" ("Calculate " ++ strings.nutritionCalc) ] [ text strings.calculate ]
                                 ]
                             , if model.nutritionBMI /= "" then
-                                div [ class "result-container" ]
+                                div [ class "result-container", attribute "role" "region", attribute "aria-label" "Nutrition calculation results" ]
                                     [ p [ class "result-label" ] [ text "BMI:" ]
-                                    , p [ class "result-value" ] [ text model.nutritionBMI ]
+                                    , p [ class "result-value", attribute "aria-live" "polite" ] [ text model.nutritionBMI ]
                                     , p [ class "result-label" ] [ text strings.dailyCalories ]
                                     , p [ class "result-value" ] [ text model.nutritionCalories ]
                                     , p [ class "result-unit" ] [ text strings.kcal ]

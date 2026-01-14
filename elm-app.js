@@ -5383,6 +5383,14 @@ var $author$project$Main$SelectCalculator = function (a) {
 	return {$: 'SelectCalculator', a: a};
 };
 var $author$project$Main$ToggleLanguage = {$: 'ToggleLanguage'};
+var $elm$virtual_dom$VirtualDom$attribute = F2(
+	function (key, value) {
+		return A2(
+			_VirtualDom_attribute,
+			_VirtualDom_noOnOrFormAction(key),
+			_VirtualDom_noJavaScriptOrHtmlUri(value));
+	});
+var $elm$html$Html$Attributes$attribute = $elm$virtual_dom$VirtualDom$attribute;
 var $elm$html$Html$button = _VirtualDom_node('button');
 var $elm$json$Json$Encode$bool = _Json_wrap;
 var $elm$html$Html$Attributes$boolProperty = F2(
@@ -5428,6 +5436,7 @@ var $author$project$Main$classList = function (classes) {
 				A2($elm$core$List$filter, $elm$core$Tuple$second, classes))));
 };
 var $elm$html$Html$div = _VirtualDom_node('div');
+var $elm$html$Html$Attributes$for = $elm$html$Html$Attributes$stringProperty('htmlFor');
 var $elm$html$Html$form = _VirtualDom_node('form');
 var $author$project$Translations$englishStrings = {amountAtHand: 'Amount at hand (mg)', calculate: 'Calculate', carbs: 'Carbs: ', critical: 'Critical condition?', dailyCalories: 'Daily Calories:', fats: 'Fats: ', height: 'Height (cm)', kcal: 'kcal', liquidDosage: 'Liquid Dosage', ml: 'mL', nutrition: 'Nutrition', nutritionCalc: 'Nutrition Calculator', peroralliquid: 'Peroral Liquids Dosage', peroralpill: 'Peroral Pill Dosage', pillDosage: 'Pill Dosage', pillStrength: 'Pill strength (mg)', prescribedAmount: 'Prescribed amount (mg)', proteins: 'Proteins: ', result: 'Result:', subtitle: 'Implemented in Elm', tablets: 'tablets', title: 'Medical Calculators', volumeAtHand: 'Volume at hand (mL)', weight: 'Weight (kg)', weightLoss: 'Weight Loss (%)', weightLossNone: 'None'};
 var $author$project$Translations$georgianStrings = {amountAtHand: 'ხელთ არსებული რაოდენობა (მგ)', calculate: 'გამოთვლა', carbs: 'ნახშირწყლები: ', critical: 'კრიტიკული მდგომარეობა?', dailyCalories: 'დღიური კალორიები:', fats: 'ცხიმები: ', height: 'სიმაღლე (სმ)', kcal: 'kcal', liquidDosage: 'თხევადი მედიკამენტი', ml: 'მლ', nutrition: 'კვება', nutritionCalc: 'კვების კალკულატორი', peroralliquid: 'პერორალური თხევადი მედიკამენტი', peroralpill: 'პერორალური აბის დოზირება', pillDosage: 'აბის დოზირება', pillStrength: 'აბის სიძლიერე (მგ)', prescribedAmount: 'დაწერილი რაოდენობა (მგ)', proteins: 'პროტეინები: ', result: 'შედეგი:', subtitle: 'განხორციელებული Elm-ში', tablets: 'აბი', title: 'სამედიცინო კალკულატორები', volumeAtHand: 'ხელთ არსებული მოცულობა (მლ)', weight: 'წონა (კგ)', weightLoss: 'წონის დაკლება (%)', weightLossNone: 'არა'};
@@ -5440,9 +5449,13 @@ var $author$project$Translations$getStrings = function (language) {
 };
 var $elm$html$Html$h1 = _VirtualDom_node('h1');
 var $elm$html$Html$h2 = _VirtualDom_node('h2');
+var $elm$html$Html$header = _VirtualDom_node('header');
+var $elm$html$Html$Attributes$id = $elm$html$Html$Attributes$stringProperty('id');
 var $elm$html$Html$input = _VirtualDom_node('input');
 var $elm$html$Html$label = _VirtualDom_node('label');
+var $elm$html$Html$main_ = _VirtualDom_node('main');
 var $elm$html$Html$Attributes$min = $elm$html$Html$Attributes$stringProperty('min');
+var $elm$html$Html$nav = _VirtualDom_node('nav');
 var $elm$core$Basics$neq = _Utils_notEqual;
 var $elm$virtual_dom$VirtualDom$Normal = function (a) {
 	return {$: 'Normal', a: a};
@@ -5509,6 +5522,7 @@ var $elm$html$Html$Events$onInput = function (tagger) {
 var $elm$html$Html$option = _VirtualDom_node('option');
 var $elm$html$Html$p = _VirtualDom_node('p');
 var $elm$html$Html$Attributes$placeholder = $elm$html$Html$Attributes$stringProperty('placeholder');
+var $elm$html$Html$section = _VirtualDom_node('section');
 var $elm$html$Html$select = _VirtualDom_node('select');
 var $elm$virtual_dom$VirtualDom$text = _VirtualDom_text;
 var $elm$html$Html$text = $elm$virtual_dom$VirtualDom$text;
@@ -5525,52 +5539,80 @@ var $author$project$Main$view = function (model) {
 		_List_fromArray(
 			[
 				A2(
-				$elm$html$Html$h1,
+				$elm$html$Html$header,
 				_List_fromArray(
 					[
-						$elm$html$Html$Attributes$class('title')
-					]),
-				_List_fromArray(
-					[
-						$elm$html$Html$text(strings.title)
-					])),
-				A2(
-				$elm$html$Html$div,
-				_List_fromArray(
-					[
-						$elm$html$Html$Attributes$class('subtitle')
-					]),
-				_List_fromArray(
-					[
-						$elm$html$Html$text(strings.subtitle)
-					])),
-				A2(
-				$elm$html$Html$div,
-				_List_fromArray(
-					[
-						$elm$html$Html$Attributes$class('language-toggle')
+						$elm$html$Html$Attributes$class('header'),
+						A2($elm$html$Html$Attributes$attribute, 'aria-label', 'Site header')
 					]),
 				_List_fromArray(
 					[
 						A2(
-						$elm$html$Html$button,
+						$elm$html$Html$div,
 						_List_fromArray(
 							[
-								$elm$html$Html$Attributes$class('language-button'),
-								$elm$html$Html$Attributes$type_('button'),
-								$elm$html$Html$Events$onClick($author$project$Main$ToggleLanguage)
+								$elm$html$Html$Attributes$class('header-left')
 							]),
 						_List_fromArray(
 							[
-								$elm$html$Html$text(
-								_Utils_eq(model.language, $author$project$Translations$English) ? 'ქართული' : 'English')
+								A2(
+								$elm$html$Html$h1,
+								_List_fromArray(
+									[
+										$elm$html$Html$Attributes$class('title')
+									]),
+								_List_fromArray(
+									[
+										$elm$html$Html$text(strings.title)
+									])),
+								A2(
+								$elm$html$Html$div,
+								_List_fromArray(
+									[
+										$elm$html$Html$Attributes$class('subtitle')
+									]),
+								_List_fromArray(
+									[
+										$elm$html$Html$text(strings.subtitle)
+									]))
+							])),
+						A2(
+						$elm$html$Html$div,
+						_List_fromArray(
+							[
+								$elm$html$Html$Attributes$class('header-right')
+							]),
+						_List_fromArray(
+							[
+								A2(
+								$elm$html$Html$button,
+								_List_fromArray(
+									[
+										$elm$html$Html$Attributes$class('language-button'),
+										$elm$html$Html$Attributes$type_('button'),
+										$elm$html$Html$Events$onClick($author$project$Main$ToggleLanguage),
+										A2(
+										$elm$html$Html$Attributes$attribute,
+										'aria-label',
+										_Utils_eq(model.language, $author$project$Translations$English) ? 'Switch to Georgian' : 'Switch to English'),
+										A2(
+										$elm$html$Html$Attributes$attribute,
+										'title',
+										_Utils_eq(model.language, $author$project$Translations$English) ? 'ქართული' : 'English')
+									]),
+								_List_fromArray(
+									[
+										$elm$html$Html$text(
+										_Utils_eq(model.language, $author$project$Translations$English) ? 'ქართული' : 'English')
+									]))
 							]))
 					])),
 				A2(
-				$elm$html$Html$div,
+				$elm$html$Html$nav,
 				_List_fromArray(
 					[
-						$elm$html$Html$Attributes$class('menu-container')
+						$elm$html$Html$Attributes$class('menu-container'),
+						A2($elm$html$Html$Attributes$attribute, 'aria-label', 'Calculator selection')
 					]),
 				_List_fromArray(
 					[
@@ -5588,7 +5630,12 @@ var $author$project$Main$view = function (model) {
 									])),
 								$elm$html$Html$Attributes$type_('button'),
 								$elm$html$Html$Events$onClick(
-								$author$project$Main$SelectCalculator($author$project$Main$Pills))
+								$author$project$Main$SelectCalculator($author$project$Main$Pills)),
+								A2(
+								$elm$html$Html$Attributes$attribute,
+								'aria-current',
+								_Utils_eq(model.selectedCalculator, $author$project$Main$Pills) ? 'page' : 'false'),
+								A2($elm$html$Html$Attributes$attribute, 'aria-label', strings.pillDosage)
 							]),
 						_List_fromArray(
 							[
@@ -5608,7 +5655,12 @@ var $author$project$Main$view = function (model) {
 									])),
 								$elm$html$Html$Attributes$type_('button'),
 								$elm$html$Html$Events$onClick(
-								$author$project$Main$SelectCalculator($author$project$Main$Liquids))
+								$author$project$Main$SelectCalculator($author$project$Main$Liquids)),
+								A2(
+								$elm$html$Html$Attributes$attribute,
+								'aria-current',
+								_Utils_eq(model.selectedCalculator, $author$project$Main$Liquids) ? 'page' : 'false'),
+								A2($elm$html$Html$Attributes$attribute, 'aria-label', strings.liquidDosage)
 							]),
 						_List_fromArray(
 							[
@@ -5628,7 +5680,12 @@ var $author$project$Main$view = function (model) {
 									])),
 								$elm$html$Html$Attributes$type_('button'),
 								$elm$html$Html$Events$onClick(
-								$author$project$Main$SelectCalculator($author$project$Main$Nutrition))
+								$author$project$Main$SelectCalculator($author$project$Main$Nutrition)),
+								A2(
+								$elm$html$Html$Attributes$attribute,
+								'aria-current',
+								_Utils_eq(model.selectedCalculator, $author$project$Main$Nutrition) ? 'page' : 'false'),
+								A2($elm$html$Html$Attributes$attribute, 'aria-label', strings.nutrition)
 							]),
 						_List_fromArray(
 							[
@@ -5636,7 +5693,7 @@ var $author$project$Main$view = function (model) {
 							]))
 					])),
 				A2(
-				$elm$html$Html$div,
+				$elm$html$Html$main_,
 				_List_fromArray(
 					[
 						$elm$html$Html$Attributes$class('calculators-container')
@@ -5648,10 +5705,11 @@ var $author$project$Main$view = function (model) {
 						switch (_v0.$) {
 							case 'Pills':
 								return A2(
-									$elm$html$Html$div,
+									$elm$html$Html$section,
 									_List_fromArray(
 										[
-											$elm$html$Html$Attributes$class('calculator-card')
+											$elm$html$Html$Attributes$class('calculator-card'),
+											A2($elm$html$Html$Attributes$attribute, 'aria-label', strings.peroralpill)
 										]),
 									_List_fromArray(
 										[
@@ -5685,7 +5743,8 @@ var $author$project$Main$view = function (model) {
 															$elm$html$Html$label,
 															_List_fromArray(
 																[
-																	$elm$html$Html$Attributes$class('label')
+																	$elm$html$Html$Attributes$class('label'),
+																	$elm$html$Html$Attributes$for('prescribed-amount')
 																]),
 															_List_fromArray(
 																[
@@ -5696,6 +5755,7 @@ var $author$project$Main$view = function (model) {
 															_List_fromArray(
 																[
 																	$elm$html$Html$Attributes$class('input'),
+																	$elm$html$Html$Attributes$id('prescribed-amount'),
 																	$elm$html$Html$Attributes$placeholder('0.0'),
 																	$elm$html$Html$Attributes$value(model.prescribed),
 																	$elm$html$Html$Events$onInput($author$project$Main$ChangePrescribed),
@@ -5716,7 +5776,8 @@ var $author$project$Main$view = function (model) {
 															$elm$html$Html$label,
 															_List_fromArray(
 																[
-																	$elm$html$Html$Attributes$class('label')
+																	$elm$html$Html$Attributes$class('label'),
+																	$elm$html$Html$Attributes$for('pill-strength')
 																]),
 															_List_fromArray(
 																[
@@ -5727,6 +5788,7 @@ var $author$project$Main$view = function (model) {
 															_List_fromArray(
 																[
 																	$elm$html$Html$Attributes$class('input'),
+																	$elm$html$Html$Attributes$id('pill-strength'),
 																	$elm$html$Html$Attributes$placeholder('0.0'),
 																	$elm$html$Html$Attributes$value(model.tabletMg),
 																	$elm$html$Html$Events$onInput($author$project$Main$ChangeTabletMg),
@@ -5749,7 +5811,8 @@ var $author$project$Main$view = function (model) {
 																[
 																	$elm$html$Html$Attributes$class('button'),
 																	$elm$html$Html$Attributes$type_('button'),
-																	$elm$html$Html$Events$onClick($author$project$Main$CalculateResult)
+																	$elm$html$Html$Events$onClick($author$project$Main$CalculateResult),
+																	A2($elm$html$Html$Attributes$attribute, 'aria-label', 'Calculate ' + strings.pillDosage)
 																]),
 															_List_fromArray(
 																[
@@ -5760,7 +5823,9 @@ var $author$project$Main$view = function (model) {
 													$elm$html$Html$div,
 													_List_fromArray(
 														[
-															$elm$html$Html$Attributes$class('result-container')
+															$elm$html$Html$Attributes$class('result-container'),
+															A2($elm$html$Html$Attributes$attribute, 'role', 'region'),
+															A2($elm$html$Html$Attributes$attribute, 'aria-label', 'Calculation result')
 														]),
 													_List_fromArray(
 														[
@@ -5778,7 +5843,8 @@ var $author$project$Main$view = function (model) {
 															$elm$html$Html$p,
 															_List_fromArray(
 																[
-																	$elm$html$Html$Attributes$class('result-value')
+																	$elm$html$Html$Attributes$class('result-value'),
+																	A2($elm$html$Html$Attributes$attribute, 'aria-live', 'polite')
 																]),
 															_List_fromArray(
 																[
@@ -5799,10 +5865,11 @@ var $author$project$Main$view = function (model) {
 										]));
 							case 'Liquids':
 								return A2(
-									$elm$html$Html$div,
+									$elm$html$Html$section,
 									_List_fromArray(
 										[
-											$elm$html$Html$Attributes$class('calculator-card')
+											$elm$html$Html$Attributes$class('calculator-card'),
+											A2($elm$html$Html$Attributes$attribute, 'aria-label', strings.peroralliquid)
 										]),
 									_List_fromArray(
 										[
@@ -5836,7 +5903,8 @@ var $author$project$Main$view = function (model) {
 															$elm$html$Html$label,
 															_List_fromArray(
 																[
-																	$elm$html$Html$Attributes$class('label')
+																	$elm$html$Html$Attributes$class('label'),
+																	$elm$html$Html$Attributes$for('liquid-prescribed-amount')
 																]),
 															_List_fromArray(
 																[
@@ -5847,6 +5915,7 @@ var $author$project$Main$view = function (model) {
 															_List_fromArray(
 																[
 																	$elm$html$Html$Attributes$class('input'),
+																	$elm$html$Html$Attributes$id('liquid-prescribed-amount'),
 																	$elm$html$Html$Attributes$placeholder('0.0'),
 																	$elm$html$Html$Attributes$value(model.prescribedLiquid),
 																	$elm$html$Html$Events$onInput($author$project$Main$ChangePrescribedLiquid),
@@ -5867,7 +5936,8 @@ var $author$project$Main$view = function (model) {
 															$elm$html$Html$label,
 															_List_fromArray(
 																[
-																	$elm$html$Html$Attributes$class('label')
+																	$elm$html$Html$Attributes$class('label'),
+																	$elm$html$Html$Attributes$for('liquid-dosage-athand')
 																]),
 															_List_fromArray(
 																[
@@ -5878,6 +5948,7 @@ var $author$project$Main$view = function (model) {
 															_List_fromArray(
 																[
 																	$elm$html$Html$Attributes$class('input'),
+																	$elm$html$Html$Attributes$id('liquid-dosage-athand'),
 																	$elm$html$Html$Attributes$placeholder('0.0'),
 																	$elm$html$Html$Attributes$value(model.liquidDosageAthand),
 																	$elm$html$Html$Events$onInput($author$project$Main$ChangeLiquidDosageAthand),
@@ -5898,7 +5969,8 @@ var $author$project$Main$view = function (model) {
 															$elm$html$Html$label,
 															_List_fromArray(
 																[
-																	$elm$html$Html$Attributes$class('label')
+																	$elm$html$Html$Attributes$class('label'),
+																	$elm$html$Html$Attributes$for('liquid-volume-athand')
 																]),
 															_List_fromArray(
 																[
@@ -5909,6 +5981,7 @@ var $author$project$Main$view = function (model) {
 															_List_fromArray(
 																[
 																	$elm$html$Html$Attributes$class('input'),
+																	$elm$html$Html$Attributes$id('liquid-volume-athand'),
 																	$elm$html$Html$Attributes$placeholder('0.0'),
 																	$elm$html$Html$Attributes$value(model.liquidVolumeAtHand),
 																	$elm$html$Html$Events$onInput($author$project$Main$ChangeLiquidVolumeAtHand),
@@ -5931,7 +6004,8 @@ var $author$project$Main$view = function (model) {
 																[
 																	$elm$html$Html$Attributes$class('button'),
 																	$elm$html$Html$Attributes$type_('button'),
-																	$elm$html$Html$Events$onClick($author$project$Main$CalculateLiquidDosage)
+																	$elm$html$Html$Events$onClick($author$project$Main$CalculateLiquidDosage),
+																	A2($elm$html$Html$Attributes$attribute, 'aria-label', 'Calculate ' + strings.liquidDosage)
 																]),
 															_List_fromArray(
 																[
@@ -5942,7 +6016,9 @@ var $author$project$Main$view = function (model) {
 													$elm$html$Html$div,
 													_List_fromArray(
 														[
-															$elm$html$Html$Attributes$class('result-container')
+															$elm$html$Html$Attributes$class('result-container'),
+															A2($elm$html$Html$Attributes$attribute, 'role', 'region'),
+															A2($elm$html$Html$Attributes$attribute, 'aria-label', 'Calculation result')
 														]),
 													_List_fromArray(
 														[
@@ -5960,7 +6036,8 @@ var $author$project$Main$view = function (model) {
 															$elm$html$Html$p,
 															_List_fromArray(
 																[
-																	$elm$html$Html$Attributes$class('result-value')
+																	$elm$html$Html$Attributes$class('result-value'),
+																	A2($elm$html$Html$Attributes$attribute, 'aria-live', 'polite')
 																]),
 															_List_fromArray(
 																[
@@ -5981,10 +6058,11 @@ var $author$project$Main$view = function (model) {
 										]));
 							default:
 								return A2(
-									$elm$html$Html$div,
+									$elm$html$Html$section,
 									_List_fromArray(
 										[
-											$elm$html$Html$Attributes$class('calculator-card')
+											$elm$html$Html$Attributes$class('calculator-card'),
+											A2($elm$html$Html$Attributes$attribute, 'aria-label', strings.nutritionCalc)
 										]),
 									_List_fromArray(
 										[
@@ -6018,7 +6096,8 @@ var $author$project$Main$view = function (model) {
 															$elm$html$Html$label,
 															_List_fromArray(
 																[
-																	$elm$html$Html$Attributes$class('label')
+																	$elm$html$Html$Attributes$class('label'),
+																	$elm$html$Html$Attributes$for('nutrition-weight')
 																]),
 															_List_fromArray(
 																[
@@ -6029,6 +6108,7 @@ var $author$project$Main$view = function (model) {
 															_List_fromArray(
 																[
 																	$elm$html$Html$Attributes$class('input'),
+																	$elm$html$Html$Attributes$id('nutrition-weight'),
 																	$elm$html$Html$Attributes$placeholder('0.0'),
 																	$elm$html$Html$Attributes$value(model.nutritionWeight),
 																	$elm$html$Html$Events$onInput($author$project$Main$ChangeNutritionWeight),
@@ -6049,7 +6129,8 @@ var $author$project$Main$view = function (model) {
 															$elm$html$Html$label,
 															_List_fromArray(
 																[
-																	$elm$html$Html$Attributes$class('label')
+																	$elm$html$Html$Attributes$class('label'),
+																	$elm$html$Html$Attributes$for('nutrition-height')
 																]),
 															_List_fromArray(
 																[
@@ -6060,6 +6141,7 @@ var $author$project$Main$view = function (model) {
 															_List_fromArray(
 																[
 																	$elm$html$Html$Attributes$class('input'),
+																	$elm$html$Html$Attributes$id('nutrition-height'),
 																	$elm$html$Html$Attributes$placeholder('0.0'),
 																	$elm$html$Html$Attributes$value(model.nutritionHeight),
 																	$elm$html$Html$Events$onInput($author$project$Main$ChangeNutritionHeight),
@@ -6080,7 +6162,8 @@ var $author$project$Main$view = function (model) {
 															$elm$html$Html$label,
 															_List_fromArray(
 																[
-																	$elm$html$Html$Attributes$class('label')
+																	$elm$html$Html$Attributes$class('label'),
+																	$elm$html$Html$Attributes$for('nutrition-weight-loss')
 																]),
 															_List_fromArray(
 																[
@@ -6091,6 +6174,7 @@ var $author$project$Main$view = function (model) {
 															_List_fromArray(
 																[
 																	$elm$html$Html$Attributes$class('input'),
+																	$elm$html$Html$Attributes$id('nutrition-weight-loss'),
 																	$elm$html$Html$Events$onInput(
 																	function (v) {
 																		return $author$project$Main$ChangeNutritionWeightLoss(
@@ -6157,6 +6241,7 @@ var $author$project$Main$view = function (model) {
 															_List_fromArray(
 																[
 																	$elm$html$Html$Attributes$type_('checkbox'),
+																	$elm$html$Html$Attributes$id('nutrition-critical'),
 																	$elm$html$Html$Attributes$checked(model.nutritionCritical),
 																	$elm$html$Html$Events$onCheck($author$project$Main$ChangeNutritionCritical),
 																	$elm$html$Html$Attributes$class('checkbox-input')
@@ -6166,7 +6251,8 @@ var $author$project$Main$view = function (model) {
 															$elm$html$Html$label,
 															_List_fromArray(
 																[
-																	$elm$html$Html$Attributes$class('checkbox-label')
+																	$elm$html$Html$Attributes$class('checkbox-label'),
+																	$elm$html$Html$Attributes$for('nutrition-critical')
 																]),
 															_List_fromArray(
 																[
@@ -6187,7 +6273,8 @@ var $author$project$Main$view = function (model) {
 																[
 																	$elm$html$Html$Attributes$class('button'),
 																	$elm$html$Html$Attributes$type_('button'),
-																	$elm$html$Html$Events$onClick($author$project$Main$CalculateNutrition)
+																	$elm$html$Html$Events$onClick($author$project$Main$CalculateNutrition),
+																	A2($elm$html$Html$Attributes$attribute, 'aria-label', 'Calculate ' + strings.nutritionCalc)
 																]),
 															_List_fromArray(
 																[
@@ -6198,7 +6285,9 @@ var $author$project$Main$view = function (model) {
 													$elm$html$Html$div,
 													_List_fromArray(
 														[
-															$elm$html$Html$Attributes$class('result-container')
+															$elm$html$Html$Attributes$class('result-container'),
+															A2($elm$html$Html$Attributes$attribute, 'role', 'region'),
+															A2($elm$html$Html$Attributes$attribute, 'aria-label', 'Nutrition calculation results')
 														]),
 													_List_fromArray(
 														[
@@ -6216,7 +6305,8 @@ var $author$project$Main$view = function (model) {
 															$elm$html$Html$p,
 															_List_fromArray(
 																[
-																	$elm$html$Html$Attributes$class('result-value')
+																	$elm$html$Html$Attributes$class('result-value'),
+																	A2($elm$html$Html$Attributes$attribute, 'aria-live', 'polite')
 																]),
 															_List_fromArray(
 																[
