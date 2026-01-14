@@ -4370,7 +4370,9 @@ function _Browser_load(url)
 		}
 	}));
 }
-var $author$project$Main$init = {liquidDosageAthand: '', liquidResult: '', liquidVolumeAtHand: '', prescribed: '', prescribedLiquid: '', result: '0.0', tabletMg: ''};
+var $elm$core$Basics$False = {$: 'False'};
+var $author$project$Main$Pills = {$: 'Pills'};
+var $author$project$Main$init = {liquidDosageAthand: '', liquidResult: '', liquidVolumeAtHand: '', nutritionBMI: '', nutritionCalories: '', nutritionCarbs: '', nutritionCritical: false, nutritionFats: '', nutritionHeight: '', nutritionProteins: '', nutritionWeight: '', nutritionWeightLoss: 0, prescribed: '', prescribedLiquid: '', result: '0.0', selectedCalculator: $author$project$Main$Pills, tabletMg: ''};
 var $elm$core$Basics$EQ = {$: 'EQ'};
 var $elm$core$Basics$GT = {$: 'GT'};
 var $elm$core$Basics$LT = {$: 'LT'};
@@ -4472,7 +4474,6 @@ var $elm$core$Result$Ok = function (a) {
 var $elm$json$Json$Decode$OneOf = function (a) {
 	return {$: 'OneOf', a: a};
 };
-var $elm$core$Basics$False = {$: 'False'};
 var $elm$core$Basics$add = _Basics_add;
 var $elm$core$Maybe$Just = function (a) {
 	return {$: 'Just', a: a};
@@ -5181,10 +5182,63 @@ var $elm$browser$Browser$sandbox = function (impl) {
 			view: impl.view
 		});
 };
+var $elm$core$Basics$pow = _Basics_pow;
+var $author$project$Functions$calculateBMI = F2(
+	function (weight, height) {
+		var heightInMeters = height / 100;
+		return weight / A2($elm$core$Basics$pow, heightInMeters, 2);
+	});
+var $author$project$Functions$NutritionResult = F4(
+	function (calories, proteins, fats, carbs) {
+		return {calories: calories, carbs: carbs, fats: fats, proteins: proteins};
+	});
+var $author$project$Functions$calculateCalories = F3(
+	function (weight, bmi, score) {
+		if (score <= 1) {
+			var tee = 25 * weight;
+			var proteins = tee / 4;
+			var fats = tee / 4;
+			var carbs = tee / 2;
+			return A4($author$project$Functions$NutritionResult, tee, proteins, fats, carbs);
+		} else {
+			var ree = (bmi < 14) ? (5 * weight) : ((bmi < 16) ? (10 * weight) : (30 * weight));
+			var proteins = ree / 4;
+			var fats = ree / 4;
+			var carbs = ree / 2;
+			return A4($author$project$Functions$NutritionResult, ree, proteins, fats, carbs);
+		}
+	});
 var $elm$core$String$fromFloat = _String_fromNumber;
 var $author$project$Functions$floatToStr = function (_float) {
 	return $elm$core$String$fromFloat(_float);
 };
+var $elm$core$Basics$round = _Basics_round;
+var $author$project$Functions$formatToDecimals = F2(
+	function (decimals, value) {
+		var multiplier = A2($elm$core$Basics$pow, 10, decimals);
+		var rounded = $elm$core$Basics$round(value * multiplier);
+		return $elm$core$String$fromFloat(rounded / multiplier);
+	});
+var $author$project$Functions$scoreCalculator = F3(
+	function (bmi, weightLoss, criticalStatus) {
+		var weightLossScore = function () {
+			switch (weightLoss) {
+				case 0:
+					return 0;
+				case 1:
+					return 0;
+				case 2:
+					return 1;
+				case 3:
+					return 2;
+				default:
+					return 0;
+			}
+		}();
+		var criticalScore = criticalStatus ? 2 : 0;
+		var bmiScore = (bmi > 20) ? 0 : ((bmi < 18.5) ? 2 : 1);
+		return (bmiScore + weightLossScore) + criticalScore;
+	});
 var $elm$core$String$toFloat = _String_toFloat;
 var $elm$core$Maybe$withDefault = F2(
 	function (_default, maybe) {
@@ -5204,6 +5258,11 @@ var $author$project$Functions$strToFloat = function (string) {
 var $author$project$Main$update = F2(
 	function (msg, model) {
 		switch (msg.$) {
+			case 'SelectCalculator':
+				var calculator = msg.a;
+				return _Utils_update(
+					model,
+					{selectedCalculator: calculator});
 			case 'ChangePrescribed':
 				var newPrescribed = msg.a;
 				return _Utils_update(
@@ -5236,22 +5295,70 @@ var $author$project$Main$update = F2(
 				return _Utils_update(
 					model,
 					{liquidVolumeAtHand: newLiquidVolumeAtHand});
-			default:
+			case 'CalculateLiquidDosage':
 				return _Utils_update(
 					model,
 					{
 						liquidResult: $author$project$Functions$floatToStr(
 							($author$project$Functions$strToFloat(model.prescribedLiquid) / $author$project$Functions$strToFloat(model.liquidDosageAthand)) * $author$project$Functions$strToFloat(model.liquidVolumeAtHand))
 					});
+			case 'ChangeNutritionWeight':
+				var newWeight = msg.a;
+				return _Utils_update(
+					model,
+					{nutritionWeight: newWeight});
+			case 'ChangeNutritionHeight':
+				var newHeight = msg.a;
+				return _Utils_update(
+					model,
+					{nutritionHeight: newHeight});
+			case 'ChangeNutritionWeightLoss':
+				var newWeightLoss = msg.a;
+				return _Utils_update(
+					model,
+					{nutritionWeightLoss: newWeightLoss});
+			case 'ChangeNutritionCritical':
+				var newCritical = msg.a;
+				return _Utils_update(
+					model,
+					{nutritionCritical: newCritical});
+			default:
+				var weight = $author$project$Functions$strToFloat(model.nutritionWeight);
+				var height = $author$project$Functions$strToFloat(model.nutritionHeight);
+				var bmi = A2($author$project$Functions$calculateBMI, weight, height);
+				var score = A3($author$project$Functions$scoreCalculator, bmi, model.nutritionWeightLoss, model.nutritionCritical);
+				var result = A3($author$project$Functions$calculateCalories, weight, bmi, score);
+				return _Utils_update(
+					model,
+					{
+						nutritionBMI: A2($author$project$Functions$formatToDecimals, 2, bmi),
+						nutritionCalories: A2($author$project$Functions$formatToDecimals, 1, result.calories),
+						nutritionCarbs: A2($author$project$Functions$formatToDecimals, 1, result.carbs),
+						nutritionFats: A2($author$project$Functions$formatToDecimals, 1, result.fats),
+						nutritionProteins: A2($author$project$Functions$formatToDecimals, 1, result.proteins)
+					});
 		}
 	});
 var $author$project$Main$CalculateLiquidDosage = {$: 'CalculateLiquidDosage'};
+var $author$project$Main$CalculateNutrition = {$: 'CalculateNutrition'};
 var $author$project$Main$CalculateResult = {$: 'CalculateResult'};
 var $author$project$Main$ChangeLiquidDosageAthand = function (a) {
 	return {$: 'ChangeLiquidDosageAthand', a: a};
 };
 var $author$project$Main$ChangeLiquidVolumeAtHand = function (a) {
 	return {$: 'ChangeLiquidVolumeAtHand', a: a};
+};
+var $author$project$Main$ChangeNutritionCritical = function (a) {
+	return {$: 'ChangeNutritionCritical', a: a};
+};
+var $author$project$Main$ChangeNutritionHeight = function (a) {
+	return {$: 'ChangeNutritionHeight', a: a};
+};
+var $author$project$Main$ChangeNutritionWeight = function (a) {
+	return {$: 'ChangeNutritionWeight', a: a};
+};
+var $author$project$Main$ChangeNutritionWeightLoss = function (a) {
+	return {$: 'ChangeNutritionWeightLoss', a: a};
 };
 var $author$project$Main$ChangePrescribed = function (a) {
 	return {$: 'ChangePrescribed', a: a};
@@ -5262,7 +5369,21 @@ var $author$project$Main$ChangePrescribedLiquid = function (a) {
 var $author$project$Main$ChangeTabletMg = function (a) {
 	return {$: 'ChangeTabletMg', a: a};
 };
+var $author$project$Main$Liquids = {$: 'Liquids'};
+var $author$project$Main$Nutrition = {$: 'Nutrition'};
+var $author$project$Main$SelectCalculator = function (a) {
+	return {$: 'SelectCalculator', a: a};
+};
 var $elm$html$Html$button = _VirtualDom_node('button');
+var $elm$json$Json$Encode$bool = _Json_wrap;
+var $elm$html$Html$Attributes$boolProperty = F2(
+	function (key, bool) {
+		return A2(
+			_VirtualDom_property,
+			key,
+			$elm$json$Json$Encode$bool(bool));
+	});
+var $elm$html$Html$Attributes$checked = $elm$html$Html$Attributes$boolProperty('checked');
 var $elm$json$Json$Encode$string = _Json_wrap;
 var $elm$html$Html$Attributes$stringProperty = F2(
 	function (key, string) {
@@ -5272,12 +5393,39 @@ var $elm$html$Html$Attributes$stringProperty = F2(
 			$elm$json$Json$Encode$string(string));
 	});
 var $elm$html$Html$Attributes$class = $elm$html$Html$Attributes$stringProperty('className');
+var $elm$core$List$filter = F2(
+	function (isGood, list) {
+		return A3(
+			$elm$core$List$foldr,
+			F2(
+				function (x, xs) {
+					return isGood(x) ? A2($elm$core$List$cons, x, xs) : xs;
+				}),
+			_List_Nil,
+			list);
+	});
+var $elm$core$Tuple$second = function (_v0) {
+	var y = _v0.b;
+	return y;
+};
+var $author$project$Main$classList = function (classes) {
+	return $elm$html$Html$Attributes$class(
+		A2(
+			$elm$core$String$join,
+			' ',
+			A2(
+				$elm$core$List$map,
+				$elm$core$Tuple$first,
+				A2($elm$core$List$filter, $elm$core$Tuple$second, classes))));
+};
 var $elm$html$Html$div = _VirtualDom_node('div');
 var $elm$html$Html$form = _VirtualDom_node('form');
 var $elm$html$Html$h1 = _VirtualDom_node('h1');
 var $elm$html$Html$h2 = _VirtualDom_node('h2');
 var $elm$html$Html$input = _VirtualDom_node('input');
 var $elm$html$Html$label = _VirtualDom_node('label');
+var $elm$html$Html$Attributes$min = $elm$html$Html$Attributes$stringProperty('min');
+var $elm$core$Basics$neq = _Utils_notEqual;
 var $elm$virtual_dom$VirtualDom$Normal = function (a) {
 	return {$: 'Normal', a: a};
 };
@@ -5289,6 +5437,23 @@ var $elm$html$Html$Events$on = F2(
 			event,
 			$elm$virtual_dom$VirtualDom$Normal(decoder));
 	});
+var $elm$json$Json$Decode$field = _Json_decodeField;
+var $elm$json$Json$Decode$at = F2(
+	function (fields, decoder) {
+		return A3($elm$core$List$foldr, $elm$json$Json$Decode$field, decoder, fields);
+	});
+var $elm$json$Json$Decode$bool = _Json_decodeBool;
+var $elm$html$Html$Events$targetChecked = A2(
+	$elm$json$Json$Decode$at,
+	_List_fromArray(
+		['target', 'checked']),
+	$elm$json$Json$Decode$bool);
+var $elm$html$Html$Events$onCheck = function (tagger) {
+	return A2(
+		$elm$html$Html$Events$on,
+		'change',
+		A2($elm$json$Json$Decode$map, tagger, $elm$html$Html$Events$targetChecked));
+};
 var $elm$html$Html$Events$onClick = function (msg) {
 	return A2(
 		$elm$html$Html$Events$on,
@@ -5308,11 +5473,6 @@ var $elm$html$Html$Events$stopPropagationOn = F2(
 			event,
 			$elm$virtual_dom$VirtualDom$MayStopPropagation(decoder));
 	});
-var $elm$json$Json$Decode$field = _Json_decodeField;
-var $elm$json$Json$Decode$at = F2(
-	function (fields, decoder) {
-		return A3($elm$core$List$foldr, $elm$json$Json$Decode$field, decoder, fields);
-	});
 var $elm$json$Json$Decode$string = _Json_decodeString;
 var $elm$html$Html$Events$targetValue = A2(
 	$elm$json$Json$Decode$at,
@@ -5328,8 +5488,10 @@ var $elm$html$Html$Events$onInput = function (tagger) {
 			$elm$html$Html$Events$alwaysStop,
 			A2($elm$json$Json$Decode$map, tagger, $elm$html$Html$Events$targetValue)));
 };
+var $elm$html$Html$option = _VirtualDom_node('option');
 var $elm$html$Html$p = _VirtualDom_node('p');
 var $elm$html$Html$Attributes$placeholder = $elm$html$Html$Attributes$stringProperty('placeholder');
+var $elm$html$Html$select = _VirtualDom_node('select');
 var $elm$virtual_dom$VirtualDom$text = _VirtualDom_text;
 var $elm$html$Html$text = $elm$virtual_dom$VirtualDom$text;
 var $elm$html$Html$Attributes$type_ = $elm$html$Html$Attributes$stringProperty('type');
@@ -5367,334 +5529,732 @@ var $author$project$Main$view = function (model) {
 				$elm$html$Html$div,
 				_List_fromArray(
 					[
-						$elm$html$Html$Attributes$class('calculators-container')
+						$elm$html$Html$Attributes$class('menu-container')
 					]),
 				_List_fromArray(
 					[
 						A2(
-						$elm$html$Html$div,
+						$elm$html$Html$button,
 						_List_fromArray(
 							[
-								$elm$html$Html$Attributes$class('calculator-card')
+								$elm$html$Html$Attributes$class('menu-button'),
+								$author$project$Main$classList(
+								_List_fromArray(
+									[
+										_Utils_Tuple2(
+										'active',
+										_Utils_eq(model.selectedCalculator, $author$project$Main$Pills))
+									])),
+								$elm$html$Html$Attributes$type_('button'),
+								$elm$html$Html$Events$onClick(
+								$author$project$Main$SelectCalculator($author$project$Main$Pills))
 							]),
 						_List_fromArray(
 							[
-								A2(
-								$elm$html$Html$h2,
-								_List_fromArray(
-									[
-										$elm$html$Html$Attributes$class('card-title')
-									]),
-								_List_fromArray(
-									[
-										$elm$html$Html$text('Peroral Pill Dosage')
-									])),
-								A2(
-								$elm$html$Html$form,
-								_List_fromArray(
-									[
-										$elm$html$Html$Attributes$class('form')
-									]),
-								_List_fromArray(
-									[
-										A2(
-										$elm$html$Html$div,
-										_List_fromArray(
-											[
-												$elm$html$Html$Attributes$class('field-group')
-											]),
-										_List_fromArray(
-											[
-												A2(
-												$elm$html$Html$label,
-												_List_fromArray(
-													[
-														$elm$html$Html$Attributes$class('label')
-													]),
-												_List_fromArray(
-													[
-														$elm$html$Html$text('Prescribed amount (mg)')
-													])),
-												A2(
-												$elm$html$Html$input,
-												_List_fromArray(
-													[
-														$elm$html$Html$Attributes$class('input'),
-														$elm$html$Html$Attributes$placeholder('0.0'),
-														$elm$html$Html$Attributes$value(model.prescribed),
-														$elm$html$Html$Events$onInput($author$project$Main$ChangePrescribed),
-														$elm$html$Html$Attributes$type_('number')
-													]),
-												_List_Nil)
-											])),
-										A2(
-										$elm$html$Html$div,
-										_List_fromArray(
-											[
-												$elm$html$Html$Attributes$class('field-group')
-											]),
-										_List_fromArray(
-											[
-												A2(
-												$elm$html$Html$label,
-												_List_fromArray(
-													[
-														$elm$html$Html$Attributes$class('label')
-													]),
-												_List_fromArray(
-													[
-														$elm$html$Html$text('Pill strength (mg)')
-													])),
-												A2(
-												$elm$html$Html$input,
-												_List_fromArray(
-													[
-														$elm$html$Html$Attributes$class('input'),
-														$elm$html$Html$Attributes$placeholder('0.0'),
-														$elm$html$Html$Attributes$value(model.tabletMg),
-														$elm$html$Html$Events$onInput($author$project$Main$ChangeTabletMg),
-														$elm$html$Html$Attributes$type_('number')
-													]),
-												_List_Nil)
-											])),
-										A2(
-										$elm$html$Html$div,
-										_List_fromArray(
-											[
-												$elm$html$Html$Attributes$class('button-container')
-											]),
-										_List_fromArray(
-											[
-												A2(
-												$elm$html$Html$button,
-												_List_fromArray(
-													[
-														$elm$html$Html$Attributes$class('button'),
-														$elm$html$Html$Events$onClick($author$project$Main$CalculateResult)
-													]),
-												_List_fromArray(
-													[
-														$elm$html$Html$text('Calculate')
-													]))
-											])),
-										A2(
-										$elm$html$Html$div,
-										_List_fromArray(
-											[
-												$elm$html$Html$Attributes$class('result-container')
-											]),
-										_List_fromArray(
-											[
-												A2(
-												$elm$html$Html$p,
-												_List_fromArray(
-													[
-														$elm$html$Html$Attributes$class('result-label')
-													]),
-												_List_fromArray(
-													[
-														$elm$html$Html$text('Result:')
-													])),
-												A2(
-												$elm$html$Html$p,
-												_List_fromArray(
-													[
-														$elm$html$Html$Attributes$class('result-value')
-													]),
-												_List_fromArray(
-													[
-														$elm$html$Html$text(model.result)
-													])),
-												A2(
-												$elm$html$Html$p,
-												_List_fromArray(
-													[
-														$elm$html$Html$Attributes$class('result-unit')
-													]),
-												_List_fromArray(
-													[
-														$elm$html$Html$text('tablets')
-													]))
-											]))
-									]))
+								$elm$html$Html$text('Pill Dosage')
 							])),
 						A2(
-						$elm$html$Html$div,
+						$elm$html$Html$button,
 						_List_fromArray(
 							[
-								$elm$html$Html$Attributes$class('calculator-card')
+								$elm$html$Html$Attributes$class('menu-button'),
+								$author$project$Main$classList(
+								_List_fromArray(
+									[
+										_Utils_Tuple2(
+										'active',
+										_Utils_eq(model.selectedCalculator, $author$project$Main$Liquids))
+									])),
+								$elm$html$Html$Attributes$type_('button'),
+								$elm$html$Html$Events$onClick(
+								$author$project$Main$SelectCalculator($author$project$Main$Liquids))
 							]),
 						_List_fromArray(
 							[
-								A2(
-								$elm$html$Html$h2,
+								$elm$html$Html$text('Liquid Dosage')
+							])),
+						A2(
+						$elm$html$Html$button,
+						_List_fromArray(
+							[
+								$elm$html$Html$Attributes$class('menu-button'),
+								$author$project$Main$classList(
 								_List_fromArray(
 									[
-										$elm$html$Html$Attributes$class('card-title')
-									]),
-								_List_fromArray(
-									[
-										$elm$html$Html$text('Peroral Liquids Dosage')
+										_Utils_Tuple2(
+										'active',
+										_Utils_eq(model.selectedCalculator, $author$project$Main$Nutrition))
 									])),
-								A2(
-								$elm$html$Html$form,
-								_List_fromArray(
-									[
-										$elm$html$Html$Attributes$class('form')
-									]),
-								_List_fromArray(
-									[
-										A2(
-										$elm$html$Html$div,
-										_List_fromArray(
-											[
-												$elm$html$Html$Attributes$class('field-group')
-											]),
-										_List_fromArray(
-											[
-												A2(
-												$elm$html$Html$label,
-												_List_fromArray(
-													[
-														$elm$html$Html$Attributes$class('label')
-													]),
-												_List_fromArray(
-													[
-														$elm$html$Html$text('Prescribed amount (mg)')
-													])),
-												A2(
-												$elm$html$Html$input,
-												_List_fromArray(
-													[
-														$elm$html$Html$Attributes$class('input'),
-														$elm$html$Html$Attributes$placeholder('0.0'),
-														$elm$html$Html$Attributes$value(model.prescribedLiquid),
-														$elm$html$Html$Events$onInput($author$project$Main$ChangePrescribedLiquid),
-														$elm$html$Html$Attributes$type_('number')
-													]),
-												_List_Nil)
-											])),
-										A2(
-										$elm$html$Html$div,
-										_List_fromArray(
-											[
-												$elm$html$Html$Attributes$class('field-group')
-											]),
-										_List_fromArray(
-											[
-												A2(
-												$elm$html$Html$label,
-												_List_fromArray(
-													[
-														$elm$html$Html$Attributes$class('label')
-													]),
-												_List_fromArray(
-													[
-														$elm$html$Html$text('Amount at hand (mg)')
-													])),
-												A2(
-												$elm$html$Html$input,
-												_List_fromArray(
-													[
-														$elm$html$Html$Attributes$class('input'),
-														$elm$html$Html$Attributes$placeholder('0.0'),
-														$elm$html$Html$Attributes$value(model.liquidDosageAthand),
-														$elm$html$Html$Events$onInput($author$project$Main$ChangeLiquidDosageAthand),
-														$elm$html$Html$Attributes$type_('number')
-													]),
-												_List_Nil)
-											])),
-										A2(
-										$elm$html$Html$div,
-										_List_fromArray(
-											[
-												$elm$html$Html$Attributes$class('field-group')
-											]),
-										_List_fromArray(
-											[
-												A2(
-												$elm$html$Html$label,
-												_List_fromArray(
-													[
-														$elm$html$Html$Attributes$class('label')
-													]),
-												_List_fromArray(
-													[
-														$elm$html$Html$text('Volume at hand (mL)')
-													])),
-												A2(
-												$elm$html$Html$input,
-												_List_fromArray(
-													[
-														$elm$html$Html$Attributes$class('input'),
-														$elm$html$Html$Attributes$placeholder('0.0'),
-														$elm$html$Html$Attributes$value(model.liquidVolumeAtHand),
-														$elm$html$Html$Events$onInput($author$project$Main$ChangeLiquidVolumeAtHand),
-														$elm$html$Html$Attributes$type_('number')
-													]),
-												_List_Nil)
-											])),
-										A2(
-										$elm$html$Html$div,
-										_List_fromArray(
-											[
-												$elm$html$Html$Attributes$class('button-container')
-											]),
-										_List_fromArray(
-											[
-												A2(
-												$elm$html$Html$button,
-												_List_fromArray(
-													[
-														$elm$html$Html$Attributes$class('button'),
-														$elm$html$Html$Events$onClick($author$project$Main$CalculateLiquidDosage)
-													]),
-												_List_fromArray(
-													[
-														$elm$html$Html$text('Calculate')
-													]))
-											])),
-										A2(
-										$elm$html$Html$div,
-										_List_fromArray(
-											[
-												$elm$html$Html$Attributes$class('result-container')
-											]),
-										_List_fromArray(
-											[
-												A2(
-												$elm$html$Html$p,
-												_List_fromArray(
-													[
-														$elm$html$Html$Attributes$class('result-label')
-													]),
-												_List_fromArray(
-													[
-														$elm$html$Html$text('Result:')
-													])),
-												A2(
-												$elm$html$Html$p,
-												_List_fromArray(
-													[
-														$elm$html$Html$Attributes$class('result-value')
-													]),
-												_List_fromArray(
-													[
-														$elm$html$Html$text(model.liquidResult)
-													])),
-												A2(
-												$elm$html$Html$p,
-												_List_fromArray(
-													[
-														$elm$html$Html$Attributes$class('result-unit')
-													]),
-												_List_fromArray(
-													[
-														$elm$html$Html$text('mL')
-													]))
-											]))
-									]))
+								$elm$html$Html$Attributes$type_('button'),
+								$elm$html$Html$Events$onClick(
+								$author$project$Main$SelectCalculator($author$project$Main$Nutrition))
+							]),
+						_List_fromArray(
+							[
+								$elm$html$Html$text('Nutrition')
 							]))
+					])),
+				A2(
+				$elm$html$Html$div,
+				_List_fromArray(
+					[
+						$elm$html$Html$Attributes$class('calculators-container')
+					]),
+				_List_fromArray(
+					[
+						function () {
+						var _v0 = model.selectedCalculator;
+						switch (_v0.$) {
+							case 'Pills':
+								return A2(
+									$elm$html$Html$div,
+									_List_fromArray(
+										[
+											$elm$html$Html$Attributes$class('calculator-card')
+										]),
+									_List_fromArray(
+										[
+											A2(
+											$elm$html$Html$h2,
+											_List_fromArray(
+												[
+													$elm$html$Html$Attributes$class('card-title')
+												]),
+											_List_fromArray(
+												[
+													$elm$html$Html$text('Peroral Pill Dosage')
+												])),
+											A2(
+											$elm$html$Html$form,
+											_List_fromArray(
+												[
+													$elm$html$Html$Attributes$class('form')
+												]),
+											_List_fromArray(
+												[
+													A2(
+													$elm$html$Html$div,
+													_List_fromArray(
+														[
+															$elm$html$Html$Attributes$class('field-group')
+														]),
+													_List_fromArray(
+														[
+															A2(
+															$elm$html$Html$label,
+															_List_fromArray(
+																[
+																	$elm$html$Html$Attributes$class('label')
+																]),
+															_List_fromArray(
+																[
+																	$elm$html$Html$text('Prescribed amount (mg)')
+																])),
+															A2(
+															$elm$html$Html$input,
+															_List_fromArray(
+																[
+																	$elm$html$Html$Attributes$class('input'),
+																	$elm$html$Html$Attributes$placeholder('0.0'),
+																	$elm$html$Html$Attributes$value(model.prescribed),
+																	$elm$html$Html$Events$onInput($author$project$Main$ChangePrescribed),
+																	$elm$html$Html$Attributes$type_('number'),
+																	$elm$html$Html$Attributes$min('0')
+																]),
+															_List_Nil)
+														])),
+													A2(
+													$elm$html$Html$div,
+													_List_fromArray(
+														[
+															$elm$html$Html$Attributes$class('field-group')
+														]),
+													_List_fromArray(
+														[
+															A2(
+															$elm$html$Html$label,
+															_List_fromArray(
+																[
+																	$elm$html$Html$Attributes$class('label')
+																]),
+															_List_fromArray(
+																[
+																	$elm$html$Html$text('Pill strength (mg)')
+																])),
+															A2(
+															$elm$html$Html$input,
+															_List_fromArray(
+																[
+																	$elm$html$Html$Attributes$class('input'),
+																	$elm$html$Html$Attributes$placeholder('0.0'),
+																	$elm$html$Html$Attributes$value(model.tabletMg),
+																	$elm$html$Html$Events$onInput($author$project$Main$ChangeTabletMg),
+																	$elm$html$Html$Attributes$type_('number'),
+																	$elm$html$Html$Attributes$min('0')
+																]),
+															_List_Nil)
+														])),
+													A2(
+													$elm$html$Html$div,
+													_List_fromArray(
+														[
+															$elm$html$Html$Attributes$class('button-container')
+														]),
+													_List_fromArray(
+														[
+															A2(
+															$elm$html$Html$button,
+															_List_fromArray(
+																[
+																	$elm$html$Html$Attributes$class('button'),
+																	$elm$html$Html$Attributes$type_('button'),
+																	$elm$html$Html$Events$onClick($author$project$Main$CalculateResult)
+																]),
+															_List_fromArray(
+																[
+																	$elm$html$Html$text('Calculate')
+																]))
+														])),
+													A2(
+													$elm$html$Html$div,
+													_List_fromArray(
+														[
+															$elm$html$Html$Attributes$class('result-container')
+														]),
+													_List_fromArray(
+														[
+															A2(
+															$elm$html$Html$p,
+															_List_fromArray(
+																[
+																	$elm$html$Html$Attributes$class('result-label')
+																]),
+															_List_fromArray(
+																[
+																	$elm$html$Html$text('Result:')
+																])),
+															A2(
+															$elm$html$Html$p,
+															_List_fromArray(
+																[
+																	$elm$html$Html$Attributes$class('result-value')
+																]),
+															_List_fromArray(
+																[
+																	$elm$html$Html$text(model.result)
+																])),
+															A2(
+															$elm$html$Html$p,
+															_List_fromArray(
+																[
+																	$elm$html$Html$Attributes$class('result-unit')
+																]),
+															_List_fromArray(
+																[
+																	$elm$html$Html$text('tablets')
+																]))
+														]))
+												]))
+										]));
+							case 'Liquids':
+								return A2(
+									$elm$html$Html$div,
+									_List_fromArray(
+										[
+											$elm$html$Html$Attributes$class('calculator-card')
+										]),
+									_List_fromArray(
+										[
+											A2(
+											$elm$html$Html$h2,
+											_List_fromArray(
+												[
+													$elm$html$Html$Attributes$class('card-title')
+												]),
+											_List_fromArray(
+												[
+													$elm$html$Html$text('Peroral Liquids Dosage')
+												])),
+											A2(
+											$elm$html$Html$form,
+											_List_fromArray(
+												[
+													$elm$html$Html$Attributes$class('form')
+												]),
+											_List_fromArray(
+												[
+													A2(
+													$elm$html$Html$div,
+													_List_fromArray(
+														[
+															$elm$html$Html$Attributes$class('field-group')
+														]),
+													_List_fromArray(
+														[
+															A2(
+															$elm$html$Html$label,
+															_List_fromArray(
+																[
+																	$elm$html$Html$Attributes$class('label')
+																]),
+															_List_fromArray(
+																[
+																	$elm$html$Html$text('Prescribed amount (mg)')
+																])),
+															A2(
+															$elm$html$Html$input,
+															_List_fromArray(
+																[
+																	$elm$html$Html$Attributes$class('input'),
+																	$elm$html$Html$Attributes$placeholder('0.0'),
+																	$elm$html$Html$Attributes$value(model.prescribedLiquid),
+																	$elm$html$Html$Events$onInput($author$project$Main$ChangePrescribedLiquid),
+																	$elm$html$Html$Attributes$type_('number'),
+																	$elm$html$Html$Attributes$min('0')
+																]),
+															_List_Nil)
+														])),
+													A2(
+													$elm$html$Html$div,
+													_List_fromArray(
+														[
+															$elm$html$Html$Attributes$class('field-group')
+														]),
+													_List_fromArray(
+														[
+															A2(
+															$elm$html$Html$label,
+															_List_fromArray(
+																[
+																	$elm$html$Html$Attributes$class('label')
+																]),
+															_List_fromArray(
+																[
+																	$elm$html$Html$text('Amount at hand (mg)')
+																])),
+															A2(
+															$elm$html$Html$input,
+															_List_fromArray(
+																[
+																	$elm$html$Html$Attributes$class('input'),
+																	$elm$html$Html$Attributes$placeholder('0.0'),
+																	$elm$html$Html$Attributes$value(model.liquidDosageAthand),
+																	$elm$html$Html$Events$onInput($author$project$Main$ChangeLiquidDosageAthand),
+																	$elm$html$Html$Attributes$type_('number'),
+																	$elm$html$Html$Attributes$min('0')
+																]),
+															_List_Nil)
+														])),
+													A2(
+													$elm$html$Html$div,
+													_List_fromArray(
+														[
+															$elm$html$Html$Attributes$class('field-group')
+														]),
+													_List_fromArray(
+														[
+															A2(
+															$elm$html$Html$label,
+															_List_fromArray(
+																[
+																	$elm$html$Html$Attributes$class('label')
+																]),
+															_List_fromArray(
+																[
+																	$elm$html$Html$text('Volume at hand (mL)')
+																])),
+															A2(
+															$elm$html$Html$input,
+															_List_fromArray(
+																[
+																	$elm$html$Html$Attributes$class('input'),
+																	$elm$html$Html$Attributes$placeholder('0.0'),
+																	$elm$html$Html$Attributes$value(model.liquidVolumeAtHand),
+																	$elm$html$Html$Events$onInput($author$project$Main$ChangeLiquidVolumeAtHand),
+																	$elm$html$Html$Attributes$type_('number'),
+																	$elm$html$Html$Attributes$min('0')
+																]),
+															_List_Nil)
+														])),
+													A2(
+													$elm$html$Html$div,
+													_List_fromArray(
+														[
+															$elm$html$Html$Attributes$class('button-container')
+														]),
+													_List_fromArray(
+														[
+															A2(
+															$elm$html$Html$button,
+															_List_fromArray(
+																[
+																	$elm$html$Html$Attributes$class('button'),
+																	$elm$html$Html$Attributes$type_('button'),
+																	$elm$html$Html$Events$onClick($author$project$Main$CalculateLiquidDosage)
+																]),
+															_List_fromArray(
+																[
+																	$elm$html$Html$text('Calculate')
+																]))
+														])),
+													A2(
+													$elm$html$Html$div,
+													_List_fromArray(
+														[
+															$elm$html$Html$Attributes$class('result-container')
+														]),
+													_List_fromArray(
+														[
+															A2(
+															$elm$html$Html$p,
+															_List_fromArray(
+																[
+																	$elm$html$Html$Attributes$class('result-label')
+																]),
+															_List_fromArray(
+																[
+																	$elm$html$Html$text('Result:')
+																])),
+															A2(
+															$elm$html$Html$p,
+															_List_fromArray(
+																[
+																	$elm$html$Html$Attributes$class('result-value')
+																]),
+															_List_fromArray(
+																[
+																	$elm$html$Html$text(model.liquidResult)
+																])),
+															A2(
+															$elm$html$Html$p,
+															_List_fromArray(
+																[
+																	$elm$html$Html$Attributes$class('result-unit')
+																]),
+															_List_fromArray(
+																[
+																	$elm$html$Html$text('mL')
+																]))
+														]))
+												]))
+										]));
+							default:
+								return A2(
+									$elm$html$Html$div,
+									_List_fromArray(
+										[
+											$elm$html$Html$Attributes$class('calculator-card')
+										]),
+									_List_fromArray(
+										[
+											A2(
+											$elm$html$Html$h2,
+											_List_fromArray(
+												[
+													$elm$html$Html$Attributes$class('card-title')
+												]),
+											_List_fromArray(
+												[
+													$elm$html$Html$text('Nutrition Calculator')
+												])),
+											A2(
+											$elm$html$Html$form,
+											_List_fromArray(
+												[
+													$elm$html$Html$Attributes$class('form')
+												]),
+											_List_fromArray(
+												[
+													A2(
+													$elm$html$Html$div,
+													_List_fromArray(
+														[
+															$elm$html$Html$Attributes$class('field-group')
+														]),
+													_List_fromArray(
+														[
+															A2(
+															$elm$html$Html$label,
+															_List_fromArray(
+																[
+																	$elm$html$Html$Attributes$class('label')
+																]),
+															_List_fromArray(
+																[
+																	$elm$html$Html$text('Weight (kg)')
+																])),
+															A2(
+															$elm$html$Html$input,
+															_List_fromArray(
+																[
+																	$elm$html$Html$Attributes$class('input'),
+																	$elm$html$Html$Attributes$placeholder('0.0'),
+																	$elm$html$Html$Attributes$value(model.nutritionWeight),
+																	$elm$html$Html$Events$onInput($author$project$Main$ChangeNutritionWeight),
+																	$elm$html$Html$Attributes$type_('number'),
+																	$elm$html$Html$Attributes$min('0')
+																]),
+															_List_Nil)
+														])),
+													A2(
+													$elm$html$Html$div,
+													_List_fromArray(
+														[
+															$elm$html$Html$Attributes$class('field-group')
+														]),
+													_List_fromArray(
+														[
+															A2(
+															$elm$html$Html$label,
+															_List_fromArray(
+																[
+																	$elm$html$Html$Attributes$class('label')
+																]),
+															_List_fromArray(
+																[
+																	$elm$html$Html$text('Height (cm)')
+																])),
+															A2(
+															$elm$html$Html$input,
+															_List_fromArray(
+																[
+																	$elm$html$Html$Attributes$class('input'),
+																	$elm$html$Html$Attributes$placeholder('0.0'),
+																	$elm$html$Html$Attributes$value(model.nutritionHeight),
+																	$elm$html$Html$Events$onInput($author$project$Main$ChangeNutritionHeight),
+																	$elm$html$Html$Attributes$type_('number'),
+																	$elm$html$Html$Attributes$min('0')
+																]),
+															_List_Nil)
+														])),
+													A2(
+													$elm$html$Html$div,
+													_List_fromArray(
+														[
+															$elm$html$Html$Attributes$class('field-group')
+														]),
+													_List_fromArray(
+														[
+															A2(
+															$elm$html$Html$label,
+															_List_fromArray(
+																[
+																	$elm$html$Html$Attributes$class('label')
+																]),
+															_List_fromArray(
+																[
+																	$elm$html$Html$text('Weight Loss (%)')
+																])),
+															A2(
+															$elm$html$Html$select,
+															_List_fromArray(
+																[
+																	$elm$html$Html$Attributes$class('input'),
+																	$elm$html$Html$Events$onInput(
+																	function (v) {
+																		return $author$project$Main$ChangeNutritionWeightLoss(
+																			A2(
+																				$elm$core$Maybe$withDefault,
+																				0,
+																				$elm$core$String$toInt(v)));
+																	})
+																]),
+															_List_fromArray(
+																[
+																	A2(
+																	$elm$html$Html$option,
+																	_List_fromArray(
+																		[
+																			$elm$html$Html$Attributes$value('0')
+																		]),
+																	_List_fromArray(
+																		[
+																			$elm$html$Html$text('None')
+																		])),
+																	A2(
+																	$elm$html$Html$option,
+																	_List_fromArray(
+																		[
+																			$elm$html$Html$Attributes$value('1')
+																		]),
+																	_List_fromArray(
+																		[
+																			$elm$html$Html$text('1-5%')
+																		])),
+																	A2(
+																	$elm$html$Html$option,
+																	_List_fromArray(
+																		[
+																			$elm$html$Html$Attributes$value('2')
+																		]),
+																	_List_fromArray(
+																		[
+																			$elm$html$Html$text('5-10%')
+																		])),
+																	A2(
+																	$elm$html$Html$option,
+																	_List_fromArray(
+																		[
+																			$elm$html$Html$Attributes$value('3')
+																		]),
+																	_List_fromArray(
+																		[
+																			$elm$html$Html$text('>10%')
+																		]))
+																]))
+														])),
+													A2(
+													$elm$html$Html$div,
+													_List_fromArray(
+														[
+															$elm$html$Html$Attributes$class('field-group checkbox-group')
+														]),
+													_List_fromArray(
+														[
+															A2(
+															$elm$html$Html$input,
+															_List_fromArray(
+																[
+																	$elm$html$Html$Attributes$type_('checkbox'),
+																	$elm$html$Html$Attributes$checked(model.nutritionCritical),
+																	$elm$html$Html$Events$onCheck($author$project$Main$ChangeNutritionCritical),
+																	$elm$html$Html$Attributes$class('checkbox-input')
+																]),
+															_List_Nil),
+															A2(
+															$elm$html$Html$label,
+															_List_fromArray(
+																[
+																	$elm$html$Html$Attributes$class('checkbox-label')
+																]),
+															_List_fromArray(
+																[
+																	$elm$html$Html$text('Critical condition?')
+																]))
+														])),
+													A2(
+													$elm$html$Html$div,
+													_List_fromArray(
+														[
+															$elm$html$Html$Attributes$class('button-container')
+														]),
+													_List_fromArray(
+														[
+															A2(
+															$elm$html$Html$button,
+															_List_fromArray(
+																[
+																	$elm$html$Html$Attributes$class('button'),
+																	$elm$html$Html$Attributes$type_('button'),
+																	$elm$html$Html$Events$onClick($author$project$Main$CalculateNutrition)
+																]),
+															_List_fromArray(
+																[
+																	$elm$html$Html$text('Calculate')
+																]))
+														])),
+													(model.nutritionBMI !== '') ? A2(
+													$elm$html$Html$div,
+													_List_fromArray(
+														[
+															$elm$html$Html$Attributes$class('result-container')
+														]),
+													_List_fromArray(
+														[
+															A2(
+															$elm$html$Html$p,
+															_List_fromArray(
+																[
+																	$elm$html$Html$Attributes$class('result-label')
+																]),
+															_List_fromArray(
+																[
+																	$elm$html$Html$text('BMI:')
+																])),
+															A2(
+															$elm$html$Html$p,
+															_List_fromArray(
+																[
+																	$elm$html$Html$Attributes$class('result-value')
+																]),
+															_List_fromArray(
+																[
+																	$elm$html$Html$text(model.nutritionBMI)
+																])),
+															A2(
+															$elm$html$Html$p,
+															_List_fromArray(
+																[
+																	$elm$html$Html$Attributes$class('result-label')
+																]),
+															_List_fromArray(
+																[
+																	$elm$html$Html$text('Daily Calories:')
+																])),
+															A2(
+															$elm$html$Html$p,
+															_List_fromArray(
+																[
+																	$elm$html$Html$Attributes$class('result-value')
+																]),
+															_List_fromArray(
+																[
+																	$elm$html$Html$text(model.nutritionCalories)
+																])),
+															A2(
+															$elm$html$Html$p,
+															_List_fromArray(
+																[
+																	$elm$html$Html$Attributes$class('result-unit')
+																]),
+															_List_fromArray(
+																[
+																	$elm$html$Html$text('kcal')
+																])),
+															A2(
+															$elm$html$Html$div,
+															_List_fromArray(
+																[
+																	$elm$html$Html$Attributes$class('nutrition-table')
+																]),
+															_List_fromArray(
+																[
+																	A2(
+																	$elm$html$Html$p,
+																	_List_fromArray(
+																		[
+																			$elm$html$Html$Attributes$class('nutrition-row')
+																		]),
+																	_List_fromArray(
+																		[
+																			$elm$html$Html$text('Proteins: ' + (model.nutritionProteins + 'g'))
+																		])),
+																	A2(
+																	$elm$html$Html$p,
+																	_List_fromArray(
+																		[
+																			$elm$html$Html$Attributes$class('nutrition-row')
+																		]),
+																	_List_fromArray(
+																		[
+																			$elm$html$Html$text('Fats: ' + (model.nutritionFats + 'g'))
+																		])),
+																	A2(
+																	$elm$html$Html$p,
+																	_List_fromArray(
+																		[
+																			$elm$html$Html$Attributes$class('nutrition-row')
+																		]),
+																	_List_fromArray(
+																		[
+																			$elm$html$Html$text('Carbs: ' + (model.nutritionCarbs + 'g'))
+																		]))
+																]))
+														])) : $elm$html$Html$text('')
+												]))
+										]));
+						}
+					}()
 					]))
 			]));
 };
