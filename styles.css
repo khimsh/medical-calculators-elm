@@ -1,3 +1,38 @@
+:root {
+  /* Primary colors */
+  --color-primary: #667eea;
+  --color-secondary: #764ba2;
+  --color-white: #ffffff;
+  --color-light-gray: #f8f9fa;
+  --color-light-border: #e0e0e0;
+
+  /* Text colors */
+  --color-text-primary: #333333;
+  --color-text-secondary: #555555;
+  --color-text-tertiary: #666666;
+  --color-text-muted: #888888;
+
+  /* Background colors */
+  --color-bg-light: #f0f0f0;
+  --color-bg-white: #ffffff;
+
+  /* Error colors */
+  --color-error: #ef5350;
+  --color-error-bg: #ffebee;
+  --color-error-text: #c62828;
+
+  /* Gradient */
+  --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+
+  /* Transparency helpers */
+  --color-white-20: rgba(255, 255, 255, 0.2);
+  --color-white-30: rgba(255, 255, 255, 0.3);
+  --color-white-blur: rgba(255, 255, 255, 0.3);
+  --color-primary-blur: rgba(102, 126, 234, 0.1);
+  --color-primary-shadow: rgba(102, 126, 234, 0.4);
+  --color-black-shadow: rgba(0, 0, 0, 0.2);
+}
+
 body {
   margin: 0;
   padding: 0;
@@ -9,7 +44,7 @@ body {
   padding: 2rem;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
     Ubuntu, Cantarell, sans-serif;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: var(--gradient-primary);
   min-height: 100vh;
 }
 
@@ -31,14 +66,14 @@ body {
 }
 
 .title {
-  color: #ffffff;
+  color: var(--color-white);
   font-size: 2.5rem;
   font-weight: 700;
   margin: 0 0 0.5rem 0;
 }
 
 .subtitle {
-  color: #ffffff;
+  color: var(--color-white);
   font-size: 1rem;
   margin: 0;
   opacity: 0.9;
@@ -46,8 +81,8 @@ body {
 
 .language-button {
   padding: 0.5rem 1rem;
-  background: rgba(255, 255, 255, 0.2);
-  color: #ffffff;
+  background: var(--color-white-20);
+  color: var(--color-white);
   border: 2px solid rgba(255, 255, 255, 0.3);
   border-radius: 6px;
   font-size: 0.9rem;
@@ -59,8 +94,8 @@ body {
 }
 
 .language-button:hover {
-  background: rgba(255, 255, 255, 0.3);
-  border-color: rgba(255, 255, 255, 0.5);
+  background: var(--color-white-30);
+  border-color: var(--color-white-blur);
 }
 
 .menu-container {
@@ -73,8 +108,8 @@ body {
 
 .menu-button {
   padding: 0.75rem 1.5rem;
-  background: rgba(255, 255, 255, 0.2);
-  color: #ffffff;
+  background: var(--color-white-20);
+  color: var(--color-white);
   border: 2px solid rgba(255, 255, 255, 0.3);
   border-radius: 8px;
   font-size: 1rem;
@@ -85,14 +120,14 @@ body {
 }
 
 .menu-button:hover {
-  background: rgba(255, 255, 255, 0.3);
-  border-color: rgba(255, 255, 255, 0.5);
+  background: var(--color-white-30);
+  border-color: var(--color-white-blur);
 }
 
 .menu-button.active {
-  background: #ffffff;
-  color: #667eea;
-  border-color: #ffffff;
+  background: var(--color-white);
+  color: var(--color-primary);
+  border-color: var(--color-white);
   font-weight: 700;
 }
 
@@ -103,21 +138,21 @@ body {
 }
 
 .calculator-card {
-  background: #ffffff;
+  background: var(--color-bg-white);
   border-radius: 12px;
   padding: 2rem;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 10px 30px var(--color-black-shadow);
   width: 100%;
   max-width: 500px;
 }
 
 .card-title {
-  color: #333333;
+  color: var(--color-text-primary);
   font-size: 1.5rem;
   font-weight: 600;
   margin: 0 0 1.5rem 0;
   padding-bottom: 1rem;
-  border-bottom: 2px solid #667eea;
+  border-bottom: 2px solid var(--color-primary);
 }
 
 .form {
@@ -133,7 +168,7 @@ body {
 }
 
 .label {
-  color: #555555;
+  color: var(--color-text-secondary);
   font-size: 0.9rem;
   font-weight: 500;
   margin-bottom: 0.25rem;
@@ -141,7 +176,7 @@ body {
 
 .input {
   padding: 0.75rem 1rem;
-  border: 2px solid #e0e0e0;
+  border: 2px solid var(--color-light-border);
   border-radius: 8px;
   font-size: 1rem;
   transition: border-color 0.2s, box-shadow 0.2s;
@@ -150,8 +185,8 @@ body {
 }
 
 .input:focus {
-  border-color: #667eea;
-  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-primary-blur);
 }
 
 .button-container {
@@ -160,8 +195,8 @@ body {
 
 .button {
   padding: 0.875rem 2rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: #ffffff;
+  background: var(--gradient-primary);
+  color: var(--color-white);
   border: none;
   border-radius: 8px;
   font-size: 1rem;
@@ -174,7 +209,7 @@ body {
 
 .button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+  box-shadow: 0 5px 15px var(--color-primary-shadow);
 }
 
 .button:active {
@@ -184,52 +219,46 @@ body {
 .result-container {
   margin-top: 1.5rem;
   padding: 1.5rem;
-  background: #f8f9fa;
+  background: var(--color-light-gray);
   border-radius: 8px;
   text-align: center;
 }
 
 .result-label {
-  color: #666666;
+  color: var(--color-text-tertiary);
   font-size: 0.9rem;
   margin: 0 0 0.5rem 0;
   font-weight: 500;
 }
 
 .result-value {
-  color: #667eea;
+  color: var(--color-primary);
   font-size: 2rem;
   font-weight: 700;
   margin: 0;
 }
 
 .result-unit {
-  color: #888888;
-  font-size: 0.85rem;
-  margin: 0.25rem 0 0 0;
-}
-
-.result-unit {
-  color: #888888;
+  color: var(--color-text-muted);
   font-size: 0.85rem;
   margin: 0.25rem 0 0 0;
 }
 
 select {
   padding: 0.75rem 1rem;
-  border: 2px solid #e0e0e0;
+  border: 2px solid var(--color-light-border);
   border-radius: 8px;
   font-size: 1rem;
   transition: border-color 0.2s, box-shadow 0.2s;
   outline: none;
   font-family: inherit;
-  background-color: #ffffff;
+  background-color: var(--color-bg-white);
   cursor: pointer;
 }
 
 select:focus {
-  border-color: #667eea;
-  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-primary-blur);
 }
 
 .checkbox-group {
@@ -243,14 +272,14 @@ select:focus {
   width: 20px;
   height: 20px;
   cursor: pointer;
-  accent-color: #667eea;
+  accent-color: var(--color-primary);
 }
 
 .checkbox-label {
   margin: 0;
   cursor: pointer;
   font-weight: 500;
-  color: #555555;
+  color: var(--color-text-secondary);
 }
 
 .nutrition-table {
@@ -261,12 +290,28 @@ select:focus {
 }
 
 .nutrition-row {
-  color: #666666;
+  color: var(--color-text-tertiary);
   font-size: 0.95rem;
   margin: 0;
   padding: 0.5rem;
-  background: #f0f0f0;
+  background: var(--color-bg-light);
   border-radius: 4px;
+}
+
+.error-container {
+  margin-top: 1.5rem;
+  padding: 1.5rem;
+  background: var(--color-error-bg);
+  border: 2px solid var(--color-error);
+  border-radius: 8px;
+  text-align: center;
+}
+
+.error-text {
+  color: var(--color-error-text);
+  font-size: 0.95rem;
+  margin: 0;
+  font-weight: 500;
 }
 
 @media (max-width: 768px) {
