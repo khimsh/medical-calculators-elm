@@ -2,6 +2,7 @@ module Main exposing (main, update, Model, Msg(..), init)
 
 import Browser
 import Functions exposing (..)
+import Translations exposing (Language(..), Strings, getStrings)
 import Html exposing (button, div, form, h1, h2, input, label, option, p, select, text)
 import Html.Attributes exposing (checked, class, placeholder, type_, value)
 import Html.Events exposing (onClick, onInput, onCheck)
@@ -20,6 +21,7 @@ type Calculator
 
 type alias Model =
     { selectedCalculator : Calculator
+    , language : Language
     , prescribed : String
     , tabletMg : String
     , result : String
@@ -42,6 +44,7 @@ type alias Model =
 init : Model
 init =
     { selectedCalculator = Pills
+    , language = English
     , prescribed = ""
     , tabletMg = ""
     , result = "0.0"
@@ -63,6 +66,7 @@ init =
 
 type Msg
     = SelectCalculator Calculator
+    | ToggleLanguage
     | ChangePrescribed String
     | ChangeTabletMg String
     | CalculateResult
@@ -82,6 +86,9 @@ update msg model =
     case msg of
         SelectCalculator calculator ->
             { model | selectedCalculator = calculator }
+
+        ToggleLanguage ->
+            { model | language = if model.language == English then Georgian else English }
 
         ChangePrescribed newPrescribed ->
             { model | prescribed = newPrescribed }
@@ -144,9 +151,21 @@ update msg model =
 
 view : Model -> Html.Html Msg
 view model =
+    let
+        strings =
+            getStrings model.language
+    in
     div [ class "container" ]
-        [ h1 [ class "title" ] [ text "Medical Calculators" ]
-        , div [ class "subtitle" ] [ text "Implemented in Elm" ]
+        [ h1 [ class "title" ] [ text strings.title ]
+        , div [ class "subtitle" ] [ text strings.subtitle ]
+        , div [ class "language-toggle" ]
+            [ button
+                [ class "language-button"
+                , type_ "button"
+                , onClick ToggleLanguage
+                ]
+                [ text (if model.language == English then "ქართული" else "English") ]
+            ]
         , div [ class "menu-container" ]
             [ button
                 [ class "menu-button"
@@ -154,30 +173,30 @@ view model =
                 , type_ "button"
                 , onClick (SelectCalculator Pills)
                 ]
-                [ text "Pill Dosage" ]
+                [ text strings.pillDosage ]
             , button
                 [ class "menu-button"
                 , classList [ ( "active", model.selectedCalculator == Liquids ) ]
                 , type_ "button"
                 , onClick (SelectCalculator Liquids)
                 ]
-                [ text "Liquid Dosage" ]
+                [ text strings.liquidDosage ]
             , button
                 [ class "menu-button"
                 , classList [ ( "active", model.selectedCalculator == Nutrition ) ]
                 , type_ "button"
                 , onClick (SelectCalculator Nutrition)
                 ]
-                [ text "Nutrition" ]
+                [ text strings.nutrition ]
             ]
         , div [ class "calculators-container" ]
             [ case model.selectedCalculator of
                 Pills ->
                     div [ class "calculator-card" ]
-                        [ h2 [ class "card-title" ] [ text "Peroral Pill Dosage" ]
+                        [ h2 [ class "card-title" ] [ text strings.peroralpill ]
                         , form [ class "form" ]
                             [ div [ class "field-group" ]
-                                [ label [ class "label" ] [ text "Prescribed amount (mg)" ]
+                                [ label [ class "label" ] [ text strings.prescribedAmount ]
                                 , input
                                     [ class "input"
                                     , placeholder "0.0"
@@ -189,7 +208,7 @@ view model =
                                     []
                                 ]
                             , div [ class "field-group" ]
-                                [ label [ class "label" ] [ text "Pill strength (mg)" ]
+                                [ label [ class "label" ] [ text strings.pillStrength ]
                                 , input
                                     [ class "input"
                                     , placeholder "0.0"
@@ -201,22 +220,22 @@ view model =
                                     []
                                 ]
                             , div [ class "button-container" ]
-                                [ button [ class "button", type_ "button", onClick CalculateResult ] [ text "Calculate" ]
+                                [ button [ class "button", type_ "button", onClick CalculateResult ] [ text strings.calculate ]
                                 ]
                             , div [ class "result-container" ]
-                                [ p [ class "result-label" ] [ text "Result:" ]
+                                [ p [ class "result-label" ] [ text strings.result ]
                                 , p [ class "result-value" ] [ text model.result ]
-                                , p [ class "result-unit" ] [ text "tablets" ]
+                                , p [ class "result-unit" ] [ text strings.tablets ]
                                 ]
                             ]
                         ]
 
                 Liquids ->
                     div [ class "calculator-card" ]
-                        [ h2 [ class "card-title" ] [ text "Peroral Liquids Dosage" ]
+                        [ h2 [ class "card-title" ] [ text strings.peroralliquid ]
                         , form [ class "form" ]
                             [ div [ class "field-group" ]
-                                [ label [ class "label" ] [ text "Prescribed amount (mg)" ]
+                                [ label [ class "label" ] [ text strings.prescribedAmount ]
                                 , input
                                     [ class "input"
                                     , placeholder "0.0"
@@ -228,7 +247,7 @@ view model =
                                     []
                                 ]
                             , div [ class "field-group" ]
-                                [ label [ class "label" ] [ text "Amount at hand (mg)" ]
+                                [ label [ class "label" ] [ text strings.amountAtHand ]
                                 , input
                                     [ class "input"
                                     , placeholder "0.0"
@@ -240,7 +259,7 @@ view model =
                                     []
                                 ]
                             , div [ class "field-group" ]
-                                [ label [ class "label" ] [ text "Volume at hand (mL)" ]
+                                [ label [ class "label" ] [ text strings.volumeAtHand ]
                                 , input
                                     [ class "input"
                                     , placeholder "0.0"
@@ -252,22 +271,22 @@ view model =
                                     []
                                 ]
                             , div [ class "button-container" ]
-                                [ button [ class "button", type_ "button", onClick CalculateLiquidDosage ] [ text "Calculate" ]
+                                [ button [ class "button", type_ "button", onClick CalculateLiquidDosage ] [ text strings.calculate ]
                                 ]
                             , div [ class "result-container" ]
-                                [ p [ class "result-label" ] [ text "Result:" ]
+                                [ p [ class "result-label" ] [ text strings.result ]
                                 , p [ class "result-value" ] [ text model.liquidResult ]
-                                , p [ class "result-unit" ] [ text "mL" ]
+                                , p [ class "result-unit" ] [ text strings.ml ]
                                 ]
                             ]
                         ]
 
                 Nutrition ->
                     div [ class "calculator-card" ]
-                        [ h2 [ class "card-title" ] [ text "Nutrition Calculator" ]
+                        [ h2 [ class "card-title" ] [ text strings.nutritionCalc ]
                         , form [ class "form" ]
                             [ div [ class "field-group" ]
-                                [ label [ class "label" ] [ text "Weight (kg)" ]
+                                [ label [ class "label" ] [ text strings.weight ]
                                 , input
                                     [ class "input"
                                     , placeholder "0.0"
@@ -279,7 +298,7 @@ view model =
                                     []
                                 ]
                             , div [ class "field-group" ]
-                                [ label [ class "label" ] [ text "Height (cm)" ]
+                                [ label [ class "label" ] [ text strings.height ]
                                 , input
                                     [ class "input"
                                     , placeholder "0.0"
@@ -291,12 +310,12 @@ view model =
                                     []
                                 ]
                             , div [ class "field-group" ]
-                                [ label [ class "label" ] [ text "Weight Loss (%)" ]
+                                [ label [ class "label" ] [ text strings.weightLoss ]
                                 , select
                                     [ class "input"
                                     , onInput (\v -> ChangeNutritionWeightLoss (Maybe.withDefault 0 (String.toInt v)))
                                     ]
-                                    [ option [ value "0" ] [ text "None" ]
+                                    [ option [ value "0" ] [ text strings.weightLossNone ]
                                     , option [ value "1" ] [ text "1-5%" ]
                                     , option [ value "2" ] [ text "5-10%" ]
                                     , option [ value "3" ] [ text ">10%" ]
@@ -310,22 +329,22 @@ view model =
                                     , class "checkbox-input"
                                     ]
                                     []
-                                , label [ class "checkbox-label" ] [ text "Critical condition?" ]
+                                , label [ class "checkbox-label" ] [ text strings.critical ]
                                 ]
                             , div [ class "button-container" ]
-                                [ button [ class "button", type_ "button", onClick CalculateNutrition ] [ text "Calculate" ]
+                                [ button [ class "button", type_ "button", onClick CalculateNutrition ] [ text strings.calculate ]
                                 ]
                             , if model.nutritionBMI /= "" then
                                 div [ class "result-container" ]
                                     [ p [ class "result-label" ] [ text "BMI:" ]
                                     , p [ class "result-value" ] [ text model.nutritionBMI ]
-                                    , p [ class "result-label" ] [ text "Daily Calories:" ]
+                                    , p [ class "result-label" ] [ text strings.dailyCalories ]
                                     , p [ class "result-value" ] [ text model.nutritionCalories ]
-                                    , p [ class "result-unit" ] [ text "kcal" ]
+                                    , p [ class "result-unit" ] [ text strings.kcal ]
                                     , div [ class "nutrition-table" ]
-                                        [ p [ class "nutrition-row" ] [ text ("Proteins: " ++ model.nutritionProteins ++ "g") ]
-                                        , p [ class "nutrition-row" ] [ text ("Fats: " ++ model.nutritionFats ++ "g") ]
-                                        , p [ class "nutrition-row" ] [ text ("Carbs: " ++ model.nutritionCarbs ++ "g") ]
+                                        [ p [ class "nutrition-row" ] [ text (strings.proteins ++ model.nutritionProteins ++ "g") ]
+                                        , p [ class "nutrition-row" ] [ text (strings.fats ++ model.nutritionFats ++ "g") ]
+                                        , p [ class "nutrition-row" ] [ text (strings.carbs ++ model.nutritionCarbs ++ "g") ]
                                         ]
                                     ]
 

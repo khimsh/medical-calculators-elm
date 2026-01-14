@@ -4370,9 +4370,10 @@ function _Browser_load(url)
 		}
 	}));
 }
+var $author$project$Translations$English = {$: 'English'};
 var $elm$core$Basics$False = {$: 'False'};
 var $author$project$Main$Pills = {$: 'Pills'};
-var $author$project$Main$init = {liquidDosageAthand: '', liquidResult: '', liquidVolumeAtHand: '', nutritionBMI: '', nutritionCalories: '', nutritionCarbs: '', nutritionCritical: false, nutritionFats: '', nutritionHeight: '', nutritionProteins: '', nutritionWeight: '', nutritionWeightLoss: 0, prescribed: '', prescribedLiquid: '', result: '0.0', selectedCalculator: $author$project$Main$Pills, tabletMg: ''};
+var $author$project$Main$init = {language: $author$project$Translations$English, liquidDosageAthand: '', liquidResult: '', liquidVolumeAtHand: '', nutritionBMI: '', nutritionCalories: '', nutritionCarbs: '', nutritionCritical: false, nutritionFats: '', nutritionHeight: '', nutritionProteins: '', nutritionWeight: '', nutritionWeightLoss: 0, prescribed: '', prescribedLiquid: '', result: '0.0', selectedCalculator: $author$project$Main$Pills, tabletMg: ''};
 var $elm$core$Basics$EQ = {$: 'EQ'};
 var $elm$core$Basics$GT = {$: 'GT'};
 var $elm$core$Basics$LT = {$: 'LT'};
@@ -5182,6 +5183,7 @@ var $elm$browser$Browser$sandbox = function (impl) {
 			view: impl.view
 		});
 };
+var $author$project$Translations$Georgian = {$: 'Georgian'};
 var $elm$core$Basics$pow = _Basics_pow;
 var $author$project$Functions$calculateBMI = F2(
 	function (weight, height) {
@@ -5263,6 +5265,12 @@ var $author$project$Main$update = F2(
 				return _Utils_update(
 					model,
 					{selectedCalculator: calculator});
+			case 'ToggleLanguage':
+				return _Utils_update(
+					model,
+					{
+						language: _Utils_eq(model.language, $author$project$Translations$English) ? $author$project$Translations$Georgian : $author$project$Translations$English
+					});
 			case 'ChangePrescribed':
 				var newPrescribed = msg.a;
 				return _Utils_update(
@@ -5374,6 +5382,7 @@ var $author$project$Main$Nutrition = {$: 'Nutrition'};
 var $author$project$Main$SelectCalculator = function (a) {
 	return {$: 'SelectCalculator', a: a};
 };
+var $author$project$Main$ToggleLanguage = {$: 'ToggleLanguage'};
 var $elm$html$Html$button = _VirtualDom_node('button');
 var $elm$json$Json$Encode$bool = _Json_wrap;
 var $elm$html$Html$Attributes$boolProperty = F2(
@@ -5420,6 +5429,15 @@ var $author$project$Main$classList = function (classes) {
 };
 var $elm$html$Html$div = _VirtualDom_node('div');
 var $elm$html$Html$form = _VirtualDom_node('form');
+var $author$project$Translations$englishStrings = {amountAtHand: 'Amount at hand (mg)', calculate: 'Calculate', carbs: 'Carbs: ', critical: 'Critical condition?', dailyCalories: 'Daily Calories:', fats: 'Fats: ', height: 'Height (cm)', kcal: 'kcal', liquidDosage: 'Liquid Dosage', ml: 'mL', nutrition: 'Nutrition', nutritionCalc: 'Nutrition Calculator', peroralliquid: 'Peroral Liquids Dosage', peroralpill: 'Peroral Pill Dosage', pillDosage: 'Pill Dosage', pillStrength: 'Pill strength (mg)', prescribedAmount: 'Prescribed amount (mg)', proteins: 'Proteins: ', result: 'Result:', subtitle: 'Implemented in Elm', tablets: 'tablets', title: 'Medical Calculators', volumeAtHand: 'Volume at hand (mL)', weight: 'Weight (kg)', weightLoss: 'Weight Loss (%)', weightLossNone: 'None'};
+var $author$project$Translations$georgianStrings = {amountAtHand: 'ხელთ არსებული რაოდენობა (მგ)', calculate: 'გამოთვლა', carbs: 'ნახშირწყლები: ', critical: 'კრიტიკული მდგომარეობა?', dailyCalories: 'დღიური კალორიები:', fats: 'ცხიმები: ', height: 'სიმაღლე (სმ)', kcal: 'kcal', liquidDosage: 'თხევადი მედიკამენტი', ml: 'მლ', nutrition: 'კვება', nutritionCalc: 'კვების კალკულატორი', peroralliquid: 'პერორალური თხევადი მედიკამენტი', peroralpill: 'პერორალური აბის დოზირება', pillDosage: 'აბის დოზირება', pillStrength: 'აბის სიძლიერე (მგ)', prescribedAmount: 'დაწერილი რაოდენობა (მგ)', proteins: 'პროტეინები: ', result: 'შედეგი:', subtitle: 'განხორციელებული Elm-ში', tablets: 'აბი', title: 'სამედიცინო კალკულატორები', volumeAtHand: 'ხელთ არსებული მოცულობა (მლ)', weight: 'წონა (კგ)', weightLoss: 'წონის დაკლება (%)', weightLossNone: 'არა'};
+var $author$project$Translations$getStrings = function (language) {
+	if (language.$ === 'English') {
+		return $author$project$Translations$englishStrings;
+	} else {
+		return $author$project$Translations$georgianStrings;
+	}
+};
 var $elm$html$Html$h1 = _VirtualDom_node('h1');
 var $elm$html$Html$h2 = _VirtualDom_node('h2');
 var $elm$html$Html$input = _VirtualDom_node('input');
@@ -5497,6 +5515,7 @@ var $elm$html$Html$text = $elm$virtual_dom$VirtualDom$text;
 var $elm$html$Html$Attributes$type_ = $elm$html$Html$Attributes$stringProperty('type');
 var $elm$html$Html$Attributes$value = $elm$html$Html$Attributes$stringProperty('value');
 var $author$project$Main$view = function (model) {
+	var strings = $author$project$Translations$getStrings(model.language);
 	return A2(
 		$elm$html$Html$div,
 		_List_fromArray(
@@ -5513,7 +5532,7 @@ var $author$project$Main$view = function (model) {
 					]),
 				_List_fromArray(
 					[
-						$elm$html$Html$text('Medical Calculators')
+						$elm$html$Html$text(strings.title)
 					])),
 				A2(
 				$elm$html$Html$div,
@@ -5523,7 +5542,29 @@ var $author$project$Main$view = function (model) {
 					]),
 				_List_fromArray(
 					[
-						$elm$html$Html$text('Implemented in Elm')
+						$elm$html$Html$text(strings.subtitle)
+					])),
+				A2(
+				$elm$html$Html$div,
+				_List_fromArray(
+					[
+						$elm$html$Html$Attributes$class('language-toggle')
+					]),
+				_List_fromArray(
+					[
+						A2(
+						$elm$html$Html$button,
+						_List_fromArray(
+							[
+								$elm$html$Html$Attributes$class('language-button'),
+								$elm$html$Html$Attributes$type_('button'),
+								$elm$html$Html$Events$onClick($author$project$Main$ToggleLanguage)
+							]),
+						_List_fromArray(
+							[
+								$elm$html$Html$text(
+								_Utils_eq(model.language, $author$project$Translations$English) ? 'ქართული' : 'English')
+							]))
 					])),
 				A2(
 				$elm$html$Html$div,
@@ -5551,7 +5592,7 @@ var $author$project$Main$view = function (model) {
 							]),
 						_List_fromArray(
 							[
-								$elm$html$Html$text('Pill Dosage')
+								$elm$html$Html$text(strings.pillDosage)
 							])),
 						A2(
 						$elm$html$Html$button,
@@ -5571,7 +5612,7 @@ var $author$project$Main$view = function (model) {
 							]),
 						_List_fromArray(
 							[
-								$elm$html$Html$text('Liquid Dosage')
+								$elm$html$Html$text(strings.liquidDosage)
 							])),
 						A2(
 						$elm$html$Html$button,
@@ -5591,7 +5632,7 @@ var $author$project$Main$view = function (model) {
 							]),
 						_List_fromArray(
 							[
-								$elm$html$Html$text('Nutrition')
+								$elm$html$Html$text(strings.nutrition)
 							]))
 					])),
 				A2(
@@ -5622,7 +5663,7 @@ var $author$project$Main$view = function (model) {
 												]),
 											_List_fromArray(
 												[
-													$elm$html$Html$text('Peroral Pill Dosage')
+													$elm$html$Html$text(strings.peroralpill)
 												])),
 											A2(
 											$elm$html$Html$form,
@@ -5648,7 +5689,7 @@ var $author$project$Main$view = function (model) {
 																]),
 															_List_fromArray(
 																[
-																	$elm$html$Html$text('Prescribed amount (mg)')
+																	$elm$html$Html$text(strings.prescribedAmount)
 																])),
 															A2(
 															$elm$html$Html$input,
@@ -5679,7 +5720,7 @@ var $author$project$Main$view = function (model) {
 																]),
 															_List_fromArray(
 																[
-																	$elm$html$Html$text('Pill strength (mg)')
+																	$elm$html$Html$text(strings.pillStrength)
 																])),
 															A2(
 															$elm$html$Html$input,
@@ -5712,7 +5753,7 @@ var $author$project$Main$view = function (model) {
 																]),
 															_List_fromArray(
 																[
-																	$elm$html$Html$text('Calculate')
+																	$elm$html$Html$text(strings.calculate)
 																]))
 														])),
 													A2(
@@ -5731,7 +5772,7 @@ var $author$project$Main$view = function (model) {
 																]),
 															_List_fromArray(
 																[
-																	$elm$html$Html$text('Result:')
+																	$elm$html$Html$text(strings.result)
 																])),
 															A2(
 															$elm$html$Html$p,
@@ -5751,7 +5792,7 @@ var $author$project$Main$view = function (model) {
 																]),
 															_List_fromArray(
 																[
-																	$elm$html$Html$text('tablets')
+																	$elm$html$Html$text(strings.tablets)
 																]))
 														]))
 												]))
@@ -5773,7 +5814,7 @@ var $author$project$Main$view = function (model) {
 												]),
 											_List_fromArray(
 												[
-													$elm$html$Html$text('Peroral Liquids Dosage')
+													$elm$html$Html$text(strings.peroralliquid)
 												])),
 											A2(
 											$elm$html$Html$form,
@@ -5799,7 +5840,7 @@ var $author$project$Main$view = function (model) {
 																]),
 															_List_fromArray(
 																[
-																	$elm$html$Html$text('Prescribed amount (mg)')
+																	$elm$html$Html$text(strings.prescribedAmount)
 																])),
 															A2(
 															$elm$html$Html$input,
@@ -5830,7 +5871,7 @@ var $author$project$Main$view = function (model) {
 																]),
 															_List_fromArray(
 																[
-																	$elm$html$Html$text('Amount at hand (mg)')
+																	$elm$html$Html$text(strings.amountAtHand)
 																])),
 															A2(
 															$elm$html$Html$input,
@@ -5861,7 +5902,7 @@ var $author$project$Main$view = function (model) {
 																]),
 															_List_fromArray(
 																[
-																	$elm$html$Html$text('Volume at hand (mL)')
+																	$elm$html$Html$text(strings.volumeAtHand)
 																])),
 															A2(
 															$elm$html$Html$input,
@@ -5894,7 +5935,7 @@ var $author$project$Main$view = function (model) {
 																]),
 															_List_fromArray(
 																[
-																	$elm$html$Html$text('Calculate')
+																	$elm$html$Html$text(strings.calculate)
 																]))
 														])),
 													A2(
@@ -5913,7 +5954,7 @@ var $author$project$Main$view = function (model) {
 																]),
 															_List_fromArray(
 																[
-																	$elm$html$Html$text('Result:')
+																	$elm$html$Html$text(strings.result)
 																])),
 															A2(
 															$elm$html$Html$p,
@@ -5933,7 +5974,7 @@ var $author$project$Main$view = function (model) {
 																]),
 															_List_fromArray(
 																[
-																	$elm$html$Html$text('mL')
+																	$elm$html$Html$text(strings.ml)
 																]))
 														]))
 												]))
@@ -5955,7 +5996,7 @@ var $author$project$Main$view = function (model) {
 												]),
 											_List_fromArray(
 												[
-													$elm$html$Html$text('Nutrition Calculator')
+													$elm$html$Html$text(strings.nutritionCalc)
 												])),
 											A2(
 											$elm$html$Html$form,
@@ -5981,7 +6022,7 @@ var $author$project$Main$view = function (model) {
 																]),
 															_List_fromArray(
 																[
-																	$elm$html$Html$text('Weight (kg)')
+																	$elm$html$Html$text(strings.weight)
 																])),
 															A2(
 															$elm$html$Html$input,
@@ -6012,7 +6053,7 @@ var $author$project$Main$view = function (model) {
 																]),
 															_List_fromArray(
 																[
-																	$elm$html$Html$text('Height (cm)')
+																	$elm$html$Html$text(strings.height)
 																])),
 															A2(
 															$elm$html$Html$input,
@@ -6043,7 +6084,7 @@ var $author$project$Main$view = function (model) {
 																]),
 															_List_fromArray(
 																[
-																	$elm$html$Html$text('Weight Loss (%)')
+																	$elm$html$Html$text(strings.weightLoss)
 																])),
 															A2(
 															$elm$html$Html$select,
@@ -6069,7 +6110,7 @@ var $author$project$Main$view = function (model) {
 																		]),
 																	_List_fromArray(
 																		[
-																			$elm$html$Html$text('None')
+																			$elm$html$Html$text(strings.weightLossNone)
 																		])),
 																	A2(
 																	$elm$html$Html$option,
@@ -6129,7 +6170,7 @@ var $author$project$Main$view = function (model) {
 																]),
 															_List_fromArray(
 																[
-																	$elm$html$Html$text('Critical condition?')
+																	$elm$html$Html$text(strings.critical)
 																]))
 														])),
 													A2(
@@ -6150,7 +6191,7 @@ var $author$project$Main$view = function (model) {
 																]),
 															_List_fromArray(
 																[
-																	$elm$html$Html$text('Calculate')
+																	$elm$html$Html$text(strings.calculate)
 																]))
 														])),
 													(model.nutritionBMI !== '') ? A2(
@@ -6189,7 +6230,7 @@ var $author$project$Main$view = function (model) {
 																]),
 															_List_fromArray(
 																[
-																	$elm$html$Html$text('Daily Calories:')
+																	$elm$html$Html$text(strings.dailyCalories)
 																])),
 															A2(
 															$elm$html$Html$p,
@@ -6209,7 +6250,7 @@ var $author$project$Main$view = function (model) {
 																]),
 															_List_fromArray(
 																[
-																	$elm$html$Html$text('kcal')
+																	$elm$html$Html$text(strings.kcal)
 																])),
 															A2(
 															$elm$html$Html$div,
@@ -6227,7 +6268,7 @@ var $author$project$Main$view = function (model) {
 																		]),
 																	_List_fromArray(
 																		[
-																			$elm$html$Html$text('Proteins: ' + (model.nutritionProteins + 'g'))
+																			$elm$html$Html$text(strings.proteins + (model.nutritionProteins + 'g'))
 																		])),
 																	A2(
 																	$elm$html$Html$p,
@@ -6237,7 +6278,7 @@ var $author$project$Main$view = function (model) {
 																		]),
 																	_List_fromArray(
 																		[
-																			$elm$html$Html$text('Fats: ' + (model.nutritionFats + 'g'))
+																			$elm$html$Html$text(strings.fats + (model.nutritionFats + 'g'))
 																		])),
 																	A2(
 																	$elm$html$Html$p,
@@ -6247,7 +6288,7 @@ var $author$project$Main$view = function (model) {
 																		]),
 																	_List_fromArray(
 																		[
-																			$elm$html$Html$text('Carbs: ' + (model.nutritionCarbs + 'g'))
+																			$elm$html$Html$text(strings.carbs + (model.nutritionCarbs + 'g'))
 																		]))
 																]))
 														])) : $elm$html$Html$text('')
