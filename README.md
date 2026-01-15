@@ -2,6 +2,17 @@
 
 A medical calculator application built with Elm for calculating pill dosages and liquid medication dosages.
 
+## ⚠️ DISCLAIMER - TESTING PURPOSES ONLY
+
+**This application is currently in development and testing phase. It is NOT intended for clinical use and should not be used to make medical decisions.**
+
+- Do not rely on these calculations for patient care
+- Always verify calculations independently
+- Consult with qualified healthcare professionals before administering any medication
+- This software comes with NO WARRANTY and the authors are not liable for any harm resulting from its use
+
+---
+
 ## Features
 
 - **Pill Dosage Calculator**: Calculate the number of tablets needed based on prescribed amount and tablet strength
@@ -10,11 +21,13 @@ A medical calculator application built with Elm for calculating pill dosages and
 ## Running the Application
 
 1. Install dependencies:
+
    ```bash
    elm install
    ```
 
 2. Compile the application:
+
    ```bash
    elm make src/Main.elm --output elm-app.js
    ```
@@ -28,6 +41,7 @@ The project includes comprehensive tests to verify calculator correctness.
 ### Install Test Dependencies
 
 First, install the test dependencies:
+
 ```bash
 elm install elm-explorations/test
 ```
@@ -41,6 +55,7 @@ To run the tests, you have two options:
 #### Option 1: Using elm-test (Recommended)
 
 1. Install elm-test globally:
+
    ```bash
    npm install -g elm-test
    ```
@@ -53,6 +68,7 @@ To run the tests, you have two options:
 #### Option 2: Using Test Runner HTML
 
 1. Compile the test runner:
+
    ```bash
    elm make tests/TestRunner.elm --output tests.html
    ```
@@ -64,7 +80,7 @@ To run the tests, you have two options:
 The test suite includes:
 
 - **Functions Tests**: Tests for string-to-float and float-to-string conversions
-- **Pill Dosage Calculator Tests**: 
+- **Pill Dosage Calculator Tests**:
   - Simple calculations
   - Decimal results
   - Edge cases (division by zero, empty inputs)
@@ -95,11 +111,13 @@ medical-calculators-elm/
 ## Example Calculations
 
 ### Pill Dosage Example
+
 - Prescribed: 100mg
 - Tablet strength: 50mg
 - Result: 2 tablets
 
 ### Liquid Dosage Example
+
 - Prescribed: 200mg
 - Concentration: 100mg per 5mL
 - Result: 10mL

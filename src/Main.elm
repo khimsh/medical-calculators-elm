@@ -33,7 +33,7 @@ type alias Model =
 init : Model
 init =
     { selectedCalculator = PillsCalc
-    , language = English
+    , language = Georgian
     , pills = Pills.init
     , liquids = Liquids.init
     , nutrition = Nutrition.init
@@ -74,7 +74,8 @@ view model =
             getStrings model.language
     in
     div [ class "container" ]
-        [ header [ class "header", attribute "aria-label" "Site header" ]
+        [ div [ class "disclaimer-banner" ] [ text strings.disclaimer ]
+        , header [ class "header", attribute "aria-label" "Site header" ]
             [ div [ class "header-left" ]
                 [ h1 [ class "title" ] [ text strings.title ]
                 , div [ class "subtitle" ] [ text strings.subtitle ]

@@ -33,13 +33,14 @@ type alias Strings =
     , proteins : String
     , fats : String
     , carbs : String
+    , disclaimer : String
     }
 
 
 englishStrings : Strings
 englishStrings =
     { title = "Medical Calculators"
-    , subtitle = "Implemented in Elm"
+    , subtitle = "Work in progress. Do not trust calculations"
     , pillDosage = "Pill Dosage"
     , liquidDosage = "Liquid Dosage"
     , nutrition = "Nutrition"
@@ -64,18 +65,19 @@ englishStrings =
     , proteins = "Proteins: "
     , fats = "Fats: "
     , carbs = "Carbs: "
+    , disclaimer = "⚠ TESTING PURPOSES ONLY - This application is currently in development and testing phase. Do not use for clinical decisions. Always consult with healthcare professionals."
     }
 
 
 georgianStrings : Strings
 georgianStrings =
     { title = "სამედიცინო კალკულატორები"
-    , subtitle = "განხორციელებული Elm-ში"
+    , subtitle = "სატესტო რეჟიმი. არ ენდოთ კალკულაციებს"
     , pillDosage = "აბის დოზირება"
     , liquidDosage = "თხევადი მედიკამენტი"
     , nutrition = "კვება"
     , peroralpill = "პერორალური აბის დოზირება"
-    , prescribedAmount = "დაწერილი რაოდენობა (მგ)"
+    , prescribedAmount = "გამოწერილი რაოდენობა (მგ)"
     , pillStrength = "აბის სიძლიერე (მგ)"
     , calculate = "გამოთვლა"
     , result = "შედეგი:"
@@ -87,13 +89,14 @@ georgianStrings =
     , nutritionCalc = "კვების კალკულატორი"
     , weight = "წონა (კგ)"
     , height = "სიმაღლე (სმ)"
-    , weightLoss = "წონის დაკლება (%)"
+    , weightLoss = "წონის კლება (%)"
     , weightLossNone = "არა"
     , critical = "კრიტიკული მდგომარეობა?"
     , dailyCalories = "დღიური კალორიები:"
     , kcal = "kcal"
     , proteins = "პროტეინები: "
     , fats = "ცხიმები: "
+    , disclaimer = "⚠ მხოლოდ ტესტირებისთვის - ეს აპლიკაცია ამჟამად განვითარებისა და ტესტირების ფაზაშია. არ გამოიყენოთ კლინიკური გადაწყვეტილებებისთვის. ყოველთვის კონსულტირდით ჯანდაცვის სპეციალისტებთან."
     , carbs = "ნახშირწყლები: "
     }
 
