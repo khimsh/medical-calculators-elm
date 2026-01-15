@@ -4370,14 +4370,14 @@ function _Browser_load(url)
 		}
 	}));
 }
+var $elm$core$Basics$False = {$: 'False'};
 var $author$project$Translations$Georgian = {$: 'Georgian'};
 var $author$project$Main$PillsCalc = {$: 'PillsCalc'};
-var $elm$core$Basics$False = {$: 'False'};
 var $elm$core$Maybe$Nothing = {$: 'Nothing'};
 var $author$project$Calculators$Liquids$init = {calculated: false, error: $elm$core$Maybe$Nothing, liquidDosageAthand: '', liquidVolumeAtHand: '', prescribedLiquid: '', result: ''};
 var $author$project$Calculators$Nutrition$init = {bmi: '', calculated: false, calories: '', carbs: '', critical: false, error: $elm$core$Maybe$Nothing, fats: '', height: '', proteins: '', weight: '', weightLoss: 0};
 var $author$project$Calculators$Pills$init = {calculated: false, error: $elm$core$Maybe$Nothing, prescribed: '', result: '0.0', tabletMg: ''};
-var $author$project$Main$init = {language: $author$project$Translations$Georgian, liquids: $author$project$Calculators$Liquids$init, nutrition: $author$project$Calculators$Nutrition$init, pills: $author$project$Calculators$Pills$init, selectedCalculator: $author$project$Main$PillsCalc};
+var $author$project$Main$init = {language: $author$project$Translations$Georgian, liquids: $author$project$Calculators$Liquids$init, nutrition: $author$project$Calculators$Nutrition$init, pills: $author$project$Calculators$Pills$init, selectedCalculator: $author$project$Main$PillsCalc, sidebarOpen: false};
 var $elm$core$Basics$EQ = {$: 'EQ'};
 var $elm$core$Basics$GT = {$: 'GT'};
 var $elm$core$Basics$LT = {$: 'LT'};
@@ -5187,6 +5187,7 @@ var $elm$browser$Browser$sandbox = function (impl) {
 		});
 };
 var $author$project$Translations$English = {$: 'English'};
+var $elm$core$Basics$not = _Basics_not;
 var $elm$core$String$fromFloat = _String_fromNumber;
 var $author$project$Functions$floatToStr = function (_float) {
 	return $elm$core$String$fromFloat(_float);
@@ -5407,13 +5408,17 @@ var $author$project$Main$update = F2(
 				var calculator = msg.a;
 				return _Utils_update(
 					model,
-					{selectedCalculator: calculator});
+					{selectedCalculator: calculator, sidebarOpen: false});
 			case 'ToggleLanguage':
 				return _Utils_update(
 					model,
 					{
 						language: _Utils_eq(model.language, $author$project$Translations$English) ? $author$project$Translations$Georgian : $author$project$Translations$English
 					});
+			case 'ToggleSidebar':
+				return _Utils_update(
+					model,
+					{sidebarOpen: !model.sidebarOpen});
 			case 'PillsMsg':
 				var subMsg = msg.a;
 				return _Utils_update(
@@ -5452,6 +5457,7 @@ var $author$project$Main$SelectCalculator = function (a) {
 	return {$: 'SelectCalculator', a: a};
 };
 var $author$project$Main$ToggleLanguage = {$: 'ToggleLanguage'};
+var $author$project$Main$ToggleSidebar = {$: 'ToggleSidebar'};
 var $elm$virtual_dom$VirtualDom$attribute = F2(
 	function (key, value) {
 		return A2(
@@ -6400,7 +6406,7 @@ var $author$project$Main$view = function (model) {
 		$elm$html$Html$div,
 		_List_fromArray(
 			[
-				$elm$html$Html$Attributes$class('container')
+				$elm$html$Html$Attributes$class('page-wrapper')
 			]),
 		_List_fromArray(
 			[
@@ -6464,6 +6470,23 @@ var $author$project$Main$view = function (model) {
 								$elm$html$Html$button,
 								_List_fromArray(
 									[
+										$elm$html$Html$Attributes$class('menu-toggle'),
+										$elm$html$Html$Attributes$type_('button'),
+										$elm$html$Html$Events$onClick($author$project$Main$ToggleSidebar),
+										A2(
+										$elm$html$Html$Attributes$attribute,
+										'aria-label',
+										model.sidebarOpen ? 'Close menu' : 'Open menu')
+									]),
+								_List_fromArray(
+									[
+										$elm$html$Html$text(
+										model.sidebarOpen ? '✕' : '☰')
+									])),
+								A2(
+								$elm$html$Html$button,
+								_List_fromArray(
+									[
 										$elm$html$Html$Attributes$class('language-button'),
 										$elm$html$Html$Attributes$type_('button'),
 										$elm$html$Html$Events$onClick($author$project$Main$ToggleLanguage),
@@ -6484,108 +6507,119 @@ var $author$project$Main$view = function (model) {
 							]))
 					])),
 				A2(
-				$elm$html$Html$nav,
+				$elm$html$Html$div,
 				_List_fromArray(
 					[
-						$elm$html$Html$Attributes$class('menu-container'),
-						A2($elm$html$Html$Attributes$attribute, 'aria-label', 'Calculator selection')
+						$elm$html$Html$Attributes$class('main-wrapper')
 					]),
 				_List_fromArray(
 					[
 						A2(
-						$elm$html$Html$button,
+						$elm$html$Html$nav,
 						_List_fromArray(
 							[
-								$elm$html$Html$Attributes$class('menu-button'),
+								$elm$html$Html$Attributes$class('sidebar'),
 								$author$project$Main$classList(
 								_List_fromArray(
 									[
-										_Utils_Tuple2(
-										'active',
-										_Utils_eq(model.selectedCalculator, $author$project$Main$PillsCalc))
+										_Utils_Tuple2('open', model.sidebarOpen)
 									])),
-								$elm$html$Html$Attributes$type_('button'),
-								$elm$html$Html$Events$onClick(
-								$author$project$Main$SelectCalculator($author$project$Main$PillsCalc)),
-								A2(
-								$elm$html$Html$Attributes$attribute,
-								'aria-current',
-								_Utils_eq(model.selectedCalculator, $author$project$Main$PillsCalc) ? 'page' : 'false'),
-								A2($elm$html$Html$Attributes$attribute, 'aria-label', strings.pillDosage)
+								A2($elm$html$Html$Attributes$attribute, 'aria-label', 'Calculator selection')
 							]),
 						_List_fromArray(
 							[
-								$elm$html$Html$text(strings.pillDosage)
+								A2(
+								$elm$html$Html$button,
+								_List_fromArray(
+									[
+										$elm$html$Html$Attributes$class('sidebar-button'),
+										$author$project$Main$classList(
+										_List_fromArray(
+											[
+												_Utils_Tuple2(
+												'active',
+												_Utils_eq(model.selectedCalculator, $author$project$Main$PillsCalc))
+											])),
+										$elm$html$Html$Attributes$type_('button'),
+										$elm$html$Html$Events$onClick(
+										$author$project$Main$SelectCalculator($author$project$Main$PillsCalc)),
+										A2(
+										$elm$html$Html$Attributes$attribute,
+										'aria-current',
+										_Utils_eq(model.selectedCalculator, $author$project$Main$PillsCalc) ? 'page' : 'false')
+									]),
+								_List_fromArray(
+									[
+										$elm$html$Html$text(strings.pillDosage)
+									])),
+								A2(
+								$elm$html$Html$button,
+								_List_fromArray(
+									[
+										$elm$html$Html$Attributes$class('sidebar-button'),
+										$author$project$Main$classList(
+										_List_fromArray(
+											[
+												_Utils_Tuple2(
+												'active',
+												_Utils_eq(model.selectedCalculator, $author$project$Main$LiquidsCalc))
+											])),
+										$elm$html$Html$Attributes$type_('button'),
+										$elm$html$Html$Events$onClick(
+										$author$project$Main$SelectCalculator($author$project$Main$LiquidsCalc)),
+										A2(
+										$elm$html$Html$Attributes$attribute,
+										'aria-current',
+										_Utils_eq(model.selectedCalculator, $author$project$Main$LiquidsCalc) ? 'page' : 'false')
+									]),
+								_List_fromArray(
+									[
+										$elm$html$Html$text(strings.liquidDosage)
+									])),
+								A2(
+								$elm$html$Html$button,
+								_List_fromArray(
+									[
+										$elm$html$Html$Attributes$class('sidebar-button'),
+										$author$project$Main$classList(
+										_List_fromArray(
+											[
+												_Utils_Tuple2(
+												'active',
+												_Utils_eq(model.selectedCalculator, $author$project$Main$NutritionCalc))
+											])),
+										$elm$html$Html$Attributes$type_('button'),
+										$elm$html$Html$Events$onClick(
+										$author$project$Main$SelectCalculator($author$project$Main$NutritionCalc)),
+										A2(
+										$elm$html$Html$Attributes$attribute,
+										'aria-current',
+										_Utils_eq(model.selectedCalculator, $author$project$Main$NutritionCalc) ? 'page' : 'false')
+									]),
+								_List_fromArray(
+									[
+										$elm$html$Html$text(strings.nutrition)
+									]))
 							])),
 						A2(
-						$elm$html$Html$button,
+						$elm$html$Html$main_,
 						_List_fromArray(
 							[
-								$elm$html$Html$Attributes$class('menu-button'),
-								$author$project$Main$classList(
-								_List_fromArray(
-									[
-										_Utils_Tuple2(
-										'active',
-										_Utils_eq(model.selectedCalculator, $author$project$Main$LiquidsCalc))
-									])),
-								$elm$html$Html$Attributes$type_('button'),
-								$elm$html$Html$Events$onClick(
-								$author$project$Main$SelectCalculator($author$project$Main$LiquidsCalc)),
-								A2(
-								$elm$html$Html$Attributes$attribute,
-								'aria-current',
-								_Utils_eq(model.selectedCalculator, $author$project$Main$LiquidsCalc) ? 'page' : 'false'),
-								A2($elm$html$Html$Attributes$attribute, 'aria-label', strings.liquidDosage)
+								$elm$html$Html$Attributes$class('content-area')
 							]),
 						_List_fromArray(
 							[
-								$elm$html$Html$text(strings.liquidDosage)
-							])),
-						A2(
-						$elm$html$Html$button,
-						_List_fromArray(
-							[
-								$elm$html$Html$Attributes$class('menu-button'),
-								$author$project$Main$classList(
-								_List_fromArray(
-									[
-										_Utils_Tuple2(
-										'active',
-										_Utils_eq(model.selectedCalculator, $author$project$Main$NutritionCalc))
-									])),
-								$elm$html$Html$Attributes$type_('button'),
-								$elm$html$Html$Events$onClick(
-								$author$project$Main$SelectCalculator($author$project$Main$NutritionCalc)),
-								A2(
-								$elm$html$Html$Attributes$attribute,
-								'aria-current',
-								_Utils_eq(model.selectedCalculator, $author$project$Main$NutritionCalc) ? 'page' : 'false'),
-								A2($elm$html$Html$Attributes$attribute, 'aria-label', strings.nutrition)
-							]),
-						_List_fromArray(
-							[
-								$elm$html$Html$text(strings.nutrition)
+								_Utils_eq(model.selectedCalculator, $author$project$Main$PillsCalc) ? A2(
+								$elm$html$Html$map,
+								$author$project$Main$PillsMsg,
+								A3($author$project$Calculators$Pills$view, model.language, strings, model.pills)) : (_Utils_eq(model.selectedCalculator, $author$project$Main$LiquidsCalc) ? A2(
+								$elm$html$Html$map,
+								$author$project$Main$LiquidsMsg,
+								A3($author$project$Calculators$Liquids$view, model.language, strings, model.liquids)) : A2(
+								$elm$html$Html$map,
+								$author$project$Main$NutritionMsg,
+								A3($author$project$Calculators$Nutrition$view, model.language, strings, model.nutrition)))
 							]))
-					])),
-				A2(
-				$elm$html$Html$main_,
-				_List_fromArray(
-					[
-						$elm$html$Html$Attributes$class('calculators-container')
-					]),
-				_List_fromArray(
-					[
-						_Utils_eq(model.selectedCalculator, $author$project$Main$PillsCalc) ? A2(
-						$elm$html$Html$map,
-						$author$project$Main$PillsMsg,
-						A3($author$project$Calculators$Pills$view, model.language, strings, model.pills)) : (_Utils_eq(model.selectedCalculator, $author$project$Main$LiquidsCalc) ? A2(
-						$elm$html$Html$map,
-						$author$project$Main$LiquidsMsg,
-						A3($author$project$Calculators$Liquids$view, model.language, strings, model.liquids)) : A2(
-						$elm$html$Html$map,
-						$author$project$Main$NutritionMsg,
-						A3($author$project$Calculators$Nutrition$view, model.language, strings, model.nutrition)))
 					]))
 			]));
 };
