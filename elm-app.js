@@ -5171,6 +5171,10 @@ var $author$project$Calculators$Nutrition$init = {bmi: '', calculated: false, ca
 var $author$project$Calculators$Pills$init = {calculated: false, error: $elm$core$Maybe$Nothing, prescribed: '', result: '0.0', tabletMg: ''};
 var $elm$core$Platform$Cmd$batch = _Platform_batch;
 var $elm$core$Platform$Cmd$none = $elm$core$Platform$Cmd$batch(_List_Nil);
+var $author$project$Main$CalculatorView = function (a) {
+	return {$: 'CalculatorView', a: a};
+};
+var $author$project$Main$IndexView = {$: 'IndexView'};
 var $author$project$Main$LiquidsCalc = {$: 'LiquidsCalc'};
 var $author$project$Main$NutritionCalc = {$: 'NutritionCalc'};
 var $author$project$Main$PillsCalc = {$: 'PillsCalc'};
@@ -5181,11 +5185,11 @@ var $author$project$Main$parseUrl = function (url) {
 		if (_v0.$ === 'Just') {
 			switch (_v0.a) {
 				case 'pills':
-					return $author$project$Main$PillsCalc;
+					return $author$project$Main$CalculatorView($author$project$Main$PillsCalc);
 				case 'liquids':
-					return $author$project$Main$LiquidsCalc;
+					return $author$project$Main$CalculatorView($author$project$Main$LiquidsCalc);
 				case 'nutrition':
-					return $author$project$Main$NutritionCalc;
+					return $author$project$Main$CalculatorView($author$project$Main$NutritionCalc);
 				default:
 					break _v0$3;
 			}
@@ -5193,13 +5197,13 @@ var $author$project$Main$parseUrl = function (url) {
 			break _v0$3;
 		}
 	}
-	return $author$project$Main$PillsCalc;
+	return $author$project$Main$IndexView;
 };
 var $author$project$Main$init = F3(
 	function (_v0, url, navKey) {
-		var calculator = $author$project$Main$parseUrl(url);
+		var initialView = $author$project$Main$parseUrl(url);
 		return _Utils_Tuple2(
-			{language: $author$project$Translations$Georgian, liquids: $author$project$Calculators$Liquids$init, navKey: navKey, nutrition: $author$project$Calculators$Nutrition$init, pills: $author$project$Calculators$Pills$init, selectedCalculator: calculator, sidebarOpen: false},
+			{currentView: initialView, language: $author$project$Translations$Georgian, liquids: $author$project$Calculators$Liquids$init, navKey: navKey, nutrition: $author$project$Calculators$Nutrition$init, pills: $author$project$Calculators$Pills$init, sidebarOpen: false},
 			$elm$core$Platform$Cmd$none);
 	});
 var $elm$core$Platform$Sub$batch = _Platform_batch;
@@ -5215,8 +5219,8 @@ var $author$project$Main$calculatorToFragment = function (calc) {
 			return 'nutrition';
 	}
 };
-var $author$project$Translations$englishStrings = {amountAtHand: 'Amount at hand (mg)', calculate: 'Calculate', carbs: 'Carbs: ', critical: 'Critical condition?', dailyCalories: 'Daily Calories:', disclaimer: '⚠ TESTING PURPOSES ONLY - This application is currently in development and testing phase. Do not use for clinical decisions. Always consult with healthcare professionals.', fats: 'Fats: ', height: 'Height (cm)', kcal: 'kcal', liquidDosage: 'Liquid Dosage', ml: 'mL', nutrition: 'Nutrition', nutritionCalc: 'Nutrition Calculator', peroralliquid: 'Peroral Liquids Dosage', peroralpill: 'Peroral Pill Dosage', pillDosage: 'Pill Dosage', pillStrength: 'Pill strength (mg)', prescribedAmount: 'Prescribed amount (mg)', proteins: 'Proteins: ', result: 'Result:', subtitle: 'Work in progress. Do not trust calculations', tablets: 'tablets', title: 'Medical Calculators', volumeAtHand: 'Volume at hand (mL)', weight: 'Weight (kg)', weightLoss: 'Weight Loss (%)', weightLossNone: 'None', zeroNotAccepted: 'All values must be greater than zero'};
-var $author$project$Translations$georgianStrings = {amountAtHand: 'ხელთ არსებული რაოდენობა (მგ)', calculate: 'გამოთვლა', carbs: 'ნახშირწყლები: ', critical: 'კრიტიკული მდგომარეობა?', dailyCalories: 'დღიური კალორიები:', disclaimer: '⚠ მხოლოდ ტესტირებისთვის - ეს აპლიკაცია ამჟამად განვითარებისა და ტესტირების ფაზაშია. არ გამოიყენოთ კლინიკური გადაწყვეტილებებისთვის. ყოველთვის კონსულტირდით ჯანდაცვის სპეციალისტებთან.', fats: 'ცხიმები: ', height: 'სიმაღლე (სმ)', kcal: 'kcal', liquidDosage: 'თხევადი მედიკამენტი', ml: 'მლ', nutrition: 'კვება', nutritionCalc: 'კვების კალკულატორი', peroralliquid: 'პერორალური თხევადი მედიკამენტი', peroralpill: 'პერორალური აბის დოზირება', pillDosage: 'აბის დოზირება', pillStrength: 'აბის სიძლიერე (მგ)', prescribedAmount: 'გამოწერილი რაოდენობა (მგ)', proteins: 'პროტეინები: ', result: 'შედეგი:', subtitle: 'სატესტო რეჟიმი. არ ენდოთ კალკულაციებს', tablets: 'აბი', title: 'სამედიცინო კალკულატორები', volumeAtHand: 'ხელთ არსებული მოცულობა (მლ)', weight: 'წონა (კგ)', weightLoss: 'წონის კლება (%)', weightLossNone: 'არა', zeroNotAccepted: 'ყველა მნიშვნელობა უნდა იყოს ნულზე მეტი'};
+var $author$project$Translations$englishStrings = {amountAtHand: 'Amount at hand (mg)', calculate: 'Calculate', carbs: 'Carbs: ', critical: 'Critical condition?', dailyCalories: 'Daily Calories:', disclaimer: '⚠ TESTING PURPOSES ONLY - This application is currently in development and testing phase. Do not use for clinical decisions. Always consult with healthcare professionals.', fats: 'Fats: ', height: 'Height (cm)', kcal: 'kcal', liquidDescription: 'Calculate liquid volumes for prescribed dosages', liquidDosage: 'Liquid Dosage', ml: 'mL', nutrition: 'Nutrition', nutritionCalc: 'Nutrition Calculator', nutritionDescription: 'Calculate daily caloric and nutritional requirements', peroralliquid: 'Peroral Liquids Dosage', peroralpill: 'Peroral Pill Dosage', pillDescription: 'Calculate tablet quantities for prescribed dosages', pillDosage: 'Pill Dosage', pillStrength: 'Pill strength (mg)', prescribedAmount: 'Prescribed amount (mg)', proteins: 'Proteins: ', result: 'Result:', tablets: 'tablets', title: 'Medical Calculators', volumeAtHand: 'Volume at hand (mL)', weight: 'Weight (kg)', weightLoss: 'Weight Loss (%)', weightLossNone: 'None', zeroNotAccepted: 'All values must be greater than zero'};
+var $author$project$Translations$georgianStrings = {amountAtHand: 'ხელთ არსებული რაოდენობა (მგ)', calculate: 'გამოთვლა', carbs: 'ნახშირწყლები: ', critical: 'კრიტიკული მდგომარეობა?', dailyCalories: 'დღიური კალორიები:', disclaimer: '⚠ მხოლოდ ტესტირებისთვის - ეს აპლიკაცია ამჟამად განვითარებისა და ტესტირების ფაზაშია. არ გამოიყენოთ კლინიკური გადაწყვეტილებებისთვის. ყოველთვის მიმართეთ ჯანდაცვის სპეციალისტს.', fats: 'ცხიმები: ', height: 'სიმაღლე (სმ)', kcal: 'kcal', liquidDescription: 'გამოთვალეთ თხევადი მოცულობა გამოწერილი დოზირებისთვის', liquidDosage: 'თხევადი მედიკამენტი', ml: 'მლ', nutrition: 'კვება', nutritionCalc: 'კვების კალკულატორი', nutritionDescription: 'გამოთვალეთ დღიური კალორიული და პიტნის მოთხოვნილებები', peroralliquid: 'პერორალური თხევადი მედიკამენტი', peroralpill: 'პერორალური აბის დოზირება', pillDescription: 'აღირიცხეთ აბლეტის რაოდენობა გამოწერილი დოზირებისთვის', pillDosage: 'აბის დოზირება', pillStrength: 'აბის სიძლიერე (მგ)', prescribedAmount: 'გამოწერილი რაოდენობა (მგ)', proteins: 'პროტეინები: ', result: 'შედეგი:', tablets: 'აბი', title: 'სამედიცინო კალკულატორები', volumeAtHand: 'ხელთ არსებული მოცულობა (მლ)', weight: 'წონა (კგ)', weightLoss: 'წონის კლება (%)', weightLossNone: 'არა', zeroNotAccepted: 'ყველა მნიშვნელობა უნდა იყოს ნულზე მეტი'};
 var $author$project$Translations$getStrings = function (language) {
 	if (language.$ === 'English') {
 		return $author$project$Translations$englishStrings;
@@ -5471,11 +5475,20 @@ var $author$project$Main$update = F2(
 				return _Utils_Tuple2(
 					_Utils_update(
 						model,
-						{selectedCalculator: calculator, sidebarOpen: false}),
+						{
+							currentView: $author$project$Main$CalculatorView(calculator),
+							sidebarOpen: false
+						}),
 					A2(
 						$elm$browser$Browser$Navigation$pushUrl,
 						model.navKey,
 						'#' + $author$project$Main$calculatorToFragment(calculator)));
+			case 'GoToIndex':
+				return _Utils_Tuple2(
+					_Utils_update(
+						model,
+						{currentView: $author$project$Main$IndexView, sidebarOpen: false}),
+					A2($elm$browser$Browser$Navigation$pushUrl, model.navKey, './'));
 			case 'ToggleLanguage':
 				return _Utils_Tuple2(
 					_Utils_update(
@@ -5542,25 +5555,16 @@ var $author$project$Main$update = F2(
 					_Utils_update(
 						model,
 						{
-							selectedCalculator: $author$project$Main$parseUrl(url)
+							currentView: $author$project$Main$parseUrl(url)
 						}),
 					$elm$core$Platform$Cmd$none);
 		}
 	});
-var $author$project$Main$LiquidsMsg = function (a) {
-	return {$: 'LiquidsMsg', a: a};
-};
-var $author$project$Main$NutritionMsg = function (a) {
-	return {$: 'NutritionMsg', a: a};
-};
-var $author$project$Main$PillsMsg = function (a) {
-	return {$: 'PillsMsg', a: a};
-};
+var $author$project$Main$GoToIndex = {$: 'GoToIndex'};
 var $author$project$Main$SelectCalculator = function (a) {
 	return {$: 'SelectCalculator', a: a};
 };
 var $author$project$Main$ToggleLanguage = {$: 'ToggleLanguage'};
-var $author$project$Main$ToggleSidebar = {$: 'ToggleSidebar'};
 var $elm$virtual_dom$VirtualDom$attribute = F2(
 	function (key, value) {
 		return A2(
@@ -5579,38 +5583,10 @@ var $elm$html$Html$Attributes$stringProperty = F2(
 			$elm$json$Json$Encode$string(string));
 	});
 var $elm$html$Html$Attributes$class = $elm$html$Html$Attributes$stringProperty('className');
-var $elm$core$List$filter = F2(
-	function (isGood, list) {
-		return A3(
-			$elm$core$List$foldr,
-			F2(
-				function (x, xs) {
-					return isGood(x) ? A2($elm$core$List$cons, x, xs) : xs;
-				}),
-			_List_Nil,
-			list);
-	});
-var $elm$core$Tuple$second = function (_v0) {
-	var y = _v0.b;
-	return y;
-};
-var $author$project$Main$classList = function (classes) {
-	return $elm$html$Html$Attributes$class(
-		A2(
-			$elm$core$String$join,
-			' ',
-			A2(
-				$elm$core$List$map,
-				$elm$core$Tuple$first,
-				A2($elm$core$List$filter, $elm$core$Tuple$second, classes))));
-};
 var $elm$html$Html$div = _VirtualDom_node('div');
 var $elm$html$Html$h1 = _VirtualDom_node('h1');
 var $elm$html$Html$header = _VirtualDom_node('header');
 var $elm$html$Html$main_ = _VirtualDom_node('main');
-var $elm$virtual_dom$VirtualDom$map = _VirtualDom_map;
-var $elm$html$Html$map = $elm$virtual_dom$VirtualDom$map;
-var $elm$html$Html$nav = _VirtualDom_node('nav');
 var $elm$virtual_dom$VirtualDom$Normal = function (a) {
 	return {$: 'Normal', a: a};
 };
@@ -5631,6 +5607,17 @@ var $elm$html$Html$Events$onClick = function (msg) {
 var $elm$virtual_dom$VirtualDom$text = _VirtualDom_text;
 var $elm$html$Html$text = $elm$virtual_dom$VirtualDom$text;
 var $elm$html$Html$Attributes$type_ = $elm$html$Html$Attributes$stringProperty('type');
+var $author$project$Main$LiquidsMsg = function (a) {
+	return {$: 'LiquidsMsg', a: a};
+};
+var $author$project$Main$NutritionMsg = function (a) {
+	return {$: 'NutritionMsg', a: a};
+};
+var $author$project$Main$PillsMsg = function (a) {
+	return {$: 'PillsMsg', a: a};
+};
+var $elm$virtual_dom$VirtualDom$map = _VirtualDom_map;
+var $elm$html$Html$map = $elm$virtual_dom$VirtualDom$map;
 var $author$project$Calculators$Liquids$Calculate = {$: 'Calculate'};
 var $author$project$Calculators$Liquids$ChangeLiquidDosageAthand = function (a) {
 	return {$: 'ChangeLiquidDosageAthand', a: a};
@@ -6494,6 +6481,125 @@ var $author$project$Calculators$Pills$view = F3(
 						]))
 				]));
 	});
+var $author$project$Main$viewCalculator = F3(
+	function (model, calculator, strings) {
+		return A2(
+			$elm$html$Html$div,
+			_List_fromArray(
+				[
+					$elm$html$Html$Attributes$class('calculator-wrapper')
+				]),
+			_List_fromArray(
+				[
+					A2(
+					$elm$html$Html$button,
+					_List_fromArray(
+						[
+							$elm$html$Html$Attributes$class('back-button'),
+							$elm$html$Html$Attributes$type_('button'),
+							$elm$html$Html$Events$onClick($author$project$Main$GoToIndex),
+							A2($elm$html$Html$Attributes$attribute, 'aria-label', 'Back to index')
+						]),
+					_List_fromArray(
+						[
+							$elm$html$Html$text('← Back')
+						])),
+					_Utils_eq(calculator, $author$project$Main$PillsCalc) ? A2(
+					$elm$html$Html$map,
+					$author$project$Main$PillsMsg,
+					A3($author$project$Calculators$Pills$view, model.language, strings, model.pills)) : (_Utils_eq(calculator, $author$project$Main$LiquidsCalc) ? A2(
+					$elm$html$Html$map,
+					$author$project$Main$LiquidsMsg,
+					A3($author$project$Calculators$Liquids$view, model.language, strings, model.liquids)) : A2(
+					$elm$html$Html$map,
+					$author$project$Main$NutritionMsg,
+					A3($author$project$Calculators$Nutrition$view, model.language, strings, model.nutrition)))
+				]));
+	});
+var $author$project$Main$calculatorCard = F4(
+	function (calculator, title, description, color) {
+		return A2(
+			$elm$html$Html$button,
+			_List_fromArray(
+				[
+					$elm$html$Html$Attributes$class('calculator-card-button'),
+					$elm$html$Html$Events$onClick(
+					$author$project$Main$SelectCalculator(calculator)),
+					A2($elm$html$Html$Attributes$attribute, 'style', '--accent-color: ' + color)
+				]),
+			_List_fromArray(
+				[
+					A2(
+					$elm$html$Html$div,
+					_List_fromArray(
+						[
+							$elm$html$Html$Attributes$class('card-header')
+						]),
+					_List_fromArray(
+						[
+							A2(
+							$elm$html$Html$div,
+							_List_fromArray(
+								[
+									$elm$html$Html$Attributes$class('card-blob')
+								]),
+							_List_Nil)
+						])),
+					A2(
+					$elm$html$Html$div,
+					_List_fromArray(
+						[
+							$elm$html$Html$Attributes$class('card-content')
+						]),
+					_List_fromArray(
+						[
+							A2(
+							$elm$html$Html$h2,
+							_List_fromArray(
+								[
+									$elm$html$Html$Attributes$class('card-title')
+								]),
+							_List_fromArray(
+								[
+									$elm$html$Html$text(title)
+								])),
+							A2(
+							$elm$html$Html$p,
+							_List_fromArray(
+								[
+									$elm$html$Html$Attributes$class('card-description')
+								]),
+							_List_fromArray(
+								[
+									$elm$html$Html$text(description)
+								]))
+						]))
+				]));
+	});
+var $author$project$Main$viewIndex = F2(
+	function (model, strings) {
+		return A2(
+			$elm$html$Html$div,
+			_List_fromArray(
+				[
+					$elm$html$Html$Attributes$class('index-container')
+				]),
+			_List_fromArray(
+				[
+					A2(
+					$elm$html$Html$div,
+					_List_fromArray(
+						[
+							$elm$html$Html$Attributes$class('calculators-grid')
+						]),
+					_List_fromArray(
+						[
+							A4($author$project$Main$calculatorCard, $author$project$Main$PillsCalc, strings.pillDosage, strings.pillDescription, '#ee5a52'),
+							A4($author$project$Main$calculatorCard, $author$project$Main$LiquidsCalc, strings.liquidDosage, strings.liquidDescription, '#3498db'),
+							A4($author$project$Main$calculatorCard, $author$project$Main$NutritionCalc, strings.nutrition, strings.nutritionDescription, '#2ecc71')
+						]))
+				]));
+	});
 var $author$project$Main$view = function (model) {
 	var strings = $author$project$Translations$getStrings(model.language);
 	return {
@@ -6511,96 +6617,97 @@ var $author$project$Main$view = function (model) {
 						$elm$html$Html$div,
 						_List_fromArray(
 							[
-								$elm$html$Html$Attributes$class('disclaimer-banner')
-							]),
-						_List_fromArray(
-							[
-								$elm$html$Html$text(strings.disclaimer)
-							])),
-						A2(
-						$elm$html$Html$header,
-						_List_fromArray(
-							[
-								$elm$html$Html$Attributes$class('header'),
-								A2($elm$html$Html$Attributes$attribute, 'aria-label', 'Site header')
+								$elm$html$Html$Attributes$class('sidebar-nav')
 							]),
 						_List_fromArray(
 							[
 								A2(
-								$elm$html$Html$div,
+								$elm$html$Html$button,
 								_List_fromArray(
 									[
-										$elm$html$Html$Attributes$class('header-left')
+										$elm$html$Html$Attributes$class('sidebar-nav-item'),
+										$elm$html$Html$Attributes$type_('button'),
+										$elm$html$Html$Events$onClick($author$project$Main$ToggleLanguage),
+										A2(
+										$elm$html$Html$Attributes$attribute,
+										'aria-label',
+										_Utils_eq(model.language, $author$project$Translations$English) ? 'Switch to Georgian' : 'Switch to English'),
+										A2(
+										$elm$html$Html$Attributes$attribute,
+										'title',
+										_Utils_eq(model.language, $author$project$Translations$English) ? 'ქართული' : 'English')
 									]),
 								_List_fromArray(
 									[
-										A2(
-										$elm$html$Html$h1,
-										_List_fromArray(
-											[
-												$elm$html$Html$Attributes$class('title')
-											]),
-										_List_fromArray(
-											[
-												$elm$html$Html$text(strings.title)
-											])),
-										A2(
-										$elm$html$Html$div,
-										_List_fromArray(
-											[
-												$elm$html$Html$Attributes$class('subtitle')
-											]),
-										_List_fromArray(
-											[
-												$elm$html$Html$text(strings.subtitle)
-											]))
+										$elm$html$Html$text(
+										_Utils_eq(model.language, $author$project$Translations$English) ? '🇬🇪' : '🇬🇧')
 									])),
 								A2(
-								$elm$html$Html$div,
+								$elm$html$Html$button,
 								_List_fromArray(
 									[
-										$elm$html$Html$Attributes$class('header-right')
+										$elm$html$Html$Attributes$class(
+										'sidebar-nav-item' + (function () {
+											var _v0 = model.currentView;
+											if (_v0.$ === 'IndexView') {
+												return true;
+											} else {
+												return false;
+											}
+										}() ? ' active' : '')),
+										$elm$html$Html$Attributes$type_('button'),
+										$elm$html$Html$Events$onClick($author$project$Main$GoToIndex),
+										A2($elm$html$Html$Attributes$attribute, 'aria-label', 'Home'),
+										A2($elm$html$Html$Attributes$attribute, 'title', 'Home')
 									]),
 								_List_fromArray(
 									[
-										A2(
-										$elm$html$Html$button,
-										_List_fromArray(
-											[
-												$elm$html$Html$Attributes$class('menu-toggle'),
-												$elm$html$Html$Attributes$type_('button'),
-												$elm$html$Html$Events$onClick($author$project$Main$ToggleSidebar),
-												A2(
-												$elm$html$Html$Attributes$attribute,
-												'aria-label',
-												model.sidebarOpen ? 'Close menu' : 'Open menu')
-											]),
-										_List_fromArray(
-											[
-												$elm$html$Html$text(
-												model.sidebarOpen ? '✕' : '☰')
-											])),
-										A2(
-										$elm$html$Html$button,
-										_List_fromArray(
-											[
-												$elm$html$Html$Attributes$class('language-button'),
-												$elm$html$Html$Attributes$type_('button'),
-												$elm$html$Html$Events$onClick($author$project$Main$ToggleLanguage),
-												A2(
-												$elm$html$Html$Attributes$attribute,
-												'aria-label',
-												_Utils_eq(model.language, $author$project$Translations$English) ? 'Switch to Georgian' : 'Switch to English'),
-												A2(
-												$elm$html$Html$Attributes$attribute,
-												'title',
-												_Utils_eq(model.language, $author$project$Translations$English) ? 'ქართული' : 'English')
-											]),
-										_List_fromArray(
-											[
-												$elm$html$Html$text(
-												_Utils_eq(model.language, $author$project$Translations$English) ? 'ქართული' : 'English')
-											]))
+										$elm$html$Html$text('🏠')
+									])),
+								A2(
+								$elm$html$Html$button,
+								_List_fromArray(
+									[
+										$elm$html$Html$Attributes$class('sidebar-nav-item'),
+										$elm$html$Html$Attributes$type_('button'),
+										$elm$html$Html$Events$onClick(
+										$author$project$Main$SelectCalculator($author$project$Main$PillsCalc)),
+										A2($elm$html$Html$Attributes$attribute, 'aria-label', 'Pills'),
+										A2($elm$html$Html$Attributes$attribute, 'title', strings.pillDosage)
+									]),
+								_List_fromArray(
+									[
+										$elm$html$Html$text('💊')
+									])),
+								A2(
+								$elm$html$Html$button,
+								_List_fromArray(
+									[
+										$elm$html$Html$Attributes$class('sidebar-nav-item'),
+										$elm$html$Html$Attributes$type_('button'),
+										$elm$html$Html$Events$onClick(
+										$author$project$Main$SelectCalculator($author$project$Main$LiquidsCalc)),
+										A2($elm$html$Html$Attributes$attribute, 'aria-label', 'Liquids'),
+										A2($elm$html$Html$Attributes$attribute, 'title', strings.liquidDosage)
+									]),
+								_List_fromArray(
+									[
+										$elm$html$Html$text('🧪')
+									])),
+								A2(
+								$elm$html$Html$button,
+								_List_fromArray(
+									[
+										$elm$html$Html$Attributes$class('sidebar-nav-item'),
+										$elm$html$Html$Attributes$type_('button'),
+										$elm$html$Html$Events$onClick(
+										$author$project$Main$SelectCalculator($author$project$Main$NutritionCalc)),
+										A2($elm$html$Html$Attributes$attribute, 'aria-label', 'Nutrition'),
+										A2($elm$html$Html$Attributes$attribute, 'title', strings.nutrition)
+									]),
+								_List_fromArray(
+									[
+										$elm$html$Html$text('🥗')
 									]))
 							])),
 						A2(
@@ -6612,110 +6719,61 @@ var $author$project$Main$view = function (model) {
 						_List_fromArray(
 							[
 								A2(
-								$elm$html$Html$nav,
+								$elm$html$Html$div,
 								_List_fromArray(
 									[
-										$elm$html$Html$Attributes$class('sidebar'),
-										$author$project$Main$classList(
-										_List_fromArray(
-											[
-												_Utils_Tuple2('open', model.sidebarOpen)
-											])),
-										A2($elm$html$Html$Attributes$attribute, 'aria-label', 'Calculator selection')
+										$elm$html$Html$Attributes$class('disclaimer-banner')
+									]),
+								_List_fromArray(
+									[
+										$elm$html$Html$text(strings.disclaimer)
+									])),
+								A2(
+								$elm$html$Html$header,
+								_List_fromArray(
+									[
+										$elm$html$Html$Attributes$class('header'),
+										A2($elm$html$Html$Attributes$attribute, 'aria-label', 'Site header')
 									]),
 								_List_fromArray(
 									[
 										A2(
-										$elm$html$Html$button,
+										$elm$html$Html$div,
 										_List_fromArray(
 											[
-												$elm$html$Html$Attributes$class('sidebar-button'),
-												$author$project$Main$classList(
-												_List_fromArray(
-													[
-														_Utils_Tuple2(
-														'active',
-														_Utils_eq(model.selectedCalculator, $author$project$Main$PillsCalc))
-													])),
-												$elm$html$Html$Attributes$type_('button'),
-												$elm$html$Html$Events$onClick(
-												$author$project$Main$SelectCalculator($author$project$Main$PillsCalc)),
-												A2(
-												$elm$html$Html$Attributes$attribute,
-												'aria-current',
-												_Utils_eq(model.selectedCalculator, $author$project$Main$PillsCalc) ? 'page' : 'false')
+												$elm$html$Html$Attributes$class('header-left')
 											]),
 										_List_fromArray(
 											[
-												$elm$html$Html$text(strings.pillDosage)
-											])),
-										A2(
-										$elm$html$Html$button,
-										_List_fromArray(
-											[
-												$elm$html$Html$Attributes$class('sidebar-button'),
-												$author$project$Main$classList(
+												A2(
+												$elm$html$Html$h1,
 												_List_fromArray(
 													[
-														_Utils_Tuple2(
-														'active',
-														_Utils_eq(model.selectedCalculator, $author$project$Main$LiquidsCalc))
-													])),
-												$elm$html$Html$Attributes$type_('button'),
-												$elm$html$Html$Events$onClick(
-												$author$project$Main$SelectCalculator($author$project$Main$LiquidsCalc)),
-												A2(
-												$elm$html$Html$Attributes$attribute,
-												'aria-current',
-												_Utils_eq(model.selectedCalculator, $author$project$Main$LiquidsCalc) ? 'page' : 'false')
-											]),
-										_List_fromArray(
-											[
-												$elm$html$Html$text(strings.liquidDosage)
-											])),
-										A2(
-										$elm$html$Html$button,
-										_List_fromArray(
-											[
-												$elm$html$Html$Attributes$class('sidebar-button'),
-												$author$project$Main$classList(
+														$elm$html$Html$Attributes$class('title')
+													]),
 												_List_fromArray(
 													[
-														_Utils_Tuple2(
-														'active',
-														_Utils_eq(model.selectedCalculator, $author$project$Main$NutritionCalc))
-													])),
-												$elm$html$Html$Attributes$type_('button'),
-												$elm$html$Html$Events$onClick(
-												$author$project$Main$SelectCalculator($author$project$Main$NutritionCalc)),
-												A2(
-												$elm$html$Html$Attributes$attribute,
-												'aria-current',
-												_Utils_eq(model.selectedCalculator, $author$project$Main$NutritionCalc) ? 'page' : 'false')
-											]),
-										_List_fromArray(
-											[
-												$elm$html$Html$text(strings.nutrition)
+														$elm$html$Html$text(strings.title)
+													]))
 											]))
 									])),
 								A2(
 								$elm$html$Html$main_,
 								_List_fromArray(
 									[
-										$elm$html$Html$Attributes$class('content-area')
+										$elm$html$Html$Attributes$class('main-content')
 									]),
 								_List_fromArray(
 									[
-										_Utils_eq(model.selectedCalculator, $author$project$Main$PillsCalc) ? A2(
-										$elm$html$Html$map,
-										$author$project$Main$PillsMsg,
-										A3($author$project$Calculators$Pills$view, model.language, strings, model.pills)) : (_Utils_eq(model.selectedCalculator, $author$project$Main$LiquidsCalc) ? A2(
-										$elm$html$Html$map,
-										$author$project$Main$LiquidsMsg,
-										A3($author$project$Calculators$Liquids$view, model.language, strings, model.liquids)) : A2(
-										$elm$html$Html$map,
-										$author$project$Main$NutritionMsg,
-										A3($author$project$Calculators$Nutrition$view, model.language, strings, model.nutrition)))
+										function () {
+										var _v1 = model.currentView;
+										if (_v1.$ === 'IndexView') {
+											return A2($author$project$Main$viewIndex, model, strings);
+										} else {
+											var calculator = _v1.a;
+											return A3($author$project$Main$viewCalculator, model, calculator, strings);
+										}
+									}()
 									]))
 							]))
 					]))
