@@ -30,7 +30,7 @@ jobs:
         run: npm install -g elm
 
       - name: Build Elm app
-        run: npm run build
+        run: elm make src/Main.elm --output elm-app.js
 
       - name: Deploy to GitHub Pages
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
