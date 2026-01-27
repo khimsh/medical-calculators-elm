@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="ka">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -21,6 +21,13 @@
       var app = Elm.Main.init({
         node: document.getElementById("elm-app"),
       });
+
+      // Subscribe to the setLangAttribute port to update the html lang attribute
+      if (app.ports && app.ports.setLangAttribute) {
+        app.ports.setLangAttribute.subscribe(function (lang) {
+          document.documentElement.setAttribute("lang", lang);
+        });
+      }
     </script>
   </body>
 </html>

@@ -1,16 +1,21 @@
-module Main exposing (main, update, Model, Msg(..), init)
+port module Main exposing (main, update, Model, Msg(..), init)
 
 import Browser
 import Browser.Navigation as Nav
 import Calculators.Pills as Pills
 import Calculators.Liquids as Liquids
 import Calculators.Nutrition as Nutrition
+import Calculators.FreeWaterDeficit as FreeWaterDeficit
 import Translations exposing (Language(..), getStrings)
 import Html exposing (button, div, h1, h2, header, main_, p, text)
 import Html.Attributes exposing (attribute, class, type_)
 import Html.Events exposing (onClick)
 import Url
-import Url.Parser exposing (Parser, map, oneOf, s, top)
+import Url.Parser exposing (..)
+import Browser.Dom
+
+
+port setLangAttribute : String -> Cmd msg
 
 
 main : Program () Model Msg
@@ -29,6 +34,7 @@ type Calculator
     = PillsCalc
     | LiquidsCalc
     | NutritionCalc
+    | FreeWaterDeficitMsg
 
 
 type View
@@ -42,6 +48,7 @@ type alias Model =
     , pills : Pills.Model
     , liquids : Liquids.Model
     , nutrition : Nutrition.Model
+    , freeWaterDeficit : FreeWaterDeficit.Model
     , sidebarOpen : Bool
     , navKey : Nav.Key
     }
@@ -58,6 +65,7 @@ init _ url navKey =
       , pills = Pills.init
       , liquids = Liquids.init
       , nutrition = Nutrition.init
+      , freeWaterDeficit = FreeWaterDeficit.init
       , sidebarOpen = False
       , navKey = navKey
       }
@@ -73,6 +81,7 @@ type Msg
     | PillsMsg Pills.Msg
     | LiquidsMsg Liquids.Msg
     | NutritionMsg Nutrition.Msg
+    | HandleFreeWaterDeficitMsg FreeWaterDeficit.Msg
     | LinkClicked Browser.UrlRequest
     | UrlChanged Url.Url
 
@@ -88,6 +97,9 @@ parseUrl url =
 
         Just "nutrition" ->
             CalculatorView NutritionCalc
+
+        Just "free-water-deficit" ->
+            CalculatorView FreeWaterDeficitMsg
 
         _ ->
             IndexView
@@ -105,6 +117,9 @@ calculatorToFragment calc =
         NutritionCalc ->
             "nutrition"
 
+        FreeWaterDeficitMsg ->
+            "free-water-deficit"
+
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
@@ -120,8 +135,23 @@ update msg model =
             )
 
         ToggleLanguage ->
-            ( { model | language = if model.language == English then Georgian else English }
-            , Cmd.none
+            let
+                newLanguage =
+                    if model.language == English then
+                        Georgian
+                    else
+                        English
+
+                langAttribute =
+                    case newLanguage of
+                        English ->
+                            "en"
+
+                        Georgian ->
+                            "ka"
+            in
+            ( { model | language = newLanguage }
+            , setLangAttribute langAttribute
             )
 
         ToggleSidebar ->
@@ -155,6 +185,12 @@ update msg model =
             ( { model | nutrition = Nutrition.update subMsg model.nutrition strings }
             , Cmd.none
             )
+
+        HandleFreeWaterDeficitMsg subMsg ->
+            let
+                updatedFreeWaterDeficit = FreeWaterDeficit.update subMsg model.freeWaterDeficit
+            in
+            ( { model | freeWaterDeficit = updatedFreeWaterDeficit }, Cmd.none )
 
         LinkClicked urlRequest ->
             case urlRequest of
@@ -227,6 +263,14 @@ view model =
                     , attribute "title" strings.nutrition
                     ]
                     [ text "🥗" ]
+                , button
+                    [ class "sidebar-nav-item"
+                    , type_ "button"
+                    , onClick (SelectCalculator FreeWaterDeficitMsg)
+                    , attribute "aria-label" "Free Water Deficit"
+                    , attribute "title" strings.freeWaterDeficit
+                    ]
+                    [ text "💧" ]
                 ]
             , div [ class "main-wrapper" ]
                 [ div [ class "disclaimer-banner" ] [ text strings.disclaimer ]
@@ -238,7 +282,7 @@ view model =
                 , main_ [ class "main-content" ]
                     [ case model.currentView of
                         IndexView ->
-                            viewIndex model strings
+                            viewIndex strings
 
                         CalculatorView calculator ->
                             viewCalculator model calculator strings
@@ -249,13 +293,14 @@ view model =
     }
 
 
-viewIndex : Model -> Translations.Strings -> Html.Html Msg
-viewIndex model strings =
+viewIndex : Translations.Strings -> Html.Html Msg
+viewIndex strings =
     div [ class "index-container" ]
         [ div [ class "calculators-grid" ]
             [ calculatorCard PillsCalc strings.pillDosage strings.pillDescription "#ee5a52"
             , calculatorCard LiquidsCalc strings.liquidDosage strings.liquidDescription "#3498db"
             , calculatorCard NutritionCalc strings.nutrition strings.nutritionDescription "#2ecc71"
+            , calculatorCard FreeWaterDeficitMsg strings.freeWaterDeficit strings.freeWaterDeficitDescription "#f39c12"
             ]
         ]
 
@@ -278,20 +323,25 @@ calculatorCard calculator title description color =
 
 viewCalculator : Model -> Calculator -> Translations.Strings -> Html.Html Msg
 viewCalculator model calculator strings =
-    div [ class "calculator-wrapper" ]
-        [ button
-            [ class "back-button"
-            , type_ "button"
-            , onClick GoToIndex
-            , attribute "aria-label" "Back to index"
-            ]
-            [ text "← Back" ]
-        , if calculator == PillsCalc then
-            Html.map PillsMsg (Pills.view model.language strings model.pills)
+    case calculator of
+        FreeWaterDeficitMsg ->
+            Html.map HandleFreeWaterDeficitMsg (FreeWaterDeficit.view strings model.freeWaterDeficit)
 
-          else if calculator == LiquidsCalc then
-            Html.map LiquidsMsg (Liquids.view model.language strings model.liquids)
+        _ ->
+            div [ class "calculator-wrapper" ]
+                [ button
+                    [ class "back-button"
+                    , type_ "button"
+                    , onClick GoToIndex
+                    , attribute "aria-label" "Back to index"
+                    ]
+                    [ text "← Back" ]
+                , if calculator == PillsCalc then
+                    Html.map PillsMsg (Pills.view model.language strings model.pills)
 
-          else
-            Html.map NutritionMsg (Nutrition.view model.language strings model.nutrition)
-        ]
+                  else if calculator == LiquidsCalc then
+                    Html.map LiquidsMsg (Liquids.view model.language strings model.liquids)
+
+                  else
+                    Html.map NutritionMsg (Nutrition.view model.language strings model.nutrition)
+                ]

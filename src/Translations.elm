@@ -37,6 +37,12 @@ type alias Strings =
     , carbs : String
     , disclaimer : String
     , zeroNotAccepted : String
+    , freeWaterDeficit : String
+    , freeWaterDeficitDescription : String
+    , sodium : String
+    , weightInput : String
+    , sodiumInput : String
+    , invalidInputs : String
     }
 
 
@@ -72,6 +78,12 @@ englishStrings =
     , carbs = "Carbs: "
     , disclaimer = "⚠ TESTING PURPOSES ONLY - This application is currently in development and testing phase. Do not use for clinical decisions. Always consult with healthcare professionals."
     , zeroNotAccepted = "All values must be greater than zero"
+    , freeWaterDeficit = "Free Water Deficit"
+    , freeWaterDeficitDescription = "Calculate water deficit based on weight and sodium levels"
+    , sodium = "Sodium (mmol/L)"
+    , weightInput = "Weight (kg)"
+    , sodiumInput = "Sodium (mmol/L)"
+    , invalidInputs = "Enter valid inputs"
     }
 
 
@@ -104,9 +116,15 @@ georgianStrings =
     , kcal = "kcal"
     , proteins = "პროტეინები: "
     , fats = "ცხიმები: "
+    , carbs = "ნახშირწყლები: "
     , disclaimer = "⚠ მხოლოდ ტესტირებისთვის - ეს აპლიკაცია ამჟამად განვითარებისა და ტესტირების ფაზაშია. არ გამოიყენოთ კლინიკური გადაწყვეტილებებისთვის. ყოველთვის მიმართეთ ჯანდაცვის სპეციალისტს."
     , zeroNotAccepted = "ყველა მნიშვნელობა უნდა იყოს ნულზე მეტი"
-    , carbs = "ნახშირწყლები: "
+    , freeWaterDeficit = "თავისუფალი წყლის დეფიციტი"
+    , freeWaterDeficitDescription = "გამოთვალეთ წყლის დეფიციტი წონისა და ნატრიუმის დონეების მიხედვით"
+    , sodium = "ნატრიუმი (მმოლ/ლ)"
+    , weightInput = "წონა (კგ)"
+    , sodiumInput = "ნატრიუმი (მმოლ/ლ)"
+    , invalidInputs = "შეიყვანეთ ვალიდური მონაცემები"
     }
 
 

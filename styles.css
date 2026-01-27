@@ -902,3 +902,46 @@ select:focus {
     font-size: 0.85rem;
   }
 }
+
+/* Styles for Free Water Deficit Calculator */
+.free-water-deficit {
+  background-color: var(--color-accent-light);
+  border: 2px solid var(--color-accent);
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: var(--shadow-md);
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.free-water-deficit:hover {
+  transform: scale(1.02);
+  box-shadow: var(--shadow-lg);
+}
+
+.free-water-deficit h2 {
+  color: var(--color-accent-dark);
+  font-size: 1.75rem;
+  margin-bottom: 1rem;
+}
+
+.free-water-deficit p {
+  color: var(--color-text-secondary);
+  line-height: 1.5;
+}
+
+.free-water-deficit .calculate-button {
+  background-color: var(--color-accent);
+  color: var(--color-white);
+  border: none;
+  border-radius: 4px;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.free-water-deficit .calculate-button:hover {
+  background-color: var(--color-accent-dark);
+}
