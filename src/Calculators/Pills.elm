@@ -53,7 +53,7 @@ update msg model strings =
                 { model | error = Just strings.zeroNotAccepted, result = "0.0", calculated = True }
 
             else
-                { model | result = floatToStr (prescribed / tablet), error = Nothing, calculated = True }
+                { model | result = floatToStr (roundToTwoDecimals (prescribed / tablet)), error = Nothing, calculated = True }
 
 
 view : Language -> Strings -> Model -> Html.Html Msg
@@ -108,3 +108,7 @@ view language strings model =
                         text ""
             ]
         ]
+
+roundToTwoDecimals : Float -> Float
+roundToTwoDecimals number =
+    (toFloat (round (number * 100))) / 100

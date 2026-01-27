@@ -85,10 +85,10 @@ update msg model strings =
                 in
                 { model
                     | bmi = formatToDecimals 2 bmi
-                    , calories = formatToDecimals 1 result.calories
-                    , proteins = formatToDecimals 1 result.proteins
-                    , fats = formatToDecimals 1 result.fats
-                    , carbs = formatToDecimals 1 result.carbs
+                    , calories = formatToDecimals 2 result.calories
+                    , proteins = formatToDecimals 2 result.proteins
+                    , fats = formatToDecimals 2 result.fats
+                    , carbs = formatToDecimals 2 result.carbs
                     , error = Nothing
                     , calculated = True
                 }

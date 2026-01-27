@@ -1,8 +1,8 @@
 module FreeWaterDeficitTests exposing (tests)
 
 import Test exposing (Test, describe, test)
-import Expect exposing (equal)
-import Calculators.FreeWaterDeficit exposing (Model, Msg(..), init, update)
+import Expect exposing (..)
+import Calculators.FreeWaterDeficit exposing (Msg(..), init, update)
 
 
 -- TESTS
@@ -42,7 +42,7 @@ tests =
                     updatedModel =
                         update Calculate model
                 in
-                Expect.equal updatedModel.result (Just 2.9999999999999996)
+                Expect.equal updatedModel.result (Just 3.0)
 
         , test "Calculate with invalid inputs results in Nothing" <|
             \_ ->

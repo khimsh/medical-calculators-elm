@@ -49,12 +49,16 @@ update msg model =
                 result =
                     case ( weightValue, sodiumValue ) of
                         (Just w, Just s) ->
-                            Just (0.6 * w * ((s / 140) - 1))
+                            Just (roundToTwoDecimals (0.6 * w * ((s / 140) - 1)))
 
                         _ ->
                             Nothing
             in
             { model | result = result }
+
+roundToTwoDecimals : Float -> Float
+roundToTwoDecimals number =
+    (toFloat (round (number * 100))) / 100
 
 -- VIEW
 

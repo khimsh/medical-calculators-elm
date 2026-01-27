@@ -1,4 +1,4 @@
-port module Main exposing (main, update, Model, Msg(..), init)
+port module Main exposing (main)
 
 import Browser
 import Browser.Navigation as Nav
@@ -12,8 +12,6 @@ import Html.Attributes exposing (attribute, class, type_)
 import Html.Events exposing (onClick)
 import Url
 import Url.Parser exposing (..)
-import Browser.Dom
-
 
 port setLangAttribute : String -> Cmd msg
 
@@ -225,22 +223,7 @@ view model =
                     ]
                     [ text (if model.language == English then "🇬🇪" else "🇬🇧") ]
                 , button
-                    [ class ("sidebar-nav-item" ++ if case model.currentView of
-                        IndexView -> True
-                        _ -> False
-                      then
-                        " active"
-                      else
-                        ""
-                      )
-                    , type_ "button"
-                    , onClick GoToIndex
-                    , attribute "aria-label" "Home"
-                    , attribute "title" "Home"
-                    ]
-                    [ text "🏠" ]
-                , button
-                    [ class "sidebar-nav-item"
+                    [ class ("sidebar-nav-item" ++ if model.currentView == CalculatorView PillsCalc then " active" else "")
                     , type_ "button"
                     , onClick (SelectCalculator PillsCalc)
                     , attribute "aria-label" "Pills"
@@ -248,7 +231,7 @@ view model =
                     ]
                     [ text "💊" ]
                 , button
-                    [ class "sidebar-nav-item"
+                    [ class ("sidebar-nav-item" ++ if model.currentView == CalculatorView LiquidsCalc then " active" else "")
                     , type_ "button"
                     , onClick (SelectCalculator LiquidsCalc)
                     , attribute "aria-label" "Liquids"
@@ -256,7 +239,7 @@ view model =
                     ]
                     [ text "🧪" ]
                 , button
-                    [ class "sidebar-nav-item"
+                    [ class ("sidebar-nav-item" ++ if model.currentView == CalculatorView NutritionCalc then " active" else "")
                     , type_ "button"
                     , onClick (SelectCalculator NutritionCalc)
                     , attribute "aria-label" "Nutrition"
@@ -264,7 +247,7 @@ view model =
                     ]
                     [ text "🥗" ]
                 , button
-                    [ class "sidebar-nav-item"
+                    [ class ("sidebar-nav-item" ++ if model.currentView == CalculatorView FreeWaterDeficitMsg then " active" else "")
                     , type_ "button"
                     , onClick (SelectCalculator FreeWaterDeficitMsg)
                     , attribute "aria-label" "Free Water Deficit"
