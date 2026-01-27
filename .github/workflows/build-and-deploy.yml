@@ -38,6 +38,7 @@ jobs:
           cp index.html dist/
           cp styles.css dist/
           cp elm-app.js dist/
+          ls -la dist/
 
       - name: Deploy to GitHub Pages
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
