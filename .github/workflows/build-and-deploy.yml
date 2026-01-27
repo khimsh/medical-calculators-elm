@@ -32,6 +32,15 @@ jobs:
       - name: Build Elm app
         run: elm make src/Main.elm --output elm-app.js
 
+      - name: Verify build output
+        run: |
+          echo "Current directory:"
+          pwd
+          echo "Files in root:"
+          ls -la
+          echo "elm-app.js exists:"
+          test -f elm-app.js && echo "YES" || echo "NO"
+
       - name: Prepare deployment directory
         run: |
           mkdir -p dist
