@@ -4,13 +4,19 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Medical Calculators implemented in Elm</title>
-    <link rel="stylesheet" href="/medical-calculators-elm/styles.css" />
+    <script>
+      // Set base href only on GitHub Pages
+      if (window.location.hostname === "khimsh.github.io") {
+        document.write('<base href="/medical-calculators-elm/" />');
+      }
+    </script>
+    <link rel="stylesheet" href="styles.css" />
   </head>
 
   <body>
     <div id="elm-app"></div>
 
-    <script src="/medical-calculators-elm/elm-app.js"></script>
+    <script src="elm-app.js"></script>
     <script>
       var app = Elm.Main.init({
         node: document.getElementById("elm-app"),
