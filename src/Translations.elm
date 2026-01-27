@@ -8,10 +8,12 @@ type Language
 
 type alias Strings =
     { title : String
-    , subtitle : String
     , pillDosage : String
     , liquidDosage : String
     , nutrition : String
+    , pillDescription : String
+    , liquidDescription : String
+    , nutritionDescription : String
     , peroralpill : String
     , prescribedAmount : String
     , pillStrength : String
@@ -41,10 +43,12 @@ type alias Strings =
 englishStrings : Strings
 englishStrings =
     { title = "Medical Calculators"
-    , subtitle = "Work in progress. Do not trust calculations"
     , pillDosage = "Pill Dosage"
     , liquidDosage = "Liquid Dosage"
     , nutrition = "Nutrition"
+    , pillDescription = "Calculate tablet quantities for prescribed dosages"
+    , liquidDescription = "Calculate liquid volumes for prescribed dosages"
+    , nutritionDescription = "Calculate daily caloric and nutritional requirements"
     , peroralpill = "Peroral Pill Dosage"
     , prescribedAmount = "Prescribed amount (mg)"
     , pillStrength = "Pill strength (mg)"
@@ -74,10 +78,12 @@ englishStrings =
 georgianStrings : Strings
 georgianStrings =
     { title = "სამედიცინო კალკულატორები"
-    , subtitle = "სატესტო რეჟიმი. არ ენდოთ კალკულაციებს"
     , pillDosage = "აბის დოზირება"
     , liquidDosage = "თხევადი მედიკამენტი"
     , nutrition = "კვება"
+    , pillDescription = "აღირიცხეთ აბლეტის რაოდენობა გამოწერილი დოზირებისთვის"
+    , liquidDescription = "გამოთვალეთ თხევადი მოცულობა გამოწერილი დოზირებისთვის"
+    , nutritionDescription = "გამოთვალეთ დღიური კალორიული და პიტნის მოთხოვნილებები"
     , peroralpill = "პერორალური აბის დოზირება"
     , prescribedAmount = "გამოწერილი რაოდენობა (მგ)"
     , pillStrength = "აბის სიძლიერე (მგ)"
@@ -98,7 +104,7 @@ georgianStrings =
     , kcal = "kcal"
     , proteins = "პროტეინები: "
     , fats = "ცხიმები: "
-    , disclaimer = "⚠ მხოლოდ ტესტირებისთვის - ეს აპლიკაცია ამჟამად განვითარებისა და ტესტირების ფაზაშია. არ გამოიყენოთ კლინიკური გადაწყვეტილებებისთვის. ყოველთვის კონსულტირდით ჯანდაცვის სპეციალისტებთან."
+    , disclaimer = "⚠ მხოლოდ ტესტირებისთვის - ეს აპლიკაცია ამჟამად განვითარებისა და ტესტირების ფაზაშია. არ გამოიყენოთ კლინიკური გადაწყვეტილებებისთვის. ყოველთვის მიმართეთ ჯანდაცვის სპეციალისტს."
     , zeroNotAccepted = "ყველა მნიშვნელობა უნდა იყოს ნულზე მეტი"
     , carbs = "ნახშირწყლები: "
     }

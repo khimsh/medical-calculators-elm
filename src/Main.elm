@@ -6,7 +6,7 @@ import Calculators.Pills as Pills
 import Calculators.Liquids as Liquids
 import Calculators.Nutrition as Nutrition
 import Translations exposing (Language(..), getStrings)
-import Html exposing (button, div, h1, header, main_, nav, text)
+import Html exposing (button, div, h1, h2, header, main_, p, text)
 import Html.Attributes exposing (attribute, class, type_)
 import Html.Events exposing (onClick)
 import Url
@@ -31,8 +31,13 @@ type Calculator
     | NutritionCalc
 
 
+type View
+    = IndexView
+    | CalculatorView Calculator
+
+
 type alias Model =
-    { selectedCalculator : Calculator
+    { currentView : View
     , language : Language
     , pills : Pills.Model
     , liquids : Liquids.Model
@@ -45,10 +50,10 @@ type alias Model =
 init : () -> Url.Url -> Nav.Key -> ( Model, Cmd Msg )
 init _ url navKey =
     let
-        calculator =
+        initialView =
             parseUrl url
     in
-    ( { selectedCalculator = calculator
+    ( { currentView = initialView
       , language = Georgian
       , pills = Pills.init
       , liquids = Liquids.init
@@ -62,6 +67,7 @@ init _ url navKey =
 
 type Msg
     = SelectCalculator Calculator
+    | GoToIndex
     | ToggleSidebar
     | ToggleLanguage
     | PillsMsg Pills.Msg
@@ -71,20 +77,20 @@ type Msg
     | UrlChanged Url.Url
 
 
-parseUrl : Url.Url -> Calculator
+parseUrl : Url.Url -> View
 parseUrl url =
     case url.fragment of
         Just "pills" ->
-            PillsCalc
+            CalculatorView PillsCalc
 
         Just "liquids" ->
-            LiquidsCalc
+            CalculatorView LiquidsCalc
 
         Just "nutrition" ->
-            NutritionCalc
+            CalculatorView NutritionCalc
 
         _ ->
-            PillsCalc
+            IndexView
 
 
 calculatorToFragment : Calculator -> String
@@ -104,8 +110,13 @@ update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         SelectCalculator calculator ->
-            ( { model | selectedCalculator = calculator, sidebarOpen = False }
+            ( { model | currentView = CalculatorView calculator, sidebarOpen = False }
             , Nav.pushUrl model.navKey ("#" ++ calculatorToFragment calculator)
+            )
+
+        GoToIndex ->
+            ( { model | currentView = IndexView, sidebarOpen = False }
+            , Nav.pushUrl model.navKey "./"
             )
 
         ToggleLanguage ->
@@ -154,7 +165,7 @@ update msg model =
                     ( model, Nav.load href )
 
         UrlChanged url ->
-            ( { model | selectedCalculator = parseUrl url }
+            ( { model | currentView = parseUrl url }
             , Cmd.none
             )
 
@@ -168,66 +179,69 @@ view model =
     { title = strings.title
     , body =
         [ div [ class "page-wrapper" ]
-            [ div [ class "disclaimer-banner" ] [ text strings.disclaimer ]
-            , header [ class "header", attribute "aria-label" "Site header" ]
-                [ div [ class "header-left" ]
-                    [ h1 [ class "title" ] [ text strings.title ]
-                    , div [ class "subtitle" ] [ text strings.subtitle ]
+            [ div [ class "sidebar-nav" ]
+                [ button
+                    [ class "sidebar-nav-item"
+                    , type_ "button"
+                    , onClick ToggleLanguage
+                    , attribute "aria-label" (if model.language == English then "Switch to Georgian" else "Switch to English")
+                    , attribute "title" (if model.language == English then "ქართული" else "English")
                     ]
-                , div [ class "header-right" ]
-                    [ button
-                        [ class "menu-toggle"
-                        , type_ "button"
-                        , onClick ToggleSidebar
-                        , attribute "aria-label" (if model.sidebarOpen then "Close menu" else "Open menu")
-                        ]
-                        [ text (if model.sidebarOpen then "✕" else "☰") ]
-                    , button
-                        [ class "language-button"
-                        , type_ "button"
-                        , onClick ToggleLanguage
-                        , attribute "aria-label" (if model.language == English then "Switch to Georgian" else "Switch to English")
-                        , attribute "title" (if model.language == English then "ქართული" else "English")
-                        ]
-                        [ text (if model.language == English then "ქართული" else "English") ]
+                    [ text (if model.language == English then "🇬🇪" else "🇬🇧") ]
+                , button
+                    [ class ("sidebar-nav-item" ++ if case model.currentView of
+                        IndexView -> True
+                        _ -> False
+                      then
+                        " active"
+                      else
+                        ""
+                      )
+                    , type_ "button"
+                    , onClick GoToIndex
+                    , attribute "aria-label" "Home"
+                    , attribute "title" "Home"
                     ]
+                    [ text "🏠" ]
+                , button
+                    [ class "sidebar-nav-item"
+                    , type_ "button"
+                    , onClick (SelectCalculator PillsCalc)
+                    , attribute "aria-label" "Pills"
+                    , attribute "title" strings.pillDosage
+                    ]
+                    [ text "💊" ]
+                , button
+                    [ class "sidebar-nav-item"
+                    , type_ "button"
+                    , onClick (SelectCalculator LiquidsCalc)
+                    , attribute "aria-label" "Liquids"
+                    , attribute "title" strings.liquidDosage
+                    ]
+                    [ text "🧪" ]
+                , button
+                    [ class "sidebar-nav-item"
+                    , type_ "button"
+                    , onClick (SelectCalculator NutritionCalc)
+                    , attribute "aria-label" "Nutrition"
+                    , attribute "title" strings.nutrition
+                    ]
+                    [ text "🥗" ]
                 ]
             , div [ class "main-wrapper" ]
-                [ nav [ class "sidebar", classList [ ( "open", model.sidebarOpen ) ], attribute "aria-label" "Calculator selection" ]
-                    [ button
-                        [ class "sidebar-button"
-                        , classList [ ( "active", model.selectedCalculator == PillsCalc ) ]
-                        , type_ "button"
-                        , onClick (SelectCalculator PillsCalc)
-                        , attribute "aria-current" (if model.selectedCalculator == PillsCalc then "page" else "false")
+                [ div [ class "disclaimer-banner" ] [ text strings.disclaimer ]
+                , header [ class "header", attribute "aria-label" "Site header" ]
+                    [ div [ class "header-left" ]
+                        [ h1 [ class "title" ] [ text strings.title ]
                         ]
-                        [ text strings.pillDosage ]
-                    , button
-                        [ class "sidebar-button"
-                        , classList [ ( "active", model.selectedCalculator == LiquidsCalc ) ]
-                        , type_ "button"
-                        , onClick (SelectCalculator LiquidsCalc)
-                        , attribute "aria-current" (if model.selectedCalculator == LiquidsCalc then "page" else "false")
-                        ]
-                        [ text strings.liquidDosage ]
-                    , button
-                        [ class "sidebar-button"
-                        , classList [ ( "active", model.selectedCalculator == NutritionCalc ) ]
-                        , type_ "button"
-                        , onClick (SelectCalculator NutritionCalc)
-                        , attribute "aria-current" (if model.selectedCalculator == NutritionCalc then "page" else "false")
-                        ]
-                        [ text strings.nutrition ]
                     ]
-                , main_ [ class "content-area" ]
-                    [ if model.selectedCalculator == PillsCalc then
-                        Html.map PillsMsg (Pills.view model.language strings model.pills)
+                , main_ [ class "main-content" ]
+                    [ case model.currentView of
+                        IndexView ->
+                            viewIndex model strings
 
-                      else if model.selectedCalculator == LiquidsCalc then
-                        Html.map LiquidsMsg (Liquids.view model.language strings model.liquids)
-
-                      else
-                        Html.map NutritionMsg (Nutrition.view model.language strings model.nutrition)
+                        CalculatorView calculator ->
+                            viewCalculator model calculator strings
                     ]
                 ]
             ]
@@ -235,6 +249,49 @@ view model =
     }
 
 
-classList : List ( String, Bool ) -> Html.Attribute Msg
-classList classes =
-    class (String.join " " (List.map Tuple.first (List.filter Tuple.second classes)))
+viewIndex : Model -> Translations.Strings -> Html.Html Msg
+viewIndex model strings =
+    div [ class "index-container" ]
+        [ div [ class "calculators-grid" ]
+            [ calculatorCard PillsCalc strings.pillDosage strings.pillDescription "#ee5a52"
+            , calculatorCard LiquidsCalc strings.liquidDosage strings.liquidDescription "#3498db"
+            , calculatorCard NutritionCalc strings.nutrition strings.nutritionDescription "#2ecc71"
+            ]
+        ]
+
+
+calculatorCard : Calculator -> String -> String -> String -> Html.Html Msg
+calculatorCard calculator title description color =
+    button
+        [ class "calculator-card-button"
+        , onClick (SelectCalculator calculator)
+        , attribute "style" ("--accent-color: " ++ color)
+        ]
+        [ div [ class "card-header" ]
+            [ div [ class "card-blob" ] [] ]
+        , div [ class "card-content" ]
+            [ h2 [ class "card-title" ] [ text title ]
+            , p [ class "card-description" ] [ text description ]
+            ]
+        ]
+
+
+viewCalculator : Model -> Calculator -> Translations.Strings -> Html.Html Msg
+viewCalculator model calculator strings =
+    div [ class "calculator-wrapper" ]
+        [ button
+            [ class "back-button"
+            , type_ "button"
+            , onClick GoToIndex
+            , attribute "aria-label" "Back to index"
+            ]
+            [ text "← Back" ]
+        , if calculator == PillsCalc then
+            Html.map PillsMsg (Pills.view model.language strings model.pills)
+
+          else if calculator == LiquidsCalc then
+            Html.map LiquidsMsg (Liquids.view model.language strings model.liquids)
+
+          else
+            Html.map NutritionMsg (Nutrition.view model.language strings model.nutrition)
+        ]
