@@ -2,6 +2,7 @@ module MainTests exposing (..)
 
 import Calculators.Pills as Pills
 import Calculators.Liquids as Liquids
+import Translations exposing (englishStrings)
 import Expect
 import Test exposing (Test, describe, test)
 
@@ -20,7 +21,7 @@ suite =
                             { initial | prescribed = "100", tabletMg = "50" }
 
                         updated =
-                            Pills.update Pills.Calculate model
+                            Pills.update Pills.Calculate model englishStrings
                     in
                     updated.result
                         |> Expect.equal "2"
@@ -34,7 +35,7 @@ suite =
                             { initial | prescribed = "75", tabletMg = "50" }
 
                         updated =
-                            Pills.update Pills.Calculate model
+                            Pills.update Pills.Calculate model englishStrings
                     in
                     updated.result
                         |> Expect.equal "1.5"
@@ -48,10 +49,10 @@ suite =
                             { initial | prescribed = "100", tabletMg = "0" }
 
                         updated =
-                            Pills.update Pills.Calculate model
+                            Pills.update Pills.Calculate model englishStrings
                     in
                     updated.error
-                        |> Expect.equal (Just "Cannot divide by zero")
+                        |> Expect.equal (Just englishStrings.zeroNotAccepted)
             ]
         , describe "Liquids Calculator"
             [ test "calculates correct liquid volume" <|
@@ -68,7 +69,7 @@ suite =
                             }
 
                         updated =
-                            Liquids.update Liquids.Calculate model
+                            Liquids.update Liquids.Calculate model englishStrings
                     in
                     updated.result
                         |> Expect.equal "20"
@@ -86,7 +87,7 @@ suite =
                             }
 
                         updated =
-                            Liquids.update Liquids.Calculate model
+                            Liquids.update Liquids.Calculate model englishStrings
                     in
                     updated.result
                         |> Expect.equal "15"

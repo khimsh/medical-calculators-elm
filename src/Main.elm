@@ -64,13 +64,25 @@ update msg model =
             { model | sidebarOpen = not model.sidebarOpen }
 
         PillsMsg subMsg ->
-            { model | pills = Pills.update subMsg model.pills }
+            let
+                strings =
+                    getStrings model.language
+            in
+            { model | pills = Pills.update subMsg model.pills strings }
 
         LiquidsMsg subMsg ->
-            { model | liquids = Liquids.update subMsg model.liquids }
+            let
+                strings =
+                    getStrings model.language
+            in
+            { model | liquids = Liquids.update subMsg model.liquids strings }
 
         NutritionMsg subMsg ->
-            { model | nutrition = Nutrition.update subMsg model.nutrition }
+            let
+                strings =
+                    getStrings model.language
+            in
+            { model | nutrition = Nutrition.update subMsg model.nutrition strings }
 
 
 view : Model -> Html.Html Msg

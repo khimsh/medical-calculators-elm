@@ -32,8 +32,8 @@ type Msg
     | Calculate
 
 
-update : Msg -> Model -> Model
-update msg model =
+update : Msg -> Model -> Strings -> Model
+update msg model strings =
     case msg of
         ChangePrescribed newPrescribed ->
             { model | prescribed = newPrescribed }
@@ -49,11 +49,8 @@ update msg model =
                 tablet =
                     strToFloat model.tabletMg
             in
-            if tablet == 0 then
-                { model | error = Just "Cannot divide by zero", result = "0.0", calculated = True }
-
-            else if prescribed == 0 && tablet == 0 then
-                { model | error = Just "Invalid input", result = "0.0", calculated = True }
+            if prescribed == 0 || tablet == 0 then
+                { model | error = Just strings.zeroNotAccepted, result = "0.0", calculated = True }
 
             else
                 { model | result = floatToStr (prescribed / tablet), error = Nothing, calculated = True }

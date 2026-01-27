@@ -46,8 +46,8 @@ type Msg
     | Calculate
 
 
-update : Msg -> Model -> Model
-update msg model =
+update : Msg -> Model -> Strings -> Model
+update msg model strings =
     case msg of
         ChangeWeight newWeight ->
             { model | weight = newWeight }
@@ -69,11 +69,8 @@ update msg model =
                 height =
                     strToFloat model.height
             in
-            if height == 0 then
-                { model | error = Just "Height is required for calculation", calculated = True }
-
-            else if weight == 0 then
-                { model | error = Just "Weight is required for calculation", calculated = True }
+            if weight == 0 || height == 0 then
+                { model | error = Just strings.zeroNotAccepted, calculated = True }
 
             else
                 let

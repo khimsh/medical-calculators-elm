@@ -35,8 +35,8 @@ type Msg
     | Calculate
 
 
-update : Msg -> Model -> Model
-update msg model =
+update : Msg -> Model -> Strings -> Model
+update msg model strings =
     case msg of
         ChangePrescribedLiquid newPrescribedLiquid ->
             { model | prescribedLiquid = newPrescribedLiquid }
@@ -58,11 +58,8 @@ update msg model =
                 volume =
                     strToFloat model.liquidVolumeAtHand
             in
-            if dosage == 0 then
-                { model | error = Just "Cannot divide by zero", result = "0.0", calculated = True }
-
-            else if prescribed == 0 || volume == 0 then
-                { model | error = Just "Invalid input", result = "0.0", calculated = True }
+            if prescribed == 0 || dosage == 0 || volume == 0 then
+                { model | error = Just strings.zeroNotAccepted, result = "0.0", calculated = True }
 
             else
                 { model | result = floatToStr ((prescribed / dosage) * volume), error = Nothing, calculated = True }

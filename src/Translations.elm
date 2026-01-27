@@ -34,6 +34,7 @@ type alias Strings =
     , fats : String
     , carbs : String
     , disclaimer : String
+    , zeroNotAccepted : String
     }
 
 
@@ -66,6 +67,7 @@ englishStrings =
     , fats = "Fats: "
     , carbs = "Carbs: "
     , disclaimer = "⚠ TESTING PURPOSES ONLY - This application is currently in development and testing phase. Do not use for clinical decisions. Always consult with healthcare professionals."
+    , zeroNotAccepted = "All values must be greater than zero"
     }
 
 
@@ -97,6 +99,7 @@ georgianStrings =
     , proteins = "პროტეინები: "
     , fats = "ცხიმები: "
     , disclaimer = "⚠ მხოლოდ ტესტირებისთვის - ეს აპლიკაცია ამჟამად განვითარებისა და ტესტირების ფაზაშია. არ გამოიყენოთ კლინიკური გადაწყვეტილებებისთვის. ყოველთვის კონსულტირდით ჯანდაცვის სპეციალისტებთან."
+    , zeroNotAccepted = "ყველა მნიშვნელობა უნდა იყოს ნულზე მეტი"
     , carbs = "ნახშირწყლები: "
     }
 

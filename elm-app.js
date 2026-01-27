@@ -5230,17 +5230,11 @@ var $author$project$Calculators$Liquids$update = F2(
 				var volume = $author$project$Functions$strToFloat(model.liquidVolumeAtHand);
 				var prescribed = $author$project$Functions$strToFloat(model.prescribedLiquid);
 				var dosage = $author$project$Functions$strToFloat(model.liquidDosageAthand);
-				return (!dosage) ? _Utils_update(
+				return ((!prescribed) || ((!dosage) || (!volume))) ? _Utils_update(
 					model,
 					{
 						calculated: true,
-						error: $elm$core$Maybe$Just('Cannot divide by zero'),
-						result: '0.0'
-					}) : (((!prescribed) || (!volume)) ? _Utils_update(
-					model,
-					{
-						calculated: true,
-						error: $elm$core$Maybe$Just('Invalid input'),
+						error: $elm$core$Maybe$Just('All values must be greater than zero'),
 						result: '0.0'
 					}) : _Utils_update(
 					model,
@@ -5248,7 +5242,7 @@ var $author$project$Calculators$Liquids$update = F2(
 						calculated: true,
 						error: $elm$core$Maybe$Nothing,
 						result: $author$project$Functions$floatToStr((prescribed / dosage) * volume)
-					}));
+					});
 		}
 	});
 var $elm$core$Basics$pow = _Basics_pow;
@@ -5330,37 +5324,28 @@ var $author$project$Calculators$Nutrition$update = F2(
 			default:
 				var weight = $author$project$Functions$strToFloat(model.weight);
 				var height = $author$project$Functions$strToFloat(model.height);
-				if (!height) {
+				if ((!weight) || (!height)) {
 					return _Utils_update(
 						model,
 						{
 							calculated: true,
-							error: $elm$core$Maybe$Just('Height is required for calculation')
+							error: $elm$core$Maybe$Just('All values must be greater than zero')
 						});
 				} else {
-					if (!weight) {
-						return _Utils_update(
-							model,
-							{
-								calculated: true,
-								error: $elm$core$Maybe$Just('Weight is required for calculation')
-							});
-					} else {
-						var bmi = A2($author$project$Functions$calculateBMI, weight, height);
-						var score = A3($author$project$Functions$scoreCalculator, bmi, model.weightLoss, model.critical);
-						var result = A3($author$project$Functions$calculateCalories, weight, bmi, score);
-						return _Utils_update(
-							model,
-							{
-								bmi: A2($author$project$Functions$formatToDecimals, 2, bmi),
-								calculated: true,
-								calories: A2($author$project$Functions$formatToDecimals, 1, result.calories),
-								carbs: A2($author$project$Functions$formatToDecimals, 1, result.carbs),
-								error: $elm$core$Maybe$Nothing,
-								fats: A2($author$project$Functions$formatToDecimals, 1, result.fats),
-								proteins: A2($author$project$Functions$formatToDecimals, 1, result.proteins)
-							});
-					}
+					var bmi = A2($author$project$Functions$calculateBMI, weight, height);
+					var score = A3($author$project$Functions$scoreCalculator, bmi, model.weightLoss, model.critical);
+					var result = A3($author$project$Functions$calculateCalories, weight, bmi, score);
+					return _Utils_update(
+						model,
+						{
+							bmi: A2($author$project$Functions$formatToDecimals, 2, bmi),
+							calculated: true,
+							calories: A2($author$project$Functions$formatToDecimals, 1, result.calories),
+							carbs: A2($author$project$Functions$formatToDecimals, 1, result.carbs),
+							error: $elm$core$Maybe$Nothing,
+							fats: A2($author$project$Functions$formatToDecimals, 1, result.fats),
+							proteins: A2($author$project$Functions$formatToDecimals, 1, result.proteins)
+						});
 				}
 		}
 	});
@@ -5380,17 +5365,11 @@ var $author$project$Calculators$Pills$update = F2(
 			default:
 				var tablet = $author$project$Functions$strToFloat(model.tabletMg);
 				var prescribed = $author$project$Functions$strToFloat(model.prescribed);
-				return (!tablet) ? _Utils_update(
+				return ((!prescribed) || (!tablet)) ? _Utils_update(
 					model,
 					{
 						calculated: true,
-						error: $elm$core$Maybe$Just('Cannot divide by zero'),
-						result: '0.0'
-					}) : (((!prescribed) && (!tablet)) ? _Utils_update(
-					model,
-					{
-						calculated: true,
-						error: $elm$core$Maybe$Just('Invalid input'),
+						error: $elm$core$Maybe$Just('All values must be greater than zero'),
 						result: '0.0'
 					}) : _Utils_update(
 					model,
@@ -5398,7 +5377,7 @@ var $author$project$Calculators$Pills$update = F2(
 						calculated: true,
 						error: $elm$core$Maybe$Nothing,
 						result: $author$project$Functions$floatToStr(prescribed / tablet)
-					}));
+					});
 		}
 	});
 var $author$project$Main$update = F2(
@@ -5502,8 +5481,8 @@ var $author$project$Main$classList = function (classes) {
 				A2($elm$core$List$filter, $elm$core$Tuple$second, classes))));
 };
 var $elm$html$Html$div = _VirtualDom_node('div');
-var $author$project$Translations$englishStrings = {amountAtHand: 'Amount at hand (mg)', calculate: 'Calculate', carbs: 'Carbs: ', critical: 'Critical condition?', dailyCalories: 'Daily Calories:', disclaimer: '⚠ TESTING PURPOSES ONLY - This application is currently in development and testing phase. Do not use for clinical decisions. Always consult with healthcare professionals.', fats: 'Fats: ', height: 'Height (cm)', kcal: 'kcal', liquidDosage: 'Liquid Dosage', ml: 'mL', nutrition: 'Nutrition', nutritionCalc: 'Nutrition Calculator', peroralliquid: 'Peroral Liquids Dosage', peroralpill: 'Peroral Pill Dosage', pillDosage: 'Pill Dosage', pillStrength: 'Pill strength (mg)', prescribedAmount: 'Prescribed amount (mg)', proteins: 'Proteins: ', result: 'Result:', subtitle: 'Work in progress. Do not trust calculations', tablets: 'tablets', title: 'Medical Calculators', volumeAtHand: 'Volume at hand (mL)', weight: 'Weight (kg)', weightLoss: 'Weight Loss (%)', weightLossNone: 'None'};
-var $author$project$Translations$georgianStrings = {amountAtHand: 'ხელთ არსებული რაოდენობა (მგ)', calculate: 'გამოთვლა', carbs: 'ნახშირწყლები: ', critical: 'კრიტიკული მდგომარეობა?', dailyCalories: 'დღიური კალორიები:', disclaimer: '⚠ მხოლოდ ტესტირებისთვის - ეს აპლიკაცია ამჟამად განვითარებისა და ტესტირების ფაზაშია. არ გამოიყენოთ კლინიკური გადაწყვეტილებებისთვის. ყოველთვის კონსულტირდით ჯანდაცვის სპეციალისტებთან.', fats: 'ცხიმები: ', height: 'სიმაღლე (სმ)', kcal: 'kcal', liquidDosage: 'თხევადი მედიკამენტი', ml: 'მლ', nutrition: 'კვება', nutritionCalc: 'კვების კალკულატორი', peroralliquid: 'პერორალური თხევადი მედიკამენტი', peroralpill: 'პერორალური აბის დოზირება', pillDosage: 'აბის დოზირება', pillStrength: 'აბის სიძლიერე (მგ)', prescribedAmount: 'გამოწერილი რაოდენობა (მგ)', proteins: 'პროტეინები: ', result: 'შედეგი:', subtitle: 'სატესტო რეჟიმი. არ ენდოთ კალკულაციებს', tablets: 'აბი', title: 'სამედიცინო კალკულატორები', volumeAtHand: 'ხელთ არსებული მოცულობა (მლ)', weight: 'წონა (კგ)', weightLoss: 'წონის კლება (%)', weightLossNone: 'არა'};
+var $author$project$Translations$englishStrings = {amountAtHand: 'Amount at hand (mg)', calculate: 'Calculate', carbs: 'Carbs: ', critical: 'Critical condition?', dailyCalories: 'Daily Calories:', disclaimer: '⚠ TESTING PURPOSES ONLY - This application is currently in development and testing phase. Do not use for clinical decisions. Always consult with healthcare professionals.', fats: 'Fats: ', height: 'Height (cm)', kcal: 'kcal', liquidDosage: 'Liquid Dosage', ml: 'mL', nutrition: 'Nutrition', nutritionCalc: 'Nutrition Calculator', peroralliquid: 'Peroral Liquids Dosage', peroralpill: 'Peroral Pill Dosage', pillDosage: 'Pill Dosage', pillStrength: 'Pill strength (mg)', prescribedAmount: 'Prescribed amount (mg)', proteins: 'Proteins: ', result: 'Result:', subtitle: 'Work in progress. Do not trust calculations', tablets: 'tablets', title: 'Medical Calculators', volumeAtHand: 'Volume at hand (mL)', weight: 'Weight (kg)', weightLoss: 'Weight Loss (%)', weightLossNone: 'None', zeroNotAccepted: 'All values must be greater than zero'};
+var $author$project$Translations$georgianStrings = {amountAtHand: 'ხელთ არსებული რაოდენობა (მგ)', calculate: 'გამოთვლა', carbs: 'ნახშირწყლები: ', critical: 'კრიტიკული მდგომარეობა?', dailyCalories: 'დღიური კალორიები:', disclaimer: '⚠ მხოლოდ ტესტირებისთვის - ეს აპლიკაცია ამჟამად განვითარებისა და ტესტირების ფაზაშია. არ გამოიყენოთ კლინიკური გადაწყვეტილებებისთვის. ყოველთვის კონსულტირდით ჯანდაცვის სპეციალისტებთან.', fats: 'ცხიმები: ', height: 'სიმაღლე (სმ)', kcal: 'kcal', liquidDosage: 'თხევადი მედიკამენტი', ml: 'მლ', nutrition: 'კვება', nutritionCalc: 'კვების კალკულატორი', peroralliquid: 'პერორალური თხევადი მედიკამენტი', peroralpill: 'პერორალური აბის დოზირება', pillDosage: 'აბის დოზირება', pillStrength: 'აბის სიძლიერე (მგ)', prescribedAmount: 'გამოწერილი რაოდენობა (მგ)', proteins: 'პროტეინები: ', result: 'შედეგი:', subtitle: 'სატესტო რეჟიმი. არ ენდოთ კალკულაციებს', tablets: 'აბი', title: 'სამედიცინო კალკულატორები', volumeAtHand: 'ხელთ არსებული მოცულობა (მლ)', weight: 'წონა (კგ)', weightLoss: 'წონის კლება (%)', weightLossNone: 'არა', zeroNotAccepted: 'ყველა მნიშვნელობა უნდა იყოს ნულზე მეტი'};
 var $author$project$Translations$getStrings = function (language) {
 	if (language.$ === 'English') {
 		return $author$project$Translations$englishStrings;
