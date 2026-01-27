@@ -32,26 +32,12 @@ jobs:
       - name: Build Elm app
         run: elm make src/Main.elm --output elm-app.js
 
-      - name: Verify build output
-        run: |
-          echo "Current directory:"
-          pwd
-          echo "Files in root:"
-          ls -la
-          echo "elm-app.js exists:"
-          test -f elm-app.js && echo "YES" || echo "NO"
-
       - name: Prepare deployment directory
         run: |
           mkdir -p dist
-          cp index.html dist/ || echo "Failed to copy index.html"
-          cp styles.css dist/ || echo "Failed to copy styles.css"
-          cp elm-app.js dist/ || echo "Failed to copy elm-app.js"
-          echo "Contents of dist directory:"
-          ls -lah dist/
-          echo "Verifying files:"
-          file dist/elm-app.js
-          wc -c dist/elm-app.js
+          cp index.html dist/
+          cp styles.css dist/
+          cp elm-app.js dist/
 
       - name: Deploy to GitHub Pages
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
