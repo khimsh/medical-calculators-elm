@@ -5283,6 +5283,10 @@ var $elm$url$Url$toString = function (url) {
 					_Utils_ap(http, url.host)),
 				url.path)));
 };
+var $elm$core$Basics$round = _Basics_round;
+var $author$project$Calculators$FreeWaterDeficit$roundToTwoDecimals = function (number) {
+	return $elm$core$Basics$round(number * 100) / 100;
+};
 var $elm$core$String$toFloat = _String_toFloat;
 var $author$project$Calculators$FreeWaterDeficit$update = F2(
 	function (msg, model) {
@@ -5305,7 +5309,8 @@ var $author$project$Calculators$FreeWaterDeficit$update = F2(
 					if ((_v1.a.$ === 'Just') && (_v1.b.$ === 'Just')) {
 						var w = _v1.a.a;
 						var s = _v1.b.a;
-						return $elm$core$Maybe$Just((0.6 * w) * ((s / 140) - 1));
+						return $elm$core$Maybe$Just(
+							$author$project$Calculators$FreeWaterDeficit$roundToTwoDecimals((0.6 * w) * ((s / 140) - 1)));
 					} else {
 						return $elm$core$Maybe$Nothing;
 					}
@@ -5318,6 +5323,9 @@ var $author$project$Calculators$FreeWaterDeficit$update = F2(
 var $elm$core$String$fromFloat = _String_fromNumber;
 var $author$project$Functions$floatToStr = function (_float) {
 	return $elm$core$String$fromFloat(_float);
+};
+var $author$project$Calculators$Liquids$roundToTwoDecimals = function (number) {
+	return $elm$core$Basics$round(number * 100) / 100;
 };
 var $elm$core$Maybe$withDefault = F2(
 	function (_default, maybe) {
@@ -5367,7 +5375,8 @@ var $author$project$Calculators$Liquids$update = F3(
 					{
 						calculated: true,
 						error: $elm$core$Maybe$Nothing,
-						result: $author$project$Functions$floatToStr((prescribed / dosage) * volume)
+						result: $author$project$Functions$floatToStr(
+							$author$project$Calculators$Liquids$roundToTwoDecimals((prescribed / dosage) * volume))
 					});
 		}
 	});
@@ -5397,7 +5406,6 @@ var $author$project$Functions$calculateCalories = F3(
 			return A4($author$project$Functions$NutritionResult, ree, proteins, fats, carbs);
 		}
 	});
-var $elm$core$Basics$round = _Basics_round;
 var $author$project$Functions$formatToDecimals = F2(
 	function (decimals, value) {
 		var multiplier = A2($elm$core$Basics$pow, 10, decimals);
@@ -5466,15 +5474,18 @@ var $author$project$Calculators$Nutrition$update = F3(
 						{
 							bmi: A2($author$project$Functions$formatToDecimals, 2, bmi),
 							calculated: true,
-							calories: A2($author$project$Functions$formatToDecimals, 1, result.calories),
-							carbs: A2($author$project$Functions$formatToDecimals, 1, result.carbs),
+							calories: A2($author$project$Functions$formatToDecimals, 2, result.calories),
+							carbs: A2($author$project$Functions$formatToDecimals, 2, result.carbs),
 							error: $elm$core$Maybe$Nothing,
-							fats: A2($author$project$Functions$formatToDecimals, 1, result.fats),
-							proteins: A2($author$project$Functions$formatToDecimals, 1, result.proteins)
+							fats: A2($author$project$Functions$formatToDecimals, 2, result.fats),
+							proteins: A2($author$project$Functions$formatToDecimals, 2, result.proteins)
 						});
 				}
 		}
 	});
+var $author$project$Calculators$Pills$roundToTwoDecimals = function (number) {
+	return $elm$core$Basics$round(number * 100) / 100;
+};
 var $author$project$Calculators$Pills$update = F3(
 	function (msg, model, strings) {
 		switch (msg.$) {
@@ -5502,7 +5513,8 @@ var $author$project$Calculators$Pills$update = F3(
 					{
 						calculated: true,
 						error: $elm$core$Maybe$Nothing,
-						result: $author$project$Functions$floatToStr(prescribed / tablet)
+						result: $author$project$Functions$floatToStr(
+							$author$project$Calculators$Pills$roundToTwoDecimals(prescribed / tablet))
 					});
 		}
 	});
@@ -5613,7 +5625,6 @@ var $author$project$Main$update = F2(
 					$elm$core$Platform$Cmd$none);
 		}
 	});
-var $author$project$Main$GoToIndex = {$: 'GoToIndex'};
 var $author$project$Main$SelectCalculator = function (a) {
 	return {$: 'SelectCalculator', a: a};
 };
@@ -5659,6 +5670,7 @@ var $elm$html$Html$Events$onClick = function (msg) {
 var $elm$virtual_dom$VirtualDom$text = _VirtualDom_text;
 var $elm$html$Html$text = $elm$virtual_dom$VirtualDom$text;
 var $elm$html$Html$Attributes$type_ = $elm$html$Html$Attributes$stringProperty('type');
+var $author$project$Main$GoToIndex = {$: 'GoToIndex'};
 var $author$project$Main$HandleFreeWaterDeficitMsg = function (a) {
 	return {$: 'HandleFreeWaterDeficitMsg', a: a};
 };
@@ -6916,28 +6928,9 @@ var $author$project$Main$view = function (model) {
 								_List_fromArray(
 									[
 										$elm$html$Html$Attributes$class(
-										'sidebar-nav-item' + (function () {
-											var _v0 = model.currentView;
-											if (_v0.$ === 'IndexView') {
-												return true;
-											} else {
-												return false;
-											}
-										}() ? ' active' : '')),
-										$elm$html$Html$Attributes$type_('button'),
-										$elm$html$Html$Events$onClick($author$project$Main$GoToIndex),
-										A2($elm$html$Html$Attributes$attribute, 'aria-label', 'Home'),
-										A2($elm$html$Html$Attributes$attribute, 'title', 'Home')
-									]),
-								_List_fromArray(
-									[
-										$elm$html$Html$text('🏠')
-									])),
-								A2(
-								$elm$html$Html$button,
-								_List_fromArray(
-									[
-										$elm$html$Html$Attributes$class('sidebar-nav-item'),
+										'sidebar-nav-item' + (_Utils_eq(
+											model.currentView,
+											$author$project$Main$CalculatorView($author$project$Main$PillsCalc)) ? ' active' : '')),
 										$elm$html$Html$Attributes$type_('button'),
 										$elm$html$Html$Events$onClick(
 										$author$project$Main$SelectCalculator($author$project$Main$PillsCalc)),
@@ -6952,7 +6945,10 @@ var $author$project$Main$view = function (model) {
 								$elm$html$Html$button,
 								_List_fromArray(
 									[
-										$elm$html$Html$Attributes$class('sidebar-nav-item'),
+										$elm$html$Html$Attributes$class(
+										'sidebar-nav-item' + (_Utils_eq(
+											model.currentView,
+											$author$project$Main$CalculatorView($author$project$Main$LiquidsCalc)) ? ' active' : '')),
 										$elm$html$Html$Attributes$type_('button'),
 										$elm$html$Html$Events$onClick(
 										$author$project$Main$SelectCalculator($author$project$Main$LiquidsCalc)),
@@ -6967,7 +6963,10 @@ var $author$project$Main$view = function (model) {
 								$elm$html$Html$button,
 								_List_fromArray(
 									[
-										$elm$html$Html$Attributes$class('sidebar-nav-item'),
+										$elm$html$Html$Attributes$class(
+										'sidebar-nav-item' + (_Utils_eq(
+											model.currentView,
+											$author$project$Main$CalculatorView($author$project$Main$NutritionCalc)) ? ' active' : '')),
 										$elm$html$Html$Attributes$type_('button'),
 										$elm$html$Html$Events$onClick(
 										$author$project$Main$SelectCalculator($author$project$Main$NutritionCalc)),
@@ -6982,7 +6981,10 @@ var $author$project$Main$view = function (model) {
 								$elm$html$Html$button,
 								_List_fromArray(
 									[
-										$elm$html$Html$Attributes$class('sidebar-nav-item'),
+										$elm$html$Html$Attributes$class(
+										'sidebar-nav-item' + (_Utils_eq(
+											model.currentView,
+											$author$project$Main$CalculatorView($author$project$Main$FreeWaterDeficitMsg)) ? ' active' : '')),
 										$elm$html$Html$Attributes$type_('button'),
 										$elm$html$Html$Events$onClick(
 										$author$project$Main$SelectCalculator($author$project$Main$FreeWaterDeficitMsg)),
@@ -7050,11 +7052,11 @@ var $author$project$Main$view = function (model) {
 								_List_fromArray(
 									[
 										function () {
-										var _v1 = model.currentView;
-										if (_v1.$ === 'IndexView') {
+										var _v0 = model.currentView;
+										if (_v0.$ === 'IndexView') {
 											return $author$project$Main$viewIndex(strings);
 										} else {
-											var calculator = _v1.a;
+											var calculator = _v0.a;
 											return A3($author$project$Main$viewCalculator, model, calculator, strings);
 										}
 									}()
