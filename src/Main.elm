@@ -384,7 +384,16 @@ viewCalculator : Model -> Calculator -> Translations.Strings -> Html.Html Msg
 viewCalculator model calculator strings =
     case calculator of
         FreeWaterDeficitMsg ->
-            Html.map HandleFreeWaterDeficitMsg (FreeWaterDeficit.view strings model.freeWaterDeficit)
+            div [ class "calculator-wrapper" ]
+                [ button
+                    [ class "back-button"
+                    , type_ "button"
+                    , onClick GoToIndex
+                    , attribute "aria-label" "Back to index"
+                    ]
+                    [ text "← Back" ]
+                , Html.map HandleFreeWaterDeficitMsg (FreeWaterDeficit.view strings model.freeWaterDeficit)
+                ]
 
         _ ->
             div [ class "calculator-wrapper" ]
