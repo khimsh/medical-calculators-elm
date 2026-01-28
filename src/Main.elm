@@ -382,34 +382,23 @@ calculatorCard calculator title description color =
 
 viewCalculator : Model -> Calculator -> Translations.Strings -> Html.Html Msg
 viewCalculator model calculator strings =
-    case calculator of
-        FreeWaterDeficitMsg ->
-            div [ class "calculator-wrapper" ]
-                [ button
-                    [ class "back-button"
-                    , type_ "button"
-                    , onClick GoToIndex
-                    , attribute "aria-label" "Back to index"
-                    ]
-                    [ text "← Back" ]
-                , Html.map HandleFreeWaterDeficitMsg (FreeWaterDeficit.view strings model.freeWaterDeficit)
-                ]
+    div [ class "calculator-wrapper" ]
+        [ button
+            [ class "back-button"
+            , type_ "button"
+            , onClick GoToIndex
+            , attribute "aria-label" "Back to index"
+            ]
+            [ text "← Back" ]
+        , if calculator == PillsCalc then
+            Html.map PillsMsg (Pills.view strings model.pills)
 
-        _ ->
-            div [ class "calculator-wrapper" ]
-                [ button
-                    [ class "back-button"
-                    , type_ "button"
-                    , onClick GoToIndex
-                    , attribute "aria-label" "Back to index"
-                    ]
-                    [ text "← Back" ]
-                , if calculator == PillsCalc then
-                    Html.map PillsMsg (Pills.view strings model.pills)
+          else if calculator == LiquidsCalc then
+            Html.map LiquidsMsg (Liquids.view strings model.liquids)
 
-                  else if calculator == LiquidsCalc then
-                    Html.map LiquidsMsg (Liquids.view strings model.liquids)
+          else if calculator == NutritionCalc then
+            Html.map NutritionMsg (Nutrition.view strings model.nutrition)
 
-                  else
-                    Html.map NutritionMsg (Nutrition.view strings model.nutrition)
-                ]
+          else
+            Html.map HandleFreeWaterDeficitMsg (FreeWaterDeficit.view strings model.freeWaterDeficit)
+        ]
