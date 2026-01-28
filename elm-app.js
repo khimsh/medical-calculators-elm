@@ -6759,67 +6759,41 @@ var $author$project$Calculators$Pills$view = F2(
 	});
 var $author$project$Main$viewCalculator = F3(
 	function (model, calculator, strings) {
-		if (calculator.$ === 'FreeWaterDeficitMsg') {
-			return A2(
-				$elm$html$Html$div,
-				_List_fromArray(
-					[
-						$elm$html$Html$Attributes$class('calculator-wrapper')
-					]),
-				_List_fromArray(
-					[
-						A2(
-						$elm$html$Html$button,
-						_List_fromArray(
-							[
-								$elm$html$Html$Attributes$class('back-button'),
-								$elm$html$Html$Attributes$type_('button'),
-								$elm$html$Html$Events$onClick($author$project$Main$GoToIndex),
-								A2($elm$html$Html$Attributes$attribute, 'aria-label', 'Back to index')
-							]),
-						_List_fromArray(
-							[
-								$elm$html$Html$text('← Back')
-							])),
-						A2(
-						$elm$html$Html$map,
-						$author$project$Main$HandleFreeWaterDeficitMsg,
-						A2($author$project$Calculators$FreeWaterDeficit$view, strings, model.freeWaterDeficit))
-					]));
-		} else {
-			return A2(
-				$elm$html$Html$div,
-				_List_fromArray(
-					[
-						$elm$html$Html$Attributes$class('calculator-wrapper')
-					]),
-				_List_fromArray(
-					[
-						A2(
-						$elm$html$Html$button,
-						_List_fromArray(
-							[
-								$elm$html$Html$Attributes$class('back-button'),
-								$elm$html$Html$Attributes$type_('button'),
-								$elm$html$Html$Events$onClick($author$project$Main$GoToIndex),
-								A2($elm$html$Html$Attributes$attribute, 'aria-label', 'Back to index')
-							]),
-						_List_fromArray(
-							[
-								$elm$html$Html$text('← Back')
-							])),
-						_Utils_eq(calculator, $author$project$Main$PillsCalc) ? A2(
-						$elm$html$Html$map,
-						$author$project$Main$PillsMsg,
-						A2($author$project$Calculators$Pills$view, strings, model.pills)) : (_Utils_eq(calculator, $author$project$Main$LiquidsCalc) ? A2(
-						$elm$html$Html$map,
-						$author$project$Main$LiquidsMsg,
-						A2($author$project$Calculators$Liquids$view, strings, model.liquids)) : A2(
-						$elm$html$Html$map,
-						$author$project$Main$NutritionMsg,
-						A2($author$project$Calculators$Nutrition$view, strings, model.nutrition)))
-					]));
-		}
+		return A2(
+			$elm$html$Html$div,
+			_List_fromArray(
+				[
+					$elm$html$Html$Attributes$class('calculator-wrapper')
+				]),
+			_List_fromArray(
+				[
+					A2(
+					$elm$html$Html$button,
+					_List_fromArray(
+						[
+							$elm$html$Html$Attributes$class('back-button'),
+							$elm$html$Html$Attributes$type_('button'),
+							$elm$html$Html$Events$onClick($author$project$Main$GoToIndex),
+							A2($elm$html$Html$Attributes$attribute, 'aria-label', 'Back to index')
+						]),
+					_List_fromArray(
+						[
+							$elm$html$Html$text('← Back')
+						])),
+					_Utils_eq(calculator, $author$project$Main$PillsCalc) ? A2(
+					$elm$html$Html$map,
+					$author$project$Main$PillsMsg,
+					A2($author$project$Calculators$Pills$view, strings, model.pills)) : (_Utils_eq(calculator, $author$project$Main$LiquidsCalc) ? A2(
+					$elm$html$Html$map,
+					$author$project$Main$LiquidsMsg,
+					A2($author$project$Calculators$Liquids$view, strings, model.liquids)) : (_Utils_eq(calculator, $author$project$Main$NutritionCalc) ? A2(
+					$elm$html$Html$map,
+					$author$project$Main$NutritionMsg,
+					A2($author$project$Calculators$Nutrition$view, strings, model.nutrition)) : A2(
+					$elm$html$Html$map,
+					$author$project$Main$HandleFreeWaterDeficitMsg,
+					A2($author$project$Calculators$FreeWaterDeficit$view, strings, model.freeWaterDeficit))))
+				]));
 	});
 var $author$project$Main$calculatorCard = F4(
 	function (calculator, title, description, color) {
