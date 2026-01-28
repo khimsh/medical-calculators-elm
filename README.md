@@ -50,9 +50,7 @@ When prompted, answer "n" (no) to keep it in test-dependencies.
 
 ### Run Tests
 
-To run the tests, you have two options:
-
-#### Option 1: Using elm-test (Recommended)
+To run the tests, use elm-test:
 
 1. Install elm-test globally:
 
@@ -61,19 +59,16 @@ To run the tests, you have two options:
    ```
 
 2. Run the tests:
+
    ```bash
    elm-test
    ```
 
-#### Option 2: Using Test Runner HTML
-
-1. Compile the test runner:
+   Or using npm:
 
    ```bash
-   elm make tests/TestRunner.elm --output tests.html
+   npm test
    ```
-
-2. Open `tests.html` in your browser to see the test results
 
 ## Test Coverage
 
@@ -97,15 +92,22 @@ The test suite includes:
 ```
 medical-calculators-elm/
 ├── src/
-│   ├── Main.elm          # Main application code
-│   └── Functions.elm     # Utility functions
+│   ├── Main.elm                   # Main application code
+│   ├── Functions.elm              # Utility functions
+│   ├── Translations.elm           # Language translations
+│   └── Calculators/
+│       ├── Pills.elm              # Pill dosage calculator
+│       ├── Liquids.elm            # Liquid dosage calculator
+│       ├── Nutrition.elm          # Nutrition calculator
+│       └── FreeWaterDeficit.elm   # Free water deficit calculator
 ├── tests/
-│   ├── FunctionsTests.elm # Tests for utility functions
-│   ├── MainTests.elm      # Tests for calculator logic
-│   └── TestRunner.elm    # Test runner
-├── styles.css            # Application styles
-├── Index.html            # HTML entry point
-└── elm.json             # Elm project configuration
+│   ├── FunctionsTests.elm         # Tests for utility functions
+│   ├── MainTests.elm              # Tests for calculator logic
+│   └── FreeWaterDeficitTests.elm  # Tests for free water deficit calculator
+├── styles.css                     # Application styles
+├── index.html                     # HTML entry point
+├── package.json                   # NPM project configuration
+└── elm.json                       # Elm project configuration
 ```
 
 ## Example Calculations

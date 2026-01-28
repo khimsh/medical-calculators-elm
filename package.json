@@ -4,8 +4,7 @@
   "description": "Medical calculators implemented in Elm",
   "scripts": {
     "test": "elm-test",
-    "build": "elm make src/Main.elm --output elm-app.js",
-    "test:html": "elm make tests/TestRunner.elm --output tests.html"
+    "build": "elm make src/Main.elm --output elm-app.js"
   },
   "devDependencies": {
     "elm-test": "^0.19.1-revision7"

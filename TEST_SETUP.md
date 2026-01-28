@@ -13,21 +13,24 @@ The test files are correctly written, but the test dependencies need to be insta
 ## Installation Steps
 
 1. **Install test dependencies**:
+
    ```bash
    elm install elm-explorations/test
    ```
-   
+
    When prompted, answer **"n"** (no) to keep it in test-dependencies (not move to dependencies).
 
 2. **Verify installation**:
    After installation, check that `elm-stuff/packages/elm-explorations/test/` exists.
 
 3. **Run tests**:
+
    ```bash
    elm-test
    ```
-   
+
    Or if you have npm scripts:
+
    ```bash
    npm test
    ```
@@ -35,9 +38,10 @@ The test files are correctly written, but the test dependencies need to be insta
 ## Test File Structure
 
 All test files are correctly structured:
+
 - ✅ `tests/FunctionsTests.elm` - Tests utility functions
 - ✅ `tests/MainTests.elm` - Tests calculator logic
-- ✅ `tests/TestRunner.elm` - Combines all tests
+- ✅ `tests/FreeWaterDeficitTests.elm` - Tests Free Water Deficit calculator
 
 ## Expected Behavior After Installation
 
