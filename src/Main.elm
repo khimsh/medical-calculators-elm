@@ -6,7 +6,7 @@ import Calculators.FreeWaterDeficit as FreeWaterDeficit
 import Calculators.Liquids as Liquids
 import Calculators.Nutrition as Nutrition
 import Calculators.Pills as Pills
-import Html exposing (button, div, h1, h2, header, main_, p, span, text)
+import Html exposing (button, div, h1, h2, header, main_, p, text)
 import Html.Attributes exposing (attribute, class, type_)
 import Html.Events exposing (onClick)
 import Translations exposing (Language(..), getStrings)
