@@ -958,7 +958,6 @@ select:focus {
   border-radius: 4px;
   width: 32px;
   height: 32px;
-  display: flex;
   align-items: center;
   justify-content: center;
   font-size: 1rem;
@@ -983,7 +982,7 @@ select:focus {
 
 @media (max-width: 768px) {
   .sidebar-toggle-button {
-    display: block;
+    display: flex;
   }
 
   .sidebar-nav {
