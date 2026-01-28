@@ -1,10 +1,10 @@
 module Calculators.Pills exposing (Model, Msg(..), init, update, view)
 
 import Functions exposing (..)
-import Translations exposing (Language, Strings)
 import Html exposing (button, div, form, h2, input, label, p, text)
 import Html.Attributes exposing (attribute, class, for, id, placeholder, type_, value)
 import Html.Events exposing (onClick, onInput)
+import Translations exposing (Language, Strings)
 
 
 type alias Model =
@@ -109,6 +109,7 @@ view language strings model =
             ]
         ]
 
+
 roundToTwoDecimals : Float -> Float
 roundToTwoDecimals number =
-    (toFloat (round (number * 100))) / 100
+    toFloat (round (number * 100)) / 100

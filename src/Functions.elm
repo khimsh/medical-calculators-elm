@@ -16,7 +16,7 @@ formatToDecimals decimals value =
     let
         multiplier =
             toFloat (10 ^ decimals)
-        
+
         rounded =
             (value * multiplier) |> round |> toFloat
     in

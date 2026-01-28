@@ -1,11 +1,13 @@
 module FreeWaterDeficitTests exposing (tests)
 
-import Test exposing (Test, describe, test)
-import Expect exposing (..)
 import Calculators.FreeWaterDeficit exposing (Msg(..), init, update)
+import Expect exposing (..)
+import Test exposing (Test, describe, test)
+
 
 
 -- TESTS
+
 
 tests : Test
 tests =
@@ -13,10 +15,10 @@ tests =
         [ test "Initial model has empty fields and no result" <|
             \_ ->
                 let
-                    model = init
+                    model =
+                        init
                 in
                 Expect.equal model { weight = "", sodium = "", result = Nothing }
-
         , test "Update weight updates the model" <|
             \_ ->
                 let
@@ -24,7 +26,6 @@ tests =
                         update (UpdateWeight "70") init
                 in
                 Expect.equal model.weight "70"
-
         , test "Update sodium updates the model" <|
             \_ ->
                 let
@@ -32,7 +33,6 @@ tests =
                         update (UpdateSodium "150") init
                 in
                 Expect.equal model.sodium "150"
-
         , test "Calculate computes the correct result" <|
             \_ ->
                 let
@@ -43,7 +43,6 @@ tests =
                         update Calculate model
                 in
                 Expect.equal updatedModel.result (Just 3.0)
-
         , test "Calculate with invalid inputs results in Nothing" <|
             \_ ->
                 let

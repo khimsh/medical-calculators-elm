@@ -945,3 +945,82 @@ select:focus {
 .free-water-deficit .calculate-button:hover {
   background-color: var(--color-accent-dark);
 }
+
+/* Mobile sidebar toggle */
+.sidebar-toggle-button {
+  display: none;
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  background-color: var(--color-accent);
+  color: var(--color-white);
+  border: none;
+  border-radius: 8px;
+  padding: 10px 15px;
+  font-size: 1.5rem;
+  cursor: pointer;
+  z-index: 1100;
+  box-shadow: var(--shadow-md);
+  transition: all 0.3s ease;
+}
+
+.sidebar-toggle-button:hover {
+  background-color: var(--color-accent-dark);
+  transform: scale(1.05);
+}
+
+.sidebar-nav-item-text {
+  display: none;
+  margin-left: 10px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: white;
+}
+
+@media (max-width: 768px) {
+  .sidebar-toggle-button {
+    display: block;
+  }
+
+  .sidebar-nav {
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    width: 250px;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease-in-out;
+    z-index: 1000;
+  }
+
+  .sidebar-nav.open {
+    transform: translateX(0);
+  }
+
+  .sidebar-nav-item {
+    width: 100%;
+    justify-content: flex-start;
+    padding: 0 15px;
+    border-radius: 8px;
+  }
+
+  .sidebar-nav-item-text {
+    display: inline;
+  }
+
+  .page-wrapper {
+    padding: 8px;
+  }
+
+  .calculator-card-button {
+    margin: 8px;
+  }
+
+  .form {
+    padding: 12px;
+  }
+
+  .main-content {
+    padding: 1rem;
+  }
+}

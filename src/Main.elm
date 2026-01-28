@@ -2,16 +2,17 @@ port module Main exposing (main)
 
 import Browser
 import Browser.Navigation as Nav
-import Calculators.Pills as Pills
+import Calculators.FreeWaterDeficit as FreeWaterDeficit
 import Calculators.Liquids as Liquids
 import Calculators.Nutrition as Nutrition
-import Calculators.FreeWaterDeficit as FreeWaterDeficit
-import Translations exposing (Language(..), getStrings)
-import Html exposing (button, div, h1, h2, header, main_, p, text)
+import Calculators.Pills as Pills
+import Html exposing (button, div, h1, h2, header, main_, p, span, text)
 import Html.Attributes exposing (attribute, class, type_)
 import Html.Events exposing (onClick)
+import Translations exposing (Language(..), getStrings)
 import Url
 import Url.Parser exposing (..)
+
 
 port setLangAttribute : String -> Cmd msg
 
@@ -137,6 +138,7 @@ update msg model =
                 newLanguage =
                     if model.language == English then
                         Georgian
+
                     else
                         English
 
@@ -186,7 +188,8 @@ update msg model =
 
         HandleFreeWaterDeficitMsg subMsg ->
             let
-                updatedFreeWaterDeficit = FreeWaterDeficit.update subMsg model.freeWaterDeficit
+                updatedFreeWaterDeficit =
+                    FreeWaterDeficit.update subMsg model.freeWaterDeficit
             in
             ( { model | freeWaterDeficit = updatedFreeWaterDeficit }, Cmd.none )
 
@@ -209,51 +212,124 @@ view model =
     let
         strings =
             getStrings model.language
+
+        sidebarClass =
+            if model.sidebarOpen then
+                "sidebar-nav open"
+
+            else
+                "sidebar-nav"
     in
     { title = strings.title
     , body =
         [ div [ class "page-wrapper" ]
-            [ div [ class "sidebar-nav" ]
+            [ button
+                [ class "sidebar-toggle-button"
+                , type_ "button"
+                , onClick ToggleSidebar
+                , attribute "aria-label" "Toggle menu"
+                ]
+                [ text "☰" ]
+            , div [ class sidebarClass ]
                 [ button
                     [ class "sidebar-nav-item"
                     , type_ "button"
                     , onClick ToggleLanguage
-                    , attribute "aria-label" (if model.language == English then "Switch to Georgian" else "Switch to English")
-                    , attribute "title" (if model.language == English then "ქართული" else "English")
+                    , attribute "aria-label"
+                        (if model.language == English then
+                            "Switch to Georgian"
+
+                         else
+                            "Switch to English"
+                        )
+                    , attribute "title"
+                        (if model.language == English then
+                            "ქართული"
+
+                         else
+                            "English"
+                        )
                     ]
-                    [ text (if model.language == English then "🇬🇪" else "🇬🇧") ]
+                    [ text
+                        (if model.language == English then
+                            "🇬🇪"
+
+                         else
+                            "🇬🇧"
+                        )
+                    ]
                 , button
-                    [ class ("sidebar-nav-item" ++ if model.currentView == CalculatorView PillsCalc then " active" else "")
+                    [ class
+                        ("sidebar-nav-item"
+                            ++ (if model.currentView == CalculatorView PillsCalc then
+                                    " active"
+
+                                else
+                                    ""
+                               )
+                        )
                     , type_ "button"
                     , onClick (SelectCalculator PillsCalc)
                     , attribute "aria-label" "Pills"
                     , attribute "title" strings.pillDosage
                     ]
-                    [ text "💊" ]
+                    [ text "💊"
+                    , Html.span [ class "sidebar-nav-item-text" ] [ text strings.pillDosage ]
+                    ]
                 , button
-                    [ class ("sidebar-nav-item" ++ if model.currentView == CalculatorView LiquidsCalc then " active" else "")
+                    [ class
+                        ("sidebar-nav-item"
+                            ++ (if model.currentView == CalculatorView LiquidsCalc then
+                                    " active"
+
+                                else
+                                    ""
+                               )
+                        )
                     , type_ "button"
                     , onClick (SelectCalculator LiquidsCalc)
                     , attribute "aria-label" "Liquids"
                     , attribute "title" strings.liquidDosage
                     ]
-                    [ text "🧪" ]
+                    [ text "🧪"
+                    , Html.span [ class "sidebar-nav-item-text" ] [ text strings.liquidDosage ]
+                    ]
                 , button
-                    [ class ("sidebar-nav-item" ++ if model.currentView == CalculatorView NutritionCalc then " active" else "")
+                    [ class
+                        ("sidebar-nav-item"
+                            ++ (if model.currentView == CalculatorView NutritionCalc then
+                                    " active"
+
+                                else
+                                    ""
+                               )
+                        )
                     , type_ "button"
                     , onClick (SelectCalculator NutritionCalc)
                     , attribute "aria-label" "Nutrition"
                     , attribute "title" strings.nutrition
                     ]
-                    [ text "🥗" ]
+                    [ text "🥗"
+                    , Html.span [ class "sidebar-nav-item-text" ] [ text strings.nutrition ]
+                    ]
                 , button
-                    [ class ("sidebar-nav-item" ++ if model.currentView == CalculatorView FreeWaterDeficitMsg then " active" else "")
+                    [ class
+                        ("sidebar-nav-item"
+                            ++ (if model.currentView == CalculatorView FreeWaterDeficitMsg then
+                                    " active"
+
+                                else
+                                    ""
+                               )
+                        )
                     , type_ "button"
                     , onClick (SelectCalculator FreeWaterDeficitMsg)
                     , attribute "aria-label" "Free Water Deficit"
                     , attribute "title" strings.freeWaterDeficit
                     ]
-                    [ text "💧" ]
+                    [ text "💧"
+                    , Html.span [ class "sidebar-nav-item-text" ] [ text strings.freeWaterDeficit ]
+                    ]
                 ]
             , div [ class "main-wrapper" ]
                 [ div [ class "disclaimer-banner" ] [ text strings.disclaimer ]

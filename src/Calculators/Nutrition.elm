@@ -1,10 +1,10 @@
 module Calculators.Nutrition exposing (Model, Msg(..), init, update, view)
 
 import Functions exposing (..)
-import Translations exposing (Language, Strings)
 import Html exposing (button, div, form, h2, input, label, option, p, select, text)
 import Html.Attributes exposing (attribute, checked, class, for, id, placeholder, type_, value)
-import Html.Events exposing (onClick, onInput, onCheck)
+import Html.Events exposing (onCheck, onClick, onInput)
+import Translations exposing (Language, Strings)
 
 
 type alias Model =

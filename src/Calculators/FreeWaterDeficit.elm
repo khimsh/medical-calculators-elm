@@ -1,19 +1,21 @@
 module Calculators.FreeWaterDeficit exposing (Model, Msg(..), init, update, view)
 
-import Html exposing (Html, div, text, input, button, label, h2, p)
+import Html exposing (Html, button, div, h2, input, label, p, text)
 import Html.Attributes exposing (..)
-import Html.Events exposing (onInput, onClick)
-import Html.Attributes exposing (class)
-import Html.Attributes exposing (attribute, for, id, placeholder, type_, value)
+import Html.Events exposing (onClick, onInput)
 import Translations exposing (Strings)
 
+
+
 -- MODEL
+
 
 type alias Model =
     { weight : String
     , sodium : String
     , result : Maybe Float
     }
+
 
 init : Model
 init =
@@ -22,12 +24,16 @@ init =
     , result = Nothing
     }
 
+
+
 -- UPDATE
+
 
 type Msg
     = UpdateWeight String
     | UpdateSodium String
     | Calculate
+
 
 update : Msg -> Model -> Model
 update msg model =
@@ -48,7 +54,7 @@ update msg model =
 
                 result =
                     case ( weightValue, sodiumValue ) of
-                        (Just w, Just s) ->
+                        ( Just w, Just s ) ->
                             Just (roundToTwoDecimals (0.6 * w * ((s / 140) - 1)))
 
                         _ ->
@@ -56,11 +62,15 @@ update msg model =
             in
             { model | result = result }
 
+
 roundToTwoDecimals : Float -> Float
 roundToTwoDecimals number =
-    (toFloat (round (number * 100))) / 100
+    toFloat (round (number * 100)) / 100
+
+
 
 -- VIEW
+
 
 view : Strings -> Model -> Html Msg
 view strings model =

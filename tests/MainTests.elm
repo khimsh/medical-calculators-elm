@@ -1,10 +1,10 @@
 module MainTests exposing (..)
 
-import Calculators.Pills as Pills
 import Calculators.Liquids as Liquids
-import Translations exposing (englishStrings)
+import Calculators.Pills as Pills
 import Expect
 import Test exposing (Test, describe, test)
+import Translations exposing (englishStrings)
 
 
 suite : Test
