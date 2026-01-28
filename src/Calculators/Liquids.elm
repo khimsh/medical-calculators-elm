@@ -4,7 +4,7 @@ import Functions exposing (..)
 import Html exposing (button, div, form, h2, input, label, p, text)
 import Html.Attributes exposing (attribute, class, for, id, placeholder, type_, value)
 import Html.Events exposing (onClick, onInput)
-import Translations exposing (Language, Strings)
+import Translations exposing (Strings)
 
 
 type alias Model =
@@ -65,8 +65,8 @@ update msg model strings =
                 { model | result = floatToStr (roundToTwoDecimals ((prescribed / dosage) * volume)), error = Nothing, calculated = True }
 
 
-view : Language -> Strings -> Model -> Html.Html Msg
-view language strings model =
+view : Strings -> Model -> Html.Html Msg
+view strings model =
     div [ class "calculator-card", attribute "aria-label" strings.peroralliquid ]
         [ h2 [ class "card-title" ] [ text strings.peroralliquid ]
         , form [ class "form" ]

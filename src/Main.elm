@@ -405,11 +405,11 @@ viewCalculator model calculator strings =
                     ]
                     [ text "← Back" ]
                 , if calculator == PillsCalc then
-                    Html.map PillsMsg (Pills.view model.language strings model.pills)
+                    Html.map PillsMsg (Pills.view strings model.pills)
 
                   else if calculator == LiquidsCalc then
-                    Html.map LiquidsMsg (Liquids.view model.language strings model.liquids)
+                    Html.map LiquidsMsg (Liquids.view strings model.liquids)
 
                   else
-                    Html.map NutritionMsg (Nutrition.view model.language strings model.nutrition)
+                    Html.map NutritionMsg (Nutrition.view strings model.nutrition)
                 ]

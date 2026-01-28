@@ -4,7 +4,7 @@ import Functions exposing (..)
 import Html exposing (button, div, form, h2, input, label, option, p, select, text)
 import Html.Attributes exposing (attribute, checked, class, for, id, placeholder, type_, value)
 import Html.Events exposing (onCheck, onClick, onInput)
-import Translations exposing (Language, Strings)
+import Translations exposing (Strings)
 
 
 type alias Model =
@@ -94,8 +94,8 @@ update msg model strings =
                 }
 
 
-view : Language -> Strings -> Model -> Html.Html Msg
-view language strings model =
+view : Strings -> Model -> Html.Html Msg
+view strings model =
     div [ class "calculator-card", attribute "aria-label" strings.nutritionCalc ]
         [ h2 [ class "card-title" ] [ text strings.nutritionCalc ]
         , form [ class "form" ]
