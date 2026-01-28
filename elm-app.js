@@ -5946,8 +5946,8 @@ var $author$project$Calculators$Liquids$ChangePrescribedLiquid = function (a) {
 	return {$: 'ChangePrescribedLiquid', a: a};
 };
 var $elm$html$Html$form = _VirtualDom_node('form');
-var $author$project$Calculators$Liquids$view = F3(
-	function (language, strings, model) {
+var $author$project$Calculators$Liquids$view = F2(
+	function (strings, model) {
 		return A2(
 			$elm$html$Html$div,
 			_List_fromArray(
@@ -6204,8 +6204,8 @@ var $elm$html$Html$Events$onCheck = function (tagger) {
 };
 var $elm$html$Html$option = _VirtualDom_node('option');
 var $elm$html$Html$select = _VirtualDom_node('select');
-var $author$project$Calculators$Nutrition$view = F3(
-	function (language, strings, model) {
+var $author$project$Calculators$Nutrition$view = F2(
+	function (strings, model) {
 		return A2(
 			$elm$html$Html$div,
 			_List_fromArray(
@@ -6568,8 +6568,8 @@ var $author$project$Calculators$Pills$ChangePrescribed = function (a) {
 var $author$project$Calculators$Pills$ChangeTabletMg = function (a) {
 	return {$: 'ChangeTabletMg', a: a};
 };
-var $author$project$Calculators$Pills$view = F3(
-	function (language, strings, model) {
+var $author$project$Calculators$Pills$view = F2(
+	function (strings, model) {
 		return A2(
 			$elm$html$Html$div,
 			_List_fromArray(
@@ -6811,13 +6811,13 @@ var $author$project$Main$viewCalculator = F3(
 						_Utils_eq(calculator, $author$project$Main$PillsCalc) ? A2(
 						$elm$html$Html$map,
 						$author$project$Main$PillsMsg,
-						A3($author$project$Calculators$Pills$view, model.language, strings, model.pills)) : (_Utils_eq(calculator, $author$project$Main$LiquidsCalc) ? A2(
+						A2($author$project$Calculators$Pills$view, strings, model.pills)) : (_Utils_eq(calculator, $author$project$Main$LiquidsCalc) ? A2(
 						$elm$html$Html$map,
 						$author$project$Main$LiquidsMsg,
-						A3($author$project$Calculators$Liquids$view, model.language, strings, model.liquids)) : A2(
+						A2($author$project$Calculators$Liquids$view, strings, model.liquids)) : A2(
 						$elm$html$Html$map,
 						$author$project$Main$NutritionMsg,
-						A3($author$project$Calculators$Nutrition$view, model.language, strings, model.nutrition)))
+						A2($author$project$Calculators$Nutrition$view, strings, model.nutrition)))
 					]));
 		}
 	});
