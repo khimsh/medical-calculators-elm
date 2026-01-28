@@ -5629,6 +5629,7 @@ var $author$project$Main$SelectCalculator = function (a) {
 	return {$: 'SelectCalculator', a: a};
 };
 var $author$project$Main$ToggleLanguage = {$: 'ToggleLanguage'};
+var $author$project$Main$ToggleSidebar = {$: 'ToggleSidebar'};
 var $elm$virtual_dom$VirtualDom$attribute = F2(
 	function (key, value) {
 		return A2(
@@ -5667,6 +5668,7 @@ var $elm$html$Html$Events$onClick = function (msg) {
 		'click',
 		$elm$json$Json$Decode$succeed(msg));
 };
+var $elm$html$Html$span = _VirtualDom_node('span');
 var $elm$virtual_dom$VirtualDom$text = _VirtualDom_text;
 var $elm$html$Html$text = $elm$virtual_dom$VirtualDom$text;
 var $elm$html$Html$Attributes$type_ = $elm$html$Html$Attributes$stringProperty('type');
@@ -6883,6 +6885,7 @@ var $author$project$Main$viewIndex = function (strings) {
 };
 var $author$project$Main$view = function (model) {
 	var strings = $author$project$Translations$getStrings(model.language);
+	var sidebarClass = model.sidebarOpen ? 'sidebar-nav open' : 'sidebar-nav';
 	return {
 		body: _List_fromArray(
 			[
@@ -6895,10 +6898,23 @@ var $author$project$Main$view = function (model) {
 				_List_fromArray(
 					[
 						A2(
+						$elm$html$Html$button,
+						_List_fromArray(
+							[
+								$elm$html$Html$Attributes$class('sidebar-toggle-button'),
+								$elm$html$Html$Attributes$type_('button'),
+								$elm$html$Html$Events$onClick($author$project$Main$ToggleSidebar),
+								A2($elm$html$Html$Attributes$attribute, 'aria-label', 'Toggle menu')
+							]),
+						_List_fromArray(
+							[
+								$elm$html$Html$text('☰')
+							])),
+						A2(
 						$elm$html$Html$div,
 						_List_fromArray(
 							[
-								$elm$html$Html$Attributes$class('sidebar-nav')
+								$elm$html$Html$Attributes$class(sidebarClass)
 							]),
 						_List_fromArray(
 							[
@@ -6939,7 +6955,17 @@ var $author$project$Main$view = function (model) {
 									]),
 								_List_fromArray(
 									[
-										$elm$html$Html$text('💊')
+										$elm$html$Html$text('💊'),
+										A2(
+										$elm$html$Html$span,
+										_List_fromArray(
+											[
+												$elm$html$Html$Attributes$class('sidebar-nav-item-text')
+											]),
+										_List_fromArray(
+											[
+												$elm$html$Html$text(strings.pillDosage)
+											]))
 									])),
 								A2(
 								$elm$html$Html$button,
@@ -6957,7 +6983,17 @@ var $author$project$Main$view = function (model) {
 									]),
 								_List_fromArray(
 									[
-										$elm$html$Html$text('🧪')
+										$elm$html$Html$text('🧪'),
+										A2(
+										$elm$html$Html$span,
+										_List_fromArray(
+											[
+												$elm$html$Html$Attributes$class('sidebar-nav-item-text')
+											]),
+										_List_fromArray(
+											[
+												$elm$html$Html$text(strings.liquidDosage)
+											]))
 									])),
 								A2(
 								$elm$html$Html$button,
@@ -6975,7 +7011,17 @@ var $author$project$Main$view = function (model) {
 									]),
 								_List_fromArray(
 									[
-										$elm$html$Html$text('🥗')
+										$elm$html$Html$text('🥗'),
+										A2(
+										$elm$html$Html$span,
+										_List_fromArray(
+											[
+												$elm$html$Html$Attributes$class('sidebar-nav-item-text')
+											]),
+										_List_fromArray(
+											[
+												$elm$html$Html$text(strings.nutrition)
+											]))
 									])),
 								A2(
 								$elm$html$Html$button,
@@ -6993,7 +7039,17 @@ var $author$project$Main$view = function (model) {
 									]),
 								_List_fromArray(
 									[
-										$elm$html$Html$text('💧')
+										$elm$html$Html$text('💧'),
+										A2(
+										$elm$html$Html$span,
+										_List_fromArray(
+											[
+												$elm$html$Html$Attributes$class('sidebar-nav-item-text')
+											]),
+										_List_fromArray(
+											[
+												$elm$html$Html$text(strings.freeWaterDeficit)
+											]))
 									]))
 							])),
 						A2(
