@@ -1,9 +1,8 @@
 module Calculators.Pills exposing (Model, Msg(..), init, update, view)
 
-import Functions exposing (..)
-import Html exposing (button, div, form, h2, p, text)
-import Html.Attributes exposing (attribute, class, type_)
-import Html.Events exposing (onClick)
+import Functions exposing (calculateButton, errorDisplay, fieldGroup, floatToStr, resultDisplay, roundToTwoDecimals, strToFloat)
+import Html exposing (div, form, h2, text)
+import Html.Attributes exposing (attribute, class)
 import Translations exposing (Strings)
 
 
@@ -36,56 +35,48 @@ update : Msg -> Model -> Strings -> Model
 update msg model strings =
     case msg of
         ChangePrescribed newPrescribed ->
-            { model | prescribed = newPrescribed }
+            { model | prescribed = newPrescribed, calculated = False, error = Nothing }
 
         ChangeTabletMg newTablet ->
-            { model | tabletMg = newTablet }
+            { model | tabletMg = newTablet, calculated = False, error = Nothing }
 
         Calculate ->
-            let
-                prescribed =
-                    strToFloat model.prescribed
-
-                tablet =
-                    strToFloat model.tabletMg
-            in
-            if prescribed == 0 || tablet == 0 then
-                { model | error = Just strings.zeroNotAccepted, result = "0.0", calculated = True }
+            if String.isEmpty model.prescribed || String.isEmpty model.tabletMg then
+                { model | error = Just strings.invalidInputs, result = "0.0", calculated = True }
 
             else
-                { model | result = floatToStr (roundToTwoDecimals (prescribed / tablet)), error = Nothing, calculated = True }
+                let
+                    prescribed =
+                        strToFloat model.prescribed
+
+                    tablet =
+                        strToFloat model.tabletMg
+                in
+                if prescribed == 0 || tablet == 0 then
+                    { model | error = Just strings.zeroNotAccepted, result = "0.0", calculated = True }
+
+                else
+                    { model | result = floatToStr (roundToTwoDecimals (prescribed / tablet)), error = Nothing, calculated = True }
 
 
 view : Strings -> Model -> Html.Html Msg
 view strings model =
-    div [ class "calculator-card", attribute "aria-label" strings.peroralpill ]
-        [ h2 [ class "card-title" ] [ text strings.peroralpill ]
+    div [ class "calculator-card", attribute "aria-label" strings.pillDosage ]
+        [ h2 [ class "card-title" ] [ text strings.pillDosage ]
         , form [ class "form" ]
-            [ fieldGroup strings.prescribedAmount "prescribed-amount" "0.0" model.prescribed ChangePrescribed
-            , fieldGroup strings.pillStrength "pill-strength" "0.0" model.tabletMg ChangeTabletMg
+            [ fieldGroup strings.prescribedAmount "pills-prescribed-amount" "0.0" model.prescribed ChangePrescribed
+            , fieldGroup strings.pillStrength "pills-tablet-mg" "0.0" model.tabletMg ChangeTabletMg
             , div [ class "button-container" ]
-                [ button [ class "button", type_ "button", onClick Calculate, attribute "aria-label" ("Calculate " ++ strings.pillDosage) ] [ text strings.calculate ]
-                ]
+                [ calculateButton strings.calculate ("Calculate " ++ strings.pillDosage) Calculate ]
             , case model.error of
                 Just error ->
-                    div [ class "error-container", attribute "role" "alert" ]
-                        [ p [ class "error-text" ] [ text error ]
-                        ]
+                    errorDisplay error
 
                 Nothing ->
-                    if model.calculated then
-                        div [ class "result-container", attribute "role" "region", attribute "aria-label" "Calculation result" ]
-                            [ p [ class "result-label" ] [ text strings.result ]
-                            , p [ class "result-value", attribute "aria-live" "polite" ] [ text model.result ]
-                            , p [ class "result-unit" ] [ text strings.tablets ]
-                            ]
+                    if model.calculated && not (String.isEmpty model.prescribed || String.isEmpty model.tabletMg) then
+                        resultDisplay strings.result model.result strings.tablets
 
                     else
                         text ""
             ]
         ]
-
-
-roundToTwoDecimals : Float -> Float
-roundToTwoDecimals number =
-    toFloat (round (number * 100)) / 100

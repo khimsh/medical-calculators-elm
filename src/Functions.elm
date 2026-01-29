@@ -1,8 +1,8 @@
 module Functions exposing (..)
 
-import Html exposing (div, input, label, text)
+import Html exposing (button, div, input, label, text)
 import Html.Attributes exposing (attribute, class, for, id, type_, value)
-import Html.Events exposing (onInput)
+import Html.Events exposing (onClick, onInput)
 
 
 strToFloat : String -> Float
@@ -25,6 +25,11 @@ formatToDecimals decimals value =
             (value * multiplier) |> round |> toFloat
     in
     String.fromFloat (rounded / multiplier)
+
+
+roundToTwoDecimals : Float -> Float
+roundToTwoDecimals number =
+    toFloat (round (number * 100)) / 100
 
 
 calculateBMI : Float -> Float -> Float
@@ -141,3 +146,30 @@ fieldGroup labelText inputId placeholderText valueText onInputMsg =
             ]
             []
         ]
+
+
+resultDisplay : String -> String -> String -> Html.Html msg
+resultDisplay resultLabel resultValue resultUnit =
+    div [ class "result-container", attribute "role" "region", attribute "aria-label" "Calculation result" ]
+        [ Html.p [ class "result-label" ] [ text resultLabel ]
+        , Html.p [ class "result-value", attribute "aria-live" "polite" ] [ text resultValue ]
+        , Html.p [ class "result-unit" ] [ text resultUnit ]
+        ]
+
+
+errorDisplay : String -> Html.Html msg
+errorDisplay errorMessage =
+    div [ class "error-container", attribute "role" "alert" ]
+        [ Html.p [ class "error-text" ] [ text errorMessage ]
+        ]
+
+
+calculateButton : String -> String -> msg -> Html.Html msg
+calculateButton buttonText ariaLabel onClickMsg =
+    button
+        [ class "button"
+        , type_ "button"
+        , onClick onClickMsg
+        , attribute "aria-label" ariaLabel
+        ]
+        [ text buttonText ]

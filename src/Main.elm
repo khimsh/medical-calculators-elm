@@ -188,8 +188,11 @@ update msg model =
 
         HandleFreeWaterDeficitMsg subMsg ->
             let
+                strings =
+                    getStrings model.language
+
                 updatedFreeWaterDeficit =
-                    FreeWaterDeficit.update subMsg model.freeWaterDeficit
+                    FreeWaterDeficit.update subMsg model.freeWaterDeficit strings
             in
             ( { model | freeWaterDeficit = updatedFreeWaterDeficit }, Cmd.none )
 

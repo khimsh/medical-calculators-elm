@@ -3,10 +3,16 @@ module FreeWaterDeficitTests exposing (tests)
 import Calculators.FreeWaterDeficit exposing (Msg(..), init, update)
 import Expect exposing (..)
 import Test exposing (Test, describe, test)
+import Translations exposing (Strings, englishStrings)
 
 
 
 -- TESTS
+
+
+testStrings : Strings
+testStrings =
+    englishStrings
 
 
 tests : Test
@@ -18,19 +24,19 @@ tests =
                     model =
                         init
                 in
-                Expect.equal model { weight = "", sodium = "", result = Nothing }
+                Expect.equal model { weight = "", sodium = "", result = Nothing, error = Nothing }
         , test "Update weight updates the model" <|
             \_ ->
                 let
                     model =
-                        update (UpdateWeight "70") init
+                        update (UpdateWeight "70") init testStrings
                 in
                 Expect.equal model.weight "70"
         , test "Update sodium updates the model" <|
             \_ ->
                 let
                     model =
-                        update (UpdateSodium "150") init
+                        update (UpdateSodium "150") init testStrings
                 in
                 Expect.equal model.sodium "150"
         , test "Calculate computes the correct result" <|
@@ -40,17 +46,17 @@ tests =
                         { init | weight = "70", sodium = "150" }
 
                     updatedModel =
-                        update Calculate model
+                        update Calculate model testStrings
                 in
-                Expect.equal updatedModel.result (Just 3.0)
-        , test "Calculate with invalid inputs results in Nothing" <|
+                Expect.equal updatedModel.result (Just 5.0)
+        , test "Calculate with empty inputs results in error" <|
             \_ ->
                 let
                     model =
-                        { init | weight = "abc", sodium = "150" }
+                        init
 
                     updatedModel =
-                        update Calculate model
+                        update Calculate model testStrings
                 in
-                Expect.equal updatedModel.result Nothing
+                Expect.equal updatedModel.error (Just testStrings.invalidInputs)
         ]

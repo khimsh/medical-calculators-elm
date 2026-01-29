@@ -1,9 +1,9 @@
 module Calculators.Nutrition exposing (Model, Msg(..), init, update, view)
 
-import Functions exposing (..)
-import Html exposing (button, div, form, h2, input, label, option, p, select, text)
+import Functions exposing (calculateBMI, calculateButton, calculateCalories, errorDisplay, fieldGroup, floatToStr, roundToTwoDecimals, scoreCalculator, strToFloat)
+import Html exposing (div, form, h2, input, label, option, p, select, text)
 import Html.Attributes exposing (attribute, checked, class, for, id, type_, value)
-import Html.Events exposing (onCheck, onClick, onInput)
+import Html.Events exposing (onCheck, onInput)
 import Translations exposing (Strings)
 
 
@@ -50,45 +50,44 @@ update : Msg -> Model -> Strings -> Model
 update msg model strings =
     case msg of
         ChangeWeight newWeight ->
-            { model | weight = newWeight }
+            { model | weight = newWeight, calculated = False, error = Nothing }
 
         ChangeHeight newHeight ->
-            { model | height = newHeight }
+            { model | height = newHeight, calculated = False, error = Nothing }
 
         ChangeWeightLoss newWeightLoss ->
-            { model | weightLoss = newWeightLoss }
+            { model | weightLoss = newWeightLoss, calculated = False, error = Nothing }
 
         ChangeCritical newCritical ->
-            { model | critical = newCritical }
+            { model | critical = newCritical, calculated = False, error = Nothing }
 
         Calculate ->
-            let
-                weight =
-                    strToFloat model.weight
-
-                height =
-                    strToFloat model.height
-            in
-            if weight == 0 || height == 0 then
-                { model | error = Just strings.zeroNotAccepted, calculated = True }
+            if String.isEmpty model.weight || String.isEmpty model.height then
+                { model | error = Just strings.invalidInputs, calculated = True }
 
             else
                 let
+                    weight =
+                        strToFloat model.weight
+
+                    height =
+                        strToFloat model.height
+
                     bmi =
                         calculateBMI weight height
 
                     score =
                         scoreCalculator bmi model.weightLoss model.critical
 
-                    result =
+                    nutrition =
                         calculateCalories weight bmi score
                 in
                 { model
-                    | bmi = formatToDecimals 2 bmi
-                    , calories = formatToDecimals 2 result.calories
-                    , proteins = formatToDecimals 2 result.proteins
-                    , fats = formatToDecimals 2 result.fats
-                    , carbs = formatToDecimals 2 result.carbs
+                    | bmi = floatToStr (roundToTwoDecimals bmi)
+                    , calories = floatToStr (roundToTwoDecimals nutrition.calories)
+                    , proteins = floatToStr (roundToTwoDecimals nutrition.proteins)
+                    , fats = floatToStr (roundToTwoDecimals nutrition.fats)
+                    , carbs = floatToStr (roundToTwoDecimals nutrition.carbs)
                     , error = Nothing
                     , calculated = True
                 }
@@ -96,8 +95,8 @@ update msg model strings =
 
 view : Strings -> Model -> Html.Html Msg
 view strings model =
-    div [ class "calculator-card", attribute "aria-label" strings.nutritionCalc ]
-        [ h2 [ class "card-title" ] [ text strings.nutritionCalc ]
+    div [ class "calculator-card", attribute "aria-label" strings.nutrition ]
+        [ h2 [ class "card-title" ] [ text strings.nutrition ]
         , form [ class "form" ]
             [ fieldGroup strings.weight "nutrition-weight" "0.0" model.weight ChangeWeight
             , fieldGroup strings.height "nutrition-height" "0.0" model.height ChangeHeight
@@ -126,16 +125,13 @@ view strings model =
                 , label [ class "checkbox-label", for "nutrition-critical" ] [ text strings.critical ]
                 ]
             , div [ class "button-container" ]
-                [ button [ class "button", type_ "button", onClick Calculate, attribute "aria-label" ("Calculate " ++ strings.nutritionCalc) ] [ text strings.calculate ]
-                ]
+                [ calculateButton strings.calculate ("Calculate " ++ strings.nutrition) Calculate ]
             , case model.error of
                 Just error ->
-                    div [ class "error-container", attribute "role" "alert" ]
-                        [ p [ class "error-text" ] [ text error ]
-                        ]
+                    errorDisplay error
 
                 Nothing ->
-                    if model.calculated then
+                    if model.calculated && not (String.isEmpty model.weight || String.isEmpty model.height) then
                         div [ class "result-container", attribute "role" "region", attribute "aria-label" "Nutrition calculation results" ]
                             [ p [ class "result-label" ] [ text "BMI:" ]
                             , p [ class "result-value", attribute "aria-live" "polite" ] [ text model.bmi ]

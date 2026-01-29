@@ -1,9 +1,8 @@
 module Calculators.FreeWaterDeficit exposing (Model, Msg(..), init, update, view)
 
-import Functions exposing (fieldGroup)
-import Html exposing (Html, button, div, h2, p, text)
-import Html.Attributes exposing (attribute, class, type_)
-import Html.Events exposing (onClick)
+import Functions exposing (calculateButton, errorDisplay, fieldGroup, floatToStr, resultDisplay, roundToTwoDecimals, strToFloat)
+import Html exposing (Html, div, h2, text)
+import Html.Attributes exposing (attribute, class)
 import Translations exposing (Strings)
 
 
@@ -15,6 +14,7 @@ type alias Model =
     { weight : String
     , sodium : String
     , result : Maybe Float
+    , error : Maybe String
     }
 
 
@@ -23,6 +23,7 @@ init =
     { weight = ""
     , sodium = ""
     , result = Nothing
+    , error = Nothing
     }
 
 
@@ -36,37 +37,31 @@ type Msg
     | Calculate
 
 
-update : Msg -> Model -> Model
-update msg model =
+update : Msg -> Model -> Strings -> Model
+update msg model strings =
     case msg of
         UpdateWeight weight ->
-            { model | weight = weight, result = Nothing }
+            { model | weight = weight, result = Nothing, error = Nothing }
 
         UpdateSodium sodium ->
-            { model | sodium = sodium, result = Nothing }
+            { model | sodium = sodium, result = Nothing, error = Nothing }
 
         Calculate ->
-            let
-                weightValue =
-                    String.toFloat model.weight
+            if String.isEmpty model.weight || String.isEmpty model.sodium then
+                { model | error = Just strings.invalidInputs, result = Nothing }
 
-                sodiumValue =
-                    String.toFloat model.sodium
+            else
+                let
+                    weightValue =
+                        strToFloat model.weight
 
-                result =
-                    case ( weightValue, sodiumValue ) of
-                        ( Just w, Just s ) ->
-                            Just (roundToTwoDecimals (0.6 * w * ((s / 140) - 1)))
+                    sodiumValue =
+                        strToFloat model.sodium
 
-                        _ ->
-                            Nothing
-            in
-            { model | result = result }
-
-
-roundToTwoDecimals : Float -> Float
-roundToTwoDecimals number =
-    toFloat (round (number * 100)) / 100
+                    result =
+                        weightValue * (sodiumValue - 140) / 140
+                in
+                { model | result = Just (roundToTwoDecimals result), error = Nothing }
 
 
 
@@ -81,27 +76,21 @@ view strings model =
             [ fieldGroup strings.weight "weight" "0.0" model.weight UpdateWeight
             , fieldGroup strings.sodium "sodium" "0.0" model.sodium UpdateSodium
             , div [ class "button-container" ]
-                [ button [ class "button", type_ "button", onClick Calculate, attribute "aria-label" strings.freeWaterDeficit ] [ text strings.calculate ]
-                ]
-            , case model.result of
-                Just r ->
-                    div [ class "result-container", attribute "role" "region", attribute "aria-label" "Calculation result" ]
-                        [ p [ class "result-label" ] [ text strings.result ]
-                        , p [ class "result-value", attribute "aria-live" "polite" ] [ text (String.fromFloat r ++ " L") ]
-                        ]
+                [ calculateButton strings.calculate ("Calculate " ++ strings.freeWaterDeficit) Calculate ]
+            , case model.error of
+                Just error ->
+                    errorDisplay error
 
                 Nothing ->
-                    if model.weight == "0" || model.sodium == "0" then
-                        div [ class "error-container", attribute "role" "alert" ]
-                            [ p [ class "error-text" ] [ text strings.zeroNotAccepted ]
-                            ]
+                    case model.result of
+                        Just result ->
+                            if String.isEmpty model.weight || String.isEmpty model.sodium then
+                                text ""
 
-                    else if model.weight /= "" && model.sodium /= "" && model.result == Nothing then
-                        div [ class "error-container", attribute "role" "alert" ]
-                            [ p [ class "error-text" ] [ text strings.invalidInputs ]
-                            ]
+                            else
+                                resultDisplay strings.result (floatToStr result) strings.ml
 
-                    else
-                        text ""
+                        Nothing ->
+                            text ""
             ]
         ]

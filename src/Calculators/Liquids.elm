@@ -1,9 +1,8 @@
 module Calculators.Liquids exposing (Model, Msg(..), init, update, view)
 
 import Functions exposing (..)
-import Html exposing (button, div, form, h2, p, text)
-import Html.Attributes exposing (attribute, class, type_)
-import Html.Events exposing (onClick)
+import Html exposing (div, form, h2, text)
+import Html.Attributes exposing (attribute, class)
 import Translations exposing (Strings)
 
 
@@ -39,30 +38,34 @@ update : Msg -> Model -> Strings -> Model
 update msg model strings =
     case msg of
         ChangePrescribedLiquid newPrescribedLiquid ->
-            { model | prescribedLiquid = newPrescribedLiquid }
+            { model | prescribedLiquid = newPrescribedLiquid, calculated = False, error = Nothing }
 
         ChangeLiquidDosageAthand newLiquidDosageAthand ->
-            { model | liquidDosageAthand = newLiquidDosageAthand }
+            { model | liquidDosageAthand = newLiquidDosageAthand, calculated = False, error = Nothing }
 
         ChangeLiquidVolumeAtHand newLiquidVolumeAtHand ->
-            { model | liquidVolumeAtHand = newLiquidVolumeAtHand }
+            { model | liquidVolumeAtHand = newLiquidVolumeAtHand, calculated = False, error = Nothing }
 
         Calculate ->
-            let
-                prescribed =
-                    strToFloat model.prescribedLiquid
-
-                dosage =
-                    strToFloat model.liquidDosageAthand
-
-                volume =
-                    strToFloat model.liquidVolumeAtHand
-            in
-            if prescribed == 0 || dosage == 0 || volume == 0 then
-                { model | error = Just strings.zeroNotAccepted, result = "0.0", calculated = True }
+            if String.isEmpty model.prescribedLiquid || String.isEmpty model.liquidDosageAthand || String.isEmpty model.liquidVolumeAtHand then
+                { model | error = Just strings.invalidInputs, result = "0.0", calculated = True }
 
             else
-                { model | result = floatToStr (roundToTwoDecimals ((prescribed / dosage) * volume)), error = Nothing, calculated = True }
+                let
+                    prescribed =
+                        strToFloat model.prescribedLiquid
+
+                    dosage =
+                        strToFloat model.liquidDosageAthand
+
+                    volume =
+                        strToFloat model.liquidVolumeAtHand
+                in
+                if prescribed == 0 || dosage == 0 || volume == 0 then
+                    { model | error = Just strings.zeroNotAccepted, result = "0.0", calculated = True }
+
+                else
+                    { model | result = floatToStr (roundToTwoDecimals ((prescribed / dosage) * volume)), error = Nothing, calculated = True }
 
 
 view : Strings -> Model -> Html.Html Msg
@@ -74,28 +77,16 @@ view strings model =
             , fieldGroup strings.amountAtHand "liquid-dosage-athand" "0.0" model.liquidDosageAthand ChangeLiquidDosageAthand
             , fieldGroup strings.volumeAtHand "liquid-volume-athand" "0.0" model.liquidVolumeAtHand ChangeLiquidVolumeAtHand
             , div [ class "button-container" ]
-                [ button [ class "button", type_ "button", onClick Calculate, attribute "aria-label" ("Calculate " ++ strings.liquidDosage) ] [ text strings.calculate ]
-                ]
+                [ calculateButton strings.calculate ("Calculate " ++ strings.liquidDosage) Calculate ]
             , case model.error of
                 Just error ->
-                    div [ class "error-container", attribute "role" "alert" ]
-                        [ p [ class "error-text" ] [ text error ]
-                        ]
+                    errorDisplay error
 
                 Nothing ->
-                    if model.calculated then
-                        div [ class "result-container", attribute "role" "region", attribute "aria-label" "Calculation result" ]
-                            [ p [ class "result-label" ] [ text strings.result ]
-                            , p [ class "result-value", attribute "aria-live" "polite" ] [ text model.result ]
-                            , p [ class "result-unit" ] [ text strings.ml ]
-                            ]
+                    if model.calculated && not (String.isEmpty model.prescribedLiquid || String.isEmpty model.liquidDosageAthand || String.isEmpty model.liquidVolumeAtHand) then
+                        resultDisplay strings.result model.result strings.ml
 
                     else
                         text ""
             ]
         ]
-
-
-roundToTwoDecimals : Float -> Float
-roundToTwoDecimals number =
-    toFloat (round (number * 100)) / 100
