@@ -5695,11 +5695,9 @@ var $author$project$Calculators$FreeWaterDeficit$UpdateWeight = function (a) {
 	return {$: 'UpdateWeight', a: a};
 };
 var $elm$html$Html$Attributes$for = $elm$html$Html$Attributes$stringProperty('htmlFor');
-var $elm$html$Html$h2 = _VirtualDom_node('h2');
 var $elm$html$Html$Attributes$id = $elm$html$Html$Attributes$stringProperty('id');
 var $elm$html$Html$input = _VirtualDom_node('input');
 var $elm$html$Html$label = _VirtualDom_node('label');
-var $elm$core$Basics$neq = _Utils_notEqual;
 var $elm$html$Html$Events$alwaysStop = function (x) {
 	return _Utils_Tuple2(x, true);
 };
@@ -5733,9 +5731,46 @@ var $elm$html$Html$Events$onInput = function (tagger) {
 			$elm$html$Html$Events$alwaysStop,
 			A2($elm$json$Json$Decode$map, tagger, $elm$html$Html$Events$targetValue)));
 };
-var $elm$html$Html$p = _VirtualDom_node('p');
-var $elm$html$Html$Attributes$placeholder = $elm$html$Html$Attributes$stringProperty('placeholder');
 var $elm$html$Html$Attributes$value = $elm$html$Html$Attributes$stringProperty('value');
+var $author$project$Functions$fieldGroup = F5(
+	function (labelText, inputId, placeholderText, valueText, onInputMsg) {
+		return A2(
+			$elm$html$Html$div,
+			_List_fromArray(
+				[
+					$elm$html$Html$Attributes$class('field-group')
+				]),
+			_List_fromArray(
+				[
+					A2(
+					$elm$html$Html$label,
+					_List_fromArray(
+						[
+							$elm$html$Html$Attributes$class('label'),
+							$elm$html$Html$Attributes$for(inputId)
+						]),
+					_List_fromArray(
+						[
+							$elm$html$Html$text(labelText)
+						])),
+					A2(
+					$elm$html$Html$input,
+					_List_fromArray(
+						[
+							$elm$html$Html$Attributes$class('input'),
+							$elm$html$Html$Attributes$id(inputId),
+							A2($elm$html$Html$Attributes$attribute, 'placeholder', placeholderText),
+							$elm$html$Html$Attributes$value(valueText),
+							$elm$html$Html$Events$onInput(onInputMsg),
+							$elm$html$Html$Attributes$type_('number'),
+							A2($elm$html$Html$Attributes$attribute, 'min', '0')
+						]),
+					_List_Nil)
+				]));
+	});
+var $elm$html$Html$h2 = _VirtualDom_node('h2');
+var $elm$core$Basics$neq = _Utils_notEqual;
+var $elm$html$Html$p = _VirtualDom_node('p');
 var $author$project$Calculators$FreeWaterDeficit$view = F2(
 	function (strings, model) {
 		return A2(
@@ -5765,72 +5800,8 @@ var $author$project$Calculators$FreeWaterDeficit$view = F2(
 						]),
 					_List_fromArray(
 						[
-							A2(
-							$elm$html$Html$div,
-							_List_fromArray(
-								[
-									$elm$html$Html$Attributes$class('field-group')
-								]),
-							_List_fromArray(
-								[
-									A2(
-									$elm$html$Html$label,
-									_List_fromArray(
-										[
-											$elm$html$Html$Attributes$class('label'),
-											$elm$html$Html$Attributes$for('weight')
-										]),
-									_List_fromArray(
-										[
-											$elm$html$Html$text(strings.weight)
-										])),
-									A2(
-									$elm$html$Html$input,
-									_List_fromArray(
-										[
-											$elm$html$Html$Attributes$class('input'),
-											$elm$html$Html$Attributes$id('weight'),
-											$elm$html$Html$Attributes$placeholder('0.0'),
-											$elm$html$Html$Attributes$value(model.weight),
-											$elm$html$Html$Events$onInput($author$project$Calculators$FreeWaterDeficit$UpdateWeight),
-											$elm$html$Html$Attributes$type_('number'),
-											A2($elm$html$Html$Attributes$attribute, 'min', '0')
-										]),
-									_List_Nil)
-								])),
-							A2(
-							$elm$html$Html$div,
-							_List_fromArray(
-								[
-									$elm$html$Html$Attributes$class('field-group')
-								]),
-							_List_fromArray(
-								[
-									A2(
-									$elm$html$Html$label,
-									_List_fromArray(
-										[
-											$elm$html$Html$Attributes$class('label'),
-											$elm$html$Html$Attributes$for('sodium')
-										]),
-									_List_fromArray(
-										[
-											$elm$html$Html$text(strings.sodium)
-										])),
-									A2(
-									$elm$html$Html$input,
-									_List_fromArray(
-										[
-											$elm$html$Html$Attributes$class('input'),
-											$elm$html$Html$Attributes$id('sodium'),
-											$elm$html$Html$Attributes$placeholder('0.0'),
-											$elm$html$Html$Attributes$value(model.sodium),
-											$elm$html$Html$Events$onInput($author$project$Calculators$FreeWaterDeficit$UpdateSodium),
-											$elm$html$Html$Attributes$type_('number'),
-											A2($elm$html$Html$Attributes$attribute, 'min', '0')
-										]),
-									_List_Nil)
-								])),
+							A5($author$project$Functions$fieldGroup, strings.weight, 'weight', '0.0', model.weight, $author$project$Calculators$FreeWaterDeficit$UpdateWeight),
+							A5($author$project$Functions$fieldGroup, strings.sodium, 'sodium', '0.0', model.sodium, $author$project$Calculators$FreeWaterDeficit$UpdateSodium),
 							A2(
 							$elm$html$Html$div,
 							_List_fromArray(
@@ -5975,105 +5946,9 @@ var $author$project$Calculators$Liquids$view = F2(
 						]),
 					_List_fromArray(
 						[
-							A2(
-							$elm$html$Html$div,
-							_List_fromArray(
-								[
-									$elm$html$Html$Attributes$class('field-group')
-								]),
-							_List_fromArray(
-								[
-									A2(
-									$elm$html$Html$label,
-									_List_fromArray(
-										[
-											$elm$html$Html$Attributes$class('label'),
-											$elm$html$Html$Attributes$for('liquid-prescribed-amount')
-										]),
-									_List_fromArray(
-										[
-											$elm$html$Html$text(strings.prescribedAmount)
-										])),
-									A2(
-									$elm$html$Html$input,
-									_List_fromArray(
-										[
-											$elm$html$Html$Attributes$class('input'),
-											$elm$html$Html$Attributes$id('liquid-prescribed-amount'),
-											$elm$html$Html$Attributes$placeholder('0.0'),
-											$elm$html$Html$Attributes$value(model.prescribedLiquid),
-											$elm$html$Html$Events$onInput($author$project$Calculators$Liquids$ChangePrescribedLiquid),
-											$elm$html$Html$Attributes$type_('number'),
-											A2($elm$html$Html$Attributes$attribute, 'min', '0')
-										]),
-									_List_Nil)
-								])),
-							A2(
-							$elm$html$Html$div,
-							_List_fromArray(
-								[
-									$elm$html$Html$Attributes$class('field-group')
-								]),
-							_List_fromArray(
-								[
-									A2(
-									$elm$html$Html$label,
-									_List_fromArray(
-										[
-											$elm$html$Html$Attributes$class('label'),
-											$elm$html$Html$Attributes$for('liquid-dosage-athand')
-										]),
-									_List_fromArray(
-										[
-											$elm$html$Html$text(strings.amountAtHand)
-										])),
-									A2(
-									$elm$html$Html$input,
-									_List_fromArray(
-										[
-											$elm$html$Html$Attributes$class('input'),
-											$elm$html$Html$Attributes$id('liquid-dosage-athand'),
-											$elm$html$Html$Attributes$placeholder('0.0'),
-											$elm$html$Html$Attributes$value(model.liquidDosageAthand),
-											$elm$html$Html$Events$onInput($author$project$Calculators$Liquids$ChangeLiquidDosageAthand),
-											$elm$html$Html$Attributes$type_('number'),
-											A2($elm$html$Html$Attributes$attribute, 'min', '0')
-										]),
-									_List_Nil)
-								])),
-							A2(
-							$elm$html$Html$div,
-							_List_fromArray(
-								[
-									$elm$html$Html$Attributes$class('field-group')
-								]),
-							_List_fromArray(
-								[
-									A2(
-									$elm$html$Html$label,
-									_List_fromArray(
-										[
-											$elm$html$Html$Attributes$class('label'),
-											$elm$html$Html$Attributes$for('liquid-volume-athand')
-										]),
-									_List_fromArray(
-										[
-											$elm$html$Html$text(strings.volumeAtHand)
-										])),
-									A2(
-									$elm$html$Html$input,
-									_List_fromArray(
-										[
-											$elm$html$Html$Attributes$class('input'),
-											$elm$html$Html$Attributes$id('liquid-volume-athand'),
-											$elm$html$Html$Attributes$placeholder('0.0'),
-											$elm$html$Html$Attributes$value(model.liquidVolumeAtHand),
-											$elm$html$Html$Events$onInput($author$project$Calculators$Liquids$ChangeLiquidVolumeAtHand),
-											$elm$html$Html$Attributes$type_('number'),
-											A2($elm$html$Html$Attributes$attribute, 'min', '0')
-										]),
-									_List_Nil)
-								])),
+							A5($author$project$Functions$fieldGroup, strings.prescribedAmount, 'liquid-prescribed-amount', '0.0', model.prescribedLiquid, $author$project$Calculators$Liquids$ChangePrescribedLiquid),
+							A5($author$project$Functions$fieldGroup, strings.amountAtHand, 'liquid-dosage-athand', '0.0', model.liquidDosageAthand, $author$project$Calculators$Liquids$ChangeLiquidDosageAthand),
+							A5($author$project$Functions$fieldGroup, strings.volumeAtHand, 'liquid-volume-athand', '0.0', model.liquidVolumeAtHand, $author$project$Calculators$Liquids$ChangeLiquidVolumeAtHand),
 							A2(
 							$elm$html$Html$div,
 							_List_fromArray(
@@ -6233,72 +6108,8 @@ var $author$project$Calculators$Nutrition$view = F2(
 						]),
 					_List_fromArray(
 						[
-							A2(
-							$elm$html$Html$div,
-							_List_fromArray(
-								[
-									$elm$html$Html$Attributes$class('field-group')
-								]),
-							_List_fromArray(
-								[
-									A2(
-									$elm$html$Html$label,
-									_List_fromArray(
-										[
-											$elm$html$Html$Attributes$class('label'),
-											$elm$html$Html$Attributes$for('nutrition-weight')
-										]),
-									_List_fromArray(
-										[
-											$elm$html$Html$text(strings.weight)
-										])),
-									A2(
-									$elm$html$Html$input,
-									_List_fromArray(
-										[
-											$elm$html$Html$Attributes$class('input'),
-											$elm$html$Html$Attributes$id('nutrition-weight'),
-											$elm$html$Html$Attributes$placeholder('0.0'),
-											$elm$html$Html$Attributes$value(model.weight),
-											$elm$html$Html$Events$onInput($author$project$Calculators$Nutrition$ChangeWeight),
-											$elm$html$Html$Attributes$type_('number'),
-											A2($elm$html$Html$Attributes$attribute, 'min', '0')
-										]),
-									_List_Nil)
-								])),
-							A2(
-							$elm$html$Html$div,
-							_List_fromArray(
-								[
-									$elm$html$Html$Attributes$class('field-group')
-								]),
-							_List_fromArray(
-								[
-									A2(
-									$elm$html$Html$label,
-									_List_fromArray(
-										[
-											$elm$html$Html$Attributes$class('label'),
-											$elm$html$Html$Attributes$for('nutrition-height')
-										]),
-									_List_fromArray(
-										[
-											$elm$html$Html$text(strings.height)
-										])),
-									A2(
-									$elm$html$Html$input,
-									_List_fromArray(
-										[
-											$elm$html$Html$Attributes$class('input'),
-											$elm$html$Html$Attributes$id('nutrition-height'),
-											$elm$html$Html$Attributes$placeholder('0.0'),
-											$elm$html$Html$Attributes$value(model.height),
-											$elm$html$Html$Events$onInput($author$project$Calculators$Nutrition$ChangeHeight),
-											$elm$html$Html$Attributes$type_('number'),
-											A2($elm$html$Html$Attributes$attribute, 'min', '0')
-										]),
-									_List_Nil)
-								])),
+							A5($author$project$Functions$fieldGroup, strings.weight, 'nutrition-weight', '0.0', model.weight, $author$project$Calculators$Nutrition$ChangeWeight),
+							A5($author$project$Functions$fieldGroup, strings.height, 'nutrition-height', '0.0', model.height, $author$project$Calculators$Nutrition$ChangeHeight),
 							A2(
 							$elm$html$Html$div,
 							_List_fromArray(
@@ -6597,72 +6408,8 @@ var $author$project$Calculators$Pills$view = F2(
 						]),
 					_List_fromArray(
 						[
-							A2(
-							$elm$html$Html$div,
-							_List_fromArray(
-								[
-									$elm$html$Html$Attributes$class('field-group')
-								]),
-							_List_fromArray(
-								[
-									A2(
-									$elm$html$Html$label,
-									_List_fromArray(
-										[
-											$elm$html$Html$Attributes$class('label'),
-											$elm$html$Html$Attributes$for('prescribed-amount')
-										]),
-									_List_fromArray(
-										[
-											$elm$html$Html$text(strings.prescribedAmount)
-										])),
-									A2(
-									$elm$html$Html$input,
-									_List_fromArray(
-										[
-											$elm$html$Html$Attributes$class('input'),
-											$elm$html$Html$Attributes$id('prescribed-amount'),
-											$elm$html$Html$Attributes$placeholder('0.0'),
-											$elm$html$Html$Attributes$value(model.prescribed),
-											$elm$html$Html$Events$onInput($author$project$Calculators$Pills$ChangePrescribed),
-											$elm$html$Html$Attributes$type_('number'),
-											A2($elm$html$Html$Attributes$attribute, 'min', '0')
-										]),
-									_List_Nil)
-								])),
-							A2(
-							$elm$html$Html$div,
-							_List_fromArray(
-								[
-									$elm$html$Html$Attributes$class('field-group')
-								]),
-							_List_fromArray(
-								[
-									A2(
-									$elm$html$Html$label,
-									_List_fromArray(
-										[
-											$elm$html$Html$Attributes$class('label'),
-											$elm$html$Html$Attributes$for('pill-strength')
-										]),
-									_List_fromArray(
-										[
-											$elm$html$Html$text(strings.pillStrength)
-										])),
-									A2(
-									$elm$html$Html$input,
-									_List_fromArray(
-										[
-											$elm$html$Html$Attributes$class('input'),
-											$elm$html$Html$Attributes$id('pill-strength'),
-											$elm$html$Html$Attributes$placeholder('0.0'),
-											$elm$html$Html$Attributes$value(model.tabletMg),
-											$elm$html$Html$Events$onInput($author$project$Calculators$Pills$ChangeTabletMg),
-											$elm$html$Html$Attributes$type_('number'),
-											A2($elm$html$Html$Attributes$attribute, 'min', '0')
-										]),
-									_List_Nil)
-								])),
+							A5($author$project$Functions$fieldGroup, strings.prescribedAmount, 'prescribed-amount', '0.0', model.prescribed, $author$project$Calculators$Pills$ChangePrescribed),
+							A5($author$project$Functions$fieldGroup, strings.pillStrength, 'pill-strength', '0.0', model.tabletMg, $author$project$Calculators$Pills$ChangeTabletMg),
 							A2(
 							$elm$html$Html$div,
 							_List_fromArray(
