@@ -1,8 +1,9 @@
 module Calculators.FreeWaterDeficit exposing (Model, Msg(..), init, update, view)
 
-import Html exposing (Html, button, div, h2, input, label, p, text)
-import Html.Attributes exposing (..)
-import Html.Events exposing (onClick, onInput)
+import Functions exposing (fieldGroup)
+import Html exposing (Html, button, div, h2, p, text)
+import Html.Attributes exposing (attribute, class, type_)
+import Html.Events exposing (onClick)
 import Translations exposing (Strings)
 
 
@@ -77,32 +78,8 @@ view strings model =
     div [ class "calculator-card", attribute "aria-label" strings.freeWaterDeficit ]
         [ h2 [ class "card-title" ] [ text strings.freeWaterDeficit ]
         , div [ class "form" ]
-            [ div [ class "field-group" ]
-                [ label [ class "label", for "weight" ] [ text strings.weight ]
-                , input
-                    [ class "input"
-                    , id "weight"
-                    , placeholder "0.0"
-                    , value model.weight
-                    , onInput UpdateWeight
-                    , type_ "number"
-                    , attribute "min" "0"
-                    ]
-                    []
-                ]
-            , div [ class "field-group" ]
-                [ label [ class "label", for "sodium" ] [ text strings.sodium ]
-                , input
-                    [ class "input"
-                    , id "sodium"
-                    , placeholder "0.0"
-                    , value model.sodium
-                    , onInput UpdateSodium
-                    , type_ "number"
-                    , attribute "min" "0"
-                    ]
-                    []
-                ]
+            [ fieldGroup strings.weight "weight" "0.0" model.weight UpdateWeight
+            , fieldGroup strings.sodium "sodium" "0.0" model.sodium UpdateSodium
             , div [ class "button-container" ]
                 [ button [ class "button", type_ "button", onClick Calculate, attribute "aria-label" strings.freeWaterDeficit ] [ text strings.calculate ]
                 ]

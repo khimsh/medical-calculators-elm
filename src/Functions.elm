@@ -1,5 +1,9 @@
 module Functions exposing (..)
 
+import Html exposing (div, input, label, text)
+import Html.Attributes exposing (attribute, class, for, id, type_, value)
+import Html.Events exposing (onInput)
+
 
 strToFloat : String -> Float
 strToFloat string =
@@ -120,3 +124,20 @@ calculateCalories weight bmi score =
                 ree / 2
         in
         NutritionResult ree proteins fats carbs
+
+
+fieldGroup : String -> String -> String -> String -> (String -> msg) -> Html.Html msg
+fieldGroup labelText inputId placeholderText valueText onInputMsg =
+    div [ class "field-group" ]
+        [ label [ class "label", for inputId ] [ text labelText ]
+        , input
+            [ class "input"
+            , id inputId
+            , Html.Attributes.attribute "placeholder" placeholderText
+            , Html.Attributes.value valueText
+            , onInput onInputMsg
+            , type_ "number"
+            , attribute "min" "0"
+            ]
+            []
+        ]

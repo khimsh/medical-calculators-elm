@@ -1,9 +1,9 @@
 module Calculators.Pills exposing (Model, Msg(..), init, update, view)
 
 import Functions exposing (..)
-import Html exposing (button, div, form, h2, input, label, p, text)
-import Html.Attributes exposing (attribute, class, for, id, placeholder, type_, value)
-import Html.Events exposing (onClick, onInput)
+import Html exposing (button, div, form, h2, p, text)
+import Html.Attributes exposing (attribute, class, type_)
+import Html.Events exposing (onClick)
 import Translations exposing (Strings)
 
 
@@ -61,32 +61,8 @@ view strings model =
     div [ class "calculator-card", attribute "aria-label" strings.peroralpill ]
         [ h2 [ class "card-title" ] [ text strings.peroralpill ]
         , form [ class "form" ]
-            [ div [ class "field-group" ]
-                [ label [ class "label", for "prescribed-amount" ] [ text strings.prescribedAmount ]
-                , input
-                    [ class "input"
-                    , id "prescribed-amount"
-                    , placeholder "0.0"
-                    , value model.prescribed
-                    , onInput ChangePrescribed
-                    , type_ "number"
-                    , attribute "min" "0"
-                    ]
-                    []
-                ]
-            , div [ class "field-group" ]
-                [ label [ class "label", for "pill-strength" ] [ text strings.pillStrength ]
-                , input
-                    [ class "input"
-                    , id "pill-strength"
-                    , placeholder "0.0"
-                    , value model.tabletMg
-                    , onInput ChangeTabletMg
-                    , type_ "number"
-                    , attribute "min" "0"
-                    ]
-                    []
-                ]
+            [ fieldGroup strings.prescribedAmount "prescribed-amount" "0.0" model.prescribed ChangePrescribed
+            , fieldGroup strings.pillStrength "pill-strength" "0.0" model.tabletMg ChangeTabletMg
             , div [ class "button-container" ]
                 [ button [ class "button", type_ "button", onClick Calculate, attribute "aria-label" ("Calculate " ++ strings.pillDosage) ] [ text strings.calculate ]
                 ]

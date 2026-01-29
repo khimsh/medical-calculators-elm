@@ -1,9 +1,9 @@
 module Calculators.Liquids exposing (Model, Msg(..), init, update, view)
 
 import Functions exposing (..)
-import Html exposing (button, div, form, h2, input, label, p, text)
-import Html.Attributes exposing (attribute, class, for, id, placeholder, type_, value)
-import Html.Events exposing (onClick, onInput)
+import Html exposing (button, div, form, h2, p, text)
+import Html.Attributes exposing (attribute, class, type_)
+import Html.Events exposing (onClick)
 import Translations exposing (Strings)
 
 
@@ -70,45 +70,9 @@ view strings model =
     div [ class "calculator-card", attribute "aria-label" strings.peroralliquid ]
         [ h2 [ class "card-title" ] [ text strings.peroralliquid ]
         , form [ class "form" ]
-            [ div [ class "field-group" ]
-                [ label [ class "label", for "liquid-prescribed-amount" ] [ text strings.prescribedAmount ]
-                , input
-                    [ class "input"
-                    , id "liquid-prescribed-amount"
-                    , placeholder "0.0"
-                    , value model.prescribedLiquid
-                    , onInput ChangePrescribedLiquid
-                    , type_ "number"
-                    , attribute "min" "0"
-                    ]
-                    []
-                ]
-            , div [ class "field-group" ]
-                [ label [ class "label", for "liquid-dosage-athand" ] [ text strings.amountAtHand ]
-                , input
-                    [ class "input"
-                    , id "liquid-dosage-athand"
-                    , placeholder "0.0"
-                    , value model.liquidDosageAthand
-                    , onInput ChangeLiquidDosageAthand
-                    , type_ "number"
-                    , attribute "min" "0"
-                    ]
-                    []
-                ]
-            , div [ class "field-group" ]
-                [ label [ class "label", for "liquid-volume-athand" ] [ text strings.volumeAtHand ]
-                , input
-                    [ class "input"
-                    , id "liquid-volume-athand"
-                    , placeholder "0.0"
-                    , value model.liquidVolumeAtHand
-                    , onInput ChangeLiquidVolumeAtHand
-                    , type_ "number"
-                    , attribute "min" "0"
-                    ]
-                    []
-                ]
+            [ fieldGroup strings.prescribedAmount "liquid-prescribed-amount" "0.0" model.prescribedLiquid ChangePrescribedLiquid
+            , fieldGroup strings.amountAtHand "liquid-dosage-athand" "0.0" model.liquidDosageAthand ChangeLiquidDosageAthand
+            , fieldGroup strings.volumeAtHand "liquid-volume-athand" "0.0" model.liquidVolumeAtHand ChangeLiquidVolumeAtHand
             , div [ class "button-container" ]
                 [ button [ class "button", type_ "button", onClick Calculate, attribute "aria-label" ("Calculate " ++ strings.liquidDosage) ] [ text strings.calculate ]
                 ]

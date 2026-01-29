@@ -2,7 +2,7 @@ module Calculators.Nutrition exposing (Model, Msg(..), init, update, view)
 
 import Functions exposing (..)
 import Html exposing (button, div, form, h2, input, label, option, p, select, text)
-import Html.Attributes exposing (attribute, checked, class, for, id, placeholder, type_, value)
+import Html.Attributes exposing (attribute, checked, class, for, id, type_, value)
 import Html.Events exposing (onCheck, onClick, onInput)
 import Translations exposing (Strings)
 
@@ -99,32 +99,8 @@ view strings model =
     div [ class "calculator-card", attribute "aria-label" strings.nutritionCalc ]
         [ h2 [ class "card-title" ] [ text strings.nutritionCalc ]
         , form [ class "form" ]
-            [ div [ class "field-group" ]
-                [ label [ class "label", for "nutrition-weight" ] [ text strings.weight ]
-                , input
-                    [ class "input"
-                    , id "nutrition-weight"
-                    , placeholder "0.0"
-                    , value model.weight
-                    , onInput ChangeWeight
-                    , type_ "number"
-                    , attribute "min" "0"
-                    ]
-                    []
-                ]
-            , div [ class "field-group" ]
-                [ label [ class "label", for "nutrition-height" ] [ text strings.height ]
-                , input
-                    [ class "input"
-                    , id "nutrition-height"
-                    , placeholder "0.0"
-                    , value model.height
-                    , onInput ChangeHeight
-                    , type_ "number"
-                    , attribute "min" "0"
-                    ]
-                    []
-                ]
+            [ fieldGroup strings.weight "nutrition-weight" "0.0" model.weight ChangeWeight
+            , fieldGroup strings.height "nutrition-height" "0.0" model.height ChangeHeight
             , div [ class "field-group" ]
                 [ label [ class "label", for "nutrition-weight-loss" ] [ text strings.weightLoss ]
                 , select
