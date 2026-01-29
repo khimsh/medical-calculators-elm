@@ -4,9 +4,16 @@
   "description": "Medical calculators implemented in Elm",
   "scripts": {
     "test": "elm-test",
-    "build": "elm make src/Main.elm --output elm-app.js"
+    "build": "elm make src/Main.elm --output elm-app.js",
+    "build:scss": "sass src/scss/styles.scss styles.css --style=compressed",
+    "watch:scss": "sass --watch src/scss/styles.scss:styles.css",
+    "lint:scss": "stylelint src/scss/**/*.scss"
   },
   "devDependencies": {
-    "elm-test": "^0.19.1-revision7"
+    "elm-test": "^0.19.1-revision7",
+    "prettier": "3.8.1",
+    "sass": "^1.97.3",
+    "stylelint": "^17.0.0",
+    "stylelint-order": "^7.0.1"
   }
 }
