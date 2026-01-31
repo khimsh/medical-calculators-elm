@@ -46,36 +46,79 @@
   margin-top: 0.5rem;
 }
 
-.button {
-  display: flex;
-  padding: 1rem 2rem;
-  border: none;
-  color: var(--color-white);
-  letter-spacing: 0.5px;
+.button-primary {
   background: linear-gradient(
     135deg,
     var(--color-accent) 0%,
     var(--color-accent-dark) 100%
   );
-  box-shadow: 0 4px 12px rgba(238, 90, 82, 0.2);
-  border-radius: 8px;
-  transition: all 0.3s ease;
-  min-height: 44px;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.95rem;
-  font-weight: 700;
-  cursor: pointer;
-  -webkit-tap-highlight-color: transparent;
-  text-transform: uppercase;
+  &:hover {
+    background: linear-gradient(
+      135deg,
+      var(--color-accent-dark) 0%,
+      var(--color-accent) 100%
+    );
+  }
 }
 
-.button:hover {
-  box-shadow: 0 8px 20px rgba(238, 90, 82, 0.3);
-  transform: translateY(-2px);
+.button-secondary {
+  background: linear-gradient(
+    135deg,
+    var(--color-gray-medium) 0%,
+    var(--color-gray-dark) 100%
+  );
+  &:hover {
+    background: linear-gradient(
+      135deg,
+      var(--color-gray-dark) 0%,
+      var(--color-gray-medium) 100%
+    );
+  }
 }
 
-.button:active {
-  opacity: 0.95;
-  transform: translateY(0);
+.button-tertiary {
+  background: linear-gradient(
+    135deg,
+    var(--color-white) 0%,
+    var(--color-gray-light) 100%
+  );
+  color: var(--color-text-primary);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  &:hover {
+    background: linear-gradient(
+      135deg,
+      var(--color-gray-light) 0%,
+      var(--color-white) 100%
+    );
+  }
+}
+
+.button-primary-outline {
+  background: transparent;
+  border: 2px solid var(--color-accent);
+  color: var(--color-accent);
+  &:hover {
+    background: var(--color-accent);
+    color: var(--color-white);
+  }
+}
+
+.button-secondary-outline {
+  background: transparent;
+  border: 2px solid var(--color-gray-medium);
+  color: var(--color-gray-medium);
+  &:hover {
+    background: var(--color-gray-medium);
+    color: var(--color-white);
+  }
+}
+
+.button-tertiary-outline {
+  background: transparent;
+  border: 2px solid var(--color-gray-light);
+  color: var(--color-text-primary);
+  &:hover {
+    background: var(--color-gray-light);
+    color: var(--color-text-primary);
+  }
 }

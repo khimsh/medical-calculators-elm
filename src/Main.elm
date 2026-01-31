@@ -6,7 +6,7 @@ import Calculators.FreeWaterDeficit as FreeWaterDeficit
 import Calculators.Liquids as Liquids
 import Calculators.Nutrition as Nutrition
 import Calculators.Pills as Pills
-import Html exposing (button, div, h1, h2, header, main_, p, text)
+import Html exposing (button, div, h1, h2, header, main_, p, span, text)
 import Html.Attributes exposing (attribute, class, type_)
 import Html.Events exposing (onClick)
 import Translations exposing (Language(..), getStrings)
@@ -331,23 +331,27 @@ view model =
                     , attribute "title" strings.freeWaterDeficit
                     ]
                     [ text "💧"
-                    , Html.span [ class "sidebar-nav-item-text" ] [ text strings.freeWaterDeficit ]
+                    , span [ class "sidebar-nav-item-text" ] [ text strings.freeWaterDeficit ]
                     ]
                 ]
-            , div [ class "main-wrapper" ]
-                [ div [ class "disclaimer-banner" ] [ text strings.disclaimer ]
-                , header [ class "header", attribute "aria-label" "Site header" ]
-                    [ div [ class "header-left" ]
+            , div [ class "content-wrapper" ]
+                [ header [ class "header", attribute "aria-label" "Site header" ]
+                    [ div [ class "container padding-block-md" ]
                         [ h1 [ class "title" ] [ text strings.title ]
                         ]
                     ]
+                , div [ class "container" ]
+                    [ p [ class "disclaimer-banner padding-block-md" ] [ text strings.disclaimer ]
+                    ]
                 , main_ [ class "main-content" ]
-                    [ case model.currentView of
-                        IndexView ->
-                            viewIndex strings
+                    [ div [ class "container" ]
+                        [ case model.currentView of
+                            IndexView ->
+                                viewIndex strings
 
-                        CalculatorView calculator ->
-                            viewCalculator model calculator strings
+                            CalculatorView calculator ->
+                                viewCalculator model calculator strings
+                        ]
                     ]
                 ]
             ]
@@ -357,13 +361,11 @@ view model =
 
 viewIndex : Translations.Strings -> Html.Html Msg
 viewIndex strings =
-    div [ class "index-container" ]
-        [ div [ class "calculators-grid" ]
-            [ calculatorCard PillsCalc strings.pillDosage strings.pillDescription "#ee5a52"
-            , calculatorCard LiquidsCalc strings.liquidDosage strings.liquidDescription "#3498db"
-            , calculatorCard NutritionCalc strings.nutrition strings.nutritionDescription "#2ecc71"
-            , calculatorCard FreeWaterDeficitMsg strings.freeWaterDeficit strings.freeWaterDeficitDescription "#f39c12"
-            ]
+    div [ class "calculators-grid" ]
+        [ calculatorCard PillsCalc strings.pillDosage strings.pillDescription "#ee5a52"
+        , calculatorCard LiquidsCalc strings.liquidDosage strings.liquidDescription "#3498db"
+        , calculatorCard NutritionCalc strings.nutrition strings.nutritionDescription "#2ecc71"
+        , calculatorCard FreeWaterDeficitMsg strings.freeWaterDeficit strings.freeWaterDeficitDescription "#f39c12"
         ]
 
 

@@ -167,7 +167,7 @@ errorDisplay errorMessage =
 calculateButton : String -> String -> msg -> Html.Html msg
 calculateButton buttonText ariaLabel onClickMsg =
     button
-        [ class "button"
+        [ class "button-primary"
         , type_ "button"
         , onClick onClickMsg
         , attribute "aria-label" ariaLabel
@@ -178,8 +178,8 @@ calculateButton buttonText ariaLabel onClickMsg =
 resetButton : String -> String -> msg -> Html.Html msg
 resetButton buttonText ariaLabel onClickMsg =
     button
-        [ class "button button-secondary"
-        , type_ "button"
+        [ class "button-secondary-outline"
+        , type_ "reset"
         , onClick onClickMsg
         , attribute "aria-label" ariaLabel
         ]
