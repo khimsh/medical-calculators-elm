@@ -32,6 +32,7 @@ type Msg
     | ChangeLiquidDosageAthand String
     | ChangeLiquidVolumeAtHand String
     | Calculate
+    | Reset
 
 
 update : Msg -> Model -> Strings -> Model
@@ -67,6 +68,9 @@ update msg model strings =
                 else
                     { model | result = floatToStr (roundToTwoDecimals ((prescribed / dosage) * volume)), error = Nothing, calculated = True }
 
+        Reset ->
+            init
+
 
 view : Strings -> Model -> Html.Html Msg
 view strings model =
@@ -77,7 +81,9 @@ view strings model =
             , fieldGroup strings.amountAtHand "liquid-dosage-athand" "0.0" model.liquidDosageAthand ChangeLiquidDosageAthand
             , fieldGroup strings.volumeAtHand "liquid-volume-athand" "0.0" model.liquidVolumeAtHand ChangeLiquidVolumeAtHand
             , div [ class "button-container" ]
-                [ calculateButton strings.calculate ("Calculate " ++ strings.liquidDosage) Calculate ]
+                [ calculateButton strings.calculate ("Calculate " ++ strings.liquidDosage) Calculate
+                , resetButton strings.reset ("Reset " ++ strings.liquidDosage) Reset
+                ]
             , case model.error of
                 Just error ->
                     errorDisplay error

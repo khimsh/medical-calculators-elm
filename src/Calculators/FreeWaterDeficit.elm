@@ -1,6 +1,6 @@
 module Calculators.FreeWaterDeficit exposing (Model, Msg(..), init, update, view)
 
-import Functions exposing (calculateButton, errorDisplay, fieldGroup, floatToStr, resultDisplay, roundToTwoDecimals, strToFloat)
+import Functions exposing (calculateButton, errorDisplay, fieldGroup, floatToStr, resetButton, resultDisplay, roundToTwoDecimals, strToFloat)
 import Html exposing (Html, div, h2, text)
 import Html.Attributes exposing (attribute, class)
 import Translations exposing (Strings)
@@ -35,6 +35,7 @@ type Msg
     = UpdateWeight String
     | UpdateSodium String
     | Calculate
+    | Reset
 
 
 update : Msg -> Model -> Strings -> Model
@@ -63,6 +64,9 @@ update msg model strings =
                 in
                 { model | result = Just (roundToTwoDecimals result), error = Nothing }
 
+        Reset ->
+            init
+
 
 
 -- VIEW
@@ -76,7 +80,9 @@ view strings model =
             [ fieldGroup strings.weight "weight" "0.0" model.weight UpdateWeight
             , fieldGroup strings.sodium "sodium" "0.0" model.sodium UpdateSodium
             , div [ class "button-container" ]
-                [ calculateButton strings.calculate ("Calculate " ++ strings.freeWaterDeficit) Calculate ]
+                [ calculateButton strings.calculate ("Calculate " ++ strings.freeWaterDeficit) Calculate
+                , resetButton strings.reset ("Reset " ++ strings.freeWaterDeficit) Reset
+                ]
             , case model.error of
                 Just error ->
                     errorDisplay error

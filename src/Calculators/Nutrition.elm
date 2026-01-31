@@ -1,6 +1,6 @@
 module Calculators.Nutrition exposing (Model, Msg(..), init, update, view)
 
-import Functions exposing (calculateBMI, calculateButton, calculateCalories, errorDisplay, fieldGroup, floatToStr, roundToTwoDecimals, scoreCalculator, strToFloat)
+import Functions exposing (calculateBMI, calculateButton, calculateCalories, errorDisplay, fieldGroup, floatToStr, resetButton, roundToTwoDecimals, scoreCalculator, strToFloat)
 import Html exposing (div, form, h2, input, label, option, p, select, text)
 import Html.Attributes exposing (attribute, checked, class, for, id, type_, value)
 import Html.Events exposing (onCheck, onInput)
@@ -44,6 +44,7 @@ type Msg
     | ChangeWeightLoss Int
     | ChangeCritical Bool
     | Calculate
+    | Reset
 
 
 update : Msg -> Model -> Strings -> Model
@@ -92,8 +93,10 @@ update msg model strings =
                     , calculated = True
                 }
 
+        Reset ->
+            init
 
-view : Strings -> Model -> Html.Html Msg
+
 view strings model =
     div [ class "calculator-card", attribute "aria-label" strings.nutrition ]
         [ h2 [ class "card-title" ] [ text strings.nutrition ]
@@ -125,7 +128,9 @@ view strings model =
                 , label [ class "checkbox-label", for "nutrition-critical" ] [ text strings.critical ]
                 ]
             , div [ class "button-container" ]
-                [ calculateButton strings.calculate ("Calculate " ++ strings.nutrition) Calculate ]
+                [ calculateButton strings.calculate ("Calculate " ++ strings.nutrition) Calculate
+                , resetButton strings.reset ("Reset " ++ strings.nutrition) Reset
+                ]
             , case model.error of
                 Just error ->
                     errorDisplay error

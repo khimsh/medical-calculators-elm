@@ -18,6 +18,7 @@ type alias Strings =
     , prescribedAmount : String
     , pillStrength : String
     , calculate : String
+    , reset : String
     , result : String
     , tablets : String
     , peroralliquid : String
@@ -59,6 +60,7 @@ englishStrings =
     , prescribedAmount = "Prescribed amount (mg)"
     , pillStrength = "Pill strength (mg)"
     , calculate = "Calculate"
+    , reset = "Reset"
     , result = "Result:"
     , tablets = "tablets"
     , peroralliquid = "Peroral Liquids Dosage"
@@ -100,6 +102,7 @@ georgianStrings =
     , prescribedAmount = "გამოწერილი რაოდენობა (მგ)"
     , pillStrength = "აბის სიძლიერე (მგ)"
     , calculate = "გამოთვლა"
+    , reset = "გადატვირთვა"
     , result = "შედეგი:"
     , tablets = "აბი"
     , peroralliquid = "პერორალური თხევადი მედიკამენტი"

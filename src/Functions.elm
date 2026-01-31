@@ -173,3 +173,14 @@ calculateButton buttonText ariaLabel onClickMsg =
         , attribute "aria-label" ariaLabel
         ]
         [ text buttonText ]
+
+
+resetButton : String -> String -> msg -> Html.Html msg
+resetButton buttonText ariaLabel onClickMsg =
+    button
+        [ class "button button-secondary"
+        , type_ "button"
+        , onClick onClickMsg
+        , attribute "aria-label" ariaLabel
+        ]
+        [ text buttonText ]

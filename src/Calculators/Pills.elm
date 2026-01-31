@@ -1,6 +1,6 @@
 module Calculators.Pills exposing (Model, Msg(..), init, update, view)
 
-import Functions exposing (calculateButton, errorDisplay, fieldGroup, floatToStr, resultDisplay, roundToTwoDecimals, strToFloat)
+import Functions exposing (calculateButton, errorDisplay, fieldGroup, floatToStr, resetButton, resultDisplay, roundToTwoDecimals, strToFloat)
 import Html exposing (div, form, h2, text)
 import Html.Attributes exposing (attribute, class)
 import Translations exposing (Strings)
@@ -29,6 +29,7 @@ type Msg
     = ChangePrescribed String
     | ChangeTabletMg String
     | Calculate
+    | Reset
 
 
 update : Msg -> Model -> Strings -> Model
@@ -58,6 +59,9 @@ update msg model strings =
                 else
                     { model | result = floatToStr (roundToTwoDecimals (prescribed / tablet)), error = Nothing, calculated = True }
 
+        Reset ->
+            init
+
 
 view : Strings -> Model -> Html.Html Msg
 view strings model =
@@ -67,7 +71,9 @@ view strings model =
             [ fieldGroup strings.prescribedAmount "pills-prescribed-amount" "0.0" model.prescribed ChangePrescribed
             , fieldGroup strings.pillStrength "pills-tablet-mg" "0.0" model.tabletMg ChangeTabletMg
             , div [ class "button-container" ]
-                [ calculateButton strings.calculate ("Calculate " ++ strings.pillDosage) Calculate ]
+                [ calculateButton strings.calculate ("Calculate " ++ strings.pillDosage) Calculate
+                , resetButton strings.reset ("Reset " ++ strings.pillDosage) Reset
+                ]
             , case model.error of
                 Just error ->
                     errorDisplay error
