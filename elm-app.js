@@ -5693,6 +5693,7 @@ var $elm$html$Html$Events$onClick = function (msg) {
 		'click',
 		$elm$json$Json$Decode$succeed(msg));
 };
+var $elm$html$Html$p = _VirtualDom_node('p');
 var $elm$html$Html$span = _VirtualDom_node('span');
 var $elm$virtual_dom$VirtualDom$text = _VirtualDom_text;
 var $elm$html$Html$text = $elm$virtual_dom$VirtualDom$text;
@@ -5726,7 +5727,7 @@ var $author$project$Functions$calculateButton = F3(
 			$elm$html$Html$button,
 			_List_fromArray(
 				[
-					$elm$html$Html$Attributes$class('button'),
+					$elm$html$Html$Attributes$class('button-primary'),
 					$elm$html$Html$Attributes$type_('button'),
 					$elm$html$Html$Events$onClick(onClickMsg),
 					A2($elm$html$Html$Attributes$attribute, 'aria-label', ariaLabel)
@@ -5736,7 +5737,6 @@ var $author$project$Functions$calculateButton = F3(
 					$elm$html$Html$text(buttonText)
 				]));
 	});
-var $elm$html$Html$p = _VirtualDom_node('p');
 var $author$project$Functions$errorDisplay = function (errorMessage) {
 	return A2(
 		$elm$html$Html$div,
@@ -5840,8 +5840,8 @@ var $author$project$Functions$resetButton = F3(
 			$elm$html$Html$button,
 			_List_fromArray(
 				[
-					$elm$html$Html$Attributes$class('button button-secondary'),
-					$elm$html$Html$Attributes$type_('button'),
+					$elm$html$Html$Attributes$class('button-secondary-outline'),
+					$elm$html$Html$Attributes$type_('reset'),
 					$elm$html$Html$Events$onClick(onClickMsg),
 					A2($elm$html$Html$Attributes$attribute, 'aria-label', ariaLabel)
 				]),
@@ -6491,23 +6491,14 @@ var $author$project$Main$viewIndex = function (strings) {
 		$elm$html$Html$div,
 		_List_fromArray(
 			[
-				$elm$html$Html$Attributes$class('index-container')
+				$elm$html$Html$Attributes$class('calculators-grid')
 			]),
 		_List_fromArray(
 			[
-				A2(
-				$elm$html$Html$div,
-				_List_fromArray(
-					[
-						$elm$html$Html$Attributes$class('calculators-grid')
-					]),
-				_List_fromArray(
-					[
-						A4($author$project$Main$calculatorCard, $author$project$Main$PillsCalc, strings.pillDosage, strings.pillDescription, '#ee5a52'),
-						A4($author$project$Main$calculatorCard, $author$project$Main$LiquidsCalc, strings.liquidDosage, strings.liquidDescription, '#3498db'),
-						A4($author$project$Main$calculatorCard, $author$project$Main$NutritionCalc, strings.nutrition, strings.nutritionDescription, '#2ecc71'),
-						A4($author$project$Main$calculatorCard, $author$project$Main$FreeWaterDeficitMsg, strings.freeWaterDeficit, strings.freeWaterDeficitDescription, '#f39c12')
-					]))
+				A4($author$project$Main$calculatorCard, $author$project$Main$PillsCalc, strings.pillDosage, strings.pillDescription, '#ee5a52'),
+				A4($author$project$Main$calculatorCard, $author$project$Main$LiquidsCalc, strings.liquidDosage, strings.liquidDescription, '#3498db'),
+				A4($author$project$Main$calculatorCard, $author$project$Main$NutritionCalc, strings.nutrition, strings.nutritionDescription, '#2ecc71'),
+				A4($author$project$Main$calculatorCard, $author$project$Main$FreeWaterDeficitMsg, strings.freeWaterDeficit, strings.freeWaterDeficitDescription, '#f39c12')
 			]));
 };
 var $author$project$Main$view = function (model) {
@@ -6683,20 +6674,10 @@ var $author$project$Main$view = function (model) {
 						$elm$html$Html$div,
 						_List_fromArray(
 							[
-								$elm$html$Html$Attributes$class('main-wrapper')
+								$elm$html$Html$Attributes$class('content-wrapper')
 							]),
 						_List_fromArray(
 							[
-								A2(
-								$elm$html$Html$div,
-								_List_fromArray(
-									[
-										$elm$html$Html$Attributes$class('disclaimer-banner')
-									]),
-								_List_fromArray(
-									[
-										$elm$html$Html$text(strings.disclaimer)
-									])),
 								A2(
 								$elm$html$Html$header,
 								_List_fromArray(
@@ -6710,7 +6691,7 @@ var $author$project$Main$view = function (model) {
 										$elm$html$Html$div,
 										_List_fromArray(
 											[
-												$elm$html$Html$Attributes$class('header-left')
+												$elm$html$Html$Attributes$class('container padding-block-md')
 											]),
 										_List_fromArray(
 											[
@@ -6727,6 +6708,25 @@ var $author$project$Main$view = function (model) {
 											]))
 									])),
 								A2(
+								$elm$html$Html$div,
+								_List_fromArray(
+									[
+										$elm$html$Html$Attributes$class('container')
+									]),
+								_List_fromArray(
+									[
+										A2(
+										$elm$html$Html$p,
+										_List_fromArray(
+											[
+												$elm$html$Html$Attributes$class('disclaimer-banner padding-block-md')
+											]),
+										_List_fromArray(
+											[
+												$elm$html$Html$text(strings.disclaimer)
+											]))
+									])),
+								A2(
 								$elm$html$Html$main_,
 								_List_fromArray(
 									[
@@ -6734,15 +6734,24 @@ var $author$project$Main$view = function (model) {
 									]),
 								_List_fromArray(
 									[
-										function () {
-										var _v0 = model.currentView;
-										if (_v0.$ === 'IndexView') {
-											return $author$project$Main$viewIndex(strings);
-										} else {
-											var calculator = _v0.a;
-											return A3($author$project$Main$viewCalculator, model, calculator, strings);
-										}
-									}()
+										A2(
+										$elm$html$Html$div,
+										_List_fromArray(
+											[
+												$elm$html$Html$Attributes$class('container')
+											]),
+										_List_fromArray(
+											[
+												function () {
+												var _v0 = model.currentView;
+												if (_v0.$ === 'IndexView') {
+													return $author$project$Main$viewIndex(strings);
+												} else {
+													var calculator = _v0.a;
+													return A3($author$project$Main$viewCalculator, model, calculator, strings);
+												}
+											}()
+											]))
 									]))
 							]))
 					]))
