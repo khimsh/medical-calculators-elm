@@ -7,7 +7,7 @@
     "build": "elm make src/Main.elm --output elm-app.js",
     "build:scss": "sass src/scss/styles.scss styles.css --style=compressed",
     "watch:scss": "sass --watch src/scss/styles.scss:styles.css",
-    "lint:scss": "stylelint src/scss/**/*.scss",
+    "lint:scss:fix": "stylelint src/scss/**/*.scss --fix",
     "build:prod": "elm make src/Main.elm --output elm-app.js --optimize"
   },
   "devDependencies": {

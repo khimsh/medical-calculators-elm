@@ -1,16 +1,16 @@
 .calculator-card-button {
   position: relative;
   display: flex;
-  padding: 1.5rem;
-  border: 2px solid transparent;
-  overflow: hidden;
-  background: var(--color-white);
-  box-shadow: var(--shadow-md);
-  border-radius: 16px;
-  transition: all 0.3s ease;
-  cursor: pointer;
   flex-direction: column;
   gap: 1rem;
+  padding: 1.5rem;
+  border: 2px solid transparent;
+  border-radius: 16px;
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+  background: var(--color-white);
+  transition: all 0.3s ease;
+  cursor: pointer;
 }
 
 .calculator-card-button::before {
@@ -24,9 +24,9 @@
 }
 
 .calculator-card-button:hover {
+  border-color: var(--accent-color);
   box-shadow: var(--shadow-lg);
   transform: translateY(-4px);
-  border-color: var(--accent-color);
 }
 
 .calculator-card-button:active {
@@ -36,20 +36,20 @@
 .card-header {
   position: relative;
   display: flex;
-  height: 160px;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  height: 160px;
 }
 
 .card-blob {
   width: 120px;
   height: 120px;
+  border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
   background: linear-gradient(
     135deg,
     var(--accent-color) 0%,
     rgba(238, 90, 82, 0.2) 100%
   );
-  border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
   opacity: 0.6;
 }
 
@@ -60,29 +60,29 @@
 
 .card-title {
   margin: 0;
-  color: var(--color-text-primary);
-  letter-spacing: -0.5px;
   font-size: 1.25rem;
   font-weight: 700;
+  letter-spacing: -0.5px;
+  color: var(--color-text-primary);
 }
 
 .card-description {
   margin: 0.5rem 0 0 0;
-  color: var(--color-text-secondary);
-  line-height: 1.5;
   font-size: 0.9rem;
   font-weight: 400;
+  line-height: 1.5;
+  color: var(--color-text-secondary);
 }
 
 .calculator-card {
   position: relative;
   width: 100%;
+  max-width: 520px;
   padding: 2.5rem;
+  border-radius: 16px;
+  box-shadow: var(--shadow-lg);
   overflow: hidden;
   background: var(--color-white);
-  box-shadow: var(--shadow-lg);
-  border-radius: 16px;
-  max-width: 520px;
   align-self: center;
 }
 
@@ -105,21 +105,21 @@
   margin: 0 0 1.5rem 0;
   padding: 0;
   border: none;
-  color: var(--color-text-primary);
-  letter-spacing: -0.5px;
   font-size: 1.5rem;
   font-weight: 700;
+  letter-spacing: -0.5px;
+  color: var(--color-text-primary);
 }
 
 .result-container::before {
-  content: '';
   position: absolute;
   top: -50%;
   right: -50%;
   width: 200px;
   height: 200px;
-  background: rgba(255, 255, 255, 0.05);
   border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+  background: rgba(255, 255, 255, 0.05);
+  content: '';
   pointer-events: none;
 }
 
@@ -127,10 +127,10 @@
   position: relative;
   z-index: 1;
   margin: 0 0 0.75rem 0;
-  color: rgba(255, 255, 255, 0.85);
-  letter-spacing: 0.5px;
   font-size: 0.85rem;
   font-weight: 600;
+  letter-spacing: 0.5px;
+  color: rgba(255, 255, 255, 0.85);
   text-transform: uppercase;
 }
 
@@ -138,17 +138,17 @@
   position: relative;
   z-index: 1;
   margin: 0;
-  color: var(--color-white);
-  letter-spacing: -1px;
   font-size: 2.5rem;
   font-weight: 700;
+  letter-spacing: -1px;
+  color: var(--color-white);
 }
 
 .result-unit {
   position: relative;
   z-index: 1;
   margin: 0.5rem 0 0 0;
-  color: rgba(255, 255, 255, 0.8);
   font-size: 0.9rem;
   font-weight: 500;
+  color: rgba(255, 255, 255, 0.8);
 }

@@ -1,5 +1,5 @@
 .container {
-  // main container that will wrap the content
+  /* main container that will wrap the content */
   width: min(100% - 2rem, 1280px);
   margin-inline: auto;
 }
@@ -21,7 +21,10 @@
 
 .result-container {
   position: relative;
+  margin-top: 1.75rem;
   padding: 1.75rem;
+  border-left: 4px solid var(--color-white);
+  border-radius: 12px;
   overflow: hidden;
   color: var(--color-white);
   text-align: center;
@@ -30,7 +33,4 @@
     var(--color-accent) 0%,
     var(--color-accent-dark) 100%
   );
-  border-radius: 12px;
-  margin-top: 1.75rem;
-  border-left: 4px solid var(--color-white);
 }
