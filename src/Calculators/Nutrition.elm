@@ -98,6 +98,7 @@ update msg model strings =
             init
 
 
+view : { a | nutrition : String, weight : String, height : String, weightLoss : String, weightLossNone : String, critical : String, calculate : String, reset : String, dailyCalories : String, kcal : String, proteins : String, fats : String, carbs : String } -> { b | weight : String, height : String, weightLoss : Int, critical : Bool, error : Maybe String, calculated : Bool, bmi : String, calories : String, proteins : String, fats : String, carbs : String } -> Html.Html Msg
 view strings model =
     Card.view
         { title = strings.nutrition
