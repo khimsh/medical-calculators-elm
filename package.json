@@ -11,6 +11,7 @@
     "build:prod": "elm make src/Main.elm --output elm-app.js --optimize"
   },
   "devDependencies": {
+    "elm": "^0.19.1-6",
     "elm-test": "^0.19.1-revision7",
     "prettier": "3.8.1",
     "sass": "^1.97.3",
