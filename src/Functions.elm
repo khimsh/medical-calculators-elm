@@ -1,7 +1,7 @@
 module Functions exposing (..)
 
 import Html exposing (button, div, input, label, text)
-import Html.Attributes exposing (attribute, class, for, id, type_, value)
+import Html.Attributes exposing (attribute, autocomplete, class, for, id, type_, value)
 import Html.Events exposing (onClick, onInput)
 
 
@@ -143,6 +143,7 @@ fieldGroup labelText inputId placeholderText valueText onInputMsg =
             , onInput onInputMsg
             , type_ "number"
             , attribute "min" "0"
+            , Html.Attributes.autocomplete False
             ]
             []
         ]
