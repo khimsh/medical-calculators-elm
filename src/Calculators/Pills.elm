@@ -1,9 +1,9 @@
 module Calculators.Pills exposing (Model, Msg(..), init, update, view)
 
 import Calculators.Card as Card
-import Functions exposing (errorDisplay, fieldGroup, floatToStr, resultDisplay, roundToTwoDecimals, strToFloat)
-import Html exposing (div, form, h2, text)
-import Html.Attributes exposing (attribute, class)
+import FormFields exposing (numberField)
+import Functions exposing (errorDisplay, floatToStr, resultDisplay, roundToTwoDecimals, strToFloat)
+import Html exposing (text)
 import Translations exposing (Strings)
 
 
@@ -72,8 +72,8 @@ view strings model =
         , calculateLabel = "Calculate " ++ strings.pillDosage
         , resetLabel = "Reset " ++ strings.pillDosage
         }
-        [ fieldGroup strings.prescribedAmount "pills-prescribed-amount" "0.0" model.prescribed ChangePrescribed
-        , fieldGroup strings.pillStrength "pills-tablet-mg" "0.0" model.tabletMg ChangeTabletMg
+        [ numberField strings.prescribedAmount "pills-prescribed-amount" "0.0" model.prescribed ChangePrescribed
+        , numberField strings.pillStrength "pills-tablet-mg" "0.0" model.tabletMg ChangeTabletMg
         ]
         { calculateMsg = Calculate
         , resetMsg = Reset

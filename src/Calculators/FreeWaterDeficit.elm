@@ -1,9 +1,9 @@
 module Calculators.FreeWaterDeficit exposing (Model, Msg(..), init, update, view)
 
 import Calculators.Card as Card
-import Functions exposing (errorDisplay, fieldGroup, floatToStr, resultDisplay, roundToTwoDecimals, strToFloat)
-import Html exposing (Html, div, h2, text)
-import Html.Attributes exposing (attribute, class)
+import FormFields exposing (numberField)
+import Functions exposing (errorDisplay, floatToStr, resultDisplay, roundToTwoDecimals, strToFloat)
+import Html exposing (Html, text)
 import Translations exposing (Strings)
 
 
@@ -81,8 +81,8 @@ view strings model =
         , calculateLabel = "Calculate " ++ strings.freeWaterDeficit
         , resetLabel = "Reset " ++ strings.freeWaterDeficit
         }
-        [ fieldGroup strings.weight "weight" "0.0" model.weight UpdateWeight
-        , fieldGroup strings.sodium "sodium" "0.0" model.sodium UpdateSodium
+        [ numberField strings.weight "weight" "0.0" model.weight UpdateWeight
+        , numberField strings.sodium "sodium" "0.0" model.sodium UpdateSodium
         ]
         { calculateMsg = Calculate
         , resetMsg = Reset

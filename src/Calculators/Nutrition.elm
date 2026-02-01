@@ -1,10 +1,10 @@
 module Calculators.Nutrition exposing (Model, Msg(..), init, update, view)
 
 import Calculators.Card as Card
-import Functions exposing (calculateBMI, calculateCalories, errorDisplay, fieldGroup, floatToStr, roundToTwoDecimals, scoreCalculator, strToFloat)
-import Html exposing (div, form, h2, input, label, option, p, select, text)
-import Html.Attributes exposing (attribute, checked, class, for, id, type_, value)
-import Html.Events exposing (onCheck, onInput)
+import FormFields exposing (checkboxField, numberField, selectField)
+import Functions exposing (calculateBMI, calculateCalories, errorDisplay, floatToStr, roundToTwoDecimals, scoreCalculator, strToFloat)
+import Html exposing (div, p, text)
+import Html.Attributes exposing (attribute, class)
 import Translations exposing (Strings)
 
 
@@ -105,32 +105,18 @@ view strings model =
         , calculateLabel = "Calculate " ++ strings.nutrition
         , resetLabel = "Reset " ++ strings.nutrition
         }
-        [ fieldGroup strings.weight "nutrition-weight" "0.0" model.weight ChangeWeight
-        , fieldGroup strings.height "nutrition-height" "0.0" model.height ChangeHeight
-        , div [ class "field-group" ]
-            [ label [ class "label", for "nutrition-weight-loss" ] [ text strings.weightLoss ]
-            , select
-                [ class "input"
-                , id "nutrition-weight-loss"
-                , onInput (\v -> ChangeWeightLoss (Maybe.withDefault 0 (String.toInt v)))
-                ]
-                [ option [ value "0" ] [ text strings.weightLossNone ]
-                , option [ value "1" ] [ text "1-5%" ]
-                , option [ value "2" ] [ text "5-10%" ]
-                , option [ value "3" ] [ text ">10%" ]
-                ]
+        [ numberField strings.weight "nutrition-weight" "0.0" model.weight ChangeWeight
+        , numberField strings.height "nutrition-height" "0.0" model.height ChangeHeight
+        , selectField strings.weightLoss
+            "nutrition-weight-loss"
+            (String.fromInt model.weightLoss)
+            [ { value = "0", label = strings.weightLossNone }
+            , { value = "1", label = "1-5%" }
+            , { value = "2", label = "5-10%" }
+            , { value = "3", label = ">10%" }
             ]
-        , div [ class "field-group checkbox-group" ]
-            [ input
-                [ type_ "checkbox"
-                , id "nutrition-critical"
-                , checked model.critical
-                , onCheck ChangeCritical
-                , class "checkbox-input"
-                ]
-                []
-            , label [ class "checkbox-label", for "nutrition-critical" ] [ text strings.critical ]
-            ]
+            (\v -> ChangeWeightLoss (Maybe.withDefault 0 (String.toInt v)))
+        , checkboxField strings.critical "nutrition-critical" model.critical ChangeCritical
         ]
         { calculateMsg = Calculate
         , resetMsg = Reset

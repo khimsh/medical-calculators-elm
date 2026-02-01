@@ -1,9 +1,9 @@
 module Calculators.Liquids exposing (Model, Msg(..), init, update, view)
 
 import Calculators.Card as Card
-import Functions exposing (..)
-import Html exposing (div, form, h2, text)
-import Html.Attributes exposing (attribute, class)
+import FormFields exposing (numberField)
+import Functions exposing (errorDisplay, floatToStr, resultDisplay, roundToTwoDecimals, strToFloat)
+import Html exposing (text)
 import Translations exposing (Strings)
 
 
@@ -81,9 +81,9 @@ view strings model =
         , calculateLabel = "Calculate " ++ strings.liquidDosage
         , resetLabel = "Reset " ++ strings.liquidDosage
         }
-        [ fieldGroup strings.prescribedAmount "liquid-prescribed-amount" "0.0" model.prescribedLiquid ChangePrescribedLiquid
-        , fieldGroup strings.amountAtHand "liquid-available-amount" "0.0" model.liquidDosageAthand ChangeLiquidDosageAthand
-        , fieldGroup strings.volumeAtHand "liquid-available-volume" "0.0" model.liquidVolumeAtHand ChangeLiquidVolumeAtHand
+        [ numberField strings.prescribedAmount "liquid-prescribed-amount" "0.0" model.prescribedLiquid ChangePrescribedLiquid
+        , numberField strings.amountAtHand "liquid-available-amount" "0.0" model.liquidDosageAthand ChangeLiquidDosageAthand
+        , numberField strings.volumeAtHand "liquid-available-volume" "0.0" model.liquidVolumeAtHand ChangeLiquidVolumeAtHand
         ]
         { calculateMsg = Calculate
         , resetMsg = Reset
