@@ -6,8 +6,8 @@ import Calculators.FreeWaterDeficit as FreeWaterDeficit
 import Calculators.Liquids as Liquids
 import Calculators.Nutrition as Nutrition
 import Calculators.Pills as Pills
-import Html exposing (button, div, h1, h2, header, main_, p, span, text)
-import Html.Attributes exposing (attribute, class, type_)
+import Html exposing (a, button, div, h1, h2, header, main_, p, span, text)
+import Html.Attributes exposing (attribute, class, href, type_)
 import Html.Events exposing (onClick)
 import Translations exposing (Language(..), getStrings)
 import Url
@@ -210,6 +210,40 @@ update msg model =
             )
 
 
+navItem : View -> Calculator -> String -> String -> Html.Html Msg
+navItem currentView calculator icon label =
+    let
+        isActive =
+            currentView == CalculatorView calculator
+
+        activeClass =
+            if isActive then
+                " active"
+
+            else
+                ""
+
+        urlFragment =
+            "#" ++ calculatorToFragment calculator
+    in
+    a
+        [ class ("sidebar-nav-item" ++ activeClass)
+        , href urlFragment
+        , onClick (SelectCalculator calculator)
+        , attribute "aria-label" label
+        , attribute "aria-current"
+            (if isActive then
+                "page"
+
+             else
+                "false"
+            )
+        ]
+        [ span [ class "sidebar-nav-item-icon" ] [ text icon ]
+        , span [ class "sidebar-nav-item-text" ] [ text label ]
+        ]
+
+
 view : Model -> Browser.Document Msg
 view model =
     let
@@ -261,78 +295,10 @@ view model =
                             "🇬🇧"
                         )
                     ]
-                , button
-                    [ class
-                        ("sidebar-nav-item"
-                            ++ (if model.currentView == CalculatorView PillsCalc then
-                                    " active"
-
-                                else
-                                    ""
-                               )
-                        )
-                    , type_ "button"
-                    , onClick (SelectCalculator PillsCalc)
-                    , attribute "aria-label" "Pills"
-                    , attribute "title" strings.pillDosage
-                    ]
-                    [ text "💊"
-                    , Html.span [ class "sidebar-nav-item-text" ] [ text strings.pillDosage ]
-                    ]
-                , button
-                    [ class
-                        ("sidebar-nav-item"
-                            ++ (if model.currentView == CalculatorView LiquidsCalc then
-                                    " active"
-
-                                else
-                                    ""
-                               )
-                        )
-                    , type_ "button"
-                    , onClick (SelectCalculator LiquidsCalc)
-                    , attribute "aria-label" "Liquids"
-                    , attribute "title" strings.liquidDosage
-                    ]
-                    [ text "🧪"
-                    , Html.span [ class "sidebar-nav-item-text" ] [ text strings.liquidDosage ]
-                    ]
-                , button
-                    [ class
-                        ("sidebar-nav-item"
-                            ++ (if model.currentView == CalculatorView NutritionCalc then
-                                    " active"
-
-                                else
-                                    ""
-                               )
-                        )
-                    , type_ "button"
-                    , onClick (SelectCalculator NutritionCalc)
-                    , attribute "aria-label" "Nutrition"
-                    , attribute "title" strings.nutrition
-                    ]
-                    [ text "🥗"
-                    , Html.span [ class "sidebar-nav-item-text" ] [ text strings.nutrition ]
-                    ]
-                , button
-                    [ class
-                        ("sidebar-nav-item"
-                            ++ (if model.currentView == CalculatorView FreeWaterDeficitMsg then
-                                    " active"
-
-                                else
-                                    ""
-                               )
-                        )
-                    , type_ "button"
-                    , onClick (SelectCalculator FreeWaterDeficitMsg)
-                    , attribute "aria-label" "Free Water Deficit"
-                    , attribute "title" strings.freeWaterDeficit
-                    ]
-                    [ text "💧"
-                    , span [ class "sidebar-nav-item-text" ] [ text strings.freeWaterDeficit ]
-                    ]
+                , navItem model.currentView PillsCalc "💊" strings.pillDosage
+                , navItem model.currentView LiquidsCalc "🧪" strings.liquidDosage
+                , navItem model.currentView NutritionCalc "🥗" strings.nutrition
+                , navItem model.currentView FreeWaterDeficitMsg "💧" strings.freeWaterDeficit
                 ]
             , div [ class "content-wrapper" ]
                 [ header [ class "header", attribute "aria-label" "Site header" ]
