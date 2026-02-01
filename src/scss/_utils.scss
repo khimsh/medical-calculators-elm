@@ -70,3 +70,48 @@
   margin-top: var(--spacing-lg);
   margin-bottom: var(--spacing-lg);
 }
+
+// Flex utilities
+.flex {
+  display: flex;
+}
+
+.flex-justify-center {
+  justify-content: center;
+}
+
+.flex-justify-between {
+  justify-content: space-between;
+}
+
+.flex-align-center {
+  align-items: center;
+}
+
+.flex-align-start {
+  align-items: flex-start;
+}
+
+.flex-align-end {
+  align-items: flex-end;
+}
+
+.flex-column {
+  flex-direction: column;
+}
+
+.flex-gap-sm {
+  gap: var(--spacing-sm);
+}
+.flex-gap-md {
+  gap: var(--spacing-md);
+}
+.flex-gap-lg {
+  gap: var(--spacing-lg);
+}
+.flex-gap-xl {
+  gap: var(--spacing-xl);
+}
+.flex-gap-2xl {
+  gap: var(--spacing-2xl);
+}
