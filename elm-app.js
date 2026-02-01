@@ -5644,9 +5644,6 @@ var $author$project$Main$update = F2(
 					$elm$core$Platform$Cmd$none);
 		}
 	});
-var $author$project$Main$SelectCalculator = function (a) {
-	return {$: 0, a: a};
-};
 var $author$project$Main$ToggleLanguage = {$: 3};
 var $author$project$Main$ToggleSidebar = {$: 2};
 var $elm$virtual_dom$VirtualDom$attribute = F2(
@@ -5670,6 +5667,16 @@ var $elm$html$Html$div = _VirtualDom_node('div');
 var $elm$html$Html$h1 = _VirtualDom_node('h1');
 var $elm$html$Html$header = _VirtualDom_node('header');
 var $elm$html$Html$main_ = _VirtualDom_node('main');
+var $author$project$Main$SelectCalculator = function (a) {
+	return {$: 0, a: a};
+};
+var $elm$html$Html$a = _VirtualDom_node('a');
+var $elm$html$Html$Attributes$href = function (url) {
+	return A2(
+		$elm$html$Html$Attributes$stringProperty,
+		'href',
+		_VirtualDom_noJavaScriptUri(url));
+};
 var $elm$virtual_dom$VirtualDom$Normal = function (a) {
 	return {$: 0, a: a};
 };
@@ -5687,10 +5694,55 @@ var $elm$html$Html$Events$onClick = function (msg) {
 		'click',
 		$elm$json$Json$Decode$succeed(msg));
 };
-var $elm$html$Html$p = _VirtualDom_node('p');
 var $elm$html$Html$span = _VirtualDom_node('span');
 var $elm$virtual_dom$VirtualDom$text = _VirtualDom_text;
 var $elm$html$Html$text = $elm$virtual_dom$VirtualDom$text;
+var $author$project$Main$navItem = F4(
+	function (currentView, calculator, icon, label) {
+		var urlFragment = '#' + $author$project$Main$calculatorToFragment(calculator);
+		var isActive = _Utils_eq(
+			currentView,
+			$author$project$Main$CalculatorView(calculator));
+		var activeClass = isActive ? ' active' : '';
+		return A2(
+			$elm$html$Html$a,
+			_List_fromArray(
+				[
+					$elm$html$Html$Attributes$class('sidebar-nav-item' + activeClass),
+					$elm$html$Html$Attributes$href(urlFragment),
+					$elm$html$Html$Events$onClick(
+					$author$project$Main$SelectCalculator(calculator)),
+					A2($elm$html$Html$Attributes$attribute, 'aria-label', label),
+					A2(
+					$elm$html$Html$Attributes$attribute,
+					'aria-current',
+					isActive ? 'page' : 'false')
+				]),
+			_List_fromArray(
+				[
+					A2(
+					$elm$html$Html$span,
+					_List_fromArray(
+						[
+							$elm$html$Html$Attributes$class('sidebar-nav-item-icon')
+						]),
+					_List_fromArray(
+						[
+							$elm$html$Html$text(icon)
+						])),
+					A2(
+					$elm$html$Html$span,
+					_List_fromArray(
+						[
+							$elm$html$Html$Attributes$class('sidebar-nav-item-text')
+						]),
+					_List_fromArray(
+						[
+							$elm$html$Html$text(label)
+						]))
+				]));
+	});
+var $elm$html$Html$p = _VirtualDom_node('p');
 var $elm$html$Html$Attributes$type_ = $elm$html$Html$Attributes$stringProperty('type');
 var $author$project$Main$GoToIndex = {$: 1};
 var $author$project$Main$HandleFreeWaterDeficitMsg = function (a) {
@@ -6469,118 +6521,10 @@ var $author$project$Main$view = function (model) {
 										$elm$html$Html$text(
 										(!model.u) ? '🇬🇪' : '🇬🇧')
 									])),
-								A2(
-								$elm$html$Html$button,
-								_List_fromArray(
-									[
-										$elm$html$Html$Attributes$class(
-										'sidebar-nav-item' + (_Utils_eq(
-											model.y,
-											$author$project$Main$CalculatorView(0)) ? ' active' : '')),
-										$elm$html$Html$Attributes$type_('button'),
-										$elm$html$Html$Events$onClick(
-										$author$project$Main$SelectCalculator(0)),
-										A2($elm$html$Html$Attributes$attribute, 'aria-label', 'Pills'),
-										A2($elm$html$Html$Attributes$attribute, 'title', strings.aF)
-									]),
-								_List_fromArray(
-									[
-										$elm$html$Html$text('💊'),
-										A2(
-										$elm$html$Html$span,
-										_List_fromArray(
-											[
-												$elm$html$Html$Attributes$class('sidebar-nav-item-text')
-											]),
-										_List_fromArray(
-											[
-												$elm$html$Html$text(strings.aF)
-											]))
-									])),
-								A2(
-								$elm$html$Html$button,
-								_List_fromArray(
-									[
-										$elm$html$Html$Attributes$class(
-										'sidebar-nav-item' + (_Utils_eq(
-											model.y,
-											$author$project$Main$CalculatorView(1)) ? ' active' : '')),
-										$elm$html$Html$Attributes$type_('button'),
-										$elm$html$Html$Events$onClick(
-										$author$project$Main$SelectCalculator(1)),
-										A2($elm$html$Html$Attributes$attribute, 'aria-label', 'Liquids'),
-										A2($elm$html$Html$Attributes$attribute, 'title', strings.bn)
-									]),
-								_List_fromArray(
-									[
-										$elm$html$Html$text('🧪'),
-										A2(
-										$elm$html$Html$span,
-										_List_fromArray(
-											[
-												$elm$html$Html$Attributes$class('sidebar-nav-item-text')
-											]),
-										_List_fromArray(
-											[
-												$elm$html$Html$text(strings.bn)
-											]))
-									])),
-								A2(
-								$elm$html$Html$button,
-								_List_fromArray(
-									[
-										$elm$html$Html$Attributes$class(
-										'sidebar-nav-item' + (_Utils_eq(
-											model.y,
-											$author$project$Main$CalculatorView(2)) ? ' active' : '')),
-										$elm$html$Html$Attributes$type_('button'),
-										$elm$html$Html$Events$onClick(
-										$author$project$Main$SelectCalculator(2)),
-										A2($elm$html$Html$Attributes$attribute, 'aria-label', 'Nutrition'),
-										A2($elm$html$Html$Attributes$attribute, 'title', strings.aE)
-									]),
-								_List_fromArray(
-									[
-										$elm$html$Html$text('🥗'),
-										A2(
-										$elm$html$Html$span,
-										_List_fromArray(
-											[
-												$elm$html$Html$Attributes$class('sidebar-nav-item-text')
-											]),
-										_List_fromArray(
-											[
-												$elm$html$Html$text(strings.aE)
-											]))
-									])),
-								A2(
-								$elm$html$Html$button,
-								_List_fromArray(
-									[
-										$elm$html$Html$Attributes$class(
-										'sidebar-nav-item' + (_Utils_eq(
-											model.y,
-											$author$project$Main$CalculatorView(3)) ? ' active' : '')),
-										$elm$html$Html$Attributes$type_('button'),
-										$elm$html$Html$Events$onClick(
-										$author$project$Main$SelectCalculator(3)),
-										A2($elm$html$Html$Attributes$attribute, 'aria-label', 'Free Water Deficit'),
-										A2($elm$html$Html$Attributes$attribute, 'title', strings.aB)
-									]),
-								_List_fromArray(
-									[
-										$elm$html$Html$text('💧'),
-										A2(
-										$elm$html$Html$span,
-										_List_fromArray(
-											[
-												$elm$html$Html$Attributes$class('sidebar-nav-item-text')
-											]),
-										_List_fromArray(
-											[
-												$elm$html$Html$text(strings.aB)
-											]))
-									]))
+								A4($author$project$Main$navItem, model.y, 0, '💊', strings.aF),
+								A4($author$project$Main$navItem, model.y, 1, '🧪', strings.bn),
+								A4($author$project$Main$navItem, model.y, 2, '🥗', strings.aE),
+								A4($author$project$Main$navItem, model.y, 3, '💧', strings.aB)
 							])),
 						A2(
 						$elm$html$Html$div,
