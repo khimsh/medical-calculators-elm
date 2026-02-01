@@ -388,13 +388,15 @@ calculatorCard calculator title description color =
 viewCalculator : Model -> Calculator -> Translations.Strings -> Html.Html Msg
 viewCalculator model calculator strings =
     div [ class "calculator-wrapper" ]
-        [ button
-            [ class "back-button"
-            , type_ "button"
-            , onClick GoToIndex
-            , attribute "aria-label" "Back to index"
+        [ div [ class "flex flex-align-start" ]
+            [ button
+                [ class "button-tertiary-outline button-with-icon"
+                , type_ "button"
+                , onClick GoToIndex
+                , attribute "aria-label" "Back to index"
+                ]
+                [ text "← Back" ]
             ]
-            [ text "← Back" ]
         , if calculator == PillsCalc then
             Html.map PillsMsg (Pills.view strings model.pills)
 
