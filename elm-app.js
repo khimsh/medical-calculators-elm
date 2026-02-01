@@ -6315,17 +6315,26 @@ var $author$project$Main$viewCalculator = F3(
 			_List_fromArray(
 				[
 					A2(
-					$elm$html$Html$button,
+					$elm$html$Html$div,
 					_List_fromArray(
 						[
-							$elm$html$Html$Attributes$class('back-button'),
-							$elm$html$Html$Attributes$type_('button'),
-							$elm$html$Html$Events$onClick($author$project$Main$GoToIndex),
-							A2($elm$html$Html$Attributes$attribute, 'aria-label', 'Back to index')
+							$elm$html$Html$Attributes$class('flex flex-align-start')
 						]),
 					_List_fromArray(
 						[
-							$elm$html$Html$text('← Back')
+							A2(
+							$elm$html$Html$button,
+							_List_fromArray(
+								[
+									$elm$html$Html$Attributes$class('button-tertiary-outline button-with-icon'),
+									$elm$html$Html$Attributes$type_('button'),
+									$elm$html$Html$Events$onClick($author$project$Main$GoToIndex),
+									A2($elm$html$Html$Attributes$attribute, 'aria-label', 'Back to index')
+								]),
+							_List_fromArray(
+								[
+									$elm$html$Html$text('← Back')
+								]))
 						])),
 					_Utils_eq(calculator, $author$project$Main$PillsCalc) ? A2(
 					$elm$html$Html$map,
