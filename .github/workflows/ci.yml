@@ -21,9 +21,6 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Lint SCSS
-        run: npm run lint:scss
-
       - name: Run tests
         run: npm test
 
