@@ -1,5 +1,6 @@
 module Calculators.Liquids exposing (Model, Msg(..), init, update, view)
 
+import Calculators.Card as Card
 import Functions exposing (..)
 import Html exposing (div, form, h2, text)
 import Html.Attributes exposing (attribute, class)
@@ -74,25 +75,29 @@ update msg model strings =
 
 view : Strings -> Model -> Html.Html Msg
 view strings model =
-    div [ class "calculator-card", attribute "aria-label" strings.peroralliquid ]
-        [ h2 [ class "card-title" ] [ text strings.peroralliquid ]
-        , form [ class "form" ]
-            [ fieldGroup strings.prescribedAmount "liquid-prescribed-amount" "0.0" model.prescribedLiquid ChangePrescribedLiquid
-            , fieldGroup strings.amountAtHand "liquid-dosage-athand" "0.0" model.liquidDosageAthand ChangeLiquidDosageAthand
-            , fieldGroup strings.volumeAtHand "liquid-volume-athand" "0.0" model.liquidVolumeAtHand ChangeLiquidVolumeAtHand
-            , div [ class "button-container" ]
-                [ calculateButton strings.calculate ("Calculate " ++ strings.liquidDosage) Calculate
-                , resetButton strings.reset ("Reset " ++ strings.liquidDosage) Reset
-                ]
-            , case model.error of
-                Just error ->
-                    errorDisplay error
-
-                Nothing ->
-                    if model.calculated && not (String.isEmpty model.prescribedLiquid || String.isEmpty model.liquidDosageAthand || String.isEmpty model.liquidVolumeAtHand) then
-                        resultDisplay strings.result model.result strings.ml
-
-                    else
-                        text ""
-            ]
+    Card.view
+        { title = strings.peroralliquid
+        , ariaLabel = strings.peroralliquid
+        , calculateLabel = "Calculate " ++ strings.liquidDosage
+        , resetLabel = "Reset " ++ strings.liquidDosage
+        }
+        [ fieldGroup strings.prescribedAmount "liquid-prescribed-amount" "0.0" model.prescribedLiquid ChangePrescribedLiquid
+        , fieldGroup strings.amountAtHand "liquid-available-amount" "0.0" model.liquidDosageAthand ChangeLiquidDosageAthand
+        , fieldGroup strings.volumeAtHand "liquid-available-volume" "0.0" model.liquidVolumeAtHand ChangeLiquidVolumeAtHand
         ]
+        { calculateMsg = Calculate
+        , resetMsg = Reset
+        , calculateText = strings.calculate
+        , resetText = strings.reset
+        }
+        (case model.error of
+            Just error ->
+                errorDisplay error
+
+            Nothing ->
+                if model.calculated && not (String.isEmpty model.prescribedLiquid || String.isEmpty model.liquidDosageAthand || String.isEmpty model.liquidVolumeAtHand) then
+                    resultDisplay strings.result model.result strings.ml
+
+                else
+                    text ""
+        )

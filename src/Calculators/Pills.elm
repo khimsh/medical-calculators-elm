@@ -1,6 +1,7 @@
 module Calculators.Pills exposing (Model, Msg(..), init, update, view)
 
-import Functions exposing (calculateButton, errorDisplay, fieldGroup, floatToStr, resetButton, resultDisplay, roundToTwoDecimals, strToFloat)
+import Calculators.Card as Card
+import Functions exposing (errorDisplay, fieldGroup, floatToStr, resultDisplay, roundToTwoDecimals, strToFloat)
 import Html exposing (div, form, h2, text)
 import Html.Attributes exposing (attribute, class)
 import Translations exposing (Strings)
@@ -65,24 +66,28 @@ update msg model strings =
 
 view : Strings -> Model -> Html.Html Msg
 view strings model =
-    div [ class "calculator-card", attribute "aria-label" strings.pillDosage ]
-        [ h2 [ class "card-title" ] [ text strings.pillDosage ]
-        , form [ class "form" ]
-            [ fieldGroup strings.prescribedAmount "pills-prescribed-amount" "0.0" model.prescribed ChangePrescribed
-            , fieldGroup strings.pillStrength "pills-tablet-mg" "0.0" model.tabletMg ChangeTabletMg
-            , div [ class "button-container" ]
-                [ calculateButton strings.calculate ("Calculate " ++ strings.pillDosage) Calculate
-                , resetButton strings.reset ("Reset " ++ strings.pillDosage) Reset
-                ]
-            , case model.error of
-                Just error ->
-                    errorDisplay error
-
-                Nothing ->
-                    if model.calculated && not (String.isEmpty model.prescribed || String.isEmpty model.tabletMg) then
-                        resultDisplay strings.result model.result strings.tablets
-
-                    else
-                        text ""
-            ]
+    Card.view
+        { title = strings.pillDosage
+        , ariaLabel = strings.pillDosage
+        , calculateLabel = "Calculate " ++ strings.pillDosage
+        , resetLabel = "Reset " ++ strings.pillDosage
+        }
+        [ fieldGroup strings.prescribedAmount "pills-prescribed-amount" "0.0" model.prescribed ChangePrescribed
+        , fieldGroup strings.pillStrength "pills-tablet-mg" "0.0" model.tabletMg ChangeTabletMg
         ]
+        { calculateMsg = Calculate
+        , resetMsg = Reset
+        , calculateText = strings.calculate
+        , resetText = strings.reset
+        }
+        (case model.error of
+            Just error ->
+                errorDisplay error
+
+            Nothing ->
+                if model.calculated && not (String.isEmpty model.prescribed || String.isEmpty model.tabletMg) then
+                    resultDisplay strings.result model.result strings.tablets
+
+                else
+                    text ""
+        )
