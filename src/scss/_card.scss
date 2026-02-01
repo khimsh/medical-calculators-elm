@@ -111,6 +111,34 @@
   color: var(--color-text-primary);
 }
 
+.calculator-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+/* Side-by-side layout on larger screens */
+@media (min-width: 1024px) {
+  .calculator-card {
+    max-width: 1200px;
+  }
+
+  .calculator-content {
+    flex-direction: row;
+    gap: 2.5rem;
+  }
+
+  .calculator-content form {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .calculator-content > div {
+    flex: 1;
+    min-width: 0;
+  }
+}
+
 .result-container::before {
   position: absolute;
   top: -50%;

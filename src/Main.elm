@@ -124,12 +124,26 @@ update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         SelectCalculator calculator ->
-            ( { model | currentView = CalculatorView calculator, sidebarOpen = False }
+            ( { model
+                | currentView = CalculatorView calculator
+                , sidebarOpen = False
+                , pills = Pills.init
+                , liquids = Liquids.init
+                , nutrition = Nutrition.init
+                , freeWaterDeficit = FreeWaterDeficit.init
+              }
             , Nav.pushUrl model.navKey ("#" ++ calculatorToFragment calculator)
             )
 
         GoToIndex ->
-            ( { model | currentView = IndexView, sidebarOpen = False }
+            ( { model
+                | currentView = IndexView
+                , sidebarOpen = False
+                , pills = Pills.init
+                , liquids = Liquids.init
+                , nutrition = Nutrition.init
+                , freeWaterDeficit = FreeWaterDeficit.init
+              }
             , Nav.pushUrl model.navKey "./"
             )
 
@@ -205,7 +219,13 @@ update msg model =
                     ( model, Nav.load href )
 
         UrlChanged url ->
-            ( { model | currentView = parseUrl url }
+            ( { model
+                | currentView = parseUrl url
+                , pills = Pills.init
+                , liquids = Liquids.init
+                , nutrition = Nutrition.init
+                , freeWaterDeficit = FreeWaterDeficit.init
+              }
             , Cmd.none
             )
 
