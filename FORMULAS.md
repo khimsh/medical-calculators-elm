@@ -46,7 +46,9 @@ Normal vital sign ranges by age
 ## Medication Dosing & Administration
 
 - Body Surface Area (BSA): Used for chemotherapy and medication dosing, typically calculated using the Mosteller formula: √[(height in cm × weight in kg) / 3600]
-- IV drip rate: (Total volume in mL × drop factor) / Time in minutes
+- IV pump rate: Total volume in mL / Time in hours = mL/h
+- IV drip rate: (Total volume in mL × drop factor) / Time in minutes = drops/min
+  - Source: D. C. Gray Morris, *Calculate with Confidence* (Elsevier), chapter on IV flow rates. Drop factors offered are 10, 15, 20 and 60 drops/mL; 20 drops/mL is the standard adult giving set (ISO 8536-4) and is the default.
 - Dosage calculations: (Desired dose / Available dose) × Quantity
 
 ## Cardiac & Hemodynamic

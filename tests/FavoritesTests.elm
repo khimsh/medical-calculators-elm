@@ -39,6 +39,16 @@ suite =
                     Encode.list Encode.string [ "liquids", "unknown", "liquids" ]
                         |> Favorites.decode
                         |> Expect.equal [ Liquids ]
+            , test "reads favorites stored before IV infusion rate existed" <|
+                \_ ->
+                    Encode.list Encode.string [ "pills", "nutrition" ]
+                        |> Favorites.decode
+                        |> Expect.equal [ Pills, Nutrition ]
+            , test "reads the IV infusion rate key" <|
+                \_ ->
+                    Encode.list Encode.string [ "iv-infusion-rate" ]
+                        |> Favorites.decode
+                        |> Expect.equal [ IvInfusionRate ]
             , test "gives no favorites for a non-list value" <|
                 \_ ->
                     Encode.string "garbage"

@@ -1,4 +1,4 @@
-module Functions exposing (NutritionResult, Sex(..), calculateBMI, calculateCalories, calculateFreeWaterDeficit, errorDisplay, floatToStr, formatToDecimals, roundToTwoDecimals, scoreCalculator, strToFloat, totalBodyWaterFactor)
+module Functions exposing (NutritionResult, Sex(..), calculateBMI, calculateCalories, calculateDripRate, calculateFreeWaterDeficit, calculatePumpRate, errorDisplay, floatToStr, formatToDecimals, roundToTwoDecimals, scoreCalculator, strToFloat, totalBodyWaterFactor)
 
 import Html exposing (div, text)
 import Html.Attributes exposing (attribute, class)
@@ -150,6 +150,20 @@ totalBodyWaterFactor sex elderly =
 calculateFreeWaterDeficit : Sex -> Bool -> Float -> Float -> Float
 calculateFreeWaterDeficit sex elderly weight sodium =
     totalBodyWaterFactor sex elderly * weight * (sodium / 140 - 1)
+
+
+{-| Pump rate in mL/h: volume (mL) ÷ time (h).
+-}
+calculatePumpRate : Float -> Float -> Float
+calculatePumpRate volume hours =
+    volume / hours
+
+
+{-| Gravity drip rate in drops/min: volume (mL) × drop factor (drops/mL) ÷ time (min).
+-}
+calculateDripRate : Float -> Int -> Float -> Float
+calculateDripRate volume dropFactor minutes =
+    volume * toFloat dropFactor / minutes
 
 
 errorDisplay : String -> Html.Html msg

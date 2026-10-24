@@ -3,6 +3,7 @@ port module Main exposing (main)
 import Browser
 import Browser.Navigation as Nav
 import Calculators.FreeWaterDeficit as FreeWaterDeficit
+import Calculators.IvInfusionRate as IvInfusionRate
 import Calculators.Liquids as Liquids
 import Calculators.Nutrition as Nutrition
 import Calculators.Pills as Pills
@@ -57,6 +58,7 @@ type alias Model =
     , liquids : Liquids.Model
     , nutrition : Nutrition.Model
     , freeWaterDeficit : FreeWaterDeficit.Model
+    , ivInfusionRate : IvInfusionRate.Model
     }
 
 
@@ -70,6 +72,7 @@ init flags url key =
       , liquids = Liquids.init
       , nutrition = Nutrition.init
       , freeWaterDeficit = FreeWaterDeficit.init
+      , ivInfusionRate = IvInfusionRate.init
       }
     , Cmd.none
     )
@@ -84,6 +87,7 @@ type Msg
     | LiquidsMsg Liquids.Msg
     | NutritionMsg Nutrition.Msg
     | HandleFreeWaterDeficitMsg FreeWaterDeficit.Msg
+    | IvInfusionRateMsg IvInfusionRate.Msg
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -164,6 +168,15 @@ update msg model =
                     FreeWaterDeficit.update subMsg model.freeWaterDeficit strings
             in
             ( { model | freeWaterDeficit = updatedFreeWaterDeficit }, Cmd.none )
+
+        IvInfusionRateMsg subMsg ->
+            let
+                strings =
+                    getStrings model.language
+            in
+            ( { model | ivInfusionRate = IvInfusionRate.update subMsg model.ivInfusionRate strings }
+            , Cmd.none
+            )
 
 
 view : Model -> Browser.Document Msg
@@ -248,6 +261,9 @@ viewCalculator strings model calculator =
 
                 Favorites.FreeWaterDeficit ->
                     ( strings.freeWaterDeficit, Html.map HandleFreeWaterDeficitMsg (FreeWaterDeficit.view strings model.freeWaterDeficit) )
+
+                Favorites.IvInfusionRate ->
+                    ( strings.ivInfusionRate, Html.map IvInfusionRateMsg (IvInfusionRate.view strings model.ivInfusionRate) )
 
         isFavorite =
             List.member calculator model.favorites

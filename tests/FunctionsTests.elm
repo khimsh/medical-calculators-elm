@@ -1,7 +1,7 @@
 module FunctionsTests exposing (..)
 
 import Expect
-import Functions exposing (calculateBMI, calculateCalories, scoreCalculator, strToFloat)
+import Functions exposing (calculateBMI, calculateCalories, calculateDripRate, calculatePumpRate, scoreCalculator, strToFloat)
 import Test exposing (Test, describe, test)
 
 
@@ -112,5 +112,26 @@ suite =
                 \_ ->
                     scoreCalculator 22 0 True
                         |> Expect.equal 2
+            ]
+        , describe "calculatePumpRate"
+            [ test "1000 mL over 8 h is 125 mL/h" <|
+                \_ ->
+                    calculatePumpRate 1000 8
+                        |> Expect.within (Expect.Absolute 0.0001) 125
+            , test "100 mL over 0.5 h is 200 mL/h" <|
+                \_ ->
+                    calculatePumpRate 100 0.5
+                        |> Expect.within (Expect.Absolute 0.0001) 200
+            ]
+        , describe "calculateDripRate"
+            [ test "1000 mL at 20 drops/mL over 480 min is about 41.67 drops/min" <|
+                \_ ->
+                    calculateDripRate 1000 20 480
+                        |> Expect.within (Expect.Absolute 0.01) 41.67
+            , test "249 mL at 10 drops/mL over 60 min is 41.5 drops/min, which rounds up to 42" <|
+                \_ ->
+                    calculateDripRate 249 10 60
+                        |> round
+                        |> Expect.equal 42
             ]
         ]

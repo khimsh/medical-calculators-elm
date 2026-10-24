@@ -9,11 +9,12 @@ type Calculator
     | Liquids
     | Nutrition
     | FreeWaterDeficit
+    | IvInfusionRate
 
 
 all : List Calculator
 all =
-    [ Pills, Liquids, Nutrition, FreeWaterDeficit ]
+    [ Pills, Liquids, Nutrition, FreeWaterDeficit, IvInfusionRate ]
 
 
 toKey : Calculator -> String
@@ -30,6 +31,9 @@ toKey calculator =
 
         FreeWaterDeficit ->
             "free-water-deficit"
+
+        IvInfusionRate ->
+            "iv-infusion-rate"
 
 
 fromKey : String -> Maybe Calculator

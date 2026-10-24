@@ -65,6 +65,21 @@ type alias Strings =
     , favorites : String
     , markFavorite : String -> String
     , noFavorites : String
+    , ivInfusionRate : String
+    , infusionVolume : String
+    , infusionDuration : String
+    , durationUnit : String
+    , hours : String
+    , minutes : String
+    , dropFactor : String
+    , pumpRate : String
+    , dripRate : String
+    , ivInfusionFormula : String
+    , mlPerHour : String
+    , dropsPerMinute : String
+    , dropsPerMl : String
+    , hoursShort : String
+    , minutesShort : String
     }
 
 
@@ -128,6 +143,21 @@ englishStrings =
     , favorites = "Favorites"
     , markFavorite = \name -> "Mark " ++ name ++ " as favorite"
     , noFavorites = "No favorites yet. Press ☆ on a calculator to add it here."
+    , ivInfusionRate = "IV infusion rate"
+    , infusionVolume = "Volume (mL)"
+    , infusionDuration = "Duration"
+    , durationUnit = "Duration unit"
+    , hours = "Hours"
+    , minutes = "Minutes"
+    , dropFactor = "Drop factor"
+    , pumpRate = "Pump rate"
+    , dripRate = "Drip rate"
+    , ivInfusionFormula = "volume ÷ hours; volume × drop factor ÷ minutes"
+    , mlPerHour = "mL/h"
+    , dropsPerMinute = "drops/min"
+    , dropsPerMl = "drops/mL"
+    , hoursShort = "h"
+    , minutesShort = "min"
     }
 
 
@@ -191,6 +221,21 @@ georgianStrings =
     , favorites = "რჩეულები"
     , markFavorite = \name -> "„" ++ name ++ "“ რჩეულად მონიშვნა"
     , noFavorites = "რჩეულები ჯერ არ გაქვთ. დააჭირეთ ☆-ს კალკულატორზე, რომ აქ დაამატოთ."
+    , ivInfusionRate = "ინფუზიის სიჩქარე"
+    , infusionVolume = "მოცულობა (მლ)"
+    , infusionDuration = "ხანგრძლივობა"
+    , durationUnit = "დროის ერთეული"
+    , hours = "საათი"
+    , minutes = "წუთი"
+    , dropFactor = "წვეთის ფაქტორი"
+    , pumpRate = "ინფუზომატის სიჩქარე"
+    , dripRate = "წვეთის სიჩქარე"
+    , ivInfusionFormula = "მოცულობა ÷ საათი; მოცულობა × წვეთის ფაქტორი ÷ წუთი"
+    , mlPerHour = "მლ/სთ"
+    , dropsPerMinute = "წვეთი/წთ"
+    , dropsPerMl = "წვეთი/მლ"
+    , hoursShort = "სთ"
+    , minutesShort = "წთ"
     }
 
 
