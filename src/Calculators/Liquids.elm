@@ -77,9 +77,9 @@ view strings model =
         , calculateLabel = strings.calculate ++ ": " ++ strings.liquidDosage
         , resetLabel = strings.reset ++ ": " ++ strings.liquidDosage
         }
-        [ numberField strings.prescribedAmount "liquid-prescribed-amount" "0.0" model.prescribedLiquid ChangePrescribedLiquid
-        , numberField strings.amountAtHand "liquid-available-amount" "0.0" model.liquidDosageAthand ChangeLiquidDosageAthand
-        , numberField strings.volumeAtHand "liquid-available-volume" "0.0" model.liquidVolumeAtHand ChangeLiquidVolumeAtHand
+        [ numberField strings.prescribedAmount "liquid-prescribed-amount" model.prescribedLiquid ChangePrescribedLiquid
+        , numberField strings.amountAtHand "liquid-available-amount" model.liquidDosageAthand ChangeLiquidDosageAthand
+        , numberField strings.volumeAtHand "liquid-available-volume" model.liquidVolumeAtHand ChangeLiquidVolumeAtHand
         ]
         { calculateMsg = Calculate
         , resetMsg = Reset

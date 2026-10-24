@@ -71,8 +71,8 @@ view strings model =
         , calculateLabel = strings.calculate ++ ": " ++ strings.pillDosage
         , resetLabel = strings.reset ++ ": " ++ strings.pillDosage
         }
-        [ numberField strings.prescribedAmount "pills-prescribed-amount" "0.0" model.prescribed ChangePrescribed
-        , numberField strings.pillStrength "pills-tablet-mg" "0.0" model.tabletMg ChangeTabletMg
+        [ numberField strings.prescribedAmount "pills-prescribed-amount" model.prescribed ChangePrescribed
+        , numberField strings.pillStrength "pills-tablet-mg" model.tabletMg ChangeTabletMg
         ]
         { calculateMsg = Calculate
         , resetMsg = Reset

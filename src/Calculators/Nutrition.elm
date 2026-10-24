@@ -110,8 +110,8 @@ view strings model =
         , calculateLabel = strings.calculate ++ ": " ++ strings.nutrition
         , resetLabel = strings.reset ++ ": " ++ strings.nutrition
         }
-        [ numberField strings.weight "nutrition-weight" "0.0" model.weight ChangeWeight
-        , numberField strings.height "nutrition-height" "0.0" model.height ChangeHeight
+        [ numberField strings.weight "nutrition-weight" model.weight ChangeWeight
+        , numberField strings.height "nutrition-height" model.height ChangeHeight
         , optionButtonsField strings.weightLoss
             "nutrition-weight-loss"
             (String.fromInt model.weightLoss)

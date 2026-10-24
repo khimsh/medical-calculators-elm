@@ -1,20 +1,19 @@
 module FormFields exposing (checkboxField, numberField, optionButtonsField)
 
 import Html exposing (Html, div, fieldset, input, label, legend, text)
-import Html.Attributes exposing (attribute, checked, class, for, id, name, placeholder, type_, value)
+import Html.Attributes exposing (attribute, checked, class, for, id, name, type_, value)
 import Html.Events exposing (onCheck, onInput)
 
 
 {-| Number input field with label
 -}
-numberField : String -> String -> String -> String -> (String -> msg) -> Html msg
-numberField labelText inputId placeholderText valueText onInputMsg =
+numberField : String -> String -> String -> (String -> msg) -> Html msg
+numberField labelText inputId valueText onInputMsg =
     div [ class "field" ]
         [ label [ for inputId ] [ text labelText ]
         , input
             [ id inputId
             , type_ "number"
-            , placeholder placeholderText
             , value valueText
             , onInput onInputMsg
             , attribute "min" "0"

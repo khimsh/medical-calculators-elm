@@ -95,8 +95,8 @@ view strings model =
         , calculateLabel = strings.calculate ++ ": " ++ strings.freeWaterDeficit
         , resetLabel = strings.reset ++ ": " ++ strings.freeWaterDeficit
         }
-        [ numberField strings.weight "weight" "0.0" model.weight UpdateWeight
-        , numberField strings.sodium "sodium" "0.0" model.sodium UpdateSodium
+        [ numberField strings.weight "weight" model.weight UpdateWeight
+        , numberField strings.sodium "sodium" model.sodium UpdateSodium
         , optionButtonsField strings.sex
             "free-water-sex"
             (sexToValue model.sex)

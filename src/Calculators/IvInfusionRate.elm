@@ -140,9 +140,9 @@ view strings model =
         , calculateLabel = strings.calculate ++ ": " ++ strings.ivInfusionRate
         , resetLabel = strings.reset ++ ": " ++ strings.ivInfusionRate
         }
-        [ numberField strings.infusionVolume "infusion-volume" "0.0" model.volume UpdateVolume
+        [ numberField strings.infusionVolume "infusion-volume" model.volume UpdateVolume
         , div [ class "field-row" ]
-            [ numberField strings.infusionDuration "infusion-duration" "0.0" model.duration UpdateDuration
+            [ numberField strings.infusionDuration "infusion-duration" model.duration UpdateDuration
             , optionButtonsField strings.durationUnit
                 "infusion-duration-unit"
                 (durationUnitToValue model.durationUnit)
