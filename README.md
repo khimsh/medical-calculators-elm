@@ -22,6 +22,8 @@ A medical calculator application built with Elm for calculating pill dosages and
 
 All calculators are shown together on a single, unstyled page with a Georgian/English language toggle.
 
+Planned calculators are tracked in [CALCULATOR_CHECKLIST.md](CALCULATOR_CHECKLIST.md).
+
 ## Running the Application
 
 Requires Node.js and Elm 0.19.3 (installed locally through npm).
