@@ -4875,13 +4875,13 @@ var $elm$virtual_dom$VirtualDom$toHandlerInt = function (handler) {
 			return 3;
 	}
 };
+var $elm$html$Html$div = _VirtualDom_node('div');
 var $elm$virtual_dom$VirtualDom$map = _VirtualDom_map;
 var $elm$html$Html$map = $elm$virtual_dom$VirtualDom$map;
 var $elm$virtual_dom$VirtualDom$text = _VirtualDom_text;
 var $elm$html$Html$text = $elm$virtual_dom$VirtualDom$text;
 var $elm$html$Html$p = _VirtualDom_node('p');
 var $elm$html$Html$h2 = _VirtualDom_node('h2');
-var $elm$html$Html$div = _VirtualDom_node('div');
 var $elm$html$Html$form = _VirtualDom_node('form');
 var $elm$json$Json$Encode$string = _Json_wrap;
 var $elm$html$Html$Attributes$stringProperty = F2(
@@ -4891,6 +4891,7 @@ var $elm$html$Html$Attributes$stringProperty = F2(
 			key,
 			$elm$json$Json$Encode$string(string));
 	});
+var $elm$html$Html$Attributes$class = $elm$html$Html$Attributes$stringProperty('className');
 var $elm$html$Html$Attributes$type_ = $elm$html$Html$Attributes$stringProperty('type');
 var $elm$html$Html$button = _VirtualDom_node('button');
 var $elm$html$Html$header = _VirtualDom_node('header');
@@ -4932,6 +4933,7 @@ var $author$project$Calculators$Card$view = F4(
 			$elm$html$Html$article,
 			_List_fromArray(
 				[
+					$elm$html$Html$Attributes$class('card'),
 					A2($elm$html$Html$Attributes$attribute, 'aria-label', config.bG)
 				]),
 			_List_fromArray(
@@ -4950,7 +4952,10 @@ var $author$project$Calculators$Card$view = F4(
 								])),
 							A2(
 							$elm$html$Html$p,
-							_List_Nil,
+							_List_fromArray(
+								[
+									$elm$html$Html$Attributes$class('card-formula')
+								]),
 							_List_fromArray(
 								[
 									$elm$html$Html$text(config.bM)
@@ -4970,13 +4975,17 @@ var $author$project$Calculators$Card$view = F4(
 							[
 								A2(
 								$elm$html$Html$div,
-								_List_Nil,
+								_List_fromArray(
+									[
+										$elm$html$Html$Attributes$class('actions')
+									]),
 								_List_fromArray(
 									[
 										A2(
 										$elm$html$Html$button,
 										_List_fromArray(
 											[
+												$elm$html$Html$Attributes$class('button-primary'),
 												$elm$html$Html$Attributes$type_('button'),
 												A2($elm$html$Html$Attributes$attribute, 'aria-label', config.b7),
 												$elm$html$Html$Events$onClick(buttons.b4)
@@ -4989,6 +4998,7 @@ var $author$project$Calculators$Card$view = F4(
 										$elm$html$Html$button,
 										_List_fromArray(
 											[
+												$elm$html$Html$Attributes$class('button-secondary'),
 												$elm$html$Html$Attributes$type_('reset'),
 												A2($elm$html$Html$Attributes$attribute, 'aria-label', config.b1),
 												$elm$html$Html$Events$onClick(buttons.bV)
@@ -5085,6 +5095,7 @@ var $author$project$Calculators$Label$view = F2(
 			$elm$html$Html$div,
 			_List_fromArray(
 				[
+					$elm$html$Html$Attributes$class('result'),
 					A2($elm$html$Html$Attributes$attribute, 'role', 'region'),
 					A2($elm$html$Html$Attributes$attribute, 'aria-label', ariaLabel)
 				]),
@@ -5093,7 +5104,10 @@ var $author$project$Calculators$Label$view = F2(
 					[
 						A2(
 						$elm$html$Html$p,
-						_List_Nil,
+						_List_fromArray(
+							[
+								$elm$html$Html$Attributes$class('result-title')
+							]),
 						_List_fromArray(
 							[
 								$elm$html$Html$text(reading.bG)
@@ -5105,7 +5119,10 @@ var $author$project$Calculators$Label$view = F2(
 							[
 								A2(
 								$elm$html$Html$span,
-								_List_Nil,
+								_List_fromArray(
+									[
+										$elm$html$Html$Attributes$class('result-value')
+									]),
 								_List_fromArray(
 									[
 										$elm$html$Html$text(reading.bH)
@@ -5113,7 +5130,10 @@ var $author$project$Calculators$Label$view = F2(
 								$elm$html$Html$text(' '),
 								A2(
 								$elm$html$Html$span,
-								_List_Nil,
+								_List_fromArray(
+									[
+										$elm$html$Html$Attributes$class('result-unit')
+									]),
 								_List_fromArray(
 									[
 										$elm$html$Html$text(reading.bu)
@@ -5126,7 +5146,10 @@ var $author$project$Calculators$Label$view = F2(
 						[
 							A2(
 							$elm$html$Html$div,
-							_List_Nil,
+							_List_fromArray(
+								[
+									$elm$html$Html$Attributes$class('result-working')
+								]),
 							A2(
 								$elm$core$List$map,
 								function (line) {
@@ -5145,7 +5168,10 @@ var $author$project$Calculators$Pills$Reset = {$: 3};
 var $author$project$Calculators$Label$empty = function (hint) {
 	return A2(
 		$elm$html$Html$div,
-		_List_Nil,
+		_List_fromArray(
+			[
+				$elm$html$Html$Attributes$class('result-empty')
+			]),
 		_List_fromArray(
 			[
 				A2(
@@ -5201,7 +5227,10 @@ var $author$project$FormFields$numberField = F5(
 	function (labelText, inputId, placeholderText, valueText, onInputMsg) {
 		return A2(
 			$elm$html$Html$div,
-			_List_Nil,
+			_List_fromArray(
+				[
+					$elm$html$Html$Attributes$class('field')
+				]),
 			_List_fromArray(
 				[
 					A2(
@@ -5234,6 +5263,7 @@ var $author$project$Functions$errorDisplay = function (errorMessage) {
 		$elm$html$Html$div,
 		_List_fromArray(
 			[
+				$elm$html$Html$Attributes$class('error'),
 				A2($elm$html$Html$Attributes$attribute, 'role', 'alert')
 			]),
 		_List_fromArray(
@@ -5395,7 +5425,10 @@ var $author$project$FormFields$selectField = F5(
 	function (labelText, selectId, currentValue, options, onChangeMsg) {
 		return A2(
 			$elm$html$Html$div,
-			_List_Nil,
+			_List_fromArray(
+				[
+					$elm$html$Html$Attributes$class('field')
+				]),
 			_List_fromArray(
 				[
 					A2(
@@ -5473,7 +5506,10 @@ var $author$project$FormFields$checkboxField = F4(
 	function (labelText, checkboxId, isChecked, onChangeMsg) {
 		return A2(
 			$elm$html$Html$div,
-			_List_Nil,
+			_List_fromArray(
+				[
+					$elm$html$Html$Attributes$class('field-check')
+				]),
 			_List_fromArray(
 				[
 					A2(
@@ -5589,7 +5625,10 @@ var $author$project$Calculators$Nutrition$view = F2(
 									[
 										A2(
 										$elm$html$Html$dl,
-										_List_Nil,
+										_List_fromArray(
+											[
+												$elm$html$Html$Attributes$class('macros')
+											]),
 										_List_fromArray(
 											[
 												A2(macro, strings.cT, model.cT),
@@ -5614,6 +5653,7 @@ var $author$project$Calculators$Label$notice = function (message) {
 		$elm$html$Html$div,
 		_List_fromArray(
 			[
+				$elm$html$Html$Attributes$class('notice'),
 				A2($elm$html$Html$Attributes$attribute, 'role', 'status')
 			]),
 		_List_fromArray(
@@ -5759,14 +5799,18 @@ var $author$project$Main$view = function (model) {
 		cf: _List_fromArray(
 			[
 				A2(
-				$elm$html$Html$main_,
-				_List_Nil,
+				$elm$html$Html$header,
+				_List_fromArray(
+					[
+						$elm$html$Html$Attributes$class('topbar')
+					]),
 				_List_fromArray(
 					[
 						A2(
 						$elm$html$Html$button,
 						_List_fromArray(
 							[
+								$elm$html$Html$Attributes$class('lang-toggle'),
 								$elm$html$Html$Attributes$type_('button'),
 								$elm$html$Html$Events$onClick($author$project$Main$ToggleLanguage),
 								A2($elm$html$Html$Attributes$attribute, 'aria-label', strings.dc),
@@ -5778,23 +5822,38 @@ var $author$project$Main$view = function (model) {
 						_List_fromArray(
 							[
 								$elm$html$Html$text(strings.c7)
-							])),
+							]))
+					])),
+				A2(
+				$elm$html$Html$main_,
+				_List_Nil,
+				_List_fromArray(
+					[
 						A2(
-						$elm$html$Html$map,
-						$author$project$Main$PillsMsg,
-						A2($author$project$Calculators$Pills$view, strings, model.aa)),
-						A2(
-						$elm$html$Html$map,
-						$author$project$Main$LiquidsMsg,
-						A2($author$project$Calculators$Liquids$view, strings, model.ae)),
-						A2(
-						$elm$html$Html$map,
-						$author$project$Main$NutritionMsg,
-						A2($author$project$Calculators$Nutrition$view, strings, model.af)),
-						A2(
-						$elm$html$Html$map,
-						$author$project$Main$HandleFreeWaterDeficitMsg,
-						A2($author$project$Calculators$FreeWaterDeficit$view, strings, model.aj))
+						$elm$html$Html$div,
+						_List_fromArray(
+							[
+								$elm$html$Html$Attributes$class('calculators')
+							]),
+						_List_fromArray(
+							[
+								A2(
+								$elm$html$Html$map,
+								$author$project$Main$PillsMsg,
+								A2($author$project$Calculators$Pills$view, strings, model.aa)),
+								A2(
+								$elm$html$Html$map,
+								$author$project$Main$LiquidsMsg,
+								A2($author$project$Calculators$Liquids$view, strings, model.ae)),
+								A2(
+								$elm$html$Html$map,
+								$author$project$Main$NutritionMsg,
+								A2($author$project$Calculators$Nutrition$view, strings, model.af)),
+								A2(
+								$elm$html$Html$map,
+								$author$project$Main$HandleFreeWaterDeficitMsg,
+								A2($author$project$Calculators$FreeWaterDeficit$view, strings, model.aj))
+							]))
 					]))
 			]),
 		bG: strings.bG
