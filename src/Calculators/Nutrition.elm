@@ -2,7 +2,7 @@ module Calculators.Nutrition exposing (Model, Msg(..), init, update, view)
 
 import Calculators.Card as Card
 import Calculators.Label as Label
-import FormFields exposing (checkboxField, numberField, selectField)
+import FormFields exposing (checkboxField, numberField, optionButtonsField)
 import Functions exposing (calculateBMI, calculateCalories, errorDisplay, floatToStr, formatToDecimals, roundToTwoDecimals, scoreCalculator, strToFloat)
 import Html exposing (dd, div, dl, dt, text)
 import Html.Attributes exposing (class)
@@ -112,7 +112,7 @@ view strings model =
         }
         [ numberField strings.weight "nutrition-weight" "0.0" model.weight ChangeWeight
         , numberField strings.height "nutrition-height" "0.0" model.height ChangeHeight
-        , selectField strings.weightLoss
+        , optionButtonsField strings.weightLoss
             "nutrition-weight-loss"
             (String.fromInt model.weightLoss)
             [ { value = "0", label = strings.weightLossNone }

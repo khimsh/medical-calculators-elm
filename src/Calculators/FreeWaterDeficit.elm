@@ -2,7 +2,7 @@ module Calculators.FreeWaterDeficit exposing (Model, Msg(..), init, update, view
 
 import Calculators.Card as Card
 import Calculators.Label as Label
-import FormFields exposing (checkboxField, numberField, selectField)
+import FormFields exposing (checkboxField, numberField, optionButtonsField)
 import Functions exposing (Sex(..), calculateFreeWaterDeficit, errorDisplay, floatToStr, roundToTwoDecimals, strToFloat, totalBodyWaterFactor)
 import Html exposing (Html)
 import Translations exposing (Strings)
@@ -97,7 +97,7 @@ view strings model =
         }
         [ numberField strings.weight "weight" "0.0" model.weight UpdateWeight
         , numberField strings.sodium "sodium" "0.0" model.sodium UpdateSodium
-        , selectField strings.sex
+        , optionButtonsField strings.sex
             "free-water-sex"
             (sexToValue model.sex)
             [ { value = "male", label = strings.male }

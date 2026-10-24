@@ -1,6 +1,6 @@
-module FormFields exposing (checkboxField, numberField, radioButtonField, selectField, textField)
+module FormFields exposing (checkboxField, numberField, optionButtonsField, textField)
 
-import Html exposing (Html, div, input, label, option, select, text)
+import Html exposing (Html, div, fieldset, input, label, legend, text)
 import Html.Attributes exposing (attribute, checked, class, for, id, name, placeholder, type_, value)
 import Html.Events exposing (onCheck, onInput)
 
@@ -42,7 +42,7 @@ textField labelText inputId placeholderText valueText onInputMsg =
         ]
 
 
-{-| Select option type
+{-| Option in a single-choice field
 -}
 type alias SelectOption =
     { value : String
@@ -50,20 +50,31 @@ type alias SelectOption =
     }
 
 
-{-| Select dropdown field with label
+{-| Single-choice field shown as a group of option buttons
 -}
-selectField : String -> String -> String -> List SelectOption -> (String -> msg) -> Html msg
-selectField labelText selectId currentValue options onChangeMsg =
-    div [ class "field" ]
-        [ label [ for selectId ] [ text labelText ]
-        , select
-            [ id selectId
-            , onInput onChangeMsg
-            , value currentValue
-            ]
+optionButtonsField : String -> String -> String -> List SelectOption -> (String -> msg) -> Html msg
+optionButtonsField labelText groupId currentValue options onChangeMsg =
+    fieldset [ class "field-options" ]
+        [ legend [] [ text labelText ]
+        , div [ class "field-options-list" ]
             (List.map
                 (\opt ->
-                    option [ value opt.value ] [ text opt.label ]
+                    let
+                        optionId =
+                            groupId ++ "-" ++ opt.value
+                    in
+                    div [ class "field-option" ]
+                        [ input
+                            [ type_ "radio"
+                            , name groupId
+                            , id optionId
+                            , value opt.value
+                            , checked (opt.value == currentValue)
+                            , onCheck (\_ -> onChangeMsg opt.value)
+                            ]
+                            []
+                        , label [ for optionId ] [ text opt.label ]
+                        ]
                 )
                 options
             )
@@ -83,21 +94,4 @@ checkboxField labelText checkboxId isChecked onChangeMsg =
             ]
             []
         , label [ for checkboxId ] [ text labelText ]
-        ]
-
-
-{-| Radio button field with label
--}
-radioButtonField : String -> String -> String -> Bool -> (String -> msg) -> Html msg
-radioButtonField groupName radioId labelText isChecked onChangeMsg =
-    div [ class "field-check" ]
-        [ input
-            [ type_ "radio"
-            , name groupName
-            , id radioId
-            , checked isChecked
-            , onInput (\_ -> onChangeMsg radioId)
-            ]
-            []
-        , label [ for radioId ] [ text labelText ]
         ]
