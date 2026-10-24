@@ -1,9 +1,10 @@
 module Calculators.Pills exposing (Model, Msg(..), init, update, view)
 
 import Calculators.Card as Card
+import Calculators.Label as Label
 import FormFields exposing (numberField)
-import Functions exposing (errorDisplay, floatToStr, resultDisplay, roundToTwoDecimals, strToFloat)
-import Html exposing (text)
+import Functions exposing (errorDisplay, floatToStr, roundToTwoDecimals, strToFloat)
+import Html
 import Translations exposing (Strings)
 
 
@@ -47,18 +48,16 @@ update msg model strings =
                 { model | error = Just strings.invalidInputs, result = "0.0", calculated = True }
 
             else
-                let
-                    prescribed =
-                        strToFloat model.prescribed
+                case ( strToFloat model.prescribed, strToFloat model.tabletMg ) of
+                    ( Just prescribed, Just tablet ) ->
+                        if prescribed <= 0 || tablet <= 0 then
+                            { model | error = Just strings.zeroNotAccepted, result = "0.0", calculated = True }
 
-                    tablet =
-                        strToFloat model.tabletMg
-                in
-                if prescribed == 0 || tablet == 0 then
-                    { model | error = Just strings.zeroNotAccepted, result = "0.0", calculated = True }
+                        else
+                            { model | result = floatToStr (roundToTwoDecimals (prescribed / tablet)), error = Nothing, calculated = True }
 
-                else
-                    { model | result = floatToStr (roundToTwoDecimals (prescribed / tablet)), error = Nothing, calculated = True }
+                    _ ->
+                        { model | error = Just strings.invalidInputs, result = "0.0", calculated = True }
 
         Reset ->
             init
@@ -68,9 +67,9 @@ view : Strings -> Model -> Html.Html Msg
 view strings model =
     Card.view
         { title = strings.pillDosage
-        , ariaLabel = strings.pillDosage
-        , calculateLabel = "Calculate " ++ strings.pillDosage
-        , resetLabel = "Reset " ++ strings.pillDosage
+        , formula = strings.pillFormula
+        , calculateLabel = strings.calculate ++ ": " ++ strings.pillDosage
+        , resetLabel = strings.reset ++ ": " ++ strings.pillDosage
         }
         [ numberField strings.prescribedAmount "pills-prescribed-amount" "0.0" model.prescribed ChangePrescribed
         , numberField strings.pillStrength "pills-tablet-mg" "0.0" model.tabletMg ChangeTabletMg
@@ -85,9 +84,15 @@ view strings model =
                 errorDisplay error
 
             Nothing ->
-                if model.calculated && not (String.isEmpty model.prescribed || String.isEmpty model.tabletMg) then
-                    resultDisplay strings.result model.result strings.tablets
+                if model.calculated then
+                    Label.view strings.calculationResult
+                        { title = strings.give
+                        , value = model.result
+                        , unit = strings.tablets
+                        , extra = []
+                        , working = [ model.prescribed ++ " " ++ strings.mg ++ " ÷ " ++ model.tabletMg ++ " " ++ strings.mg ]
+                        }
 
                 else
-                    text ""
+                    Label.empty strings.resultHint
         )

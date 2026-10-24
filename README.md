@@ -17,6 +17,10 @@ A medical calculator application built with Elm for calculating pill dosages and
 
 - **Pill Dosage Calculator**: Calculate the number of tablets needed based on prescribed amount and tablet strength
 - **Liquid Dosage Calculator**: Calculate the volume of liquid medication needed based on prescribed amount, concentration, and available volume
+- **Nutrition Calculator**: Estimate daily calories and macronutrients from weight, height, weight loss and critical status
+- **Free Water Deficit Calculator**: Estimate the free water deficit from weight, sodium, sex and age
+
+All calculators are shown together on a single, unstyled page with a Georgian/English language toggle.
 
 ## Running the Application
 
@@ -92,7 +96,7 @@ The test suite includes:
 ```
 medical-calculators-elm/
 ├── src/
-│   ├── Main.elm                   # Main application code
+│   ├── Main.elm                   # Single unstyled page: language toggle + all calculators
 │   ├── Functions.elm              # Utility functions
 │   ├── Translations.elm           # Language translations
 │   └── Calculators/
@@ -104,7 +108,6 @@ medical-calculators-elm/
 │   ├── FunctionsTests.elm         # Tests for utility functions
 │   ├── MainTests.elm              # Tests for calculator logic
 │   └── FreeWaterDeficitTests.elm  # Tests for free water deficit calculator
-├── styles.css                     # Application styles
 ├── index.html                     # HTML entry point
 ├── package.json                   # NPM project configuration
 └── elm.json                       # Elm project configuration

@@ -1,13 +1,24 @@
 module Functions exposing (..)
 
 import Html exposing (button, div, input, label, text)
-import Html.Attributes exposing (attribute, class, for, id, type_, value)
+import Html.Attributes exposing (attribute, for, id, type_, value)
 import Html.Events exposing (onClick, onInput)
 
 
-strToFloat : String -> Float
+{-| Parses a user-entered number. Returns Nothing for empty or unparseable
+input (and NaN/Infinity) so callers can show an error instead of using 0.
+-}
+strToFloat : String -> Maybe Float
 strToFloat string =
-    Maybe.withDefault 0 (String.toFloat string)
+    String.toFloat (String.trim string)
+        |> Maybe.andThen
+            (\float ->
+                if isNaN float || isInfinite float then
+                    Nothing
+
+                else
+                    Just float
+            )
 
 
 floatToStr : Float -> String
@@ -89,55 +100,65 @@ type alias NutritionResult =
     }
 
 
+{-| Daily energy (kcal) split 25% protein, 25% fat, 50% carbohydrate.
+Macros are returned in grams: 4 kcal/g for protein and carbohydrate, 9 kcal/g for fat.
+-}
 calculateCalories : Float -> Float -> Int -> NutritionResult
 calculateCalories weight bmi score =
-    if score <= 1 then
-        let
-            tee =
+    let
+        energy =
+            if score <= 1 then
                 25 * weight
 
-            proteins =
-                tee / 4
+            else if bmi < 14 then
+                5 * weight
 
-            fats =
-                tee / 4
+            else if bmi < 16 then
+                10 * weight
 
-            carbs =
-                tee / 2
-        in
-        NutritionResult tee proteins fats carbs
+            else
+                30 * weight
+    in
+    NutritionResult energy (energy * 0.25 / 4) (energy * 0.25 / 9) (energy * 0.5 / 4)
 
-    else
-        let
-            ree =
-                if bmi < 14 then
-                    5 * weight
 
-                else if bmi < 16 then
-                    10 * weight
+type Sex
+    = Male
+    | Female
 
-                else
-                    30 * weight
 
-            proteins =
-                ree / 4
+{-| Fraction of body weight that is total body water.
+Elderly means 65 years or older.
+-}
+totalBodyWaterFactor : Sex -> Bool -> Float
+totalBodyWaterFactor sex elderly =
+    case ( sex, elderly ) of
+        ( Male, False ) ->
+            0.6
 
-            fats =
-                ree / 4
+        ( Male, True ) ->
+            0.5
 
-            carbs =
-                ree / 2
-        in
-        NutritionResult ree proteins fats carbs
+        ( Female, False ) ->
+            0.5
+
+        ( Female, True ) ->
+            0.45
+
+
+{-| Free water deficit in liters: TBW factor × weight (kg) × (Na / 140 − 1).
+-}
+calculateFreeWaterDeficit : Sex -> Bool -> Float -> Float -> Float
+calculateFreeWaterDeficit sex elderly weight sodium =
+    totalBodyWaterFactor sex elderly * weight * (sodium / 140 - 1)
 
 
 fieldGroup : String -> String -> String -> String -> (String -> msg) -> Html.Html msg
 fieldGroup labelText inputId placeholderText valueText onInputMsg =
-    div [ class "field-group" ]
-        [ label [ class "label", for inputId ] [ text labelText ]
+    div []
+        [ label [ for inputId ] [ text labelText ]
         , input
-            [ class "input"
-            , id inputId
+            [ id inputId
             , Html.Attributes.attribute "placeholder" placeholderText
             , Html.Attributes.value valueText
             , onInput onInputMsg
@@ -149,27 +170,17 @@ fieldGroup labelText inputId placeholderText valueText onInputMsg =
         ]
 
 
-resultDisplay : String -> String -> String -> Html.Html msg
-resultDisplay resultLabel resultValue resultUnit =
-    div [ class "result-container", attribute "role" "region", attribute "aria-label" "Calculation result" ]
-        [ Html.p [ class "result-label" ] [ text resultLabel ]
-        , Html.p [ class "result-value", attribute "aria-live" "polite" ] [ text resultValue ]
-        , Html.p [ class "result-unit" ] [ text resultUnit ]
-        ]
-
-
 errorDisplay : String -> Html.Html msg
 errorDisplay errorMessage =
-    div [ class "error-container", attribute "role" "alert" ]
-        [ Html.p [ class "error-text" ] [ text errorMessage ]
+    div [ attribute "role" "alert" ]
+        [ Html.p [] [ text errorMessage ]
         ]
 
 
 calculateButton : String -> String -> msg -> Html.Html msg
 calculateButton buttonText ariaLabel onClickMsg =
     button
-        [ class "button-primary"
-        , type_ "button"
+        [ type_ "button"
         , onClick onClickMsg
         , attribute "aria-label" ariaLabel
         ]
@@ -179,8 +190,7 @@ calculateButton buttonText ariaLabel onClickMsg =
 resetButton : String -> String -> msg -> Html.Html msg
 resetButton buttonText ariaLabel onClickMsg =
     button
-        [ class "button-secondary-outline"
-        , type_ "reset"
+        [ type_ "reset"
         , onClick onClickMsg
         , attribute "aria-label" ariaLabel
         ]

@@ -1,9 +1,10 @@
 module Calculators.Liquids exposing (Model, Msg(..), init, update, view)
 
 import Calculators.Card as Card
+import Calculators.Label as Label
 import FormFields exposing (numberField)
-import Functions exposing (errorDisplay, floatToStr, resultDisplay, roundToTwoDecimals, strToFloat)
-import Html exposing (text)
+import Functions exposing (errorDisplay, floatToStr, roundToTwoDecimals, strToFloat)
+import Html
 import Translations exposing (Strings)
 
 
@@ -53,21 +54,16 @@ update msg model strings =
                 { model | error = Just strings.invalidInputs, result = "0.0", calculated = True }
 
             else
-                let
-                    prescribed =
-                        strToFloat model.prescribedLiquid
+                case ( strToFloat model.prescribedLiquid, strToFloat model.liquidDosageAthand, strToFloat model.liquidVolumeAtHand ) of
+                    ( Just prescribed, Just dosage, Just volume ) ->
+                        if prescribed <= 0 || dosage <= 0 || volume <= 0 then
+                            { model | error = Just strings.zeroNotAccepted, result = "0.0", calculated = True }
 
-                    dosage =
-                        strToFloat model.liquidDosageAthand
+                        else
+                            { model | result = floatToStr (roundToTwoDecimals ((prescribed / dosage) * volume)), error = Nothing, calculated = True }
 
-                    volume =
-                        strToFloat model.liquidVolumeAtHand
-                in
-                if prescribed == 0 || dosage == 0 || volume == 0 then
-                    { model | error = Just strings.zeroNotAccepted, result = "0.0", calculated = True }
-
-                else
-                    { model | result = floatToStr (roundToTwoDecimals ((prescribed / dosage) * volume)), error = Nothing, calculated = True }
+                    _ ->
+                        { model | error = Just strings.invalidInputs, result = "0.0", calculated = True }
 
         Reset ->
             init
@@ -77,9 +73,9 @@ view : Strings -> Model -> Html.Html Msg
 view strings model =
     Card.view
         { title = strings.peroralliquid
-        , ariaLabel = strings.peroralliquid
-        , calculateLabel = "Calculate " ++ strings.liquidDosage
-        , resetLabel = "Reset " ++ strings.liquidDosage
+        , formula = strings.liquidFormula
+        , calculateLabel = strings.calculate ++ ": " ++ strings.liquidDosage
+        , resetLabel = strings.reset ++ ": " ++ strings.liquidDosage
         }
         [ numberField strings.prescribedAmount "liquid-prescribed-amount" "0.0" model.prescribedLiquid ChangePrescribedLiquid
         , numberField strings.amountAtHand "liquid-available-amount" "0.0" model.liquidDosageAthand ChangeLiquidDosageAthand
@@ -95,9 +91,27 @@ view strings model =
                 errorDisplay error
 
             Nothing ->
-                if model.calculated && not (String.isEmpty model.prescribedLiquid || String.isEmpty model.liquidDosageAthand || String.isEmpty model.liquidVolumeAtHand) then
-                    resultDisplay strings.result model.result strings.ml
+                if model.calculated then
+                    Label.view strings.calculationResult
+                        { title = strings.drawUp
+                        , value = model.result
+                        , unit = strings.ml
+                        , extra = []
+                        , working =
+                            [ model.prescribedLiquid
+                                ++ " "
+                                ++ strings.mg
+                                ++ " ÷ "
+                                ++ model.liquidDosageAthand
+                                ++ " "
+                                ++ strings.mg
+                                ++ " × "
+                                ++ model.liquidVolumeAtHand
+                                ++ " "
+                                ++ strings.ml
+                            ]
+                        }
 
                 else
-                    text ""
+                    Label.empty strings.resultHint
         )

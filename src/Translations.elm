@@ -11,9 +11,6 @@ type alias Strings =
     , pillDosage : String
     , liquidDosage : String
     , nutrition : String
-    , pillDescription : String
-    , liquidDescription : String
-    , nutritionDescription : String
     , peroralpill : String
     , prescribedAmount : String
     , pillStrength : String
@@ -36,14 +33,34 @@ type alias Strings =
     , proteins : String
     , fats : String
     , carbs : String
-    , disclaimer : String
     , zeroNotAccepted : String
     , freeWaterDeficit : String
-    , freeWaterDeficitDescription : String
     , sodium : String
     , weightInput : String
     , sodiumInput : String
     , invalidInputs : String
+    , sex : String
+    , male : String
+    , female : String
+    , elderly : String
+    , liters : String
+    , grams : String
+    , bmi : String
+    , sodiumNotElevated : String
+    , calculationResult : String
+    , nutritionResults : String
+    , switchLanguage : String
+    , otherLanguage : String
+    , resultHint : String
+    , mg : String
+    , kg : String
+    , give : String
+    , drawUp : String
+    , waterToReplace : String
+    , pillFormula : String
+    , liquidFormula : String
+    , nutritionFormula : String
+    , freeWaterFormula : String
     }
 
 
@@ -53,15 +70,12 @@ englishStrings =
     , pillDosage = "Pill Dosage"
     , liquidDosage = "Liquid Dosage"
     , nutrition = "Nutrition"
-    , pillDescription = "Calculate tablet quantities for prescribed dosages"
-    , liquidDescription = "Calculate liquid volumes for prescribed dosages"
-    , nutritionDescription = "Calculate daily caloric and nutritional requirements"
     , peroralpill = "Peroral Pill Dosage"
     , prescribedAmount = "Prescribed amount (mg)"
     , pillStrength = "Pill strength (mg)"
     , calculate = "Calculate"
     , reset = "Reset"
-    , result = "Result:"
+    , result = "Result"
     , tablets = "tablets"
     , peroralliquid = "Peroral Liquids Dosage"
     , amountAtHand = "Amount at hand (mg)"
@@ -70,22 +84,42 @@ englishStrings =
     , nutritionCalc = "Nutrition Calculator"
     , weight = "Weight (kg)"
     , height = "Height (cm)"
-    , weightLoss = "Weight Loss (%)"
+    , weightLoss = "Weight loss in the last 3–6 months"
     , weightLossNone = "None"
-    , critical = "Critical condition?"
-    , dailyCalories = "Daily Calories:"
+    , critical = "Critically ill"
+    , dailyCalories = "Daily energy"
     , kcal = "kcal"
-    , proteins = "Proteins: "
-    , fats = "Fats: "
-    , carbs = "Carbs: "
-    , disclaimer = "⚠ TESTING PURPOSES ONLY - This application is currently in development and testing phase. Do not use for clinical decisions. Always consult with healthcare professionals."
+    , proteins = "Protein"
+    , fats = "Fat"
+    , carbs = "Carbohydrate"
     , zeroNotAccepted = "All values must be greater than zero"
     , freeWaterDeficit = "Free Water Deficit"
-    , freeWaterDeficitDescription = "Calculate water deficit based on weight and sodium levels"
     , sodium = "Sodium (mmol/L)"
     , weightInput = "Weight (kg)"
     , sodiumInput = "Sodium (mmol/L)"
     , invalidInputs = "Enter valid inputs"
+    , sex = "Sex"
+    , male = "Male"
+    , female = "Female"
+    , elderly = "Age 65 or older"
+    , liters = "L"
+    , grams = "g"
+    , bmi = "BMI"
+    , sodiumNotElevated = "Sodium is below 140 mmol/L — there is no free water deficit"
+    , calculationResult = "Calculation result"
+    , nutritionResults = "Nutrition calculation results"
+    , switchLanguage = "Switch to Georgian"
+    , otherLanguage = "ქართული"
+    , resultHint = "Enter the values and press Calculate. The result and its working will appear here."
+    , mg = "mg"
+    , kg = "kg"
+    , give = "Give"
+    , drawUp = "Draw up"
+    , waterToReplace = "Free water to replace"
+    , pillFormula = "dose ÷ tablet strength"
+    , liquidFormula = "dose ÷ amount at hand × volume"
+    , nutritionFormula = "5–30 kcal/kg by risk score"
+    , freeWaterFormula = "0.45–0.6 × weight × (Na ÷ 140 − 1)"
     }
 
 
@@ -95,15 +129,12 @@ georgianStrings =
     , pillDosage = "აბის დოზირება"
     , liquidDosage = "თხევადი მედიკამენტი"
     , nutrition = "კვება"
-    , pillDescription = "აღირიცხეთ აბლეტის რაოდენობა გამოწერილი დოზირებისთვის"
-    , liquidDescription = "გამოთვალეთ თხევადი მოცულობა გამოწერილი დოზირებისთვის"
-    , nutritionDescription = "გამოთვალეთ დღიური კალორიული და პიტნის მოთხოვნილებები"
     , peroralpill = "პერორალური აბის დოზირება"
     , prescribedAmount = "გამოწერილი რაოდენობა (მგ)"
     , pillStrength = "აბის სიძლიერე (მგ)"
     , calculate = "გამოთვლა"
     , reset = "გადატვირთვა"
-    , result = "შედეგი:"
+    , result = "შედეგი"
     , tablets = "აბი"
     , peroralliquid = "პერორალური თხევადი მედიკამენტი"
     , amountAtHand = "ხელთ არსებული რაოდენობა (მგ)"
@@ -112,22 +143,42 @@ georgianStrings =
     , nutritionCalc = "კვების კალკულატორი"
     , weight = "წონა (კგ)"
     , height = "სიმაღლე (სმ)"
-    , weightLoss = "წონის კლება (%)"
+    , weightLoss = "წონის კლება ბოლო 3–6 თვეში"
     , weightLossNone = "არა"
-    , critical = "კრიტიკული მდგომარეობა?"
-    , dailyCalories = "დღიური კალორიები:"
-    , kcal = "kcal"
-    , proteins = "პროტეინები: "
-    , fats = "ცხიმები: "
-    , carbs = "ნახშირწყლები: "
-    , disclaimer = "⚠ მხოლოდ ტესტირებისთვის - ეს აპლიკაცია ამჟამად განვითარებისა და ტესტირების ფაზაშია. არ გამოიყენოთ კლინიკური გადაწყვეტილებებისთვის. ყოველთვის მიმართეთ ჯანდაცვის სპეციალისტს."
+    , critical = "კრიტიკულ მდგომარეობაში"
+    , dailyCalories = "დღიური კალორიები"
+    , kcal = "კკალ"
+    , proteins = "ცილები"
+    , fats = "ცხიმები"
+    , carbs = "ნახშირწყლები"
     , zeroNotAccepted = "ყველა მნიშვნელობა უნდა იყოს ნულზე მეტი"
     , freeWaterDeficit = "თავისუფალი წყლის დეფიციტი"
-    , freeWaterDeficitDescription = "გამოთვალეთ წყლის დეფიციტი წონისა და ნატრიუმის დონეების მიხედვით"
     , sodium = "ნატრიუმი (მმოლ/ლ)"
     , weightInput = "წონა (კგ)"
     , sodiumInput = "ნატრიუმი (მმოლ/ლ)"
     , invalidInputs = "შეიყვანეთ ვალიდური მონაცემები"
+    , sex = "სქესი"
+    , male = "მამრობითი"
+    , female = "მდედრობითი"
+    , elderly = "65 წლის ან უფროსი"
+    , liters = "ლ"
+    , grams = "გ"
+    , bmi = "სმი"
+    , sodiumNotElevated = "ნატრიუმი 140 მმოლ/ლ-ზე დაბალია — თავისუფალი წყლის დეფიციტი არ არის"
+    , calculationResult = "გამოთვლის შედეგი"
+    , nutritionResults = "კვების გამოთვლის შედეგები"
+    , switchLanguage = "ინგლისურზე გადართვა"
+    , otherLanguage = "English"
+    , resultHint = "შეიყვანეთ მონაცემები და დააჭირეთ „გამოთვლა“. შედეგი და გამოთვლა აქ გამოჩნდება."
+    , mg = "მგ"
+    , kg = "კგ"
+    , give = "მიეცით"
+    , drawUp = "აიღეთ შპრიცში"
+    , waterToReplace = "შესავსები თავისუფალი წყალი"
+    , pillFormula = "დოზა ÷ აბის სიძლიერე"
+    , liquidFormula = "დოზა ÷ ხელთ არსებული რაოდენობა × მოცულობა"
+    , nutritionFormula = "5–30 კკალ/კგ რისკის ქულის მიხედვით"
+    , freeWaterFormula = "0.45–0.6 × წონა × (Na ÷ 140 − 1)"
     }
 
 

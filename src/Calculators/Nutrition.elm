@@ -1,10 +1,10 @@
 module Calculators.Nutrition exposing (Model, Msg(..), init, update, view)
 
 import Calculators.Card as Card
+import Calculators.Label as Label
 import FormFields exposing (checkboxField, numberField, selectField)
-import Functions exposing (calculateBMI, calculateCalories, errorDisplay, floatToStr, roundToTwoDecimals, scoreCalculator, strToFloat)
-import Html exposing (div, p, text)
-import Html.Attributes exposing (attribute, class)
+import Functions exposing (calculateBMI, calculateCalories, errorDisplay, floatToStr, formatToDecimals, roundToTwoDecimals, scoreCalculator, strToFloat)
+import Html exposing (dd, div, dl, dt, text)
 import Translations exposing (Strings)
 
 
@@ -68,43 +68,46 @@ update msg model strings =
                 { model | error = Just strings.invalidInputs, calculated = True }
 
             else
-                let
-                    weight =
-                        strToFloat model.weight
+                case ( strToFloat model.weight, strToFloat model.height ) of
+                    ( Just weight, Just height ) ->
+                        if weight <= 0 || height <= 0 then
+                            { model | error = Just strings.zeroNotAccepted, calculated = True }
 
-                    height =
-                        strToFloat model.height
+                        else
+                            let
+                                bmi =
+                                    calculateBMI weight height
 
-                    bmi =
-                        calculateBMI weight height
+                                score =
+                                    scoreCalculator bmi model.weightLoss model.critical
 
-                    score =
-                        scoreCalculator bmi model.weightLoss model.critical
+                                nutrition =
+                                    calculateCalories weight bmi score
+                            in
+                            { model
+                                | bmi = floatToStr (roundToTwoDecimals bmi)
+                                , calories = floatToStr (roundToTwoDecimals nutrition.calories)
+                                , proteins = formatToDecimals 0 nutrition.proteins
+                                , fats = formatToDecimals 0 nutrition.fats
+                                , carbs = formatToDecimals 0 nutrition.carbs
+                                , error = Nothing
+                                , calculated = True
+                            }
 
-                    nutrition =
-                        calculateCalories weight bmi score
-                in
-                { model
-                    | bmi = floatToStr (roundToTwoDecimals bmi)
-                    , calories = floatToStr (roundToTwoDecimals nutrition.calories)
-                    , proteins = floatToStr (roundToTwoDecimals nutrition.proteins)
-                    , fats = floatToStr (roundToTwoDecimals nutrition.fats)
-                    , carbs = floatToStr (roundToTwoDecimals nutrition.carbs)
-                    , error = Nothing
-                    , calculated = True
-                }
+                    _ ->
+                        { model | error = Just strings.invalidInputs, calculated = True }
 
         Reset ->
             init
 
 
-view : { a | nutrition : String, weight : String, height : String, weightLoss : String, weightLossNone : String, critical : String, calculate : String, reset : String, dailyCalories : String, kcal : String, proteins : String, fats : String, carbs : String } -> { b | weight : String, height : String, weightLoss : Int, critical : Bool, error : Maybe String, calculated : Bool, bmi : String, calories : String, proteins : String, fats : String, carbs : String } -> Html.Html Msg
+view : Strings -> Model -> Html.Html Msg
 view strings model =
     Card.view
         { title = strings.nutrition
-        , ariaLabel = strings.nutrition
-        , calculateLabel = "Calculate " ++ strings.nutrition
-        , resetLabel = "Reset " ++ strings.nutrition
+        , formula = strings.nutritionFormula
+        , calculateLabel = strings.calculate ++ ": " ++ strings.nutrition
+        , resetLabel = strings.reset ++ ": " ++ strings.nutrition
         }
         [ numberField strings.weight "nutrition-weight" "0.0" model.weight ChangeWeight
         , numberField strings.height "nutrition-height" "0.0" model.height ChangeHeight
@@ -129,20 +132,36 @@ view strings model =
                 errorDisplay error
 
             Nothing ->
-                if model.calculated && not (String.isEmpty model.weight || String.isEmpty model.height) then
-                    div [ class "result-container", attribute "role" "region", attribute "aria-label" "Nutrition calculation results" ]
-                        [ p [ class "result-label" ] [ text "BMI:" ]
-                        , p [ class "result-value", attribute "aria-live" "polite" ] [ text model.bmi ]
-                        , p [ class "result-label" ] [ text strings.dailyCalories ]
-                        , p [ class "result-value" ] [ text model.calories ]
-                        , p [ class "result-unit" ] [ text strings.kcal ]
-                        , div [ class "nutrition-table" ]
-                            [ p [ class "nutrition-row" ] [ text (strings.proteins ++ model.proteins ++ "g") ]
-                            , p [ class "nutrition-row" ] [ text (strings.fats ++ model.fats ++ "g") ]
-                            , p [ class "nutrition-row" ] [ text (strings.carbs ++ model.carbs ++ "g") ]
+                if model.calculated then
+                    let
+                        perKg =
+                            Maybe.map2 (/) (strToFloat model.calories) (strToFloat model.weight)
+                                |> Maybe.map (roundToTwoDecimals >> floatToStr)
+                                |> Maybe.withDefault ""
+
+                        macro name grams =
+                            div []
+                                [ dt [] [ text name ]
+                                , dd [] [ text (grams ++ " " ++ strings.grams) ]
+                                ]
+                    in
+                    Label.view strings.nutritionResults
+                        { title = strings.dailyCalories
+                        , value = model.calories
+                        , unit = strings.kcal
+                        , extra =
+                            [ dl []
+                                [ macro strings.proteins model.proteins
+                                , macro strings.fats model.fats
+                                , macro strings.carbs model.carbs
+                                ]
                             ]
-                        ]
+                        , working =
+                            [ strings.bmi ++ " " ++ model.bmi
+                            , perKg ++ " " ++ strings.kcal ++ "/" ++ strings.kg ++ " × " ++ model.weight ++ " " ++ strings.kg
+                            ]
+                        }
 
                 else
-                    text ""
+                    Label.empty strings.resultHint
         )

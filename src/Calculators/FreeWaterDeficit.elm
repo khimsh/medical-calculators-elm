@@ -1,9 +1,10 @@
 module Calculators.FreeWaterDeficit exposing (Model, Msg(..), init, update, view)
 
 import Calculators.Card as Card
-import FormFields exposing (numberField)
-import Functions exposing (errorDisplay, floatToStr, resultDisplay, roundToTwoDecimals, strToFloat)
-import Html exposing (Html, text)
+import Calculators.Label as Label
+import FormFields exposing (checkboxField, numberField, selectField)
+import Functions exposing (Sex(..), calculateFreeWaterDeficit, errorDisplay, floatToStr, roundToTwoDecimals, strToFloat, totalBodyWaterFactor)
+import Html exposing (Html)
 import Translations exposing (Strings)
 
 
@@ -14,6 +15,8 @@ import Translations exposing (Strings)
 type alias Model =
     { weight : String
     , sodium : String
+    , sex : Sex
+    , elderly : Bool
     , result : Maybe Float
     , error : Maybe String
     }
@@ -23,6 +26,8 @@ init : Model
 init =
     { weight = ""
     , sodium = ""
+    , sex = Male
+    , elderly = False
     , result = Nothing
     , error = Nothing
     }
@@ -35,6 +40,8 @@ init =
 type Msg
     = UpdateWeight String
     | UpdateSodium String
+    | UpdateSex Sex
+    | UpdateElderly Bool
     | Calculate
     | Reset
 
@@ -48,22 +55,29 @@ update msg model strings =
         UpdateSodium sodium ->
             { model | sodium = sodium, result = Nothing, error = Nothing }
 
+        UpdateSex sex ->
+            { model | sex = sex, result = Nothing, error = Nothing }
+
+        UpdateElderly elderly ->
+            { model | elderly = elderly, result = Nothing, error = Nothing }
+
         Calculate ->
-            if String.isEmpty model.weight || String.isEmpty model.sodium then
-                { model | error = Just strings.invalidInputs, result = Nothing }
+            case ( strToFloat model.weight, strToFloat model.sodium ) of
+                ( Just weight, Just sodium ) ->
+                    if weight <= 0 || sodium <= 0 then
+                        { model | error = Just strings.zeroNotAccepted, result = Nothing }
 
-            else
-                let
-                    weightValue =
-                        strToFloat model.weight
+                    else if sodium < 140 then
+                        { model | error = Just strings.sodiumNotElevated, result = Nothing }
 
-                    sodiumValue =
-                        strToFloat model.sodium
+                    else
+                        { model
+                            | result = Just (roundToTwoDecimals (calculateFreeWaterDeficit model.sex model.elderly weight sodium))
+                            , error = Nothing
+                        }
 
-                    result =
-                        weightValue * (sodiumValue - 140) / 140
-                in
-                { model | result = Just (roundToTwoDecimals result), error = Nothing }
+                _ ->
+                    { model | error = Just strings.invalidInputs, result = Nothing }
 
         Reset ->
             init
@@ -77,31 +91,71 @@ view : Strings -> Model -> Html Msg
 view strings model =
     Card.view
         { title = strings.freeWaterDeficit
-        , ariaLabel = strings.freeWaterDeficit
-        , calculateLabel = "Calculate " ++ strings.freeWaterDeficit
-        , resetLabel = "Reset " ++ strings.freeWaterDeficit
+        , formula = strings.freeWaterFormula
+        , calculateLabel = strings.calculate ++ ": " ++ strings.freeWaterDeficit
+        , resetLabel = strings.reset ++ ": " ++ strings.freeWaterDeficit
         }
         [ numberField strings.weight "weight" "0.0" model.weight UpdateWeight
         , numberField strings.sodium "sodium" "0.0" model.sodium UpdateSodium
+        , selectField strings.sex
+            "free-water-sex"
+            (sexToValue model.sex)
+            [ { value = "male", label = strings.male }
+            , { value = "female", label = strings.female }
+            ]
+            (\v -> UpdateSex (sexFromValue v))
+        , checkboxField strings.elderly "free-water-elderly" model.elderly UpdateElderly
         ]
         { calculateMsg = Calculate
         , resetMsg = Reset
         , calculateText = strings.calculate
         , resetText = strings.reset
         }
-        (case model.error of
-            Just error ->
-                errorDisplay error
+        (case ( model.error, model.result ) of
+            ( Just error, _ ) ->
+                if error == strings.sodiumNotElevated then
+                    Label.notice error
 
-            Nothing ->
-                case model.result of
-                    Just result ->
-                        if String.isEmpty model.weight || String.isEmpty model.sodium then
-                            text ""
+                else
+                    errorDisplay error
 
-                        else
-                            resultDisplay strings.result (floatToStr result) strings.ml
+            ( Nothing, Just result ) ->
+                Label.view strings.calculationResult
+                    { title = strings.waterToReplace
+                    , value = floatToStr result
+                    , unit = strings.liters
+                    , extra = []
+                    , working =
+                        [ floatToStr (totalBodyWaterFactor model.sex model.elderly)
+                            ++ " × "
+                            ++ model.weight
+                            ++ " "
+                            ++ strings.kg
+                            ++ " × ("
+                            ++ model.sodium
+                            ++ " ÷ 140 − 1)"
+                        ]
+                    }
 
-                    Nothing ->
-                        text ""
+            ( Nothing, Nothing ) ->
+                Label.empty strings.resultHint
         )
+
+
+sexToValue : Sex -> String
+sexToValue sex =
+    case sex of
+        Male ->
+            "male"
+
+        Female ->
+            "female"
+
+
+sexFromValue : String -> Sex
+sexFromValue value =
+    if value == "female" then
+        Female
+
+    else
+        Male
