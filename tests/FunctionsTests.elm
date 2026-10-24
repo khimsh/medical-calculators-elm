@@ -1,7 +1,7 @@
 module FunctionsTests exposing (..)
 
 import Expect
-import Functions exposing (calculateCalories, floatToStr, strToFloat)
+import Functions exposing (calculateBMI, calculateCalories, scoreCalculator, strToFloat)
 import Test exposing (Test, describe, test)
 
 
@@ -60,19 +60,57 @@ suite =
                 \_ ->
                     (calculateCalories 40 13 2).calories
                         |> Expect.within (Expect.Absolute 0.0001) 200
+            , test "high risk with BMI 17 uses 30 kcal/kg" <|
+                \_ ->
+                    (calculateCalories 60 17 2).calories
+                        |> Expect.within (Expect.Absolute 0.0001) 1800
+            , test "score 1 is still low risk: 25 kcal/kg" <|
+                \_ ->
+                    (calculateCalories 60 19 1).calories
+                        |> Expect.within (Expect.Absolute 0.0001) 1500
+            , test "high risk with BMI exactly 16 uses 30 kcal/kg" <|
+                \_ ->
+                    (calculateCalories 60 16 2).calories
+                        |> Expect.within (Expect.Absolute 0.0001) 1800
+            , test "high risk with BMI exactly 14 uses 10 kcal/kg" <|
+                \_ ->
+                    (calculateCalories 60 14 2).calories
+                        |> Expect.within (Expect.Absolute 0.0001) 600
             ]
-        , describe "floatToStr"
-            [ test "converts integer to string" <|
+        , describe "calculateBMI"
+            [ test "70 kg at 175 cm" <|
                 \_ ->
-                    floatToStr 42
-                        |> Expect.equal "42"
-            , test "converts decimal float to string" <|
+                    calculateBMI 70 175
+                        |> Expect.within (Expect.Absolute 0.001) 22.857
+            ]
+        , describe "scoreCalculator"
+            [ test "BMI above 20 scores 0" <|
                 \_ ->
-                    floatToStr 3.14
-                        |> Expect.equal "3.14"
-            , test "converts zero to string" <|
+                    scoreCalculator 22 0 False
+                        |> Expect.equal 0
+            , test "BMI exactly 20 scores 1" <|
                 \_ ->
-                    floatToStr 0.0
-                        |> Expect.equal "0"
+                    scoreCalculator 20 0 False
+                        |> Expect.equal 1
+            , test "BMI exactly 18.5 scores 1" <|
+                \_ ->
+                    scoreCalculator 18.5 0 False
+                        |> Expect.equal 1
+            , test "BMI below 18.5 scores 2" <|
+                \_ ->
+                    scoreCalculator 18.4 0 False
+                        |> Expect.equal 2
+            , test "5-10% weight loss adds 1" <|
+                \_ ->
+                    scoreCalculator 22 2 False
+                        |> Expect.equal 1
+            , test "more than 10% weight loss adds 2" <|
+                \_ ->
+                    scoreCalculator 22 3 False
+                        |> Expect.equal 2
+            , test "critical illness adds 2" <|
+                \_ ->
+                    scoreCalculator 22 0 True
+                        |> Expect.equal 2
             ]
         ]

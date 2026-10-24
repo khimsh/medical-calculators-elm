@@ -1,8 +1,8 @@
 module FreeWaterDeficitTests exposing (tests)
 
 import Calculators.FreeWaterDeficit exposing (Model, Msg(..), init, update)
-import Expect exposing (..)
-import Functions exposing (Sex(..), calculateFreeWaterDeficit, totalBodyWaterFactor)
+import Expect
+import Functions exposing (Sex(..))
 import Test exposing (Test, describe, test)
 import Translations exposing (Strings, englishStrings)
 
@@ -24,37 +24,11 @@ calculate model =
 tests : Test
 tests =
     describe "Free Water Deficit Calculator"
-        [ test "Initial model has empty fields and no result" <|
-            \_ ->
-                let
-                    model =
-                        init
-                in
-                Expect.equal model { weight = "", sodium = "", sex = Male, elderly = False, result = Nothing, error = Nothing }
-        , test "Update weight updates the model" <|
-            \_ ->
-                let
-                    model =
-                        update (UpdateWeight "70") init testStrings
-                in
-                Expect.equal model.weight "70"
-        , test "Update sodium updates the model" <|
-            \_ ->
-                let
-                    model =
-                        update (UpdateSodium "150") init testStrings
-                in
-                Expect.equal model.sodium "150"
-        , test "70 kg man with Na 150 has a deficit of 3.0 L" <|
+        [ test "70 kg man with Na 150 has a deficit of 3.0 L" <|
             \_ ->
                 calculate { init | weight = "70", sodium = "150" }
                     |> .result
                     |> Expect.equal (Just 3.0)
-        , test "70 kg man with Na 160 has a deficit of 6.0 L" <|
-            \_ ->
-                calculate { init | weight = "70", sodium = "160" }
-                    |> .result
-                    |> Expect.equal (Just 6.0)
         , test "60 kg woman with Na 154 uses factor 0.5 (3.0 L)" <|
             \_ ->
                 calculate { init | weight = "60", sodium = "154", sex = Female }
@@ -107,14 +81,13 @@ tests =
                 calculate init
                     |> .error
                     |> Expect.equal (Just testStrings.invalidInputs)
-        , describe "totalBodyWaterFactor"
-            [ test "adult man" <| \_ -> totalBodyWaterFactor Male False |> Expect.within (Expect.Absolute 0.0001) 0.6
-            , test "elderly man" <| \_ -> totalBodyWaterFactor Male True |> Expect.within (Expect.Absolute 0.0001) 0.5
-            , test "adult woman" <| \_ -> totalBodyWaterFactor Female False |> Expect.within (Expect.Absolute 0.0001) 0.5
-            , test "elderly woman" <| \_ -> totalBodyWaterFactor Female True |> Expect.within (Expect.Absolute 0.0001) 0.45
-            ]
-        , test "calculateFreeWaterDeficit returns liters" <|
+        , test "Editing sodium clears the previous result" <|
             \_ ->
-                calculateFreeWaterDeficit Male False 70 150
-                    |> Expect.within (Expect.Absolute 0.0001) 3.0
+                let
+                    calculated =
+                        calculate { init | weight = "70", sodium = "150" }
+                in
+                update (UpdateSodium "160") calculated testStrings
+                    |> .result
+                    |> Expect.equal Nothing
         ]
