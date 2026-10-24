@@ -784,11 +784,11 @@ function _Debug_crash_UNUSED(identifier, fact1, fact2, fact3, fact4)
 
 function _Debug_regionToString(region)
 {
-	if (region.aX.as === region.bd.as)
+	if (region.aU.ar === region.bc.ar)
 	{
-		return 'on line ' + region.aX.as;
+		return 'on line ' + region.aU.ar;
 	}
-	return 'on lines ' + region.aX.as + ' through ' + region.bd.as;
+	return 'on lines ' + region.aU.ar + ' through ' + region.bc.ar;
 }
 
 
@@ -1857,9 +1857,9 @@ var _Platform_worker = F4(function(impl, flagDecoder, debugMetadata, args)
 	return _Platform_initialize(
 		flagDecoder,
 		args,
-		impl.cm,
-		impl.cY,
-		impl.cT,
+		impl.ct,
+		impl.c9,
+		impl.c2,
 		function() { return function() {} }
 	);
 });
@@ -2719,9 +2719,9 @@ var _VirtualDom_mapEventTuple = F2(function(func, tuple)
 var _VirtualDom_mapEventRecord = F2(function(func, record)
 {
 	return {
-		J: func(record.J),
-		aY: record.aY,
-		aU: record.aU
+		I: func(record.I),
+		aV: record.aV,
+		aR: record.aR
 	}
 });
 
@@ -2989,11 +2989,11 @@ function _VirtualDom_makeCallback(eventNode, initialHandler)
 		// 3 = Custom
 
 		var value = result.a;
-		var message = !tag ? value : tag < 3 ? value.a : value.J;
-		var stopPropagation = tag == 1 ? value.b : tag == 3 && value.aY;
+		var message = !tag ? value : tag < 3 ? value.a : value.I;
+		var stopPropagation = tag == 1 ? value.b : tag == 3 && value.aV;
 		var currentEventNode = (
 			stopPropagation && event.stopPropagation(),
-			(tag == 2 ? value.b : tag == 3 && value.aU) && event.preventDefault(),
+			(tag == 2 ? value.b : tag == 3 && value.aR) && event.preventDefault(),
 			eventNode
 		);
 		var tagger;
@@ -3943,11 +3943,11 @@ var _Browser_element = _Debugger_element || F4(function(impl, flagDecoder, debug
 	return _Platform_initialize(
 		flagDecoder,
 		args,
-		impl.cm,
-		impl.cY,
-		impl.cT,
+		impl.ct,
+		impl.c9,
+		impl.c2,
 		function(sendToApp, initialModel) {
-			var view = impl.cZ;
+			var view = impl.da;
 			/**/
 			var domNode = args['node'];
 			//*/
@@ -3979,12 +3979,12 @@ var _Browser_document = _Debugger_document || F4(function(impl, flagDecoder, deb
 	return _Platform_initialize(
 		flagDecoder,
 		args,
-		impl.cm,
-		impl.cY,
-		impl.cT,
+		impl.ct,
+		impl.c9,
+		impl.c2,
 		function(sendToApp, initialModel) {
-			var divertHrefToApp = impl.aV && impl.aV(sendToApp)
-			var view = impl.cZ;
+			var divertHrefToApp = impl.aS && impl.aS(sendToApp)
+			var view = impl.da;
 			var title = _VirtualDom_doc.title;
 			var bodyNode = _VirtualDom_doc.body;
 			var currNode = _VirtualDom_virtualize(bodyNode);
@@ -3992,12 +3992,12 @@ var _Browser_document = _Debugger_document || F4(function(impl, flagDecoder, deb
 			{
 				_VirtualDom_divertHrefToApp = divertHrefToApp;
 				var doc = view(model);
-				var nextNode = _VirtualDom_node('body')(_List_Nil)(doc.b0);
+				var nextNode = _VirtualDom_node('body')(_List_Nil)(doc.b5);
 				var patches = _VirtualDom_diff(currNode, nextNode);
 				bodyNode = _VirtualDom_applyPatches(bodyNode, currNode, patches, sendToApp);
 				currNode = nextNode;
 				_VirtualDom_divertHrefToApp = 0;
-				(title !== doc.bP) && (_VirtualDom_doc.title = title = doc.bP);
+				(title !== doc.aY) && (_VirtualDom_doc.title = title = doc.aY);
 			});
 		}
 	);
@@ -4053,12 +4053,12 @@ function _Browser_makeAnimator(model, draw)
 
 function _Browser_application(impl)
 {
-	var onUrlChange = impl.cG;
-	var onUrlRequest = impl.cH;
+	var onUrlChange = impl.cP;
+	var onUrlRequest = impl.cQ;
 	var key = function() { key.a(onUrlChange(_Browser_getUrl())); };
 
 	return _Browser_document({
-		aV: function(sendToApp)
+		aS: function(sendToApp)
 		{
 			key.a = sendToApp;
 			_Browser_window.addEventListener('popstate', key);
@@ -4074,9 +4074,9 @@ function _Browser_application(impl)
 					var next = $elm$url$Url$fromString(href).a;
 					sendToApp(onUrlRequest(
 						(next
-							&& curr.bA === next.bA
-							&& curr.bi === next.bi
-							&& curr.bx.a === next.bx.a
+							&& curr.bE === next.bE
+							&& curr.bj === next.bj
+							&& curr.bB.a === next.bB.a
 						)
 							? $elm$browser$Browser$Internal(next)
 							: $elm$browser$Browser$External(href)
@@ -4084,13 +4084,13 @@ function _Browser_application(impl)
 				}
 			});
 		},
-		cm: function(flags)
+		ct: function(flags)
 		{
-			return A3(impl.cm, flags, _Browser_getUrl(), key);
+			return A3(impl.ct, flags, _Browser_getUrl(), key);
 		},
-		cZ: impl.cZ,
-		cY: impl.cY,
-		cT: impl.cT
+		da: impl.da,
+		c9: impl.c9,
+		c2: impl.c2
 	});
 }
 
@@ -4156,17 +4156,17 @@ var _Browser_decodeEvent = F2(function(decoder, event)
 function _Browser_visibilityInfo()
 {
 	return (typeof _VirtualDom_doc.hidden !== 'undefined')
-		? { cj: 'hidden', b4: 'visibilitychange' }
+		? { cq: 'hidden', b9: 'visibilitychange' }
 		:
 	(typeof _VirtualDom_doc.mozHidden !== 'undefined')
-		? { cj: 'mozHidden', b4: 'mozvisibilitychange' }
+		? { cq: 'mozHidden', b9: 'mozvisibilitychange' }
 		:
 	(typeof _VirtualDom_doc.msHidden !== 'undefined')
-		? { cj: 'msHidden', b4: 'msvisibilitychange' }
+		? { cq: 'msHidden', b9: 'msvisibilitychange' }
 		:
 	(typeof _VirtualDom_doc.webkitHidden !== 'undefined')
-		? { cj: 'webkitHidden', b4: 'webkitvisibilitychange' }
-		: { cj: 'hidden', b4: 'visibilitychange' };
+		? { cq: 'webkitHidden', b9: 'webkitvisibilitychange' }
+		: { cq: 'hidden', b9: 'visibilitychange' };
 }
 
 
@@ -4247,12 +4247,12 @@ var _Browser_call = F2(function(functionName, id)
 function _Browser_getViewport()
 {
 	return {
-		bI: _Browser_getScene(),
-		bR: {
-			bU: _Browser_window.pageXOffset,
-			bV: _Browser_window.pageYOffset,
-			bT: _Browser_doc.documentElement.clientWidth,
-			G: _Browser_doc.documentElement.clientHeight
+		bN: _Browser_getScene(),
+		bW: {
+			bZ: _Browser_window.pageXOffset,
+			b_: _Browser_window.pageYOffset,
+			bY: _Browser_doc.documentElement.clientWidth,
+			O: _Browser_doc.documentElement.clientHeight
 		}
 	};
 }
@@ -4262,8 +4262,8 @@ function _Browser_getScene()
 	var body = _Browser_doc.body;
 	var elem = _Browser_doc.documentElement;
 	return {
-		bT: Math.max(body.scrollWidth, body.offsetWidth, elem.scrollWidth, elem.offsetWidth, elem.clientWidth),
-		G: Math.max(body.scrollHeight, body.offsetHeight, elem.scrollHeight, elem.offsetHeight, elem.clientHeight)
+		bY: Math.max(body.scrollWidth, body.offsetWidth, elem.scrollWidth, elem.offsetWidth, elem.clientWidth),
+		O: Math.max(body.scrollHeight, body.offsetHeight, elem.scrollHeight, elem.offsetHeight, elem.clientHeight)
 	};
 }
 
@@ -4286,15 +4286,15 @@ function _Browser_getViewportOf(id)
 	return _Browser_withNode(id, function(node)
 	{
 		return {
-			bI: {
-				bT: node.scrollWidth,
-				G: node.scrollHeight
+			bN: {
+				bY: node.scrollWidth,
+				O: node.scrollHeight
 			},
-			bR: {
-				bU: node.scrollLeft,
-				bV: node.scrollTop,
-				bT: node.clientWidth,
-				G: node.clientHeight
+			bW: {
+				bZ: node.scrollLeft,
+				b_: node.scrollTop,
+				bY: node.clientWidth,
+				O: node.clientHeight
 			}
 		};
 	});
@@ -4324,18 +4324,18 @@ function _Browser_getElement(id)
 		var x = _Browser_window.pageXOffset;
 		var y = _Browser_window.pageYOffset;
 		return {
-			bI: _Browser_getScene(),
-			bR: {
-				bU: x,
-				bV: y,
-				bT: _Browser_doc.documentElement.clientWidth,
-				G: _Browser_doc.documentElement.clientHeight
+			bN: _Browser_getScene(),
+			bW: {
+				bZ: x,
+				b_: y,
+				bY: _Browser_doc.documentElement.clientWidth,
+				O: _Browser_doc.documentElement.clientHeight
 			},
-			cb: {
-				bU: x + rect.left,
-				bV: y + rect.top,
-				bT: rect.width,
-				G: rect.height
+			cg: {
+				bZ: x + rect.left,
+				b_: y + rect.top,
+				bY: rect.width,
+				O: rect.height
 			}
 		};
 	});
@@ -4370,12 +4370,6 @@ function _Browser_load(url)
 		}
 	}));
 }
-var $author$project$Main$LinkClicked = function (a) {
-	return {$: 8, a: a};
-};
-var $author$project$Main$UrlChanged = function (a) {
-	return {$: 9, a: a};
-};
 var $elm$core$Basics$EQ = 1;
 var $elm$core$Basics$GT = 2;
 var $elm$core$Basics$LT = 0;
@@ -4880,7 +4874,7 @@ var $elm$url$Url$Http = 0;
 var $elm$url$Url$Https = 1;
 var $elm$url$Url$Url = F6(
 	function (protocol, host, port_, path, query, fragment) {
-		return {ch: fragment, bi: host, bu: path, bx: port_, bA: protocol, bB: query};
+		return {bf: fragment, bj: host, bz: path, bB: port_, bE: protocol, bF: query};
 	});
 var $elm$core$String$contains = _String_contains;
 var $elm$core$String$length = _String_length;
@@ -5158,69 +5152,25 @@ var $elm$core$Task$perform = F2(
 		return $elm$core$Task$command(
 			A2($elm$core$Task$map, toMessage, task));
 	});
-var $elm$browser$Browser$application = _Browser_application;
+var $elm$browser$Browser$document = _Browser_document;
 var $author$project$Translations$Georgian = 1;
-var $author$project$Calculators$FreeWaterDeficit$init = {R: $elm$core$Maybe$Nothing, M: $elm$core$Maybe$Nothing, N: '', P: ''};
-var $author$project$Calculators$Liquids$init = {D: false, R: $elm$core$Maybe$Nothing, U: '', V: '', Y: '', M: ''};
-var $author$project$Calculators$Nutrition$init = {az: '', D: false, aq: '', ae: '', af: false, R: $elm$core$Maybe$Nothing, ai: '', G: '', aj: '', P: '', am: 0};
-var $author$project$Calculators$Pills$init = {D: false, R: $elm$core$Maybe$Nothing, X: '', M: '0.0', ab: ''};
+var $author$project$Functions$Male = 0;
+var $author$project$Calculators$FreeWaterDeficit$init = {M: false, v: $elm$core$Maybe$Nothing, y: $elm$core$Maybe$Nothing, W: 0, Y: '', ab: ''};
+var $author$project$Calculators$Liquids$init = {z: false, v: $elm$core$Maybe$Nothing, Q: '', R: '', U: '', y: ''};
+var $author$project$Calculators$Nutrition$init = {ap: '', z: false, ac: '', ad: '', ae: false, v: $elm$core$Maybe$Nothing, ah: '', O: '', ai: '', ab: '', al: 0};
+var $author$project$Calculators$Pills$init = {z: false, v: $elm$core$Maybe$Nothing, T: '', y: '0.0', Z: ''};
 var $elm$core$Platform$Cmd$batch = _Platform_batch;
 var $elm$core$Platform$Cmd$none = $elm$core$Platform$Cmd$batch(_List_Nil);
-var $author$project$Main$CalculatorView = function (a) {
-	return {$: 1, a: a};
+var $author$project$Main$init = function (_v0) {
+	return _Utils_Tuple2(
+		{aH: $author$project$Calculators$FreeWaterDeficit$init, A: 1, as: $author$project$Calculators$Liquids$init, aM: $author$project$Calculators$Nutrition$init, au: $author$project$Calculators$Pills$init},
+		$elm$core$Platform$Cmd$none);
 };
-var $author$project$Main$FreeWaterDeficitMsg = 3;
-var $author$project$Main$IndexView = {$: 0};
-var $author$project$Main$LiquidsCalc = 1;
-var $author$project$Main$NutritionCalc = 2;
-var $author$project$Main$PillsCalc = 0;
-var $author$project$Main$parseUrl = function (url) {
-	var _v0 = url.ch;
-	_v0$4:
-	while (true) {
-		if (!_v0.$) {
-			switch (_v0.a) {
-				case 'pills':
-					return $author$project$Main$CalculatorView(0);
-				case 'liquids':
-					return $author$project$Main$CalculatorView(1);
-				case 'nutrition':
-					return $author$project$Main$CalculatorView(2);
-				case 'free-water-deficit':
-					return $author$project$Main$CalculatorView(3);
-				default:
-					break _v0$4;
-			}
-		} else {
-			break _v0$4;
-		}
-	}
-	return $author$project$Main$IndexView;
-};
-var $author$project$Main$init = F3(
-	function (_v0, url, navKey) {
-		var initialView = $author$project$Main$parseUrl(url);
-		return _Utils_Tuple2(
-			{y: initialView, aB: $author$project$Calculators$FreeWaterDeficit$init, u: 1, H: $author$project$Calculators$Liquids$init, at: navKey, aE: $author$project$Calculators$Nutrition$init, K: $author$project$Calculators$Pills$init, _: false},
-			$elm$core$Platform$Cmd$none);
-	});
 var $elm$core$Platform$Sub$batch = _Platform_batch;
 var $elm$core$Platform$Sub$none = $elm$core$Platform$Sub$batch(_List_Nil);
 var $author$project$Translations$English = 0;
-var $author$project$Main$calculatorToFragment = function (calc) {
-	switch (calc) {
-		case 0:
-			return 'pills';
-		case 1:
-			return 'liquids';
-		case 2:
-			return 'nutrition';
-		default:
-			return 'free-water-deficit';
-	}
-};
-var $author$project$Translations$englishStrings = {bY: 'Amount at hand (mg)', b3: 'Calculate', ae: 'Carbs: ', af: 'Critical condition?', b6: 'Daily Calories:', b8: '⚠ TESTING PURPOSES ONLY - This application is currently in development and testing phase. Do not use for clinical decisions. Always consult with healthcare professionals.', ai: 'Fats: ', aB: 'Free Water Deficit', ci: 'Calculate water deficit based on weight and sodium levels', G: 'Height (cm)', cn: 'Enter valid inputs', cp: 'kcal', cs: 'Calculate liquid volumes for prescribed dosages', bn: 'Liquid Dosage', cv: 'mL', aE: 'Nutrition', aR: 'Nutrition Calculator', cF: 'Calculate daily caloric and nutritional requirements', bv: 'Peroral Liquids Dosage', aT: 'Peroral Pill Dosage', cK: 'Calculate tablet quantities for prescribed dosages', aF: 'Pill Dosage', cL: 'Pill strength (mg)', cM: 'Prescribed amount (mg)', aj: 'Proteins: ', cP: 'Reset', M: 'Result:', N: 'Sodium (mmol/L)', aW: 'Sodium (mmol/L)', cV: 'tablets', bP: 'Medical Calculators', c_: 'Volume at hand (mL)', P: 'Weight (kg)', a$: 'Weight (kg)', am: 'Weight Loss (%)', c$: 'None', c1: 'All values must be greater than zero'};
-var $author$project$Translations$georgianStrings = {bY: 'ხელთ არსებული რაოდენობა (მგ)', b3: 'გამოთვლა', ae: 'ნახშირწყლები: ', af: 'კრიტიკული მდგომარეობა?', b6: 'დღიური კალორიები:', b8: '⚠ მხოლოდ ტესტირებისთვის - ეს აპლიკაცია ამჟამად განვითარებისა და ტესტირების ფაზაშია. არ გამოიყენოთ კლინიკური გადაწყვეტილებებისთვის. ყოველთვის მიმართეთ ჯანდაცვის სპეციალისტს.', ai: 'ცხიმები: ', aB: 'თავისუფალი წყლის დეფიციტი', ci: 'გამოთვალეთ წყლის დეფიციტი წონისა და ნატრიუმის დონეების მიხედვით', G: 'სიმაღლე (სმ)', cn: 'შეიყვანეთ ვალიდური მონაცემები', cp: 'kcal', cs: 'გამოთვალეთ თხევადი მოცულობა გამოწერილი დოზირებისთვის', bn: 'თხევადი მედიკამენტი', cv: 'მლ', aE: 'კვება', aR: 'კვების კალკულატორი', cF: 'გამოთვალეთ დღიური კალორიული და პიტნის მოთხოვნილებები', bv: 'პერორალური თხევადი მედიკამენტი', aT: 'პერორალური აბის დოზირება', cK: 'აღირიცხეთ აბლეტის რაოდენობა გამოწერილი დოზირებისთვის', aF: 'აბის დოზირება', cL: 'აბის სიძლიერე (მგ)', cM: 'გამოწერილი რაოდენობა (მგ)', aj: 'პროტეინები: ', cP: 'გადატვირთვა', M: 'შედეგი:', N: 'ნატრიუმი (მმოლ/ლ)', aW: 'ნატრიუმი (მმოლ/ლ)', cV: 'აბი', bP: 'სამედიცინო კალკულატორები', c_: 'ხელთ არსებული მოცულობა (მლ)', P: 'წონა (კგ)', a$: 'წონა (კგ)', am: 'წონის კლება (%)', c$: 'არა', c1: 'ყველა მნიშვნელობა უნდა იყოს ნულზე მეტი'};
+var $author$project$Translations$englishStrings = {b1: 'Amount at hand (mg)', ap: 'BMI', a3: 'Calculate', b8: 'Calculation result', ad: 'Carbohydrate', ae: 'Critically ill', cb: 'Daily energy', cf: 'Draw up', M: 'Age 65 or older', ah: 'Fat', cm: 'Female', aH: 'Free Water Deficit', cn: '0.45–0.6 × weight × (Na ÷ 140 − 1)', co: 'Give', cp: 'g', O: 'Height (cm)', cu: 'Enter valid inputs', bl: 'kcal', cw: 'kg', bq: 'Liquid Dosage', cz: 'dose ÷ amount at hand × volume', cA: 'L', cB: 'Male', br: 'mg', bs: 'mL', aM: 'Nutrition', aN: 'Nutrition Calculator', cN: '5–30 kcal/kg by risk score', cO: 'Nutrition calculation results', cT: 'ქართული', cU: 'Peroral Liquids Dosage', aP: 'Peroral Pill Dosage', aQ: 'Pill Dosage', cV: 'dose ÷ tablet strength', cW: 'Pill strength (mg)', cX: 'Prescribed amount (mg)', ai: 'Protein', bI: 'Reset', y: 'Result', c_: 'Enter the values and press Calculate. The result and its working will appear here.', W: 'Sex', Y: 'Sodium (mmol/L)', aT: 'Sodium (mmol/L)', bQ: 'Sodium is below 140 mmol/L — there is no free water deficit', c3: 'Switch to Georgian', c5: 'tablets', aY: 'Medical Calculators', db: 'Volume at hand (mL)', dc: 'Free water to replace', ab: 'Weight (kg)', a_: 'Weight (kg)', al: 'Weight loss in the last 3–6 months', dd: 'None', dg: 'All values must be greater than zero'};
+var $author$project$Translations$georgianStrings = {b1: 'ხელთ არსებული რაოდენობა (მგ)', ap: 'სმი', a3: 'გამოთვლა', b8: 'გამოთვლის შედეგი', ad: 'ნახშირწყლები', ae: 'კრიტიკულ მდგომარეობაში', cb: 'დღიური კალორიები', cf: 'აიღეთ შპრიცში', M: '65 წლის ან უფროსი', ah: 'ცხიმები', cm: 'მდედრობითი', aH: 'თავისუფალი წყლის დეფიციტი', cn: '0.45–0.6 × წონა × (Na ÷ 140 − 1)', co: 'მიეცით', cp: 'გ', O: 'სიმაღლე (სმ)', cu: 'შეიყვანეთ ვალიდური მონაცემები', bl: 'კკალ', cw: 'კგ', bq: 'თხევადი მედიკამენტი', cz: 'დოზა ÷ ხელთ არსებული რაოდენობა × მოცულობა', cA: 'ლ', cB: 'მამრობითი', br: 'მგ', bs: 'მლ', aM: 'კვება', aN: 'კვების კალკულატორი', cN: '5–30 კკალ/კგ რისკის ქულის მიხედვით', cO: 'კვების გამოთვლის შედეგები', cT: 'English', cU: 'პერორალური თხევადი მედიკამენტი', aP: 'პერორალური აბის დოზირება', aQ: 'აბის დოზირება', cV: 'დოზა ÷ აბის სიძლიერე', cW: 'აბის სიძლიერე (მგ)', cX: 'გამოწერილი რაოდენობა (მგ)', ai: 'ცილები', bI: 'გადატვირთვა', y: 'შედეგი', c_: 'შეიყვანეთ მონაცემები და დააჭირეთ „გამოთვლა“. შედეგი და გამოთვლა აქ გამოჩნდება.', W: 'სქესი', Y: 'ნატრიუმი (მმოლ/ლ)', aT: 'ნატრიუმი (მმოლ/ლ)', bQ: 'ნატრიუმი 140 მმოლ/ლ-ზე დაბალია — თავისუფალი წყლის დეფიციტი არ არის', c3: 'ინგლისურზე გადართვა', c5: 'აბი', aY: 'სამედიცინო კალკულატორები', db: 'ხელთ არსებული მოცულობა (მლ)', dc: 'შესავსები თავისუფალი წყალი', ab: 'წონა (კგ)', a_: 'წონა (კგ)', al: 'წონის კლება ბოლო 3–6 თვეში', dd: 'არა', dg: 'ყველა მნიშვნელობა უნდა იყოს ნულზე მეტი'};
 var $author$project$Translations$getStrings = function (language) {
 	if (!language) {
 		return $author$project$Translations$englishStrings;
@@ -5228,74 +5178,58 @@ var $author$project$Translations$getStrings = function (language) {
 		return $author$project$Translations$georgianStrings;
 	}
 };
-var $elm$browser$Browser$Navigation$load = _Browser_load;
-var $elm$core$Basics$not = _Basics_not;
-var $elm$browser$Browser$Navigation$pushUrl = _Browser_pushUrl;
 var $elm$json$Json$Encode$string = _Json_wrap;
 var $author$project$Main$setLangAttribute = _Platform_outgoingPort('setLangAttribute', $elm$json$Json$Encode$string);
-var $elm$url$Url$addPort = F2(
-	function (maybePort, starter) {
-		if (maybePort.$ === 1) {
-			return starter;
+var $author$project$Functions$totalBodyWaterFactor = F2(
+	function (sex, elderly) {
+		var _v0 = _Utils_Tuple2(sex, elderly);
+		if (!_v0.a) {
+			if (!_v0.b) {
+				var _v1 = _v0.a;
+				return 0.6;
+			} else {
+				var _v2 = _v0.a;
+				return 0.5;
+			}
 		} else {
-			var port_ = maybePort.a;
-			return starter + (':' + $elm$core$String$fromInt(port_));
+			if (!_v0.b) {
+				var _v3 = _v0.a;
+				return 0.5;
+			} else {
+				var _v4 = _v0.a;
+				return 0.45;
+			}
 		}
 	});
-var $elm$url$Url$addPrefixed = F3(
-	function (prefix, maybeSegment, starter) {
-		if (maybeSegment.$ === 1) {
-			return starter;
-		} else {
-			var segment = maybeSegment.a;
-			return _Utils_ap(
-				starter,
-				_Utils_ap(prefix, segment));
-		}
+var $author$project$Functions$calculateFreeWaterDeficit = F4(
+	function (sex, elderly, weight, sodium) {
+		return (A2($author$project$Functions$totalBodyWaterFactor, sex, elderly) * weight) * ((sodium / 140) - 1);
 	});
-var $elm$url$Url$toString = function (url) {
-	var http = function () {
-		var _v0 = url.bA;
-		if (!_v0) {
-			return 'http://';
-		} else {
-			return 'https://';
-		}
-	}();
-	return A3(
-		$elm$url$Url$addPrefixed,
-		'#',
-		url.ch,
-		A3(
-			$elm$url$Url$addPrefixed,
-			'?',
-			url.bB,
-			_Utils_ap(
-				A2(
-					$elm$url$Url$addPort,
-					url.bx,
-					_Utils_ap(http, url.bi)),
-				url.bu)));
-};
 var $elm$core$Basics$round = _Basics_round;
 var $author$project$Functions$roundToTwoDecimals = function (number) {
 	return $elm$core$Basics$round(number * 100) / 100;
 };
-var $elm$core$String$toFloat = _String_toFloat;
-var $elm$core$Maybe$withDefault = F2(
-	function (_default, maybe) {
-		if (!maybe.$) {
-			var value = maybe.a;
-			return value;
+var $elm$core$Maybe$andThen = F2(
+	function (callback, maybeValue) {
+		if (!maybeValue.$) {
+			var value = maybeValue.a;
+			return callback(value);
 		} else {
-			return _default;
+			return $elm$core$Maybe$Nothing;
 		}
 	});
+var $elm$core$Basics$isInfinite = _Basics_isInfinite;
+var $elm$core$Basics$isNaN = _Basics_isNaN;
+var $elm$core$String$toFloat = _String_toFloat;
+var $elm$core$String$trim = _String_trim;
 var $author$project$Functions$strToFloat = function (string) {
 	return A2(
-		$elm$core$Maybe$withDefault,
-		0,
-		$elm$core$String$toFloat(string));
+		$elm$core$Maybe$andThen,
+		function (_float) {
+			return ($elm$core$Basics$isNaN(_float) || $elm$core$Basics$isInfinite(_float)) ? $elm$core$Maybe$Nothing : $elm$core$Maybe$Just(_float);
+		},
+		$elm$core$String$toFloat(
+			$elm$core$String$trim(string)));
 };
 var $author$project$Calculators$FreeWaterDeficit$update = F3(
 	function (msg, model, strings) {
@@ -5304,30 +5238,53 @@ var $author$project$Calculators$FreeWaterDeficit$update = F3(
 				var weight = msg.a;
 				return _Utils_update(
 					model,
-					{R: $elm$core$Maybe$Nothing, M: $elm$core$Maybe$Nothing, P: weight});
+					{v: $elm$core$Maybe$Nothing, y: $elm$core$Maybe$Nothing, ab: weight});
 			case 1:
 				var sodium = msg.a;
 				return _Utils_update(
 					model,
-					{R: $elm$core$Maybe$Nothing, M: $elm$core$Maybe$Nothing, N: sodium});
+					{v: $elm$core$Maybe$Nothing, y: $elm$core$Maybe$Nothing, Y: sodium});
 			case 2:
-				if ($elm$core$String$isEmpty(model.P) || $elm$core$String$isEmpty(model.N)) {
-					return _Utils_update(
+				var sex = msg.a;
+				return _Utils_update(
+					model,
+					{v: $elm$core$Maybe$Nothing, y: $elm$core$Maybe$Nothing, W: sex});
+			case 3:
+				var elderly = msg.a;
+				return _Utils_update(
+					model,
+					{M: elderly, v: $elm$core$Maybe$Nothing, y: $elm$core$Maybe$Nothing});
+			case 4:
+				var _v1 = _Utils_Tuple2(
+					$author$project$Functions$strToFloat(model.ab),
+					$author$project$Functions$strToFloat(model.Y));
+				if ((!_v1.a.$) && (!_v1.b.$)) {
+					var weight = _v1.a.a;
+					var sodium = _v1.b.a;
+					return ((weight <= 0) || (sodium <= 0)) ? _Utils_update(
 						model,
 						{
-							R: $elm$core$Maybe$Just(strings.cn),
-							M: $elm$core$Maybe$Nothing
-						});
+							v: $elm$core$Maybe$Just(strings.dg),
+							y: $elm$core$Maybe$Nothing
+						}) : ((sodium < 140) ? _Utils_update(
+						model,
+						{
+							v: $elm$core$Maybe$Just(strings.bQ),
+							y: $elm$core$Maybe$Nothing
+						}) : _Utils_update(
+						model,
+						{
+							v: $elm$core$Maybe$Nothing,
+							y: $elm$core$Maybe$Just(
+								$author$project$Functions$roundToTwoDecimals(
+									A4($author$project$Functions$calculateFreeWaterDeficit, model.W, model.M, weight, sodium)))
+						}));
 				} else {
-					var weightValue = $author$project$Functions$strToFloat(model.P);
-					var sodiumValue = $author$project$Functions$strToFloat(model.N);
-					var result = (weightValue * (sodiumValue - 140)) / 140;
 					return _Utils_update(
 						model,
 						{
-							R: $elm$core$Maybe$Nothing,
-							M: $elm$core$Maybe$Just(
-								$author$project$Functions$roundToTwoDecimals(result))
+							v: $elm$core$Maybe$Just(strings.cu),
+							y: $elm$core$Maybe$Nothing
 						});
 				}
 			default:
@@ -5345,44 +5302,58 @@ var $author$project$Calculators$Liquids$update = F3(
 				var newPrescribedLiquid = msg.a;
 				return _Utils_update(
 					model,
-					{D: false, R: $elm$core$Maybe$Nothing, Y: newPrescribedLiquid});
+					{z: false, v: $elm$core$Maybe$Nothing, U: newPrescribedLiquid});
 			case 1:
 				var newLiquidDosageAthand = msg.a;
 				return _Utils_update(
 					model,
-					{D: false, R: $elm$core$Maybe$Nothing, U: newLiquidDosageAthand});
+					{z: false, v: $elm$core$Maybe$Nothing, Q: newLiquidDosageAthand});
 			case 2:
 				var newLiquidVolumeAtHand = msg.a;
 				return _Utils_update(
 					model,
-					{D: false, R: $elm$core$Maybe$Nothing, V: newLiquidVolumeAtHand});
+					{z: false, v: $elm$core$Maybe$Nothing, R: newLiquidVolumeAtHand});
 			case 3:
-				if ($elm$core$String$isEmpty(model.Y) || ($elm$core$String$isEmpty(model.U) || $elm$core$String$isEmpty(model.V))) {
+				if ($elm$core$String$isEmpty(model.U) || ($elm$core$String$isEmpty(model.Q) || $elm$core$String$isEmpty(model.R))) {
 					return _Utils_update(
 						model,
 						{
-							D: true,
-							R: $elm$core$Maybe$Just(strings.cn),
-							M: '0.0'
+							z: true,
+							v: $elm$core$Maybe$Just(strings.cu),
+							y: '0.0'
 						});
 				} else {
-					var volume = $author$project$Functions$strToFloat(model.V);
-					var prescribed = $author$project$Functions$strToFloat(model.Y);
-					var dosage = $author$project$Functions$strToFloat(model.U);
-					return ((!prescribed) || ((!dosage) || (!volume))) ? _Utils_update(
-						model,
-						{
-							D: true,
-							R: $elm$core$Maybe$Just(strings.c1),
-							M: '0.0'
-						}) : _Utils_update(
-						model,
-						{
-							D: true,
-							R: $elm$core$Maybe$Nothing,
-							M: $author$project$Functions$floatToStr(
-								$author$project$Functions$roundToTwoDecimals((prescribed / dosage) * volume))
-						});
+					var _v1 = _Utils_Tuple3(
+						$author$project$Functions$strToFloat(model.U),
+						$author$project$Functions$strToFloat(model.Q),
+						$author$project$Functions$strToFloat(model.R));
+					if (((!_v1.a.$) && (!_v1.b.$)) && (!_v1.c.$)) {
+						var prescribed = _v1.a.a;
+						var dosage = _v1.b.a;
+						var volume = _v1.c.a;
+						return ((prescribed <= 0) || ((dosage <= 0) || (volume <= 0))) ? _Utils_update(
+							model,
+							{
+								z: true,
+								v: $elm$core$Maybe$Just(strings.dg),
+								y: '0.0'
+							}) : _Utils_update(
+							model,
+							{
+								z: true,
+								v: $elm$core$Maybe$Nothing,
+								y: $author$project$Functions$floatToStr(
+									$author$project$Functions$roundToTwoDecimals((prescribed / dosage) * volume))
+							});
+					} else {
+						return _Utils_update(
+							model,
+							{
+								z: true,
+								v: $elm$core$Maybe$Just(strings.cu),
+								y: '0.0'
+							});
+					}
 				}
 			default:
 				return $author$project$Calculators$Liquids$init;
@@ -5396,23 +5367,18 @@ var $author$project$Functions$calculateBMI = F2(
 	});
 var $author$project$Functions$NutritionResult = F4(
 	function (calories, proteins, fats, carbs) {
-		return {aq: calories, ae: carbs, ai: fats, aj: proteins};
+		return {ac: calories, ad: carbs, ah: fats, ai: proteins};
 	});
 var $author$project$Functions$calculateCalories = F3(
 	function (weight, bmi, score) {
-		if (score <= 1) {
-			var tee = 25 * weight;
-			var proteins = tee / 4;
-			var fats = tee / 4;
-			var carbs = tee / 2;
-			return A4($author$project$Functions$NutritionResult, tee, proteins, fats, carbs);
-		} else {
-			var ree = (bmi < 14) ? (5 * weight) : ((bmi < 16) ? (10 * weight) : (30 * weight));
-			var proteins = ree / 4;
-			var fats = ree / 4;
-			var carbs = ree / 2;
-			return A4($author$project$Functions$NutritionResult, ree, proteins, fats, carbs);
-		}
+		var energy = (score <= 1) ? (25 * weight) : ((bmi < 14) ? (5 * weight) : ((bmi < 16) ? (10 * weight) : (30 * weight)));
+		return A4($author$project$Functions$NutritionResult, energy, (energy * 0.25) / 4, (energy * 0.25) / 9, (energy * 0.5) / 4);
+	});
+var $author$project$Functions$formatToDecimals = F2(
+	function (decimals, value) {
+		var multiplier = A2($elm$core$Basics$pow, 10, decimals);
+		var rounded = $elm$core$Basics$round(value * multiplier);
+		return $elm$core$String$fromFloat(rounded / multiplier);
 	});
 var $author$project$Functions$scoreCalculator = F3(
 	function (bmi, weightLoss, criticalStatus) {
@@ -5441,52 +5407,70 @@ var $author$project$Calculators$Nutrition$update = F3(
 				var newWeight = msg.a;
 				return _Utils_update(
 					model,
-					{D: false, R: $elm$core$Maybe$Nothing, P: newWeight});
+					{z: false, v: $elm$core$Maybe$Nothing, ab: newWeight});
 			case 1:
 				var newHeight = msg.a;
 				return _Utils_update(
 					model,
-					{D: false, R: $elm$core$Maybe$Nothing, G: newHeight});
+					{z: false, v: $elm$core$Maybe$Nothing, O: newHeight});
 			case 2:
 				var newWeightLoss = msg.a;
 				return _Utils_update(
 					model,
-					{D: false, R: $elm$core$Maybe$Nothing, am: newWeightLoss});
+					{z: false, v: $elm$core$Maybe$Nothing, al: newWeightLoss});
 			case 3:
 				var newCritical = msg.a;
 				return _Utils_update(
 					model,
-					{D: false, af: newCritical, R: $elm$core$Maybe$Nothing});
+					{z: false, ae: newCritical, v: $elm$core$Maybe$Nothing});
 			case 4:
-				if ($elm$core$String$isEmpty(model.P) || $elm$core$String$isEmpty(model.G)) {
+				if ($elm$core$String$isEmpty(model.ab) || $elm$core$String$isEmpty(model.O)) {
 					return _Utils_update(
 						model,
 						{
-							D: true,
-							R: $elm$core$Maybe$Just(strings.cn)
+							z: true,
+							v: $elm$core$Maybe$Just(strings.cu)
 						});
 				} else {
-					var weight = $author$project$Functions$strToFloat(model.P);
-					var height = $author$project$Functions$strToFloat(model.G);
-					var bmi = A2($author$project$Functions$calculateBMI, weight, height);
-					var score = A3($author$project$Functions$scoreCalculator, bmi, model.am, model.af);
-					var nutrition = A3($author$project$Functions$calculateCalories, weight, bmi, score);
-					return _Utils_update(
-						model,
-						{
-							az: $author$project$Functions$floatToStr(
-								$author$project$Functions$roundToTwoDecimals(bmi)),
-							D: true,
-							aq: $author$project$Functions$floatToStr(
-								$author$project$Functions$roundToTwoDecimals(nutrition.aq)),
-							ae: $author$project$Functions$floatToStr(
-								$author$project$Functions$roundToTwoDecimals(nutrition.ae)),
-							R: $elm$core$Maybe$Nothing,
-							ai: $author$project$Functions$floatToStr(
-								$author$project$Functions$roundToTwoDecimals(nutrition.ai)),
-							aj: $author$project$Functions$floatToStr(
-								$author$project$Functions$roundToTwoDecimals(nutrition.aj))
-						});
+					var _v1 = _Utils_Tuple2(
+						$author$project$Functions$strToFloat(model.ab),
+						$author$project$Functions$strToFloat(model.O));
+					if ((!_v1.a.$) && (!_v1.b.$)) {
+						var weight = _v1.a.a;
+						var height = _v1.b.a;
+						if ((weight <= 0) || (height <= 0)) {
+							return _Utils_update(
+								model,
+								{
+									z: true,
+									v: $elm$core$Maybe$Just(strings.dg)
+								});
+						} else {
+							var bmi = A2($author$project$Functions$calculateBMI, weight, height);
+							var score = A3($author$project$Functions$scoreCalculator, bmi, model.al, model.ae);
+							var nutrition = A3($author$project$Functions$calculateCalories, weight, bmi, score);
+							return _Utils_update(
+								model,
+								{
+									ap: $author$project$Functions$floatToStr(
+										$author$project$Functions$roundToTwoDecimals(bmi)),
+									z: true,
+									ac: $author$project$Functions$floatToStr(
+										$author$project$Functions$roundToTwoDecimals(nutrition.ac)),
+									ad: A2($author$project$Functions$formatToDecimals, 0, nutrition.ad),
+									v: $elm$core$Maybe$Nothing,
+									ah: A2($author$project$Functions$formatToDecimals, 0, nutrition.ah),
+									ai: A2($author$project$Functions$formatToDecimals, 0, nutrition.ai)
+								});
+						}
+					} else {
+						return _Utils_update(
+							model,
+							{
+								z: true,
+								v: $elm$core$Maybe$Just(strings.cu)
+							});
+					}
 				}
 			default:
 				return $author$project$Calculators$Nutrition$init;
@@ -5499,38 +5483,51 @@ var $author$project$Calculators$Pills$update = F3(
 				var newPrescribed = msg.a;
 				return _Utils_update(
 					model,
-					{D: false, R: $elm$core$Maybe$Nothing, X: newPrescribed});
+					{z: false, v: $elm$core$Maybe$Nothing, T: newPrescribed});
 			case 1:
 				var newTablet = msg.a;
 				return _Utils_update(
 					model,
-					{D: false, R: $elm$core$Maybe$Nothing, ab: newTablet});
+					{z: false, v: $elm$core$Maybe$Nothing, Z: newTablet});
 			case 2:
-				if ($elm$core$String$isEmpty(model.X) || $elm$core$String$isEmpty(model.ab)) {
+				if ($elm$core$String$isEmpty(model.T) || $elm$core$String$isEmpty(model.Z)) {
 					return _Utils_update(
 						model,
 						{
-							D: true,
-							R: $elm$core$Maybe$Just(strings.cn),
-							M: '0.0'
+							z: true,
+							v: $elm$core$Maybe$Just(strings.cu),
+							y: '0.0'
 						});
 				} else {
-					var tablet = $author$project$Functions$strToFloat(model.ab);
-					var prescribed = $author$project$Functions$strToFloat(model.X);
-					return ((!prescribed) || (!tablet)) ? _Utils_update(
-						model,
-						{
-							D: true,
-							R: $elm$core$Maybe$Just(strings.c1),
-							M: '0.0'
-						}) : _Utils_update(
-						model,
-						{
-							D: true,
-							R: $elm$core$Maybe$Nothing,
-							M: $author$project$Functions$floatToStr(
-								$author$project$Functions$roundToTwoDecimals(prescribed / tablet))
-						});
+					var _v1 = _Utils_Tuple2(
+						$author$project$Functions$strToFloat(model.T),
+						$author$project$Functions$strToFloat(model.Z));
+					if ((!_v1.a.$) && (!_v1.b.$)) {
+						var prescribed = _v1.a.a;
+						var tablet = _v1.b.a;
+						return ((prescribed <= 0) || (tablet <= 0)) ? _Utils_update(
+							model,
+							{
+								z: true,
+								v: $elm$core$Maybe$Just(strings.dg),
+								y: '0.0'
+							}) : _Utils_update(
+							model,
+							{
+								z: true,
+								v: $elm$core$Maybe$Nothing,
+								y: $author$project$Functions$floatToStr(
+									$author$project$Functions$roundToTwoDecimals(prescribed / tablet))
+							});
+					} else {
+						return _Utils_update(
+							model,
+							{
+								z: true,
+								v: $elm$core$Maybe$Just(strings.cu),
+								y: '0.0'
+							});
+					}
 				}
 			default:
 				return $author$project$Calculators$Pills$init;
@@ -5540,30 +5537,7 @@ var $author$project$Main$update = F2(
 	function (msg, model) {
 		switch (msg.$) {
 			case 0:
-				var calculator = msg.a;
-				return _Utils_Tuple2(
-					_Utils_update(
-						model,
-						{
-							y: $author$project$Main$CalculatorView(calculator),
-							aB: $author$project$Calculators$FreeWaterDeficit$init,
-							H: $author$project$Calculators$Liquids$init,
-							aE: $author$project$Calculators$Nutrition$init,
-							K: $author$project$Calculators$Pills$init,
-							_: false
-						}),
-					A2(
-						$elm$browser$Browser$Navigation$pushUrl,
-						model.at,
-						'#' + $author$project$Main$calculatorToFragment(calculator)));
-			case 1:
-				return _Utils_Tuple2(
-					_Utils_update(
-						model,
-						{y: $author$project$Main$IndexView, aB: $author$project$Calculators$FreeWaterDeficit$init, H: $author$project$Calculators$Liquids$init, aE: $author$project$Calculators$Nutrition$init, K: $author$project$Calculators$Pills$init, _: false}),
-					A2($elm$browser$Browser$Navigation$pushUrl, model.at, './'));
-			case 3:
-				var newLanguage = (!model.u) ? 1 : 0;
+				var newLanguage = (!model.A) ? 1 : 0;
 				var langAttribute = function () {
 					if (!newLanguage) {
 						return 'en';
@@ -5574,86 +5548,62 @@ var $author$project$Main$update = F2(
 				return _Utils_Tuple2(
 					_Utils_update(
 						model,
-						{u: newLanguage}),
+						{A: newLanguage}),
 					$author$project$Main$setLangAttribute(langAttribute));
+			case 1:
+				var subMsg = msg.a;
+				var strings = $author$project$Translations$getStrings(model.A);
+				return _Utils_Tuple2(
+					_Utils_update(
+						model,
+						{
+							au: A3($author$project$Calculators$Pills$update, subMsg, model.au, strings)
+						}),
+					$elm$core$Platform$Cmd$none);
 			case 2:
-				return _Utils_Tuple2(
-					_Utils_update(
-						model,
-						{_: !model._}),
-					$elm$core$Platform$Cmd$none);
-			case 4:
 				var subMsg = msg.a;
-				var strings = $author$project$Translations$getStrings(model.u);
+				var strings = $author$project$Translations$getStrings(model.A);
 				return _Utils_Tuple2(
 					_Utils_update(
 						model,
 						{
-							K: A3($author$project$Calculators$Pills$update, subMsg, model.K, strings)
+							as: A3($author$project$Calculators$Liquids$update, subMsg, model.as, strings)
 						}),
 					$elm$core$Platform$Cmd$none);
-			case 5:
+			case 3:
 				var subMsg = msg.a;
-				var strings = $author$project$Translations$getStrings(model.u);
+				var strings = $author$project$Translations$getStrings(model.A);
 				return _Utils_Tuple2(
 					_Utils_update(
 						model,
 						{
-							H: A3($author$project$Calculators$Liquids$update, subMsg, model.H, strings)
+							aM: A3($author$project$Calculators$Nutrition$update, subMsg, model.aM, strings)
 						}),
 					$elm$core$Platform$Cmd$none);
-			case 6:
-				var subMsg = msg.a;
-				var strings = $author$project$Translations$getStrings(model.u);
-				return _Utils_Tuple2(
-					_Utils_update(
-						model,
-						{
-							aE: A3($author$project$Calculators$Nutrition$update, subMsg, model.aE, strings)
-						}),
-					$elm$core$Platform$Cmd$none);
-			case 7:
-				var subMsg = msg.a;
-				var strings = $author$project$Translations$getStrings(model.u);
-				var updatedFreeWaterDeficit = A3($author$project$Calculators$FreeWaterDeficit$update, subMsg, model.aB, strings);
-				return _Utils_Tuple2(
-					_Utils_update(
-						model,
-						{aB: updatedFreeWaterDeficit}),
-					$elm$core$Platform$Cmd$none);
-			case 8:
-				var urlRequest = msg.a;
-				if (!urlRequest.$) {
-					var url = urlRequest.a;
-					return _Utils_Tuple2(
-						model,
-						A2(
-							$elm$browser$Browser$Navigation$pushUrl,
-							model.at,
-							$elm$url$Url$toString(url)));
-				} else {
-					var href = urlRequest.a;
-					return _Utils_Tuple2(
-						model,
-						$elm$browser$Browser$Navigation$load(href));
-				}
 			default:
-				var url = msg.a;
+				var subMsg = msg.a;
+				var strings = $author$project$Translations$getStrings(model.A);
+				var updatedFreeWaterDeficit = A3($author$project$Calculators$FreeWaterDeficit$update, subMsg, model.aH, strings);
 				return _Utils_Tuple2(
 					_Utils_update(
 						model,
-						{
-							y: $author$project$Main$parseUrl(url),
-							aB: $author$project$Calculators$FreeWaterDeficit$init,
-							H: $author$project$Calculators$Liquids$init,
-							aE: $author$project$Calculators$Nutrition$init,
-							K: $author$project$Calculators$Pills$init
-						}),
+						{aH: updatedFreeWaterDeficit}),
 					$elm$core$Platform$Cmd$none);
 		}
 	});
-var $author$project$Main$ToggleLanguage = {$: 3};
-var $author$project$Main$ToggleSidebar = {$: 2};
+var $author$project$Main$HandleFreeWaterDeficitMsg = function (a) {
+	return {$: 4, a: a};
+};
+var $author$project$Main$LiquidsMsg = function (a) {
+	return {$: 2, a: a};
+};
+var $author$project$Main$NutritionMsg = function (a) {
+	return {$: 3, a: a};
+};
+var $author$project$Main$PillsMsg = function (a) {
+	return {$: 1, a: a};
+};
+var $author$project$Main$ToggleLanguage = {$: 0};
 var $elm$virtual_dom$VirtualDom$attribute = F2(
 	function (key, value) {
 		return A2(
@@ -5663,28 +5613,9 @@ var $elm$virtual_dom$VirtualDom$attribute = F2(
 	});
 var $elm$html$Html$Attributes$attribute = $elm$virtual_dom$VirtualDom$attribute;
 var $elm$html$Html$button = _VirtualDom_node('button');
-var $elm$html$Html$Attributes$stringProperty = F2(
-	function (key, string) {
-		return A2(
-			_VirtualDom_property,
-			key,
-			$elm$json$Json$Encode$string(string));
-	});
-var $elm$html$Html$Attributes$class = $elm$html$Html$Attributes$stringProperty('className');
-var $elm$html$Html$div = _VirtualDom_node('div');
-var $elm$html$Html$h1 = _VirtualDom_node('h1');
-var $elm$html$Html$header = _VirtualDom_node('header');
 var $elm$html$Html$main_ = _VirtualDom_node('main');
-var $author$project$Main$SelectCalculator = function (a) {
-	return {$: 0, a: a};
-};
-var $elm$html$Html$a = _VirtualDom_node('a');
-var $elm$html$Html$Attributes$href = function (url) {
-	return A2(
-		$elm$html$Html$Attributes$stringProperty,
-		'href',
-		_VirtualDom_noJavaScriptUri(url));
-};
+var $elm$virtual_dom$VirtualDom$map = _VirtualDom_map;
+var $elm$html$Html$map = $elm$virtual_dom$VirtualDom$map;
 var $elm$virtual_dom$VirtualDom$Normal = function (a) {
 	return {$: 0, a: a};
 };
@@ -5702,105 +5633,142 @@ var $elm$html$Html$Events$onClick = function (msg) {
 		'click',
 		$elm$json$Json$Decode$succeed(msg));
 };
-var $elm$html$Html$span = _VirtualDom_node('span');
 var $elm$virtual_dom$VirtualDom$text = _VirtualDom_text;
 var $elm$html$Html$text = $elm$virtual_dom$VirtualDom$text;
-var $author$project$Main$navItem = F4(
-	function (currentView, calculator, icon, label) {
-		var urlFragment = '#' + $author$project$Main$calculatorToFragment(calculator);
-		var isActive = _Utils_eq(
-			currentView,
-			$author$project$Main$CalculatorView(calculator));
-		var activeClass = isActive ? ' active' : '';
+var $elm$html$Html$Attributes$stringProperty = F2(
+	function (key, string) {
 		return A2(
-			$elm$html$Html$a,
-			_List_fromArray(
-				[
-					$elm$html$Html$Attributes$class('sidebar-nav-item' + activeClass),
-					$elm$html$Html$Attributes$href(urlFragment),
-					$elm$html$Html$Events$onClick(
-					$author$project$Main$SelectCalculator(calculator)),
-					A2($elm$html$Html$Attributes$attribute, 'aria-label', label),
-					A2(
-					$elm$html$Html$Attributes$attribute,
-					'aria-current',
-					isActive ? 'page' : 'false')
-				]),
-			_List_fromArray(
-				[
-					A2(
-					$elm$html$Html$span,
-					_List_fromArray(
-						[
-							$elm$html$Html$Attributes$class('sidebar-nav-item-icon')
-						]),
-					_List_fromArray(
-						[
-							$elm$html$Html$text(icon)
-						])),
-					A2(
-					$elm$html$Html$span,
-					_List_fromArray(
-						[
-							$elm$html$Html$Attributes$class('sidebar-nav-item-text')
-						]),
-					_List_fromArray(
-						[
-							$elm$html$Html$text(label)
-						]))
-				]));
+			_VirtualDom_property,
+			key,
+			$elm$json$Json$Encode$string(string));
 	});
-var $elm$html$Html$p = _VirtualDom_node('p');
 var $elm$html$Html$Attributes$type_ = $elm$html$Html$Attributes$stringProperty('type');
-var $author$project$Main$GoToIndex = {$: 1};
-var $author$project$Main$HandleFreeWaterDeficitMsg = function (a) {
-	return {$: 7, a: a};
+var $author$project$Calculators$FreeWaterDeficit$Calculate = {$: 4};
+var $author$project$Calculators$FreeWaterDeficit$Reset = {$: 5};
+var $author$project$Calculators$FreeWaterDeficit$UpdateElderly = function (a) {
+	return {$: 3, a: a};
 };
-var $author$project$Main$LiquidsMsg = function (a) {
-	return {$: 5, a: a};
+var $author$project$Calculators$FreeWaterDeficit$UpdateSex = function (a) {
+	return {$: 2, a: a};
 };
-var $author$project$Main$NutritionMsg = function (a) {
-	return {$: 6, a: a};
-};
-var $author$project$Main$PillsMsg = function (a) {
-	return {$: 4, a: a};
-};
-var $elm$virtual_dom$VirtualDom$map = _VirtualDom_map;
-var $elm$html$Html$map = $elm$virtual_dom$VirtualDom$map;
-var $author$project$Calculators$FreeWaterDeficit$Calculate = {$: 2};
-var $author$project$Calculators$FreeWaterDeficit$Reset = {$: 3};
 var $author$project$Calculators$FreeWaterDeficit$UpdateSodium = function (a) {
 	return {$: 1, a: a};
 };
 var $author$project$Calculators$FreeWaterDeficit$UpdateWeight = function (a) {
 	return {$: 0, a: a};
 };
+var $elm$json$Json$Encode$bool = _Json_wrap;
+var $elm$html$Html$Attributes$boolProperty = F2(
+	function (key, bool) {
+		return A2(
+			_VirtualDom_property,
+			key,
+			$elm$json$Json$Encode$bool(bool));
+	});
+var $elm$html$Html$Attributes$checked = $elm$html$Html$Attributes$boolProperty('checked');
+var $elm$html$Html$div = _VirtualDom_node('div');
+var $elm$html$Html$Attributes$for = $elm$html$Html$Attributes$stringProperty('htmlFor');
+var $elm$html$Html$Attributes$id = $elm$html$Html$Attributes$stringProperty('id');
+var $elm$html$Html$input = _VirtualDom_node('input');
+var $elm$html$Html$label = _VirtualDom_node('label');
+var $elm$json$Json$Decode$field = _Json_decodeField;
+var $elm$json$Json$Decode$at = F2(
+	function (fields, decoder) {
+		return A3($elm$core$List$foldr, $elm$json$Json$Decode$field, decoder, fields);
+	});
+var $elm$json$Json$Decode$bool = _Json_decodeBool;
+var $elm$html$Html$Events$targetChecked = A2(
+	$elm$json$Json$Decode$at,
+	_List_fromArray(
+		['target', 'checked']),
+	$elm$json$Json$Decode$bool);
+var $elm$html$Html$Events$onCheck = function (tagger) {
+	return A2(
+		$elm$html$Html$Events$on,
+		'change',
+		A2($elm$json$Json$Decode$map, tagger, $elm$html$Html$Events$targetChecked));
+};
+var $author$project$FormFields$checkboxField = F4(
+	function (labelText, checkboxId, isChecked, onChangeMsg) {
+		return A2(
+			$elm$html$Html$div,
+			_List_Nil,
+			_List_fromArray(
+				[
+					A2(
+					$elm$html$Html$input,
+					_List_fromArray(
+						[
+							$elm$html$Html$Attributes$type_('checkbox'),
+							$elm$html$Html$Attributes$id(checkboxId),
+							$elm$html$Html$Attributes$checked(isChecked),
+							$elm$html$Html$Events$onCheck(onChangeMsg)
+						]),
+					_List_Nil),
+					A2(
+					$elm$html$Html$label,
+					_List_fromArray(
+						[
+							$elm$html$Html$Attributes$for(checkboxId)
+						]),
+					_List_fromArray(
+						[
+							$elm$html$Html$text(labelText)
+						]))
+				]));
+	});
+var $elm$html$Html$p = _VirtualDom_node('p');
+var $author$project$Calculators$Label$empty = function (hint) {
+	return A2(
+		$elm$html$Html$div,
+		_List_Nil,
+		_List_fromArray(
+			[
+				A2(
+				$elm$html$Html$p,
+				_List_Nil,
+				_List_fromArray(
+					[
+						$elm$html$Html$text(hint)
+					]))
+			]));
+};
 var $author$project$Functions$errorDisplay = function (errorMessage) {
 	return A2(
 		$elm$html$Html$div,
 		_List_fromArray(
 			[
-				$elm$html$Html$Attributes$class('error-container'),
 				A2($elm$html$Html$Attributes$attribute, 'role', 'alert')
 			]),
 		_List_fromArray(
 			[
 				A2(
 				$elm$html$Html$p,
-				_List_fromArray(
-					[
-						$elm$html$Html$Attributes$class('error-text')
-					]),
+				_List_Nil,
 				_List_fromArray(
 					[
 						$elm$html$Html$text(errorMessage)
 					]))
 			]));
 };
-var $elm$html$Html$Attributes$for = $elm$html$Html$Attributes$stringProperty('htmlFor');
-var $elm$html$Html$Attributes$id = $elm$html$Html$Attributes$stringProperty('id');
-var $elm$html$Html$input = _VirtualDom_node('input');
-var $elm$html$Html$label = _VirtualDom_node('label');
+var $author$project$Calculators$Label$notice = function (message) {
+	return A2(
+		$elm$html$Html$div,
+		_List_fromArray(
+			[
+				A2($elm$html$Html$Attributes$attribute, 'role', 'status')
+			]),
+		_List_fromArray(
+			[
+				A2(
+				$elm$html$Html$p,
+				_List_Nil,
+				_List_fromArray(
+					[
+						$elm$html$Html$text(message)
+					]))
+			]));
+};
 var $elm$html$Html$Events$alwaysStop = function (x) {
 	return _Utils_Tuple2(x, true);
 };
@@ -5813,11 +5781,6 @@ var $elm$html$Html$Events$stopPropagationOn = F2(
 			$elm$virtual_dom$VirtualDom$on,
 			event,
 			$elm$virtual_dom$VirtualDom$MayStopPropagation(decoder));
-	});
-var $elm$json$Json$Decode$field = _Json_decodeField;
-var $elm$json$Json$Decode$at = F2(
-	function (fields, decoder) {
-		return A3($elm$core$List$foldr, $elm$json$Json$Decode$field, decoder, fields);
 	});
 var $elm$json$Json$Decode$string = _Json_decodeString;
 var $elm$html$Html$Events$targetValue = A2(
@@ -5840,17 +5803,13 @@ var $author$project$FormFields$numberField = F5(
 	function (labelText, inputId, placeholderText, valueText, onInputMsg) {
 		return A2(
 			$elm$html$Html$div,
-			_List_fromArray(
-				[
-					$elm$html$Html$Attributes$class('field-group')
-				]),
+			_List_Nil,
 			_List_fromArray(
 				[
 					A2(
 					$elm$html$Html$label,
 					_List_fromArray(
 						[
-							$elm$html$Html$Attributes$class('label'),
 							$elm$html$Html$Attributes$for(inputId)
 						]),
 					_List_fromArray(
@@ -5861,7 +5820,6 @@ var $author$project$FormFields$numberField = F5(
 					$elm$html$Html$input,
 					_List_fromArray(
 						[
-							$elm$html$Html$Attributes$class('input'),
 							$elm$html$Html$Attributes$id(inputId),
 							$elm$html$Html$Attributes$type_('number'),
 							$elm$html$Html$Attributes$placeholder(placeholderText),
@@ -5873,51 +5831,62 @@ var $author$project$FormFields$numberField = F5(
 					_List_Nil)
 				]));
 	});
-var $author$project$Functions$resultDisplay = F3(
-	function (resultLabel, resultValue, resultUnit) {
+var $elm$html$Html$option = _VirtualDom_node('option');
+var $elm$html$Html$select = _VirtualDom_node('select');
+var $author$project$FormFields$selectField = F5(
+	function (labelText, selectId, currentValue, options, onChangeMsg) {
 		return A2(
 			$elm$html$Html$div,
-			_List_fromArray(
-				[
-					$elm$html$Html$Attributes$class('result-container'),
-					A2($elm$html$Html$Attributes$attribute, 'role', 'region'),
-					A2($elm$html$Html$Attributes$attribute, 'aria-label', 'Calculation result')
-				]),
+			_List_Nil,
 			_List_fromArray(
 				[
 					A2(
-					$elm$html$Html$p,
+					$elm$html$Html$label,
 					_List_fromArray(
 						[
-							$elm$html$Html$Attributes$class('result-label')
+							$elm$html$Html$Attributes$for(selectId)
 						]),
 					_List_fromArray(
 						[
-							$elm$html$Html$text(resultLabel)
+							$elm$html$Html$text(labelText)
 						])),
 					A2(
-					$elm$html$Html$p,
+					$elm$html$Html$select,
 					_List_fromArray(
 						[
-							$elm$html$Html$Attributes$class('result-value'),
-							A2($elm$html$Html$Attributes$attribute, 'aria-live', 'polite')
+							$elm$html$Html$Attributes$id(selectId),
+							$elm$html$Html$Events$onInput(onChangeMsg),
+							$elm$html$Html$Attributes$value(currentValue)
 						]),
-					_List_fromArray(
-						[
-							$elm$html$Html$text(resultValue)
-						])),
 					A2(
-					$elm$html$Html$p,
-					_List_fromArray(
-						[
-							$elm$html$Html$Attributes$class('result-unit')
-						]),
-					_List_fromArray(
-						[
-							$elm$html$Html$text(resultUnit)
-						]))
+						$elm$core$List$map,
+						function (opt) {
+							return A2(
+								$elm$html$Html$option,
+								_List_fromArray(
+									[
+										$elm$html$Html$Attributes$value(opt.aZ)
+									]),
+								_List_fromArray(
+									[
+										$elm$html$Html$text(opt.bo)
+									]));
+						},
+						options))
 				]));
 	});
+var $author$project$Functions$Female = 1;
+var $author$project$Calculators$FreeWaterDeficit$sexFromValue = function (value) {
+	return (value === 'female') ? 1 : 0;
+};
+var $author$project$Calculators$FreeWaterDeficit$sexToValue = function (sex) {
+	if (!sex) {
+		return 'male';
+	} else {
+		return 'female';
+	}
+};
+var $elm$html$Html$article = _VirtualDom_node('article');
 var $elm$html$Html$Attributes$autocomplete = function (bool) {
 	return A2(
 		$elm$html$Html$Attributes$stringProperty,
@@ -5926,115 +5895,206 @@ var $elm$html$Html$Attributes$autocomplete = function (bool) {
 };
 var $elm$html$Html$form = _VirtualDom_node('form');
 var $elm$html$Html$h2 = _VirtualDom_node('h2');
+var $elm$html$Html$header = _VirtualDom_node('header');
 var $author$project$Calculators$Card$view = F4(
 	function (config, fields, buttons, resultContent) {
 		return A2(
-			$elm$html$Html$div,
+			$elm$html$Html$article,
 			_List_fromArray(
 				[
-					$elm$html$Html$Attributes$class('calculator-card'),
-					A2($elm$html$Html$Attributes$attribute, 'aria-label', config.a2)
+					A2($elm$html$Html$Attributes$attribute, 'aria-label', config.aY)
 				]),
 			_List_fromArray(
 				[
 					A2(
-					$elm$html$Html$h2,
+					$elm$html$Html$header,
+					_List_Nil,
 					_List_fromArray(
 						[
-							$elm$html$Html$Attributes$class('card-title')
-						]),
-					_List_fromArray(
-						[
-							$elm$html$Html$text(config.bP)
+							A2(
+							$elm$html$Html$h2,
+							_List_Nil,
+							_List_fromArray(
+								[
+									$elm$html$Html$text(config.aY)
+								])),
+							A2(
+							$elm$html$Html$p,
+							_List_Nil,
+							_List_fromArray(
+								[
+									$elm$html$Html$text(config.be)
+								]))
 						])),
+					A2(
+					$elm$html$Html$form,
+					_List_fromArray(
+						[
+							$elm$html$Html$Attributes$autocomplete(false),
+							A2($elm$html$Html$Attributes$attribute, 'data-form', 'calculator'),
+							A2($elm$html$Html$Attributes$attribute, 'data-lpignore', 'true')
+						]),
+					_Utils_ap(
+						fields,
+						_List_fromArray(
+							[
+								A2(
+								$elm$html$Html$div,
+								_List_Nil,
+								_List_fromArray(
+									[
+										A2(
+										$elm$html$Html$button,
+										_List_fromArray(
+											[
+												$elm$html$Html$Attributes$type_('button'),
+												A2($elm$html$Html$Attributes$attribute, 'aria-label', config.a4),
+												$elm$html$Html$Events$onClick(buttons.a5)
+											]),
+										_List_fromArray(
+											[
+												$elm$html$Html$text(buttons.a6)
+											])),
+										A2(
+										$elm$html$Html$button,
+										_List_fromArray(
+											[
+												$elm$html$Html$Attributes$type_('reset'),
+												A2($elm$html$Html$Attributes$attribute, 'aria-label', config.bJ),
+												$elm$html$Html$Events$onClick(buttons.bK)
+											]),
+										_List_fromArray(
+											[
+												$elm$html$Html$text(buttons.bL)
+											]))
+									]))
+							]))),
 					A2(
 					$elm$html$Html$div,
 					_List_fromArray(
 						[
-							$elm$html$Html$Attributes$class('calculator-content')
+							A2($elm$html$Html$Attributes$attribute, 'aria-live', 'polite')
 						]),
+					_List_fromArray(
+						[resultContent]))
+				]));
+	});
+var $elm$html$Html$span = _VirtualDom_node('span');
+var $author$project$Calculators$Label$view = F2(
+	function (ariaLabel, reading) {
+		return A2(
+			$elm$html$Html$div,
+			_List_fromArray(
+				[
+					A2($elm$html$Html$Attributes$attribute, 'role', 'region'),
+					A2($elm$html$Html$Attributes$attribute, 'aria-label', ariaLabel)
+				]),
+			_Utils_ap(
+				_List_fromArray(
+					[
+						A2(
+						$elm$html$Html$p,
+						_List_Nil,
+						_List_fromArray(
+							[
+								$elm$html$Html$text(reading.aY)
+							])),
+						A2(
+						$elm$html$Html$p,
+						_List_Nil,
+						_List_fromArray(
+							[
+								A2(
+								$elm$html$Html$span,
+								_List_Nil,
+								_List_fromArray(
+									[
+										$elm$html$Html$text(reading.aZ)
+									])),
+								$elm$html$Html$text(' '),
+								A2(
+								$elm$html$Html$span,
+								_List_Nil,
+								_List_fromArray(
+									[
+										$elm$html$Html$text(reading.c8)
+									]))
+							]))
+					]),
+				_Utils_ap(
+					reading.ck,
 					_List_fromArray(
 						[
 							A2(
-							$elm$html$Html$form,
-							_List_fromArray(
-								[
-									$elm$html$Html$Attributes$class('form'),
-									$elm$html$Html$Attributes$autocomplete(false),
-									A2($elm$html$Html$Attributes$attribute, 'data-form', 'calculator'),
-									A2($elm$html$Html$Attributes$attribute, 'data-lpignore', 'true')
-								]),
-							_Utils_ap(
-								fields,
-								_List_fromArray(
-									[
-										A2(
-										$elm$html$Html$div,
+							$elm$html$Html$div,
+							_List_Nil,
+							A2(
+								$elm$core$List$map,
+								function (line) {
+									return A2(
+										$elm$html$Html$p,
+										_List_Nil,
 										_List_fromArray(
 											[
-												$elm$html$Html$Attributes$class('flex flex-gap-sm')
-											]),
-										_List_fromArray(
-											[
-												A2(
-												$elm$html$Html$button,
-												_List_fromArray(
-													[
-														$elm$html$Html$Attributes$class('button-primary'),
-														$elm$html$Html$Attributes$type_('button'),
-														A2($elm$html$Html$Attributes$attribute, 'aria-label', config.a5),
-														$elm$html$Html$Events$onClick(buttons.a6)
-													]),
-												_List_fromArray(
-													[
-														$elm$html$Html$text(buttons.a7)
-													])),
-												A2(
-												$elm$html$Html$button,
-												_List_fromArray(
-													[
-														$elm$html$Html$Attributes$class('button-secondary-outline'),
-														$elm$html$Html$Attributes$type_('reset'),
-														A2($elm$html$Html$Attributes$attribute, 'aria-label', config.bE),
-														$elm$html$Html$Events$onClick(buttons.bF)
-													]),
-												_List_fromArray(
-													[
-														$elm$html$Html$text(buttons.bG)
-													]))
-											]))
-									]))),
-							resultContent
-						]))
-				]));
+												$elm$html$Html$text(line)
+											]));
+								},
+								reading.de))
+						]))));
 	});
 var $author$project$Calculators$FreeWaterDeficit$view = F2(
 	function (strings, model) {
 		return A4(
 			$author$project$Calculators$Card$view,
-			{a2: strings.aB, a5: 'Calculate ' + strings.aB, bE: 'Reset ' + strings.aB, bP: strings.aB},
+			{a4: strings.a3 + (': ' + strings.aH), be: strings.cn, bJ: strings.bI + (': ' + strings.aH), aY: strings.aH},
 			_List_fromArray(
 				[
-					A5($author$project$FormFields$numberField, strings.P, 'weight', '0.0', model.P, $author$project$Calculators$FreeWaterDeficit$UpdateWeight),
-					A5($author$project$FormFields$numberField, strings.N, 'sodium', '0.0', model.N, $author$project$Calculators$FreeWaterDeficit$UpdateSodium)
+					A5($author$project$FormFields$numberField, strings.ab, 'weight', '0.0', model.ab, $author$project$Calculators$FreeWaterDeficit$UpdateWeight),
+					A5($author$project$FormFields$numberField, strings.Y, 'sodium', '0.0', model.Y, $author$project$Calculators$FreeWaterDeficit$UpdateSodium),
+					A5(
+					$author$project$FormFields$selectField,
+					strings.W,
+					'free-water-sex',
+					$author$project$Calculators$FreeWaterDeficit$sexToValue(model.W),
+					_List_fromArray(
+						[
+							{bo: strings.cB, aZ: 'male'},
+							{bo: strings.cm, aZ: 'female'}
+						]),
+					function (v) {
+						return $author$project$Calculators$FreeWaterDeficit$UpdateSex(
+							$author$project$Calculators$FreeWaterDeficit$sexFromValue(v));
+					}),
+					A4($author$project$FormFields$checkboxField, strings.M, 'free-water-elderly', model.M, $author$project$Calculators$FreeWaterDeficit$UpdateElderly)
 				]),
-			{a6: $author$project$Calculators$FreeWaterDeficit$Calculate, a7: strings.b3, bF: $author$project$Calculators$FreeWaterDeficit$Reset, bG: strings.cP},
+			{a5: $author$project$Calculators$FreeWaterDeficit$Calculate, a6: strings.a3, bK: $author$project$Calculators$FreeWaterDeficit$Reset, bL: strings.bI},
 			function () {
-				var _v0 = model.R;
-				if (!_v0.$) {
-					var error = _v0.a;
-					return $author$project$Functions$errorDisplay(error);
+				var _v0 = _Utils_Tuple2(model.v, model.y);
+				if (!_v0.a.$) {
+					var error = _v0.a.a;
+					return _Utils_eq(error, strings.bQ) ? $author$project$Calculators$Label$notice(error) : $author$project$Functions$errorDisplay(error);
 				} else {
-					var _v1 = model.M;
-					if (!_v1.$) {
-						var result = _v1.a;
-						return ($elm$core$String$isEmpty(model.P) || $elm$core$String$isEmpty(model.N)) ? $elm$html$Html$text('') : A3(
-							$author$project$Functions$resultDisplay,
-							strings.M,
-							$author$project$Functions$floatToStr(result),
-							strings.cv);
+					if (!_v0.b.$) {
+						var _v1 = _v0.a;
+						var result = _v0.b.a;
+						return A2(
+							$author$project$Calculators$Label$view,
+							strings.b8,
+							{
+								ck: _List_Nil,
+								aY: strings.dc,
+								c8: strings.cA,
+								aZ: $author$project$Functions$floatToStr(result),
+								de: _List_fromArray(
+									[
+										$author$project$Functions$floatToStr(
+										A2($author$project$Functions$totalBodyWaterFactor, model.W, model.M)) + (' × ' + (model.ab + (' ' + (strings.cw + (' × (' + (model.Y + ' ÷ 140 − 1)'))))))
+									])
+							});
 					} else {
-						return $elm$html$Html$text('');
+						var _v2 = _v0.a;
+						var _v3 = _v0.b;
+						return $author$project$Calculators$Label$empty(strings.c_);
 					}
 				}
 			}());
@@ -6054,21 +6114,31 @@ var $author$project$Calculators$Liquids$view = F2(
 	function (strings, model) {
 		return A4(
 			$author$project$Calculators$Card$view,
-			{a2: strings.bv, a5: 'Calculate ' + strings.bn, bE: 'Reset ' + strings.bn, bP: strings.bv},
+			{a4: strings.a3 + (': ' + strings.bq), be: strings.cz, bJ: strings.bI + (': ' + strings.bq), aY: strings.cU},
 			_List_fromArray(
 				[
-					A5($author$project$FormFields$numberField, strings.cM, 'liquid-prescribed-amount', '0.0', model.Y, $author$project$Calculators$Liquids$ChangePrescribedLiquid),
-					A5($author$project$FormFields$numberField, strings.bY, 'liquid-available-amount', '0.0', model.U, $author$project$Calculators$Liquids$ChangeLiquidDosageAthand),
-					A5($author$project$FormFields$numberField, strings.c_, 'liquid-available-volume', '0.0', model.V, $author$project$Calculators$Liquids$ChangeLiquidVolumeAtHand)
+					A5($author$project$FormFields$numberField, strings.cX, 'liquid-prescribed-amount', '0.0', model.U, $author$project$Calculators$Liquids$ChangePrescribedLiquid),
+					A5($author$project$FormFields$numberField, strings.b1, 'liquid-available-amount', '0.0', model.Q, $author$project$Calculators$Liquids$ChangeLiquidDosageAthand),
+					A5($author$project$FormFields$numberField, strings.db, 'liquid-available-volume', '0.0', model.R, $author$project$Calculators$Liquids$ChangeLiquidVolumeAtHand)
 				]),
-			{a6: $author$project$Calculators$Liquids$Calculate, a7: strings.b3, bF: $author$project$Calculators$Liquids$Reset, bG: strings.cP},
+			{a5: $author$project$Calculators$Liquids$Calculate, a6: strings.a3, bK: $author$project$Calculators$Liquids$Reset, bL: strings.bI},
 			function () {
-				var _v0 = model.R;
+				var _v0 = model.v;
 				if (!_v0.$) {
 					var error = _v0.a;
 					return $author$project$Functions$errorDisplay(error);
 				} else {
-					return (model.D && (!($elm$core$String$isEmpty(model.Y) || ($elm$core$String$isEmpty(model.U) || $elm$core$String$isEmpty(model.V))))) ? A3($author$project$Functions$resultDisplay, strings.M, model.M, strings.cv) : $elm$html$Html$text('');
+					return model.z ? A2(
+						$author$project$Calculators$Label$view,
+						strings.b8,
+						{
+							ck: _List_Nil,
+							aY: strings.cf,
+							c8: strings.bs,
+							aZ: model.y,
+							de: _List_fromArray(
+								[model.U + (' ' + (strings.br + (' ÷ ' + (model.Q + (' ' + (strings.br + (' × ' + (model.R + (' ' + strings.bs)))))))))])
+						}) : $author$project$Calculators$Label$empty(strings.c_);
 				}
 			}());
 	});
@@ -6086,130 +6156,68 @@ var $author$project$Calculators$Nutrition$ChangeWeightLoss = function (a) {
 	return {$: 2, a: a};
 };
 var $author$project$Calculators$Nutrition$Reset = {$: 5};
-var $elm$json$Json$Encode$bool = _Json_wrap;
-var $elm$html$Html$Attributes$boolProperty = F2(
-	function (key, bool) {
-		return A2(
-			_VirtualDom_property,
-			key,
-			$elm$json$Json$Encode$bool(bool));
+var $elm$core$Basics$composeR = F3(
+	function (f, g, x) {
+		return g(
+			f(x));
 	});
-var $elm$html$Html$Attributes$checked = $elm$html$Html$Attributes$boolProperty('checked');
-var $elm$json$Json$Decode$bool = _Json_decodeBool;
-var $elm$html$Html$Events$targetChecked = A2(
-	$elm$json$Json$Decode$at,
-	_List_fromArray(
-		['target', 'checked']),
-	$elm$json$Json$Decode$bool);
-var $elm$html$Html$Events$onCheck = function (tagger) {
-	return A2(
-		$elm$html$Html$Events$on,
-		'change',
-		A2($elm$json$Json$Decode$map, tagger, $elm$html$Html$Events$targetChecked));
-};
-var $author$project$FormFields$checkboxField = F4(
-	function (labelText, checkboxId, isChecked, onChangeMsg) {
-		return A2(
-			$elm$html$Html$div,
-			_List_fromArray(
-				[
-					$elm$html$Html$Attributes$class('field-group checkbox-group')
-				]),
-			_List_fromArray(
-				[
-					A2(
-					$elm$html$Html$input,
-					_List_fromArray(
-						[
-							$elm$html$Html$Attributes$type_('checkbox'),
-							$elm$html$Html$Attributes$id(checkboxId),
-							$elm$html$Html$Attributes$checked(isChecked),
-							$elm$html$Html$Events$onCheck(onChangeMsg),
-							$elm$html$Html$Attributes$class('checkbox-input')
-						]),
-					_List_Nil),
-					A2(
-					$elm$html$Html$label,
-					_List_fromArray(
-						[
-							$elm$html$Html$Attributes$class('checkbox-label'),
-							$elm$html$Html$Attributes$for(checkboxId)
-						]),
-					_List_fromArray(
-						[
-							$elm$html$Html$text(labelText)
-						]))
-				]));
+var $elm$html$Html$dd = _VirtualDom_node('dd');
+var $elm$html$Html$dl = _VirtualDom_node('dl');
+var $elm$html$Html$dt = _VirtualDom_node('dt');
+var $elm$core$Maybe$map = F2(
+	function (f, maybe) {
+		if (!maybe.$) {
+			var value = maybe.a;
+			return $elm$core$Maybe$Just(
+				f(value));
+		} else {
+			return $elm$core$Maybe$Nothing;
+		}
 	});
-var $elm$html$Html$option = _VirtualDom_node('option');
-var $elm$html$Html$select = _VirtualDom_node('select');
-var $author$project$FormFields$selectField = F5(
-	function (labelText, selectId, currentValue, options, onChangeMsg) {
-		return A2(
-			$elm$html$Html$div,
-			_List_fromArray(
-				[
-					$elm$html$Html$Attributes$class('field-group')
-				]),
-			_List_fromArray(
-				[
-					A2(
-					$elm$html$Html$label,
-					_List_fromArray(
-						[
-							$elm$html$Html$Attributes$class('label'),
-							$elm$html$Html$Attributes$for(selectId)
-						]),
-					_List_fromArray(
-						[
-							$elm$html$Html$text(labelText)
-						])),
-					A2(
-					$elm$html$Html$select,
-					_List_fromArray(
-						[
-							$elm$html$Html$Attributes$class('input'),
-							$elm$html$Html$Attributes$id(selectId),
-							$elm$html$Html$Events$onInput(onChangeMsg),
-							$elm$html$Html$Attributes$value(currentValue)
-						]),
-					A2(
-						$elm$core$List$map,
-						function (opt) {
-							return A2(
-								$elm$html$Html$option,
-								_List_fromArray(
-									[
-										$elm$html$Html$Attributes$value(opt.aL)
-									]),
-								_List_fromArray(
-									[
-										$elm$html$Html$text(opt.aC)
-									]));
-						},
-						options))
-				]));
+var $elm$core$Maybe$map2 = F3(
+	function (func, ma, mb) {
+		if (ma.$ === 1) {
+			return $elm$core$Maybe$Nothing;
+		} else {
+			var a = ma.a;
+			if (mb.$ === 1) {
+				return $elm$core$Maybe$Nothing;
+			} else {
+				var b = mb.a;
+				return $elm$core$Maybe$Just(
+					A2(func, a, b));
+			}
+		}
+	});
+var $elm$core$Maybe$withDefault = F2(
+	function (_default, maybe) {
+		if (!maybe.$) {
+			var value = maybe.a;
+			return value;
+		} else {
+			return _default;
+		}
 	});
 var $author$project$Calculators$Nutrition$view = F2(
 	function (strings, model) {
 		return A4(
 			$author$project$Calculators$Card$view,
-			{a2: strings.aE, a5: 'Calculate ' + strings.aE, bE: 'Reset ' + strings.aE, bP: strings.aE},
+			{a4: strings.a3 + (': ' + strings.aM), be: strings.cN, bJ: strings.bI + (': ' + strings.aM), aY: strings.aM},
 			_List_fromArray(
 				[
-					A5($author$project$FormFields$numberField, strings.P, 'nutrition-weight', '0.0', model.P, $author$project$Calculators$Nutrition$ChangeWeight),
-					A5($author$project$FormFields$numberField, strings.G, 'nutrition-height', '0.0', model.G, $author$project$Calculators$Nutrition$ChangeHeight),
+					A5($author$project$FormFields$numberField, strings.ab, 'nutrition-weight', '0.0', model.ab, $author$project$Calculators$Nutrition$ChangeWeight),
+					A5($author$project$FormFields$numberField, strings.O, 'nutrition-height', '0.0', model.O, $author$project$Calculators$Nutrition$ChangeHeight),
 					A5(
 					$author$project$FormFields$selectField,
-					strings.am,
+					strings.al,
 					'nutrition-weight-loss',
-					$elm$core$String$fromInt(model.am),
+					$elm$core$String$fromInt(model.al),
 					_List_fromArray(
 						[
-							{aC: strings.c$, aL: '0'},
-							{aC: '1-5%', aL: '1'},
-							{aC: '5-10%', aL: '2'},
-							{aC: '>10%', aL: '3'}
+							{bo: strings.dd, aZ: '0'},
+							{bo: '1-5%', aZ: '1'},
+							{bo: '5-10%', aZ: '2'},
+							{bo: '>10%', aZ: '3'}
 						]),
 					function (v) {
 						return $author$project$Calculators$Nutrition$ChangeWeightLoss(
@@ -6218,116 +6226,75 @@ var $author$project$Calculators$Nutrition$view = F2(
 								0,
 								$elm$core$String$toInt(v)));
 					}),
-					A4($author$project$FormFields$checkboxField, strings.af, 'nutrition-critical', model.af, $author$project$Calculators$Nutrition$ChangeCritical)
+					A4($author$project$FormFields$checkboxField, strings.ae, 'nutrition-critical', model.ae, $author$project$Calculators$Nutrition$ChangeCritical)
 				]),
-			{a6: $author$project$Calculators$Nutrition$Calculate, a7: strings.b3, bF: $author$project$Calculators$Nutrition$Reset, bG: strings.cP},
+			{a5: $author$project$Calculators$Nutrition$Calculate, a6: strings.a3, bK: $author$project$Calculators$Nutrition$Reset, bL: strings.bI},
 			function () {
-				var _v0 = model.R;
+				var _v0 = model.v;
 				if (!_v0.$) {
 					var error = _v0.a;
 					return $author$project$Functions$errorDisplay(error);
 				} else {
-					return (model.D && (!($elm$core$String$isEmpty(model.P) || $elm$core$String$isEmpty(model.G)))) ? A2(
-						$elm$html$Html$div,
-						_List_fromArray(
-							[
-								$elm$html$Html$Attributes$class('result-container'),
-								A2($elm$html$Html$Attributes$attribute, 'role', 'region'),
-								A2($elm$html$Html$Attributes$attribute, 'aria-label', 'Nutrition calculation results')
-							]),
-						_List_fromArray(
-							[
-								A2(
-								$elm$html$Html$p,
-								_List_fromArray(
-									[
-										$elm$html$Html$Attributes$class('result-label')
-									]),
-								_List_fromArray(
-									[
-										$elm$html$Html$text('BMI:')
-									])),
-								A2(
-								$elm$html$Html$p,
-								_List_fromArray(
-									[
-										$elm$html$Html$Attributes$class('result-value'),
-										A2($elm$html$Html$Attributes$attribute, 'aria-live', 'polite')
-									]),
-								_List_fromArray(
-									[
-										$elm$html$Html$text(model.az)
-									])),
-								A2(
-								$elm$html$Html$p,
-								_List_fromArray(
-									[
-										$elm$html$Html$Attributes$class('result-label')
-									]),
-								_List_fromArray(
-									[
-										$elm$html$Html$text(strings.b6)
-									])),
-								A2(
-								$elm$html$Html$p,
-								_List_fromArray(
-									[
-										$elm$html$Html$Attributes$class('result-value')
-									]),
-								_List_fromArray(
-									[
-										$elm$html$Html$text(model.aq)
-									])),
-								A2(
-								$elm$html$Html$p,
-								_List_fromArray(
-									[
-										$elm$html$Html$Attributes$class('result-unit')
-									]),
-								_List_fromArray(
-									[
-										$elm$html$Html$text(strings.cp)
-									])),
-								A2(
-								$elm$html$Html$div,
-								_List_fromArray(
-									[
-										$elm$html$Html$Attributes$class('nutrition-table')
-									]),
-								_List_fromArray(
+					if (model.z) {
+						var perKg = A2(
+							$elm$core$Maybe$withDefault,
+							'',
+							A2(
+								$elm$core$Maybe$map,
+								A2($elm$core$Basics$composeR, $author$project$Functions$roundToTwoDecimals, $author$project$Functions$floatToStr),
+								A3(
+									$elm$core$Maybe$map2,
+									$elm$core$Basics$fdiv,
+									$author$project$Functions$strToFloat(model.ac),
+									$author$project$Functions$strToFloat(model.ab))));
+						var macro = F2(
+							function (name, grams) {
+								return A2(
+									$elm$html$Html$div,
+									_List_Nil,
+									_List_fromArray(
+										[
+											A2(
+											$elm$html$Html$dt,
+											_List_Nil,
+											_List_fromArray(
+												[
+													$elm$html$Html$text(name)
+												])),
+											A2(
+											$elm$html$Html$dd,
+											_List_Nil,
+											_List_fromArray(
+												[
+													$elm$html$Html$text(grams + (' ' + strings.cp))
+												]))
+										]));
+							});
+						return A2(
+							$author$project$Calculators$Label$view,
+							strings.cO,
+							{
+								ck: _List_fromArray(
 									[
 										A2(
-										$elm$html$Html$p,
+										$elm$html$Html$dl,
+										_List_Nil,
 										_List_fromArray(
 											[
-												$elm$html$Html$Attributes$class('nutrition-row')
-											]),
-										_List_fromArray(
-											[
-												$elm$html$Html$text(strings.aj + (model.aj + 'g'))
-											])),
-										A2(
-										$elm$html$Html$p,
-										_List_fromArray(
-											[
-												$elm$html$Html$Attributes$class('nutrition-row')
-											]),
-										_List_fromArray(
-											[
-												$elm$html$Html$text(strings.ai + (model.ai + 'g'))
-											])),
-										A2(
-										$elm$html$Html$p,
-										_List_fromArray(
-											[
-												$elm$html$Html$Attributes$class('nutrition-row')
-											]),
-										_List_fromArray(
-											[
-												$elm$html$Html$text(strings.ae + (model.ae + 'g'))
+												A2(macro, strings.ai, model.ai),
+												A2(macro, strings.ah, model.ah),
+												A2(macro, strings.ad, model.ad)
 											]))
-									]))
-							])) : $elm$html$Html$text('');
+									]),
+								aY: strings.cb,
+								c8: strings.bl,
+								aZ: model.ac,
+								de: _List_fromArray(
+									[strings.ap + (' ' + model.ap), perKg + (' ' + (strings.bl + ('/' + (strings.cw + (' × ' + (model.ab + (' ' + strings.cw)))))))])
+							});
+					} else {
+						return $author$project$Calculators$Label$empty(strings.c_);
+					}
 				}
 			}());
 	});
@@ -6343,305 +6310,88 @@ var $author$project$Calculators$Pills$view = F2(
 	function (strings, model) {
 		return A4(
 			$author$project$Calculators$Card$view,
-			{a2: strings.aF, a5: 'Calculate ' + strings.aF, bE: 'Reset ' + strings.aF, bP: strings.aF},
+			{a4: strings.a3 + (': ' + strings.aQ), be: strings.cV, bJ: strings.bI + (': ' + strings.aQ), aY: strings.aQ},
 			_List_fromArray(
 				[
-					A5($author$project$FormFields$numberField, strings.cM, 'pills-prescribed-amount', '0.0', model.X, $author$project$Calculators$Pills$ChangePrescribed),
-					A5($author$project$FormFields$numberField, strings.cL, 'pills-tablet-mg', '0.0', model.ab, $author$project$Calculators$Pills$ChangeTabletMg)
+					A5($author$project$FormFields$numberField, strings.cX, 'pills-prescribed-amount', '0.0', model.T, $author$project$Calculators$Pills$ChangePrescribed),
+					A5($author$project$FormFields$numberField, strings.cW, 'pills-tablet-mg', '0.0', model.Z, $author$project$Calculators$Pills$ChangeTabletMg)
 				]),
-			{a6: $author$project$Calculators$Pills$Calculate, a7: strings.b3, bF: $author$project$Calculators$Pills$Reset, bG: strings.cP},
+			{a5: $author$project$Calculators$Pills$Calculate, a6: strings.a3, bK: $author$project$Calculators$Pills$Reset, bL: strings.bI},
 			function () {
-				var _v0 = model.R;
+				var _v0 = model.v;
 				if (!_v0.$) {
 					var error = _v0.a;
 					return $author$project$Functions$errorDisplay(error);
 				} else {
-					return (model.D && (!($elm$core$String$isEmpty(model.X) || $elm$core$String$isEmpty(model.ab)))) ? A3($author$project$Functions$resultDisplay, strings.M, model.M, strings.cV) : $elm$html$Html$text('');
+					return model.z ? A2(
+						$author$project$Calculators$Label$view,
+						strings.b8,
+						{
+							ck: _List_Nil,
+							aY: strings.co,
+							c8: strings.c5,
+							aZ: model.y,
+							de: _List_fromArray(
+								[model.T + (' ' + (strings.br + (' ÷ ' + (model.Z + (' ' + strings.br)))))])
+						}) : $author$project$Calculators$Label$empty(strings.c_);
 				}
 			}());
 	});
-var $author$project$Main$viewCalculator = F3(
-	function (model, calculator, strings) {
-		return A2(
-			$elm$html$Html$div,
-			_List_fromArray(
-				[
-					$elm$html$Html$Attributes$class('calculator-wrapper')
-				]),
-			_List_fromArray(
-				[
-					A2(
-					$elm$html$Html$div,
-					_List_fromArray(
-						[
-							$elm$html$Html$Attributes$class('flex flex-align-start')
-						]),
-					_List_fromArray(
-						[
-							A2(
-							$elm$html$Html$button,
-							_List_fromArray(
-								[
-									$elm$html$Html$Attributes$class('button-tertiary-outline button-with-icon'),
-									$elm$html$Html$Attributes$type_('button'),
-									$elm$html$Html$Events$onClick($author$project$Main$GoToIndex),
-									A2($elm$html$Html$Attributes$attribute, 'aria-label', 'Back to index')
-								]),
-							_List_fromArray(
-								[
-									$elm$html$Html$text('← Back')
-								]))
-						])),
-					(!calculator) ? A2(
-					$elm$html$Html$map,
-					$author$project$Main$PillsMsg,
-					A2($author$project$Calculators$Pills$view, strings, model.K)) : ((calculator === 1) ? A2(
-					$elm$html$Html$map,
-					$author$project$Main$LiquidsMsg,
-					A2($author$project$Calculators$Liquids$view, strings, model.H)) : ((calculator === 2) ? A2(
-					$elm$html$Html$map,
-					$author$project$Main$NutritionMsg,
-					A2($author$project$Calculators$Nutrition$view, strings, model.aE)) : A2(
-					$elm$html$Html$map,
-					$author$project$Main$HandleFreeWaterDeficitMsg,
-					A2($author$project$Calculators$FreeWaterDeficit$view, strings, model.aB))))
-				]));
-	});
-var $author$project$Main$calculatorCard = F4(
-	function (calculator, title, description, color) {
-		return A2(
-			$elm$html$Html$button,
-			_List_fromArray(
-				[
-					$elm$html$Html$Attributes$class('calculator-card-button'),
-					$elm$html$Html$Events$onClick(
-					$author$project$Main$SelectCalculator(calculator)),
-					A2($elm$html$Html$Attributes$attribute, 'style', '--accent-color: ' + color)
-				]),
-			_List_fromArray(
-				[
-					A2(
-					$elm$html$Html$div,
-					_List_fromArray(
-						[
-							$elm$html$Html$Attributes$class('card-header')
-						]),
-					_List_fromArray(
-						[
-							A2(
-							$elm$html$Html$div,
-							_List_fromArray(
-								[
-									$elm$html$Html$Attributes$class('card-blob')
-								]),
-							_List_Nil)
-						])),
-					A2(
-					$elm$html$Html$div,
-					_List_fromArray(
-						[
-							$elm$html$Html$Attributes$class('card-content')
-						]),
-					_List_fromArray(
-						[
-							A2(
-							$elm$html$Html$h2,
-							_List_fromArray(
-								[
-									$elm$html$Html$Attributes$class('card-title')
-								]),
-							_List_fromArray(
-								[
-									$elm$html$Html$text(title)
-								])),
-							A2(
-							$elm$html$Html$p,
-							_List_fromArray(
-								[
-									$elm$html$Html$Attributes$class('card-description')
-								]),
-							_List_fromArray(
-								[
-									$elm$html$Html$text(description)
-								]))
-						]))
-				]));
-	});
-var $author$project$Main$viewIndex = function (strings) {
-	return A2(
-		$elm$html$Html$div,
-		_List_fromArray(
-			[
-				$elm$html$Html$Attributes$class('calculators-grid')
-			]),
-		_List_fromArray(
-			[
-				A4($author$project$Main$calculatorCard, 0, strings.aF, strings.cK, '#ee5a52'),
-				A4($author$project$Main$calculatorCard, 1, strings.bn, strings.cs, '#3498db'),
-				A4($author$project$Main$calculatorCard, 2, strings.aE, strings.cF, '#2ecc71'),
-				A4($author$project$Main$calculatorCard, 3, strings.aB, strings.ci, '#f39c12')
-			]));
-};
 var $author$project$Main$view = function (model) {
-	var strings = $author$project$Translations$getStrings(model.u);
-	var sidebarClass = model._ ? 'sidebar-nav open' : 'sidebar-nav';
+	var strings = $author$project$Translations$getStrings(model.A);
 	return {
-		b0: _List_fromArray(
+		b5: _List_fromArray(
 			[
 				A2(
-				$elm$html$Html$div,
-				_List_fromArray(
-					[
-						$elm$html$Html$Attributes$class('page-wrapper')
-					]),
+				$elm$html$Html$main_,
+				_List_Nil,
 				_List_fromArray(
 					[
 						A2(
 						$elm$html$Html$button,
 						_List_fromArray(
 							[
-								$elm$html$Html$Attributes$class('sidebar-toggle-button'),
 								$elm$html$Html$Attributes$type_('button'),
-								$elm$html$Html$Events$onClick($author$project$Main$ToggleSidebar),
-								A2($elm$html$Html$Attributes$attribute, 'aria-label', 'Toggle menu')
+								$elm$html$Html$Events$onClick($author$project$Main$ToggleLanguage),
+								A2($elm$html$Html$Attributes$attribute, 'aria-label', strings.c3),
+								A2(
+								$elm$html$Html$Attributes$attribute,
+								'lang',
+								(!model.A) ? 'ka' : 'en')
 							]),
 						_List_fromArray(
 							[
-								$elm$html$Html$text('☰')
+								$elm$html$Html$text(strings.cT)
 							])),
 						A2(
-						$elm$html$Html$div,
-						_List_fromArray(
-							[
-								$elm$html$Html$Attributes$class(sidebarClass)
-							]),
-						_List_fromArray(
-							[
-								A2(
-								$elm$html$Html$button,
-								_List_fromArray(
-									[
-										$elm$html$Html$Attributes$class('sidebar-nav-item'),
-										$elm$html$Html$Attributes$type_('button'),
-										$elm$html$Html$Events$onClick($author$project$Main$ToggleLanguage),
-										A2(
-										$elm$html$Html$Attributes$attribute,
-										'aria-label',
-										(!model.u) ? 'Switch to Georgian' : 'Switch to English'),
-										A2(
-										$elm$html$Html$Attributes$attribute,
-										'title',
-										(!model.u) ? 'ქართული' : 'English')
-									]),
-								_List_fromArray(
-									[
-										$elm$html$Html$text(
-										(!model.u) ? '🇬🇪' : '🇬🇧')
-									])),
-								A4($author$project$Main$navItem, model.y, 0, '💊', strings.aF),
-								A4($author$project$Main$navItem, model.y, 1, '🧪', strings.bn),
-								A4($author$project$Main$navItem, model.y, 2, '🥗', strings.aE),
-								A4($author$project$Main$navItem, model.y, 3, '💧', strings.aB)
-							])),
+						$elm$html$Html$map,
+						$author$project$Main$PillsMsg,
+						A2($author$project$Calculators$Pills$view, strings, model.au)),
 						A2(
-						$elm$html$Html$div,
-						_List_fromArray(
-							[
-								$elm$html$Html$Attributes$class('content-wrapper')
-							]),
-						_List_fromArray(
-							[
-								A2(
-								$elm$html$Html$header,
-								_List_fromArray(
-									[
-										$elm$html$Html$Attributes$class('header'),
-										A2($elm$html$Html$Attributes$attribute, 'aria-label', 'Site header')
-									]),
-								_List_fromArray(
-									[
-										A2(
-										$elm$html$Html$div,
-										_List_fromArray(
-											[
-												$elm$html$Html$Attributes$class('container padding-block-md')
-											]),
-										_List_fromArray(
-											[
-												A2(
-												$elm$html$Html$h1,
-												_List_fromArray(
-													[
-														$elm$html$Html$Attributes$class('title')
-													]),
-												_List_fromArray(
-													[
-														$elm$html$Html$text(strings.bP)
-													]))
-											]))
-									])),
-								A2(
-								$elm$html$Html$div,
-								_List_fromArray(
-									[
-										$elm$html$Html$Attributes$class('container')
-									]),
-								_List_fromArray(
-									[
-										A2(
-										$elm$html$Html$p,
-										_List_fromArray(
-											[
-												$elm$html$Html$Attributes$class('disclaimer-banner padding-block-md')
-											]),
-										_List_fromArray(
-											[
-												$elm$html$Html$text(strings.b8)
-											]))
-									])),
-								A2(
-								$elm$html$Html$main_,
-								_List_fromArray(
-									[
-										$elm$html$Html$Attributes$class('main-content')
-									]),
-								_List_fromArray(
-									[
-										A2(
-										$elm$html$Html$div,
-										_List_fromArray(
-											[
-												$elm$html$Html$Attributes$class('container')
-											]),
-										_List_fromArray(
-											[
-												function () {
-												var _v0 = model.y;
-												if (!_v0.$) {
-													return $author$project$Main$viewIndex(strings);
-												} else {
-													var calculator = _v0.a;
-													return A3($author$project$Main$viewCalculator, model, calculator, strings);
-												}
-											}()
-											]))
-									]))
-							]))
+						$elm$html$Html$map,
+						$author$project$Main$LiquidsMsg,
+						A2($author$project$Calculators$Liquids$view, strings, model.as)),
+						A2(
+						$elm$html$Html$map,
+						$author$project$Main$NutritionMsg,
+						A2($author$project$Calculators$Nutrition$view, strings, model.aM)),
+						A2(
+						$elm$html$Html$map,
+						$author$project$Main$HandleFreeWaterDeficitMsg,
+						A2($author$project$Calculators$FreeWaterDeficit$view, strings, model.aH))
 					]))
 			]),
-		bP: strings.bP
+		aY: strings.aY
 	};
 };
-var $author$project$Main$main = $elm$browser$Browser$application(
+var $author$project$Main$main = $elm$browser$Browser$document(
 	{
-		cm: $author$project$Main$init,
-		cG: $author$project$Main$UrlChanged,
-		cH: $author$project$Main$LinkClicked,
-		cT: function (_v0) {
+		ct: $author$project$Main$init,
+		c2: function (_v0) {
 			return $elm$core$Platform$Sub$none;
 		},
-		cY: $author$project$Main$update,
-		cZ: $author$project$Main$view
+		c9: $author$project$Main$update,
+		da: $author$project$Main$view
 	});
 _Platform_export({'Main':{'init':$author$project$Main$main(
 	$elm$json$Json$Decode$succeed(0))(0)}});}(this));
