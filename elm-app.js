@@ -5529,9 +5529,8 @@ var $elm$html$Html$Events$onInput = function (tagger) {
 			$elm$html$Html$Events$alwaysStop,
 			A2($elm$json$Json$Decode$map, tagger, $elm$html$Html$Events$targetValue)));
 };
-var $elm$html$Html$Attributes$placeholder = $elm$html$Html$Attributes$stringProperty('placeholder');
-var $author$project$FormFields$numberField = F5(
-	function (labelText, inputId, placeholderText, valueText, onInputMsg) {
+var $author$project$FormFields$numberField = F4(
+	function (labelText, inputId, valueText, onInputMsg) {
 		return A2(
 			$elm$html$Html$div,
 			_List_fromArray(
@@ -5556,7 +5555,6 @@ var $author$project$FormFields$numberField = F5(
 						[
 							$elm$html$Html$Attributes$id(inputId),
 							$elm$html$Html$Attributes$type_('number'),
-							$elm$html$Html$Attributes$placeholder(placeholderText),
 							$elm$html$Html$Attributes$value(valueText),
 							$elm$html$Html$Events$onInput(onInputMsg),
 							A2($elm$html$Html$Attributes$attribute, 'min', '0'),
@@ -5597,8 +5595,8 @@ var $author$project$Calculators$Pills$view = F2(
 			{bY: strings.dc, b1: strings.bb, ch: strings.aJ + (': ' + strings.dc), cn: strings.a0 + (': ' + strings.dc)},
 			_List_fromArray(
 				[
-					A5($author$project$FormFields$numberField, strings.bz, 'pills-prescribed-amount', '0.0', model.R, $author$project$Calculators$Pills$ChangePrescribed),
-					A5($author$project$FormFields$numberField, strings.bi, 'pills-tablet-mg', '0.0', model.O, $author$project$Calculators$Pills$ChangeTabletMg)
+					A4($author$project$FormFields$numberField, strings.bz, 'pills-prescribed-amount', model.R, $author$project$Calculators$Pills$ChangePrescribed),
+					A4($author$project$FormFields$numberField, strings.bi, 'pills-tablet-mg', model.O, $author$project$Calculators$Pills$ChangeTabletMg)
 				]),
 			{b9: $author$project$Calculators$Pills$Reset, cg: strings.aJ, ck: $author$project$Calculators$Pills$Calculate, cm: strings.a0},
 			function () {
@@ -5639,9 +5637,9 @@ var $author$project$Calculators$Liquids$view = F2(
 			{bY: strings.ds, b1: strings.bm, ch: strings.aJ + (': ' + strings.bg), cn: strings.a0 + (': ' + strings.bg)},
 			_List_fromArray(
 				[
-					A5($author$project$FormFields$numberField, strings.bz, 'liquid-prescribed-amount', '0.0', model.S, $author$project$Calculators$Liquids$ChangePrescribedLiquid),
-					A5($author$project$FormFields$numberField, strings.be, 'liquid-available-amount', '0.0', model.T, $author$project$Calculators$Liquids$ChangeLiquidDosageAthand),
-					A5($author$project$FormFields$numberField, strings.bj, 'liquid-available-volume', '0.0', model.U, $author$project$Calculators$Liquids$ChangeLiquidVolumeAtHand)
+					A4($author$project$FormFields$numberField, strings.bz, 'liquid-prescribed-amount', model.S, $author$project$Calculators$Liquids$ChangePrescribedLiquid),
+					A4($author$project$FormFields$numberField, strings.be, 'liquid-available-amount', model.T, $author$project$Calculators$Liquids$ChangeLiquidDosageAthand),
+					A4($author$project$FormFields$numberField, strings.bj, 'liquid-available-volume', model.U, $author$project$Calculators$Liquids$ChangeLiquidVolumeAtHand)
 				]),
 			{b9: $author$project$Calculators$Liquids$Reset, cg: strings.aJ, ck: $author$project$Calculators$Liquids$Calculate, cm: strings.a0},
 			function () {
@@ -5880,8 +5878,8 @@ var $author$project$Calculators$Nutrition$view = F2(
 			{bY: strings._, b1: strings.bx, ch: strings.aJ + (': ' + strings._), cn: strings.a0 + (': ' + strings._)},
 			_List_fromArray(
 				[
-					A5($author$project$FormFields$numberField, strings.aT, 'nutrition-weight', '0.0', model.aT, $author$project$Calculators$Nutrition$ChangeWeight),
-					A5($author$project$FormFields$numberField, strings.aP, 'nutrition-height', '0.0', model.aP, $author$project$Calculators$Nutrition$ChangeHeight),
+					A4($author$project$FormFields$numberField, strings.aT, 'nutrition-weight', model.aT, $author$project$Calculators$Nutrition$ChangeWeight),
+					A4($author$project$FormFields$numberField, strings.aP, 'nutrition-height', model.aP, $author$project$Calculators$Nutrition$ChangeHeight),
 					A5(
 					$author$project$FormFields$optionButtonsField,
 					strings.a9,
@@ -6033,7 +6031,7 @@ var $author$project$Calculators$IvInfusionRate$view = F2(
 			{bY: strings.ab, b1: strings.bB, ch: strings.aJ + (': ' + strings.ab), cn: strings.a0 + (': ' + strings.ab)},
 			_List_fromArray(
 				[
-					A5($author$project$FormFields$numberField, strings.bp, 'infusion-volume', '0.0', model.M, $author$project$Calculators$IvInfusionRate$UpdateVolume),
+					A4($author$project$FormFields$numberField, strings.bp, 'infusion-volume', model.M, $author$project$Calculators$IvInfusionRate$UpdateVolume),
 					A2(
 					$elm$html$Html$div,
 					_List_fromArray(
@@ -6042,7 +6040,7 @@ var $author$project$Calculators$IvInfusionRate$view = F2(
 						]),
 					_List_fromArray(
 						[
-							A5($author$project$FormFields$numberField, strings.bw, 'infusion-duration', '0.0', model.Y, $author$project$Calculators$IvInfusionRate$UpdateDuration),
+							A4($author$project$FormFields$numberField, strings.bw, 'infusion-duration', model.Y, $author$project$Calculators$IvInfusionRate$UpdateDuration),
 							A5(
 							$author$project$FormFields$optionButtonsField,
 							strings.bf,
@@ -6226,8 +6224,8 @@ var $author$project$Calculators$FreeWaterDeficit$view = F2(
 			{bY: strings.ac, b1: strings.bv, ch: strings.aJ + (': ' + strings.ac), cn: strings.a0 + (': ' + strings.ac)},
 			_List_fromArray(
 				[
-					A5($author$project$FormFields$numberField, strings.aT, 'weight', '0.0', model.aT, $author$project$Calculators$FreeWaterDeficit$UpdateWeight),
-					A5($author$project$FormFields$numberField, strings.aS, 'sodium', '0.0', model.aS, $author$project$Calculators$FreeWaterDeficit$UpdateSodium),
+					A4($author$project$FormFields$numberField, strings.aT, 'weight', model.aT, $author$project$Calculators$FreeWaterDeficit$UpdateWeight),
+					A4($author$project$FormFields$numberField, strings.aS, 'sodium', model.aS, $author$project$Calculators$FreeWaterDeficit$UpdateSodium),
 					A5(
 					$author$project$FormFields$optionButtonsField,
 					strings.aC,
