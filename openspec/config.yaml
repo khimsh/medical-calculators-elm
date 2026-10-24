@@ -3,30 +3,31 @@ schema: spec-driven
 # Project context (optional)
 # Add only constraints that should guide OpenSpec artifacts and workflows.
 # Include constraints an agent cannot infer by reading the code.
-# Keep general project documentation and discoverable codebase facts out.
-# Example:
-#   context: |
-#     Designs and tasks must cover Windows, macOS, and Linux
-#     Write all artifacts in Spanish
+context: |
+  Elm 0.19.3 web app with no JS framework and no new npm packages (package.json holds only elm, elm-test, prettier).
+  The app may grow beyond one page, so do not assume a single page or a single route.
+  Bilingual UI: Georgian and English. Every user-facing string goes in src/Translations.elm in both languages.
+  Each calculator has its own tests/<Name>Tests.elm. CI runs `npm test` and `npm run build`; both must pass.
+  Formulas are listed in FORMULAS.md. A calculator change must name the formula source in its proposal.
+  The app is for testing only, not clinical use. Do not add patient-facing guidance text.
+  Styling lives in styles.css. The light theme uses the FiraGO font from fonts/.
+  Specs use SHALL/MUST wording with WHEN/THEN scenarios, as in openspec/specs/calculator-page/spec.md.
 
 # Per-artifact rules (optional)
-# Add custom rules for specific artifacts.
-# Example:
-#   rules:
-#     proposal:
-#       - Keep proposals under 500 words
-#       - Always state what is out of scope
-#     tasks:
-#       - Break tasks into chunks of max 2 hours
+rules:
+  proposal:
+    - State what is out of scope.
+    - List the Elm modules and test files that will change.
+  tasks:
+    - Each task should be small enough to finish and test on its own.
+    - Include a task for tests whenever calculation logic changes.
 
 # Per-operation guidance (optional)
-# Add advisory guidance for how apply and archive work should be conducted.
-# This is separate from artifact rules above.
-# Example:
-#   operations:
-#     apply:
-#       guidance:
-#         - Keep test summaries concise
-#     archive:
-#       guidance:
-#         - Summarize the archive outcome before finishing
+operations:
+  apply:
+    guidance:
+      - Run `npm test` after each calculator change and keep the output short.
+      - Run `npm run build` before finishing, since CI builds the app too.
+  archive:
+    guidance:
+      - Summarize the archive outcome before finishing.
