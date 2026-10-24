@@ -1,7 +1,7 @@
 module Calculators.Card exposing (view)
 
 import Html exposing (Html, article, div, form, h2, header, p, text)
-import Html.Attributes exposing (attribute, autocomplete, type_)
+import Html.Attributes exposing (attribute, autocomplete, class, type_)
 import Html.Events
 
 
@@ -23,10 +23,10 @@ type alias Buttons msg =
 
 view : Config -> List (Html msg) -> Buttons msg -> Html msg -> Html msg
 view config fields buttons resultContent =
-    article [ attribute "aria-label" config.title ]
+    article [ class "card", attribute "aria-label" config.title ]
         [ header []
             [ h2 [] [ text config.title ]
-            , p [] [ text config.formula ]
+            , p [ class "card-formula" ] [ text config.formula ]
             ]
         , form
             [ autocomplete False
@@ -34,15 +34,17 @@ view config fields buttons resultContent =
             , attribute "data-lpignore" "true"
             ]
             (fields
-                ++ [ div []
+                ++ [ div [ class "actions" ]
                         [ Html.button
-                            [ type_ "button"
+                            [ class "button-primary"
+                            , type_ "button"
                             , attribute "aria-label" config.calculateLabel
                             , Html.Events.onClick buttons.calculateMsg
                             ]
                             [ text buttons.calculateText ]
                         , Html.button
-                            [ type_ "reset"
+                            [ class "button-secondary"
+                            , type_ "reset"
                             , attribute "aria-label" config.resetLabel
                             , Html.Events.onClick buttons.resetMsg
                             ]

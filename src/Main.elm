@@ -5,8 +5,8 @@ import Calculators.FreeWaterDeficit as FreeWaterDeficit
 import Calculators.Liquids as Liquids
 import Calculators.Nutrition as Nutrition
 import Calculators.Pills as Pills
-import Html exposing (button, main_, text)
-import Html.Attributes exposing (attribute, type_)
+import Html exposing (button, div, header, main_, text)
+import Html.Attributes exposing (attribute, class, type_)
 import Html.Events exposing (onClick)
 import Translations exposing (Language(..), getStrings)
 
@@ -123,9 +123,10 @@ view model =
     in
     { title = strings.title
     , body =
-        [ main_ []
+        [ header [ class "topbar" ]
             [ button
-                [ type_ "button"
+                [ class "lang-toggle"
+                , type_ "button"
                 , onClick ToggleLanguage
                 , attribute "aria-label" strings.switchLanguage
                 , attribute "lang"
@@ -137,10 +138,14 @@ view model =
                     )
                 ]
                 [ text strings.otherLanguage ]
-            , Html.map PillsMsg (Pills.view strings model.pills)
-            , Html.map LiquidsMsg (Liquids.view strings model.liquids)
-            , Html.map NutritionMsg (Nutrition.view strings model.nutrition)
-            , Html.map HandleFreeWaterDeficitMsg (FreeWaterDeficit.view strings model.freeWaterDeficit)
+            ]
+        , main_ []
+            [ div [ class "calculators" ]
+                [ Html.map PillsMsg (Pills.view strings model.pills)
+                , Html.map LiquidsMsg (Liquids.view strings model.liquids)
+                , Html.map NutritionMsg (Nutrition.view strings model.nutrition)
+                , Html.map HandleFreeWaterDeficitMsg (FreeWaterDeficit.view strings model.freeWaterDeficit)
+                ]
             ]
         ]
     }

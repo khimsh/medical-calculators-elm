@@ -5,6 +5,7 @@ import Calculators.Label as Label
 import FormFields exposing (checkboxField, numberField, selectField)
 import Functions exposing (calculateBMI, calculateCalories, errorDisplay, floatToStr, formatToDecimals, roundToTwoDecimals, scoreCalculator, strToFloat)
 import Html exposing (dd, div, dl, dt, text)
+import Html.Attributes exposing (class)
 import Translations exposing (Strings)
 
 
@@ -150,7 +151,7 @@ view strings model =
                         , value = model.calories
                         , unit = strings.kcal
                         , extra =
-                            [ dl []
+                            [ dl [ class "macros" ]
                                 [ macro strings.proteins model.proteins
                                 , macro strings.fats model.fats
                                 , macro strings.carbs model.carbs

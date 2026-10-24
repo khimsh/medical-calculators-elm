@@ -37,6 +37,8 @@ jobs:
           mkdir -p dist
           cp index.html dist/
           cp elm-app.js dist/
+          cp styles.css dist/
+          cp -R fonts dist/
 
       - name: Deploy to GitHub Pages
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'

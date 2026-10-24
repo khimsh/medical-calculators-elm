@@ -80,9 +80,12 @@ medical-calculators-elm/
 │       └── FreeWaterDeficit.elm   # Free water deficit calculator
 ├── tests/
 │   ├── FunctionsTests.elm         # Tests for utility functions
-│   ├── MainTests.elm              # Tests for calculator logic
+│   ├── MainTests.elm              # Tests for Pills and Liquids calculators
+│   ├── NutritionTests.elm         # Tests for nutrition calculator
 │   └── FreeWaterDeficitTests.elm  # Tests for free water deficit calculator
 ├── index.html                     # HTML entry point
+├── styles.css                     # Theme: colours, FiraGO font, layout
+├── fonts/                         # FiraGO WOFF2 subsets (Latin + Georgian, OFL)
 ├── package.json                   # NPM project configuration
 └── elm.json                       # Elm project configuration
 ```

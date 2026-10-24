@@ -1,7 +1,7 @@
 module FormFields exposing (checkboxField, numberField, radioButtonField, selectField, textField)
 
 import Html exposing (Html, div, input, label, option, select, text)
-import Html.Attributes exposing (attribute, checked, for, id, name, placeholder, type_, value)
+import Html.Attributes exposing (attribute, checked, class, for, id, name, placeholder, type_, value)
 import Html.Events exposing (onCheck, onInput)
 
 
@@ -9,7 +9,7 @@ import Html.Events exposing (onCheck, onInput)
 -}
 numberField : String -> String -> String -> String -> (String -> msg) -> Html msg
 numberField labelText inputId placeholderText valueText onInputMsg =
-    div []
+    div [ class "field" ]
         [ label [ for inputId ] [ text labelText ]
         , input
             [ id inputId
@@ -28,7 +28,7 @@ numberField labelText inputId placeholderText valueText onInputMsg =
 -}
 textField : String -> String -> String -> String -> (String -> msg) -> Html msg
 textField labelText inputId placeholderText valueText onInputMsg =
-    div []
+    div [ class "field" ]
         [ label [ for inputId ] [ text labelText ]
         , input
             [ id inputId
@@ -54,7 +54,7 @@ type alias SelectOption =
 -}
 selectField : String -> String -> String -> List SelectOption -> (String -> msg) -> Html msg
 selectField labelText selectId currentValue options onChangeMsg =
-    div []
+    div [ class "field" ]
         [ label [ for selectId ] [ text labelText ]
         , select
             [ id selectId
@@ -74,7 +74,7 @@ selectField labelText selectId currentValue options onChangeMsg =
 -}
 checkboxField : String -> String -> Bool -> (Bool -> msg) -> Html msg
 checkboxField labelText checkboxId isChecked onChangeMsg =
-    div []
+    div [ class "field-check" ]
         [ input
             [ type_ "checkbox"
             , id checkboxId
@@ -90,7 +90,7 @@ checkboxField labelText checkboxId isChecked onChangeMsg =
 -}
 radioButtonField : String -> String -> String -> Bool -> (String -> msg) -> Html msg
 radioButtonField groupName radioId labelText isChecked onChangeMsg =
-    div []
+    div [ class "field-check" ]
         [ input
             [ type_ "radio"
             , name groupName

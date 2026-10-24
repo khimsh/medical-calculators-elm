@@ -1,7 +1,7 @@
 module Functions exposing (..)
 
 import Html exposing (button, div, input, label, text)
-import Html.Attributes exposing (attribute, for, id, type_, value)
+import Html.Attributes exposing (attribute, class, for, id, type_, value)
 import Html.Events exposing (onClick, onInput)
 
 
@@ -172,7 +172,7 @@ fieldGroup labelText inputId placeholderText valueText onInputMsg =
 
 errorDisplay : String -> Html.Html msg
 errorDisplay errorMessage =
-    div [ attribute "role" "alert" ]
+    div [ class "error", attribute "role" "alert" ]
         [ Html.p [] [ text errorMessage ]
         ]
 
