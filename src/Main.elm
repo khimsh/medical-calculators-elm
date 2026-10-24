@@ -1,31 +1,58 @@
 port module Main exposing (main)
 
 import Browser
+import Browser.Navigation as Nav
 import Calculators.FreeWaterDeficit as FreeWaterDeficit
 import Calculators.Liquids as Liquids
 import Calculators.Nutrition as Nutrition
 import Calculators.Pills as Pills
-import Html exposing (button, div, header, main_, text)
-import Html.Attributes exposing (attribute, class, type_)
+import Favorites exposing (Calculator)
+import Html exposing (Html, a, button, div, header, li, main_, nav, p, text, ul)
+import Html.Attributes exposing (attribute, class, href, type_)
 import Html.Events exposing (onClick)
-import Translations exposing (Language(..), getStrings)
+import Json.Decode as Decode
+import Json.Encode as Encode
+import Translations exposing (Language(..), Strings, getStrings)
+import Url exposing (Url)
 
 
 port setLangAttribute : String -> Cmd msg
 
 
-main : Program () Model Msg
+port saveFavorites : Encode.Value -> Cmd msg
+
+
+main : Program Decode.Value Model Msg
 main =
-    Browser.document
+    Browser.application
         { init = init
         , update = update
         , view = view
         , subscriptions = \_ -> Sub.none
+        , onUrlRequest = LinkClicked
+        , onUrlChange = UrlChanged
         }
 
 
+type Page
+    = AllPage
+    | FavoritesPage
+
+
+pageFromUrl : Url -> Page
+pageFromUrl url =
+    if url.fragment == Just "favorites" then
+        FavoritesPage
+
+    else
+        AllPage
+
+
 type alias Model =
-    { language : Language
+    { key : Nav.Key
+    , page : Page
+    , favorites : List Calculator
+    , language : Language
     , pills : Pills.Model
     , liquids : Liquids.Model
     , nutrition : Nutrition.Model
@@ -33,9 +60,12 @@ type alias Model =
     }
 
 
-init : () -> ( Model, Cmd Msg )
-init _ =
-    ( { language = Georgian
+init : Decode.Value -> Url -> Nav.Key -> ( Model, Cmd Msg )
+init flags url key =
+    ( { key = key
+      , page = pageFromUrl url
+      , favorites = Favorites.decode flags
+      , language = Georgian
       , pills = Pills.init
       , liquids = Liquids.init
       , nutrition = Nutrition.init
@@ -47,6 +77,9 @@ init _ =
 
 type Msg
     = ToggleLanguage
+    | LinkClicked Browser.UrlRequest
+    | UrlChanged Url
+    | ToggleFavorite Calculator
     | PillsMsg Pills.Msg
     | LiquidsMsg Liquids.Msg
     | NutritionMsg Nutrition.Msg
@@ -75,6 +108,24 @@ update msg model =
             in
             ( { model | language = newLanguage }
             , setLangAttribute langAttribute
+            )
+
+        LinkClicked (Browser.Internal url) ->
+            ( model, Nav.pushUrl model.key (Url.toString url) )
+
+        LinkClicked (Browser.External url) ->
+            ( model, Nav.load url )
+
+        UrlChanged url ->
+            ( { model | page = pageFromUrl url }, Cmd.none )
+
+        ToggleFavorite calculator ->
+            let
+                favorites =
+                    Favorites.toggle calculator model.favorites
+            in
+            ( { model | favorites = favorites }
+            , saveFavorites (Favorites.encode favorites)
             )
 
         PillsMsg subMsg ->
@@ -120,11 +171,25 @@ view model =
     let
         strings =
             getStrings model.language
+
+        visibleCalculators =
+            case model.page of
+                AllPage ->
+                    Favorites.all
+
+                FavoritesPage ->
+                    List.filter (\calculator -> List.member calculator model.favorites) Favorites.all
     in
     { title = strings.title
     , body =
         [ header [ class "topbar" ]
-            [ button
+            [ nav [ class "page-nav" ]
+                [ ul []
+                    [ navLink (model.page == AllPage) "#" strings.allCalculators
+                    , navLink (model.page == FavoritesPage) "#favorites" strings.favorites
+                    ]
+                ]
+            , button
                 [ class "lang-toggle"
                 , type_ "button"
                 , onClick ToggleLanguage
@@ -140,12 +205,74 @@ view model =
                 [ text strings.otherLanguage ]
             ]
         , main_ []
-            [ div [ class "calculators" ]
-                [ Html.map PillsMsg (Pills.view strings model.pills)
-                , Html.map LiquidsMsg (Liquids.view strings model.liquids)
-                , Html.map NutritionMsg (Nutrition.view strings model.nutrition)
-                , Html.map HandleFreeWaterDeficitMsg (FreeWaterDeficit.view strings model.freeWaterDeficit)
-                ]
+            [ if List.isEmpty visibleCalculators then
+                p [ class "empty-state" ] [ text strings.noFavorites ]
+
+              else
+                div [ class "calculators" ]
+                    (List.map (viewCalculator strings model) visibleCalculators)
             ]
         ]
     }
+
+
+navLink : Bool -> String -> String -> Html Msg
+navLink isCurrent url label =
+    li []
+        [ a
+            (href url
+                :: (if isCurrent then
+                        [ attribute "aria-current" "page" ]
+
+                    else
+                        []
+                   )
+            )
+            [ text label ]
+        ]
+
+
+viewCalculator : Strings -> Model -> Calculator -> Html Msg
+viewCalculator strings model calculator =
+    let
+        ( title, card ) =
+            case calculator of
+                Favorites.Pills ->
+                    ( strings.pillDosage, Html.map PillsMsg (Pills.view strings model.pills) )
+
+                Favorites.Liquids ->
+                    ( strings.peroralliquid, Html.map LiquidsMsg (Liquids.view strings model.liquids) )
+
+                Favorites.Nutrition ->
+                    ( strings.nutrition, Html.map NutritionMsg (Nutrition.view strings model.nutrition) )
+
+                Favorites.FreeWaterDeficit ->
+                    ( strings.freeWaterDeficit, Html.map HandleFreeWaterDeficitMsg (FreeWaterDeficit.view strings model.freeWaterDeficit) )
+
+        isFavorite =
+            List.member calculator model.favorites
+    in
+    div [ class "card-slot" ]
+        [ button
+            [ class "favorite-toggle"
+            , type_ "button"
+            , onClick (ToggleFavorite calculator)
+            , attribute "aria-pressed"
+                (if isFavorite then
+                    "true"
+
+                 else
+                    "false"
+                )
+            , attribute "aria-label" (strings.markFavorite title)
+            ]
+            [ text
+                (if isFavorite then
+                    "★"
+
+                 else
+                    "☆"
+                )
+            ]
+        , card
+        ]

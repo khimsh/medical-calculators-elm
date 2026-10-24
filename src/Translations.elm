@@ -61,6 +61,10 @@ type alias Strings =
     , liquidFormula : String
     , nutritionFormula : String
     , freeWaterFormula : String
+    , allCalculators : String
+    , favorites : String
+    , markFavorite : String -> String
+    , noFavorites : String
     }
 
 
@@ -120,6 +124,10 @@ englishStrings =
     , liquidFormula = "dose ÷ amount at hand × volume"
     , nutritionFormula = "5–30 kcal/kg by risk score"
     , freeWaterFormula = "0.45–0.6 × weight × (Na ÷ 140 − 1)"
+    , allCalculators = "All"
+    , favorites = "Favorites"
+    , markFavorite = \name -> "Mark " ++ name ++ " as favorite"
+    , noFavorites = "No favorites yet. Press ☆ on a calculator to add it here."
     }
 
 
@@ -179,6 +187,10 @@ georgianStrings =
     , liquidFormula = "დოზა ÷ ხელთ არსებული რაოდენობა × მოცულობა"
     , nutritionFormula = "5–30 კკალ/კგ რისკის ქულის მიხედვით"
     , freeWaterFormula = "0.45–0.6 × წონა × (Na ÷ 140 − 1)"
+    , allCalculators = "ყველა"
+    , favorites = "რჩეულები"
+    , markFavorite = \name -> "„" ++ name ++ "“ რჩეულად მონიშვნა"
+    , noFavorites = "რჩეულები ჯერ არ გაქვთ. დააჭირეთ ☆-ს კალკულატორზე, რომ აქ დაამატოთ."
     }
 
 
