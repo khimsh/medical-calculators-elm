@@ -14,7 +14,7 @@ type Calculator
 
 all : List Calculator
 all =
-    [ Pills, Liquids, Nutrition, FreeWaterDeficit, IvInfusionRate ]
+    [ Pills, Liquids, IvInfusionRate, FreeWaterDeficit, Nutrition ]
 
 
 toKey : Calculator -> String

@@ -65,6 +65,9 @@ type alias Strings =
     , favorites : String
     , markFavorite : String -> String
     , noFavorites : String
+    , medicationDosing : String
+    , fluidsAndElectrolytes : String
+    , nutritionCategory : String
     , ivInfusionRate : String
     , infusionVolume : String
     , infusionDuration : String
@@ -143,6 +146,9 @@ englishStrings =
     , favorites = "Favorites"
     , markFavorite = \name -> "Mark " ++ name ++ " as favorite"
     , noFavorites = "No favorites yet. Press ☆ on a calculator to add it here."
+    , medicationDosing = "Medication dosing"
+    , fluidsAndElectrolytes = "Fluids & electrolytes"
+    , nutritionCategory = "Nutrition"
     , ivInfusionRate = "IV infusion rate"
     , infusionVolume = "Volume (mL)"
     , infusionDuration = "Duration"
@@ -221,6 +227,9 @@ georgianStrings =
     , favorites = "რჩეულები"
     , markFavorite = \name -> "„" ++ name ++ "“ რჩეულად მონიშვნა"
     , noFavorites = "რჩეულები ჯერ არ გაქვთ. დააჭირეთ ☆-ს კალკულატორზე, რომ აქ დაამატოთ."
+    , medicationDosing = "მედიკამენტების დოზირება"
+    , fluidsAndElectrolytes = "სითხეები და ელექტროლიტები"
+    , nutritionCategory = "კვება"
     , ivInfusionRate = "ინფუზიის სიჩქარე"
     , infusionVolume = "მოცულობა (მლ)"
     , infusionDuration = "ხანგრძლივობა"

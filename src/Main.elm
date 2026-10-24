@@ -7,9 +7,10 @@ import Calculators.IvInfusionRate as IvInfusionRate
 import Calculators.Liquids as Liquids
 import Calculators.Nutrition as Nutrition
 import Calculators.Pills as Pills
+import Categories exposing (Category(..))
 import Favorites exposing (Calculator)
-import Html exposing (Html, a, button, div, header, li, main_, nav, p, text, ul)
-import Html.Attributes exposing (attribute, class, href, type_)
+import Html exposing (Html, a, button, div, h2, header, li, main_, nav, p, section, text, ul)
+import Html.Attributes exposing (attribute, class, href, id, type_)
 import Html.Events exposing (onClick)
 import Json.Decode as Decode
 import Json.Encode as Encode
@@ -222,8 +223,8 @@ view model =
                 p [ class "empty-state" ] [ text strings.noFavorites ]
 
               else
-                div [ class "calculators" ]
-                    (List.map (viewCalculator strings model) visibleCalculators)
+                div [ class "categories" ]
+                    (List.filterMap (viewCategory strings model visibleCalculators) Categories.all)
             ]
         ]
     }
@@ -243,6 +244,43 @@ navLink isCurrent url label =
             )
             [ text label ]
         ]
+
+
+{-| Nothing when none of the category's calculators are visible.
+-}
+viewCategory : Strings -> Model -> List Calculator -> Category -> Maybe (Html Msg)
+viewCategory strings model visibleCalculators category =
+    let
+        headingId =
+            categoryId category
+
+        calculators =
+            List.filter (\calculator -> List.member calculator visibleCalculators) (Categories.calculators category)
+    in
+    if List.isEmpty calculators then
+        Nothing
+
+    else
+        Just
+            (section [ class "category", attribute "aria-labelledby" headingId ]
+                [ h2 [ id headingId ] [ text (Categories.title strings category) ]
+                , div [ class "calculators" ]
+                    (List.map (viewCalculator strings model) calculators)
+                ]
+            )
+
+
+categoryId : Category -> String
+categoryId category =
+    case category of
+        MedicationDosing ->
+            "category-medication-dosing"
+
+        FluidsAndElectrolytes ->
+            "category-fluids-and-electrolytes"
+
+        NutritionCategory ->
+            "category-nutrition"
 
 
 viewCalculator : Strings -> Model -> Calculator -> Html Msg

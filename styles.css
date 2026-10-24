@@ -144,6 +144,24 @@ input {
   background: var(--accent-soft);
 }
 
+/* Categories */
+
+.categories {
+  display: grid;
+  gap: 2.5rem;
+}
+
+.category {
+  display: grid;
+  gap: 1rem;
+}
+
+.category h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
 /* Calculator grid */
 
 .calculators {
@@ -202,7 +220,7 @@ input {
   border-radius: var(--radius);
 }
 
-.card h2 {
+.card h3 {
   font-size: 1.25rem;
   font-weight: 700;
   line-height: 1.3;

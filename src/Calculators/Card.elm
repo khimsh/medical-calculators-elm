@@ -1,6 +1,6 @@
 module Calculators.Card exposing (view)
 
-import Html exposing (Html, article, div, form, h2, header, p, text)
+import Html exposing (Html, article, div, form, h3, header, p, text)
 import Html.Attributes exposing (attribute, autocomplete, class, type_)
 import Html.Events
 
@@ -25,7 +25,7 @@ view : Config -> List (Html msg) -> Buttons msg -> Html msg -> Html msg
 view config fields buttons resultContent =
     article [ class "card", attribute "aria-label" config.title ]
         [ header []
-            [ h2 [] [ text config.title ]
+            [ h3 [] [ text config.title ]
             , p [ class "card-formula" ] [ text config.formula ]
             ]
         , form
