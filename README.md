@@ -24,55 +24,29 @@ All calculators are shown together on a single, unstyled page with a Georgian/En
 
 ## Running the Application
 
+Requires Node.js and Elm 0.19.3 (installed locally through npm).
+
 1. Install dependencies:
 
    ```bash
-   elm install
+   npm install
    ```
 
 2. Compile the application:
 
    ```bash
-   elm make src/Main.elm --output elm-app.js
+   npm run build
    ```
 
-3. Open `Index.html` in your browser
+3. Open `index.html` in your browser
 
 ## Running Tests
 
 The project includes comprehensive tests to verify calculator correctness.
 
-### Install Test Dependencies
-
-First, install the test dependencies:
-
 ```bash
-elm install elm-explorations/test
+npm test
 ```
-
-When prompted, answer "n" (no) to keep it in test-dependencies.
-
-### Run Tests
-
-To run the tests, use elm-test:
-
-1. Install elm-test globally:
-
-   ```bash
-   npm install -g elm-test
-   ```
-
-2. Run the tests:
-
-   ```bash
-   elm-test
-   ```
-
-   Or using npm:
-
-   ```bash
-   npm test
-   ```
 
 ## Test Coverage
 

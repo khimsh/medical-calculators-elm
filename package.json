@@ -9,7 +9,7 @@
   },
   "devDependencies": {
     "elm": "^0.19.3-0",
-    "elm-test": "^0.19.1-revision7",
+    "elm-test": "^0.19.3-0",
     "prettier": "3.8.1"
   }
 }
