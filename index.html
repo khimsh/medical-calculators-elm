@@ -20,14 +20,30 @@
 
     <script src="elm-app.js"></script>
     <script>
+      // Favorites are stored as a JSON list of calculator keys; Elm ignores anything invalid
+      var storedFavorites = null;
+      try {
+        storedFavorites = JSON.parse(localStorage.getItem("favorites"));
+      } catch (e) {}
+
       var app = Elm.Main.init({
         node: document.getElementById("elm-app"),
+        flags: storedFavorites,
       });
 
       // Subscribe to the setLangAttribute port to update the html lang attribute
       if (app.ports && app.ports.setLangAttribute) {
         app.ports.setLangAttribute.subscribe(function (lang) {
           document.documentElement.setAttribute("lang", lang);
+        });
+      }
+
+      // Subscribe to the saveFavorites port to persist favorites (storage can throw in private mode)
+      if (app.ports && app.ports.saveFavorites) {
+        app.ports.saveFavorites.subscribe(function (favorites) {
+          try {
+            localStorage.setItem("favorites", JSON.stringify(favorites));
+          } catch (e) {}
         });
       }
     </script>

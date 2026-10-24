@@ -600,11 +600,11 @@ function _Debug_crash_UNUSED(identifier, fact1, fact2, fact3, fact4)
 
 function _Debug_regionToString(region)
 {
-	if (region.aE.Y === region.bo.Y)
+	if (region.aH.ab === region.bp.ab)
 	{
-		return 'on line ' + region.aE.Y;
+		return 'on line ' + region.aH.ab;
 	}
-	return 'on lines ' + region.aE.Y + ' through ' + region.bo.Y;
+	return 'on lines ' + region.aH.ab + ' through ' + region.bp.ab;
 }
 
 
@@ -1857,9 +1857,9 @@ var _Platform_worker = F4(function(impl, flagDecoder, debugMetadata, args)
 	return _Platform_initialize(
 		flagDecoder,
 		args,
-		impl.ci,
-		impl.cH,
-		impl.c8,
+		impl.ch,
+		impl.cG,
+		impl.dc,
 		function() { return function() {} }
 	);
 });
@@ -2719,9 +2719,9 @@ var _VirtualDom_mapEventTuple = F2(function(func, tuple)
 var _VirtualDom_mapEventRecord = F2(function(func, record)
 {
 	return {
-		cK: func(record.cK),
-		bd: record.bd,
-		ba: record.ba
+		cJ: func(record.cJ),
+		be: record.be,
+		bb: record.bb
 	}
 });
 
@@ -2989,11 +2989,11 @@ function _VirtualDom_makeCallback(eventNode, initialHandler)
 		// 3 = Custom
 
 		var value = result.a;
-		var message = !tag ? value : tag < 3 ? value.a : value.cK;
-		var stopPropagation = tag == 1 ? value.b : tag == 3 && value.bd;
+		var message = !tag ? value : tag < 3 ? value.a : value.cJ;
+		var stopPropagation = tag == 1 ? value.b : tag == 3 && value.be;
 		var currentEventNode = (
 			stopPropagation && event.stopPropagation(),
-			(tag == 2 ? value.b : tag == 3 && value.ba) && event.preventDefault(),
+			(tag == 2 ? value.b : tag == 3 && value.bb) && event.preventDefault(),
 			eventNode
 		);
 		var tagger;
@@ -3943,11 +3943,11 @@ var _Browser_element = _Debugger_element || F4(function(impl, flagDecoder, debug
 	return _Platform_initialize(
 		flagDecoder,
 		args,
-		impl.ci,
-		impl.cH,
-		impl.c8,
+		impl.ch,
+		impl.cG,
+		impl.dc,
 		function(sendToApp, initialModel) {
-			var view = impl.cq;
+			var view = impl.cp;
 			/**/
 			var domNode = args['node'];
 			//*/
@@ -3979,12 +3979,12 @@ var _Browser_document = _Debugger_document || F4(function(impl, flagDecoder, deb
 	return _Platform_initialize(
 		flagDecoder,
 		args,
-		impl.ci,
-		impl.cH,
-		impl.c8,
+		impl.ch,
+		impl.cG,
+		impl.dc,
 		function(sendToApp, initialModel) {
-			var divertHrefToApp = impl.aD && impl.aD(sendToApp)
-			var view = impl.cq;
+			var divertHrefToApp = impl.aG && impl.aG(sendToApp)
+			var view = impl.cp;
 			var title = _VirtualDom_doc.title;
 			var bodyNode = _VirtualDom_doc.body;
 			var currNode = _VirtualDom_virtualize(bodyNode);
@@ -3992,7 +3992,7 @@ var _Browser_document = _Debugger_document || F4(function(impl, flagDecoder, deb
 			{
 				_VirtualDom_divertHrefToApp = divertHrefToApp;
 				var doc = view(model);
-				var nextNode = _VirtualDom_node('body')(_List_Nil)(doc.cf);
+				var nextNode = _VirtualDom_node('body')(_List_Nil)(doc.ce);
 				var patches = _VirtualDom_diff(currNode, nextNode);
 				bodyNode = _VirtualDom_applyPatches(bodyNode, currNode, patches, sendToApp);
 				currNode = nextNode;
@@ -4053,12 +4053,12 @@ function _Browser_makeAnimator(model, draw)
 
 function _Browser_application(impl)
 {
-	var onUrlChange = impl.cZ;
-	var onUrlRequest = impl.c2;
+	var onUrlChange = impl.c$;
+	var onUrlRequest = impl.c5;
 	var key = function() { key.a(onUrlChange(_Browser_getUrl())); };
 
 	return _Browser_document({
-		aD: function(sendToApp)
+		aG: function(sendToApp)
 		{
 			key.a = sendToApp;
 			_Browser_window.addEventListener('popstate', key);
@@ -4074,7 +4074,7 @@ function _Browser_application(impl)
 					var next = $elm$url$Url$fromString(href).a;
 					sendToApp(onUrlRequest(
 						(next
-							&& curr.bU === next.bU
+							&& curr.bT === next.bT
 							&& curr.bq === next.bq
 							&& curr.bE.a === next.bE.a
 						)
@@ -4084,13 +4084,13 @@ function _Browser_application(impl)
 				}
 			});
 		},
-		ci: function(flags)
+		ch: function(flags)
 		{
-			return A3(impl.ci, flags, _Browser_getUrl(), key);
+			return A3(impl.ch, flags, _Browser_getUrl(), key);
 		},
-		cq: impl.cq,
-		cH: impl.cH,
-		c8: impl.c8
+		cp: impl.cp,
+		cG: impl.cG,
+		dc: impl.dc
 	});
 }
 
@@ -4156,17 +4156,17 @@ var _Browser_decodeEvent = F2(function(decoder, event)
 function _Browser_visibilityInfo()
 {
 	return (typeof _VirtualDom_doc.hidden !== 'undefined')
-		? { cA: 'hidden', cy: 'visibilitychange' }
+		? { cz: 'hidden', cx: 'visibilitychange' }
 		:
 	(typeof _VirtualDom_doc.mozHidden !== 'undefined')
-		? { cA: 'mozHidden', cy: 'mozvisibilitychange' }
+		? { cz: 'mozHidden', cx: 'mozvisibilitychange' }
 		:
 	(typeof _VirtualDom_doc.msHidden !== 'undefined')
-		? { cA: 'msHidden', cy: 'msvisibilitychange' }
+		? { cz: 'msHidden', cx: 'msvisibilitychange' }
 		:
 	(typeof _VirtualDom_doc.webkitHidden !== 'undefined')
-		? { cA: 'webkitHidden', cy: 'webkitvisibilitychange' }
-		: { cA: 'hidden', cy: 'visibilitychange' };
+		? { cz: 'webkitHidden', cx: 'webkitvisibilitychange' }
+		: { cz: 'hidden', cx: 'visibilitychange' };
 }
 
 
@@ -4248,11 +4248,11 @@ function _Browser_getViewport()
 {
 	return {
 		bG: _Browser_getScene(),
-		bY: {
-			bl: _Browser_window.pageXOffset,
-			bm: _Browser_window.pageYOffset,
+		bX: {
+			bm: _Browser_window.pageXOffset,
+			bn: _Browser_window.pageYOffset,
 			bI: _Browser_doc.documentElement.clientWidth,
-			aI: _Browser_doc.documentElement.clientHeight
+			aL: _Browser_doc.documentElement.clientHeight
 		}
 	};
 }
@@ -4263,7 +4263,7 @@ function _Browser_getScene()
 	var elem = _Browser_doc.documentElement;
 	return {
 		bI: Math.max(body.scrollWidth, body.offsetWidth, elem.scrollWidth, elem.offsetWidth, elem.clientWidth),
-		aI: Math.max(body.scrollHeight, body.offsetHeight, elem.scrollHeight, elem.offsetHeight, elem.clientHeight)
+		aL: Math.max(body.scrollHeight, body.offsetHeight, elem.scrollHeight, elem.offsetHeight, elem.clientHeight)
 	};
 }
 
@@ -4288,13 +4288,13 @@ function _Browser_getViewportOf(id)
 		return {
 			bG: {
 				bI: node.scrollWidth,
-				aI: node.scrollHeight
+				aL: node.scrollHeight
 			},
-			bY: {
-				bl: node.scrollLeft,
-				bm: node.scrollTop,
+			bX: {
+				bm: node.scrollLeft,
+				bn: node.scrollTop,
 				bI: node.clientWidth,
-				aI: node.clientHeight
+				aL: node.clientHeight
 			}
 		};
 	});
@@ -4325,17 +4325,17 @@ function _Browser_getElement(id)
 		var y = _Browser_window.pageYOffset;
 		return {
 			bG: _Browser_getScene(),
-			bY: {
-				bl: x,
-				bm: y,
+			bX: {
+				bm: x,
+				bn: y,
 				bI: _Browser_doc.documentElement.clientWidth,
-				aI: _Browser_doc.documentElement.clientHeight
+				aL: _Browser_doc.documentElement.clientHeight
 			},
-			cJ: {
-				bl: x + rect.left,
-				bm: y + rect.top,
+			cI: {
+				bm: x + rect.left,
+				bn: y + rect.top,
 				bI: rect.width,
-				aI: rect.height
+				aL: rect.height
 			}
 		};
 	});
@@ -4452,11 +4452,11 @@ var $elm$core$Array$toList = function (array) {
 var $elm$core$Basics$GT = 2;
 var $elm$core$Basics$False = 1;
 var $elm$core$Maybe$Nothing = {$: 1};
-var $author$project$Calculators$Pills$init = {y: $elm$core$Maybe$Nothing, aK: '0.0', N: '', B: false, P: ''};
-var $author$project$Calculators$Liquids$init = {y: $elm$core$Maybe$Nothing, aK: '', B: false, Q: '', R: '', S: ''};
-var $author$project$Calculators$Nutrition$init = {av: '', ch: '', cs: '', y: $elm$core$Maybe$Nothing, aI: '', aM: '', cO: '', aQ: false, cT: '', B: false, aY: 0};
+var $author$project$Calculators$Pills$init = {y: $elm$core$Maybe$Nothing, aN: '0.0', N: '', B: false, Q: ''};
+var $author$project$Calculators$Liquids$init = {y: $elm$core$Maybe$Nothing, aN: '', B: false, R: '', S: '', T: ''};
+var $author$project$Calculators$Nutrition$init = {ax: '', cg: '', cr: '', y: $elm$core$Maybe$Nothing, aL: '', aP: '', cN: '', aT: false, cT: '', B: false, a_: 0};
 var $author$project$Functions$Male = 0;
-var $author$project$Calculators$FreeWaterDeficit$init = {aw: 0, y: $elm$core$Maybe$Nothing, aK: $elm$core$Maybe$Nothing, aL: '', aM: '', aN: false};
+var $author$project$Calculators$FreeWaterDeficit$init = {az: 0, y: $elm$core$Maybe$Nothing, aN: $elm$core$Maybe$Nothing, aO: '', aP: '', aQ: false};
 var $elm$core$Result$Ok = function (a) {
 	return {$: 0, a: a};
 };
@@ -4852,12 +4852,166 @@ var $elm$json$Json$Decode$errorToStringHelp = F2(
 	});
 var $elm$core$Platform$Cmd$batch = _Platform_batch;
 var $elm$core$Platform$Cmd$none = $elm$core$Platform$Cmd$batch(_List_Nil);
-var $author$project$Translations$Georgian = 1;
-var $author$project$Main$init = function (_v0) {
-	return _Utils_Tuple2(
-		{aa: $author$project$Calculators$Pills$init, af: $author$project$Calculators$Liquids$init, v: 1, ag: $author$project$Calculators$Nutrition$init, ak: $author$project$Calculators$FreeWaterDeficit$init},
-		$elm$core$Platform$Cmd$none);
+var $author$project$Favorites$Pills = 0;
+var $author$project$Favorites$Liquids = 1;
+var $author$project$Favorites$Nutrition = 2;
+var $author$project$Favorites$FreeWaterDeficit = 3;
+var $author$project$Favorites$all = _List_fromArray(
+	[0, 1, 2, 3]);
+var $elm$json$Json$Decode$list = _Json_decodeList;
+var $author$project$Favorites$toKey = function (calculator) {
+	switch (calculator) {
+		case 0:
+			return 'pills';
+		case 1:
+			return 'liquids';
+		case 2:
+			return 'nutrition';
+		default:
+			return 'free-water-deficit';
+	}
 };
+var $elm$core$List$foldrHelper = F4(
+	function (fn, acc, ctr, ls) {
+		if (!ls.b) {
+			return acc;
+		} else {
+			var a = ls.a;
+			var r1 = ls.b;
+			if (!r1.b) {
+				return A2(fn, a, acc);
+			} else {
+				var b = r1.a;
+				var r2 = r1.b;
+				if (!r2.b) {
+					return A2(
+						fn,
+						a,
+						A2(fn, b, acc));
+				} else {
+					var c = r2.a;
+					var r3 = r2.b;
+					if (!r3.b) {
+						return A2(
+							fn,
+							a,
+							A2(
+								fn,
+								b,
+								A2(fn, c, acc)));
+					} else {
+						var d = r3.a;
+						var r4 = r3.b;
+						var res = (ctr > 500) ? A3(
+							$elm$core$List$foldl,
+							fn,
+							acc,
+							$elm$core$List$reverse(r4)) : A4($elm$core$List$foldrHelper, fn, acc, ctr + 1, r4);
+						return A2(
+							fn,
+							a,
+							A2(
+								fn,
+								b,
+								A2(
+									fn,
+									c,
+									A2(fn, d, res))));
+					}
+				}
+			}
+		}
+	});
+var $elm$core$List$foldr = F3(
+	function (fn, acc, ls) {
+		return A4($elm$core$List$foldrHelper, fn, acc, 0, ls);
+	});
+var $elm$core$List$filter = F2(
+	function (isGood, list) {
+		return A3(
+			$elm$core$List$foldr,
+			F2(
+				function (x, xs) {
+					return isGood(x) ? A2($elm$core$List$cons, x, xs) : xs;
+				}),
+			_List_Nil,
+			list);
+	});
+var $elm$core$List$any = F2(
+	function (isOkay, list) {
+		any:
+		while (true) {
+			if (!list.b) {
+				return false;
+			} else {
+				var x = list.a;
+				var xs = list.b;
+				if (isOkay(x)) {
+					return true;
+				} else {
+					var $temp$isOkay = isOkay,
+						$temp$list = xs;
+					isOkay = $temp$isOkay;
+					list = $temp$list;
+					continue any;
+				}
+			}
+		}
+	});
+var $elm$core$List$member = F2(
+	function (x, xs) {
+		return A2(
+			$elm$core$List$any,
+			function (a) {
+				return _Utils_eq(a, x);
+			},
+			xs);
+	});
+var $elm$json$Json$Decode$string = _Json_decodeString;
+var $elm$json$Json$Decode$decodeValue = _Json_run;
+var $author$project$Favorites$decode = function (value) {
+	var _v0 = A2(
+		$elm$json$Json$Decode$decodeValue,
+		$elm$json$Json$Decode$list($elm$json$Json$Decode$string),
+		value);
+	if (!_v0.$) {
+		var keys = _v0.a;
+		return A2(
+			$elm$core$List$filter,
+			function (calculator) {
+				return A2(
+					$elm$core$List$member,
+					$author$project$Favorites$toKey(calculator),
+					keys);
+			},
+			$author$project$Favorites$all);
+	} else {
+		return _List_Nil;
+	}
+};
+var $author$project$Translations$Georgian = 1;
+var $author$project$Main$AllPage = 0;
+var $author$project$Main$FavoritesPage = 1;
+var $author$project$Main$pageFromUrl = function (url) {
+	return _Utils_eq(
+		url.cQ,
+		$elm$core$Maybe$Just('favorites')) ? 1 : 0;
+};
+var $author$project$Main$init = F3(
+	function (flags, url, key) {
+		return _Utils_Tuple2(
+			{
+				ay: key,
+				V: $author$project$Main$pageFromUrl(url),
+				ae: $author$project$Calculators$Pills$init,
+				aj: $author$project$Calculators$Liquids$init,
+				v: 1,
+				O: $author$project$Favorites$decode(flags),
+				Y: $author$project$Calculators$Nutrition$init,
+				_: $author$project$Calculators$FreeWaterDeficit$init
+			},
+			$elm$core$Platform$Cmd$none);
+	});
 var $elm$core$Platform$Sub$batch = _Platform_batch;
 var $elm$core$Platform$Sub$none = $elm$core$Platform$Sub$batch(_List_Nil);
 var $elm$json$Json$Decode$map = _Json_map1;
@@ -4875,14 +5029,26 @@ var $elm$virtual_dom$VirtualDom$toHandlerInt = function (handler) {
 			return 3;
 	}
 };
+var $elm$html$Html$p = _VirtualDom_node('p');
+var $elm$html$Html$ul = _VirtualDom_node('ul');
 var $elm$html$Html$div = _VirtualDom_node('div');
-var $elm$virtual_dom$VirtualDom$map = _VirtualDom_map;
-var $elm$html$Html$map = $elm$virtual_dom$VirtualDom$map;
+var $elm$core$List$map = F2(
+	function (f, xs) {
+		return A3(
+			$elm$core$List$foldr,
+			F2(
+				function (x, acc) {
+					return A2(
+						$elm$core$List$cons,
+						f(x),
+						acc);
+				}),
+			_List_Nil,
+			xs);
+	});
+var $elm$html$Html$nav = _VirtualDom_node('nav');
 var $elm$virtual_dom$VirtualDom$text = _VirtualDom_text;
 var $elm$html$Html$text = $elm$virtual_dom$VirtualDom$text;
-var $elm$html$Html$p = _VirtualDom_node('p');
-var $elm$html$Html$h2 = _VirtualDom_node('h2');
-var $elm$html$Html$form = _VirtualDom_node('form');
 var $elm$json$Json$Encode$string = _Json_wrap;
 var $elm$html$Html$Attributes$stringProperty = F2(
 	function (key, string) {
@@ -4892,10 +5058,56 @@ var $elm$html$Html$Attributes$stringProperty = F2(
 			$elm$json$Json$Encode$string(string));
 	});
 var $elm$html$Html$Attributes$class = $elm$html$Html$Attributes$stringProperty('className');
+var $elm$html$Html$main_ = _VirtualDom_node('main');
 var $elm$html$Html$Attributes$type_ = $elm$html$Html$Attributes$stringProperty('type');
 var $elm$html$Html$button = _VirtualDom_node('button');
 var $elm$html$Html$header = _VirtualDom_node('header');
-var $elm$html$Html$article = _VirtualDom_node('article');
+var $author$project$Translations$English = 0;
+var $elm$core$List$isEmpty = function (xs) {
+	if (!xs.b) {
+		return true;
+	} else {
+		return false;
+	}
+};
+var $elm$html$Html$a = _VirtualDom_node('a');
+var $elm$html$Html$li = _VirtualDom_node('li');
+var $elm$html$Html$Attributes$href = function (url) {
+	return A2(
+		$elm$html$Html$Attributes$stringProperty,
+		'href',
+		_VirtualDom_noJavaScriptUri(url));
+};
+var $elm$virtual_dom$VirtualDom$attribute = F2(
+	function (key, value) {
+		return A2(
+			_VirtualDom_attribute,
+			_VirtualDom_noOnOrFormAction(key),
+			_VirtualDom_noJavaScriptOrHtmlUri(value));
+	});
+var $elm$html$Html$Attributes$attribute = $elm$virtual_dom$VirtualDom$attribute;
+var $author$project$Main$navLink = F3(
+	function (isCurrent, url, label) {
+		return A2(
+			$elm$html$Html$li,
+			_List_Nil,
+			_List_fromArray(
+				[
+					A2(
+					$elm$html$Html$a,
+					A2(
+						$elm$core$List$cons,
+						$elm$html$Html$Attributes$href(url),
+						isCurrent ? _List_fromArray(
+							[
+								A2($elm$html$Html$Attributes$attribute, 'aria-current', 'page')
+							]) : _List_Nil),
+					_List_fromArray(
+						[
+							$elm$html$Html$text(label)
+						]))
+				]));
+	});
 var $elm$virtual_dom$VirtualDom$on = _VirtualDom_on;
 var $elm$virtual_dom$VirtualDom$Normal = function (a) {
 	return {$: 0, a: a};
@@ -4913,14 +5125,143 @@ var $elm$html$Html$Events$onClick = function (msg) {
 		'click',
 		$elm$json$Json$Decode$succeed(msg));
 };
-var $elm$virtual_dom$VirtualDom$attribute = F2(
-	function (key, value) {
-		return A2(
-			_VirtualDom_attribute,
-			_VirtualDom_noOnOrFormAction(key),
-			_VirtualDom_noJavaScriptOrHtmlUri(value));
-	});
-var $elm$html$Html$Attributes$attribute = $elm$virtual_dom$VirtualDom$attribute;
+var $author$project$Translations$englishStrings = {
+	au: 'kg',
+	av: 'mg',
+	aw: 'mL',
+	ax: 'BMI',
+	az: 'Sex',
+	cg: 'Fat',
+	aA: 'Give',
+	aB: 'kcal',
+	aC: 'Male',
+	cr: 'Carbohydrate',
+	aE: 'g',
+	aF: 'Reset',
+	bH: 'Medical Calculators',
+	aI: 'Draw up',
+	aJ: 'Female',
+	aL: 'Height (cm)',
+	aM: 'L',
+	aN: 'Result',
+	aO: 'Sodium (mmol/L)',
+	aP: 'Weight (kg)',
+	aQ: 'Age 65 or older',
+	aS: 'tablets',
+	aT: 'Critically ill',
+	cT: 'Protein',
+	aV: 'Calculate',
+	O: 'Favorites',
+	Y: 'Nutrition',
+	cX: 'Pill Dosage',
+	aX: 'Enter the values and press Calculate. The result and its working will appear here.',
+	a_: 'Weight loss in the last 3–6 months',
+	c_: 'No favorites yet. Press ☆ on a calculator to add it here.',
+	a$: 'Peroral Pill Dosage',
+	a0: 'dose ÷ tablet strength',
+	a1: 'Sodium (mmol/L)',
+	a2: 'Weight (kg)',
+	a3: 'Amount at hand (mg)',
+	a4: 'Liquid Dosage',
+	c1: function (name) {
+		return 'Mark ' + (name + ' as favorite');
+	},
+	a5: 'Pill strength (mg)',
+	a6: 'Volume at hand (mL)',
+	a7: 'Daily energy',
+	a8: 'Enter valid inputs',
+	a9: 'dose ÷ amount at hand × volume',
+	ba: 'Nutrition Calculator',
+	da: 'ქართული',
+	db: 'Peroral Liquids Dosage',
+	dd: 'All',
+	dh: 'Switch to Georgian',
+	bc: 'Free water to replace',
+	bd: 'None',
+	bf: 'All values must be greater than zero',
+	_: 'Free Water Deficit',
+	bg: '0.45–0.6 × weight × (Na ÷ 140 − 1)',
+	bh: '5–30 kcal/kg by risk score',
+	bi: 'Nutrition calculation results',
+	bj: 'Prescribed amount (mg)',
+	bk: 'Calculation result',
+	bl: 'Sodium is below 140 mmol/L — there is no free water deficit'
+};
+var $author$project$Translations$georgianStrings = {
+	au: 'კგ',
+	av: 'მგ',
+	aw: 'მლ',
+	ax: 'სმი',
+	az: 'სქესი',
+	cg: 'ცხიმები',
+	aA: 'მიეცით',
+	aB: 'კკალ',
+	aC: 'მამრობითი',
+	cr: 'ნახშირწყლები',
+	aE: 'გ',
+	aF: 'გადატვირთვა',
+	bH: 'სამედიცინო კალკულატორები',
+	aI: 'აიღეთ შპრიცში',
+	aJ: 'მდედრობითი',
+	aL: 'სიმაღლე (სმ)',
+	aM: 'ლ',
+	aN: 'შედეგი',
+	aO: 'ნატრიუმი (მმოლ/ლ)',
+	aP: 'წონა (კგ)',
+	aQ: '65 წლის ან უფროსი',
+	aS: 'აბი',
+	aT: 'კრიტიკულ მდგომარეობაში',
+	cT: 'ცილები',
+	aV: 'გამოთვლა',
+	O: 'რჩეულები',
+	Y: 'კვება',
+	cX: 'აბის დოზირება',
+	aX: 'შეიყვანეთ მონაცემები და დააჭირეთ „გამოთვლა“. შედეგი და გამოთვლა აქ გამოჩნდება.',
+	a_: 'წონის კლება ბოლო 3–6 თვეში',
+	c_: 'რჩეულები ჯერ არ გაქვთ. დააჭირეთ ☆-ს კალკულატორზე, რომ აქ დაამატოთ.',
+	a$: 'პერორალური აბის დოზირება',
+	a0: 'დოზა ÷ აბის სიძლიერე',
+	a1: 'ნატრიუმი (მმოლ/ლ)',
+	a2: 'წონა (კგ)',
+	a3: 'ხელთ არსებული რაოდენობა (მგ)',
+	a4: 'თხევადი მედიკამენტი',
+	c1: function (name) {
+		return '„' + (name + '“ რჩეულად მონიშვნა');
+	},
+	a5: 'აბის სიძლიერე (მგ)',
+	a6: 'ხელთ არსებული მოცულობა (მლ)',
+	a7: 'დღიური კალორიები',
+	a8: 'შეიყვანეთ ვალიდური მონაცემები',
+	a9: 'დოზა ÷ ხელთ არსებული რაოდენობა × მოცულობა',
+	ba: 'კვების კალკულატორი',
+	da: 'English',
+	db: 'პერორალური თხევადი მედიკამენტი',
+	dd: 'ყველა',
+	dh: 'ინგლისურზე გადართვა',
+	bc: 'შესავსები თავისუფალი წყალი',
+	bd: 'არა',
+	bf: 'ყველა მნიშვნელობა უნდა იყოს ნულზე მეტი',
+	_: 'თავისუფალი წყლის დეფიციტი',
+	bg: '0.45–0.6 × წონა × (Na ÷ 140 − 1)',
+	bh: '5–30 კკალ/კგ რისკის ქულის მიხედვით',
+	bi: 'კვების გამოთვლის შედეგები',
+	bj: 'გამოწერილი რაოდენობა (მგ)',
+	bk: 'გამოთვლის შედეგი',
+	bl: 'ნატრიუმი 140 მმოლ/ლ-ზე დაბალია — თავისუფალი წყლის დეფიციტი არ არის'
+};
+var $author$project$Translations$getStrings = function (language) {
+	if (!language) {
+		return $author$project$Translations$englishStrings;
+	} else {
+		return $author$project$Translations$georgianStrings;
+	}
+};
+var $author$project$Main$ToggleLanguage = {$: 0};
+var $elm$virtual_dom$VirtualDom$map = _VirtualDom_map;
+var $elm$html$Html$map = $elm$virtual_dom$VirtualDom$map;
+var $elm$html$Html$h2 = _VirtualDom_node('h2');
+var $elm$html$Html$form = _VirtualDom_node('form');
+var $elm$html$Html$article = _VirtualDom_node('article');
 var $elm$html$Html$Attributes$autocomplete = function (bool) {
 	return A2(
 		$elm$html$Html$Attributes$stringProperty,
@@ -4987,12 +5328,12 @@ var $author$project$Calculators$Card$view = F4(
 											[
 												$elm$html$Html$Attributes$class('button-primary'),
 												$elm$html$Html$Attributes$type_('button'),
-												A2($elm$html$Html$Attributes$attribute, 'aria-label', config.b7),
-												$elm$html$Html$Events$onClick(buttons.b4)
+												A2($elm$html$Html$Attributes$attribute, 'aria-label', config.b6),
+												$elm$html$Html$Events$onClick(buttons.b3)
 											]),
 										_List_fromArray(
 											[
-												$elm$html$Html$text(buttons.b6)
+												$elm$html$Html$text(buttons.b5)
 											])),
 										A2(
 										$elm$html$Html$button,
@@ -5000,12 +5341,12 @@ var $author$project$Calculators$Card$view = F4(
 											[
 												$elm$html$Html$Attributes$class('button-secondary'),
 												$elm$html$Html$Attributes$type_('reset'),
-												A2($elm$html$Html$Attributes$attribute, 'aria-label', config.b1),
-												$elm$html$Html$Events$onClick(buttons.bV)
+												A2($elm$html$Html$Attributes$attribute, 'aria-label', config.b0),
+												$elm$html$Html$Events$onClick(buttons.bU)
 											]),
 										_List_fromArray(
 											[
-												$elm$html$Html$text(buttons.b0)
+												$elm$html$Html$text(buttons.b$)
 											]))
 									]))
 							]))),
@@ -5018,75 +5359,6 @@ var $author$project$Calculators$Card$view = F4(
 					_List_fromArray(
 						[resultContent]))
 				]));
-	});
-var $elm$core$List$foldrHelper = F4(
-	function (fn, acc, ctr, ls) {
-		if (!ls.b) {
-			return acc;
-		} else {
-			var a = ls.a;
-			var r1 = ls.b;
-			if (!r1.b) {
-				return A2(fn, a, acc);
-			} else {
-				var b = r1.a;
-				var r2 = r1.b;
-				if (!r2.b) {
-					return A2(
-						fn,
-						a,
-						A2(fn, b, acc));
-				} else {
-					var c = r2.a;
-					var r3 = r2.b;
-					if (!r3.b) {
-						return A2(
-							fn,
-							a,
-							A2(
-								fn,
-								b,
-								A2(fn, c, acc)));
-					} else {
-						var d = r3.a;
-						var r4 = r3.b;
-						var res = (ctr > 500) ? A3(
-							$elm$core$List$foldl,
-							fn,
-							acc,
-							$elm$core$List$reverse(r4)) : A4($elm$core$List$foldrHelper, fn, acc, ctr + 1, r4);
-						return A2(
-							fn,
-							a,
-							A2(
-								fn,
-								b,
-								A2(
-									fn,
-									c,
-									A2(fn, d, res))));
-					}
-				}
-			}
-		}
-	});
-var $elm$core$List$foldr = F3(
-	function (fn, acc, ls) {
-		return A4($elm$core$List$foldrHelper, fn, acc, 0, ls);
-	});
-var $elm$core$List$map = F2(
-	function (f, xs) {
-		return A3(
-			$elm$core$List$foldr,
-			F2(
-				function (x, acc) {
-					return A2(
-						$elm$core$List$cons,
-						f(x),
-						acc);
-				}),
-			_List_Nil,
-			xs);
 	});
 var $elm$html$Html$span = _VirtualDom_node('span');
 var $author$project$Calculators$Label$view = F2(
@@ -5125,7 +5397,7 @@ var $author$project$Calculators$Label$view = F2(
 									]),
 								_List_fromArray(
 									[
-										$elm$html$Html$text(reading.ac)
+										$elm$html$Html$text(reading.ag)
 									])),
 								$elm$html$Html$text(' '),
 								A2(
@@ -5197,7 +5469,6 @@ var $elm$json$Json$Decode$at = F2(
 	function (fields, decoder) {
 		return A3($elm$core$List$foldr, $elm$json$Json$Decode$field, decoder, fields);
 	});
-var $elm$json$Json$Decode$string = _Json_decodeString;
 var $elm$html$Html$Events$targetValue = A2(
 	$elm$json$Json$Decode$at,
 	_List_fromArray(
@@ -5287,13 +5558,13 @@ var $author$project$Calculators$Pills$view = F2(
 	function (strings, model) {
 		return A4(
 			$author$project$Calculators$Card$view,
-			{bH: strings.aU, bM: strings.a_, b1: strings.aC + (': ' + strings.aU), b7: strings.aS + (': ' + strings.aU)},
+			{bH: strings.cX, bM: strings.a0, b0: strings.aF + (': ' + strings.cX), b6: strings.aV + (': ' + strings.cX)},
 			_List_fromArray(
 				[
-					A5($author$project$FormFields$numberField, strings.bi, 'pills-prescribed-amount', '0.0', model.P, $author$project$Calculators$Pills$ChangePrescribed),
-					A5($author$project$FormFields$numberField, strings.a3, 'pills-tablet-mg', '0.0', model.N, $author$project$Calculators$Pills$ChangeTabletMg)
+					A5($author$project$FormFields$numberField, strings.bj, 'pills-prescribed-amount', '0.0', model.Q, $author$project$Calculators$Pills$ChangePrescribed),
+					A5($author$project$FormFields$numberField, strings.a5, 'pills-tablet-mg', '0.0', model.N, $author$project$Calculators$Pills$ChangeTabletMg)
 				]),
-			{bV: $author$project$Calculators$Pills$Reset, b0: strings.aC, b4: $author$project$Calculators$Pills$Calculate, b6: strings.aS},
+			{bU: $author$project$Calculators$Pills$Reset, b$: strings.aF, b3: $author$project$Calculators$Pills$Calculate, b5: strings.aV},
 			function () {
 				var _v0 = model.y;
 				if (!_v0.$) {
@@ -5302,15 +5573,15 @@ var $author$project$Calculators$Pills$view = F2(
 				} else {
 					return model.B ? A2(
 						$author$project$Calculators$Label$view,
-						strings.bj,
+						strings.bk,
 						{
-							bv: strings.aP,
+							bv: strings.aS,
 							bB: _List_Nil,
-							bH: strings.ax,
-							ac: model.aK,
+							bH: strings.aA,
+							ag: model.aN,
 							bQ: _List_fromArray(
-								[model.P + (' ' + (strings.at + (' ÷ ' + (model.N + (' ' + strings.at)))))])
-						}) : $author$project$Calculators$Label$empty(strings.aV);
+								[model.Q + (' ' + (strings.av + (' ÷ ' + (model.N + (' ' + strings.av)))))])
+						}) : $author$project$Calculators$Label$empty(strings.aX);
 				}
 			}());
 	});
@@ -5329,14 +5600,14 @@ var $author$project$Calculators$Liquids$view = F2(
 	function (strings, model) {
 		return A4(
 			$author$project$Calculators$Card$view,
-			{bH: strings.a9, bM: strings.a7, b1: strings.aC + (': ' + strings.a2), b7: strings.aS + (': ' + strings.a2)},
+			{bH: strings.db, bM: strings.a9, b0: strings.aF + (': ' + strings.a4), b6: strings.aV + (': ' + strings.a4)},
 			_List_fromArray(
 				[
-					A5($author$project$FormFields$numberField, strings.bi, 'liquid-prescribed-amount', '0.0', model.Q, $author$project$Calculators$Liquids$ChangePrescribedLiquid),
-					A5($author$project$FormFields$numberField, strings.a1, 'liquid-available-amount', '0.0', model.R, $author$project$Calculators$Liquids$ChangeLiquidDosageAthand),
-					A5($author$project$FormFields$numberField, strings.a4, 'liquid-available-volume', '0.0', model.S, $author$project$Calculators$Liquids$ChangeLiquidVolumeAtHand)
+					A5($author$project$FormFields$numberField, strings.bj, 'liquid-prescribed-amount', '0.0', model.R, $author$project$Calculators$Liquids$ChangePrescribedLiquid),
+					A5($author$project$FormFields$numberField, strings.a3, 'liquid-available-amount', '0.0', model.S, $author$project$Calculators$Liquids$ChangeLiquidDosageAthand),
+					A5($author$project$FormFields$numberField, strings.a6, 'liquid-available-volume', '0.0', model.T, $author$project$Calculators$Liquids$ChangeLiquidVolumeAtHand)
 				]),
-			{bV: $author$project$Calculators$Liquids$Reset, b0: strings.aC, b4: $author$project$Calculators$Liquids$Calculate, b6: strings.aS},
+			{bU: $author$project$Calculators$Liquids$Reset, b$: strings.aF, b3: $author$project$Calculators$Liquids$Calculate, b5: strings.aV},
 			function () {
 				var _v0 = model.y;
 				if (!_v0.$) {
@@ -5345,15 +5616,15 @@ var $author$project$Calculators$Liquids$view = F2(
 				} else {
 					return model.B ? A2(
 						$author$project$Calculators$Label$view,
-						strings.bj,
+						strings.bk,
 						{
-							bv: strings.au,
+							bv: strings.aw,
 							bB: _List_Nil,
-							bH: strings.aF,
-							ac: model.aK,
+							bH: strings.aI,
+							ag: model.aN,
 							bQ: _List_fromArray(
-								[model.Q + (' ' + (strings.at + (' ÷ ' + (model.R + (' ' + (strings.at + (' × ' + (model.S + (' ' + strings.au)))))))))])
-						}) : $author$project$Calculators$Label$empty(strings.aV);
+								[model.R + (' ' + (strings.av + (' ÷ ' + (model.S + (' ' + (strings.av + (' × ' + (model.T + (' ' + strings.aw)))))))))])
+						}) : $author$project$Calculators$Label$empty(strings.aX);
 				}
 			}());
 	});
@@ -5522,7 +5793,7 @@ var $author$project$FormFields$optionButtonsField = F5(
 					A2(
 						$elm$core$List$map,
 						function (opt) {
-							var optionId = groupId + ('-' + opt.ac);
+							var optionId = groupId + ('-' + opt.ag);
 							return A2(
 								$elm$html$Html$div,
 								_List_fromArray(
@@ -5538,12 +5809,12 @@ var $author$project$FormFields$optionButtonsField = F5(
 												$elm$html$Html$Attributes$type_('radio'),
 												$elm$html$Html$Attributes$name(groupId),
 												$elm$html$Html$Attributes$id(optionId),
-												$elm$html$Html$Attributes$value(opt.ac),
+												$elm$html$Html$Attributes$value(opt.ag),
 												$elm$html$Html$Attributes$checked(
-												_Utils_eq(opt.ac, currentValue)),
+												_Utils_eq(opt.ag, currentValue)),
 												$elm$html$Html$Events$onCheck(
 												function (_v0) {
-													return onChangeMsg(opt.ac);
+													return onChangeMsg(opt.ag);
 												})
 											]),
 										_List_Nil),
@@ -5570,22 +5841,22 @@ var $author$project$Calculators$Nutrition$view = F2(
 	function (strings, model) {
 		return A4(
 			$author$project$Calculators$Card$view,
-			{bH: strings.ag, bM: strings.bg, b1: strings.aC + (': ' + strings.ag), b7: strings.aS + (': ' + strings.ag)},
+			{bH: strings.Y, bM: strings.bh, b0: strings.aF + (': ' + strings.Y), b6: strings.aV + (': ' + strings.Y)},
 			_List_fromArray(
 				[
-					A5($author$project$FormFields$numberField, strings.aM, 'nutrition-weight', '0.0', model.aM, $author$project$Calculators$Nutrition$ChangeWeight),
-					A5($author$project$FormFields$numberField, strings.aI, 'nutrition-height', '0.0', model.aI, $author$project$Calculators$Nutrition$ChangeHeight),
+					A5($author$project$FormFields$numberField, strings.aP, 'nutrition-weight', '0.0', model.aP, $author$project$Calculators$Nutrition$ChangeWeight),
+					A5($author$project$FormFields$numberField, strings.aL, 'nutrition-height', '0.0', model.aL, $author$project$Calculators$Nutrition$ChangeHeight),
 					A5(
 					$author$project$FormFields$optionButtonsField,
-					strings.aY,
+					strings.a_,
 					'nutrition-weight-loss',
-					$elm$core$String$fromInt(model.aY),
+					$elm$core$String$fromInt(model.a_),
 					_List_fromArray(
 						[
-							{bC: strings.bc, ac: '0'},
-							{bC: '1-5%', ac: '1'},
-							{bC: '5-10%', ac: '2'},
-							{bC: '>10%', ac: '3'}
+							{bC: strings.bd, ag: '0'},
+							{bC: '1-5%', ag: '1'},
+							{bC: '5-10%', ag: '2'},
+							{bC: '>10%', ag: '3'}
 						]),
 					function (v) {
 						return $author$project$Calculators$Nutrition$ChangeWeightLoss(
@@ -5594,9 +5865,9 @@ var $author$project$Calculators$Nutrition$view = F2(
 								0,
 								$elm$core$String$toInt(v)));
 					}),
-					A4($author$project$FormFields$checkboxField, strings.aQ, 'nutrition-critical', model.aQ, $author$project$Calculators$Nutrition$ChangeCritical)
+					A4($author$project$FormFields$checkboxField, strings.aT, 'nutrition-critical', model.aT, $author$project$Calculators$Nutrition$ChangeCritical)
 				]),
-			{bV: $author$project$Calculators$Nutrition$Reset, b0: strings.aC, b4: $author$project$Calculators$Nutrition$Calculate, b6: strings.aS},
+			{bU: $author$project$Calculators$Nutrition$Reset, b$: strings.aF, b3: $author$project$Calculators$Nutrition$Calculate, b5: strings.aV},
 			function () {
 				var _v0 = model.y;
 				if (!_v0.$) {
@@ -5613,8 +5884,8 @@ var $author$project$Calculators$Nutrition$view = F2(
 								A3(
 									$elm$core$Maybe$map2,
 									$elm$core$Basics$fdiv,
-									$author$project$Functions$strToFloat(model.cO),
-									$author$project$Functions$strToFloat(model.aM))));
+									$author$project$Functions$strToFloat(model.cN),
+									$author$project$Functions$strToFloat(model.aP))));
 						var macro = F2(
 							function (name, grams) {
 								return A2(
@@ -5634,15 +5905,15 @@ var $author$project$Calculators$Nutrition$view = F2(
 											_List_Nil,
 											_List_fromArray(
 												[
-													$elm$html$Html$text(grams + (' ' + strings.aB))
+													$elm$html$Html$text(grams + (' ' + strings.aE))
 												]))
 										]));
 							});
 						return A2(
 							$author$project$Calculators$Label$view,
-							strings.bh,
+							strings.bi,
 							{
-								bv: strings.ay,
+								bv: strings.aB,
 								bB: _List_fromArray(
 									[
 										A2(
@@ -5654,17 +5925,17 @@ var $author$project$Calculators$Nutrition$view = F2(
 										_List_fromArray(
 											[
 												A2(macro, strings.cT, model.cT),
-												A2(macro, strings.ch, model.ch),
-												A2(macro, strings.cs, model.cs)
+												A2(macro, strings.cg, model.cg),
+												A2(macro, strings.cr, model.cr)
 											]))
 									]),
-								bH: strings.a5,
-								ac: model.cO,
+								bH: strings.a7,
+								ag: model.cN,
 								bQ: _List_fromArray(
-									[strings.av + (' ' + model.av), perKg + (' ' + (strings.ay + ('/' + (strings.as + (' × ' + (model.aM + (' ' + strings.as)))))))])
+									[strings.ax + (' ' + model.ax), perKg + (' ' + (strings.aB + ('/' + (strings.au + (' × ' + (model.aP + (' ' + strings.au)))))))])
 							});
 					} else {
-						return $author$project$Calculators$Label$empty(strings.aV);
+						return $author$project$Calculators$Label$empty(strings.aX);
 					}
 				}
 			}());
@@ -5738,87 +6009,161 @@ var $author$project$Calculators$FreeWaterDeficit$view = F2(
 	function (strings, model) {
 		return A4(
 			$author$project$Calculators$Card$view,
-			{bH: strings.ak, bM: strings.bf, b1: strings.aC + (': ' + strings.ak), b7: strings.aS + (': ' + strings.ak)},
+			{bH: strings._, bM: strings.bg, b0: strings.aF + (': ' + strings._), b6: strings.aV + (': ' + strings._)},
 			_List_fromArray(
 				[
-					A5($author$project$FormFields$numberField, strings.aM, 'weight', '0.0', model.aM, $author$project$Calculators$FreeWaterDeficit$UpdateWeight),
-					A5($author$project$FormFields$numberField, strings.aL, 'sodium', '0.0', model.aL, $author$project$Calculators$FreeWaterDeficit$UpdateSodium),
+					A5($author$project$FormFields$numberField, strings.aP, 'weight', '0.0', model.aP, $author$project$Calculators$FreeWaterDeficit$UpdateWeight),
+					A5($author$project$FormFields$numberField, strings.aO, 'sodium', '0.0', model.aO, $author$project$Calculators$FreeWaterDeficit$UpdateSodium),
 					A5(
 					$author$project$FormFields$optionButtonsField,
-					strings.aw,
+					strings.az,
 					'free-water-sex',
-					$author$project$Calculators$FreeWaterDeficit$sexToValue(model.aw),
+					$author$project$Calculators$FreeWaterDeficit$sexToValue(model.az),
 					_List_fromArray(
 						[
-							{bC: strings.az, ac: 'male'},
-							{bC: strings.aG, ac: 'female'}
+							{bC: strings.aC, ag: 'male'},
+							{bC: strings.aJ, ag: 'female'}
 						]),
 					function (v) {
 						return $author$project$Calculators$FreeWaterDeficit$UpdateSex(
 							$author$project$Calculators$FreeWaterDeficit$sexFromValue(v));
 					}),
-					A4($author$project$FormFields$checkboxField, strings.aN, 'free-water-elderly', model.aN, $author$project$Calculators$FreeWaterDeficit$UpdateElderly)
+					A4($author$project$FormFields$checkboxField, strings.aQ, 'free-water-elderly', model.aQ, $author$project$Calculators$FreeWaterDeficit$UpdateElderly)
 				]),
-			{bV: $author$project$Calculators$FreeWaterDeficit$Reset, b0: strings.aC, b4: $author$project$Calculators$FreeWaterDeficit$Calculate, b6: strings.aS},
+			{bU: $author$project$Calculators$FreeWaterDeficit$Reset, b$: strings.aF, b3: $author$project$Calculators$FreeWaterDeficit$Calculate, b5: strings.aV},
 			function () {
-				var _v0 = _Utils_Tuple2(model.y, model.aK);
+				var _v0 = _Utils_Tuple2(model.y, model.aN);
 				if (!_v0.a.$) {
 					var error = _v0.a.a;
-					return _Utils_eq(error, strings.bk) ? $author$project$Calculators$Label$notice(error) : $author$project$Functions$errorDisplay(error);
+					return _Utils_eq(error, strings.bl) ? $author$project$Calculators$Label$notice(error) : $author$project$Functions$errorDisplay(error);
 				} else {
 					if (!_v0.b.$) {
 						var _v1 = _v0.a;
 						var result = _v0.b.a;
 						return A2(
 							$author$project$Calculators$Label$view,
-							strings.bj,
+							strings.bk,
 							{
-								bv: strings.aJ,
+								bv: strings.aM,
 								bB: _List_Nil,
-								bH: strings.bb,
-								ac: $author$project$Functions$floatToStr(result),
+								bH: strings.bc,
+								ag: $author$project$Functions$floatToStr(result),
 								bQ: _List_fromArray(
 									[
 										$author$project$Functions$floatToStr(
-										A2($author$project$Functions$totalBodyWaterFactor, model.aw, model.aN)) + (' × ' + (model.aM + (' ' + (strings.as + (' × (' + (model.aL + ' ÷ 140 − 1)'))))))
+										A2($author$project$Functions$totalBodyWaterFactor, model.az, model.aQ)) + (' × ' + (model.aP + (' ' + (strings.au + (' × (' + (model.aO + ' ÷ 140 − 1)'))))))
 									])
 							});
 					} else {
 						var _v2 = _v0.a;
 						var _v3 = _v0.b;
-						return $author$project$Calculators$Label$empty(strings.aV);
+						return $author$project$Calculators$Label$empty(strings.aX);
 					}
 				}
 			}());
 	});
-var $elm$html$Html$main_ = _VirtualDom_node('main');
-var $author$project$Translations$English = 0;
 var $author$project$Main$PillsMsg = function (a) {
-	return {$: 1, a: a};
-};
-var $author$project$Main$LiquidsMsg = function (a) {
-	return {$: 2, a: a};
-};
-var $author$project$Translations$englishStrings = {as: 'kg', at: 'mg', au: 'mL', av: 'BMI', aw: 'Sex', ch: 'Fat', ax: 'Give', ay: 'kcal', az: 'Male', cs: 'Carbohydrate', aB: 'g', aC: 'Reset', bH: 'Medical Calculators', aF: 'Draw up', aG: 'Female', aI: 'Height (cm)', aJ: 'L', aK: 'Result', aL: 'Sodium (mmol/L)', aM: 'Weight (kg)', aN: 'Age 65 or older', aP: 'tablets', aQ: 'Critically ill', cT: 'Protein', aS: 'Calculate', ag: 'Nutrition', aU: 'Pill Dosage', aV: 'Enter the values and press Calculate. The result and its working will appear here.', aY: 'Weight loss in the last 3–6 months', aZ: 'Peroral Pill Dosage', a_: 'dose ÷ tablet strength', a$: 'Sodium (mmol/L)', a0: 'Weight (kg)', a1: 'Amount at hand (mg)', a2: 'Liquid Dosage', a3: 'Pill strength (mg)', a4: 'Volume at hand (mL)', a5: 'Daily energy', a6: 'Enter valid inputs', a7: 'dose ÷ amount at hand × volume', a8: 'Nutrition Calculator', c7: 'ქართული', a9: 'Peroral Liquids Dosage', dc: 'Switch to Georgian', bb: 'Free water to replace', bc: 'None', be: 'All values must be greater than zero', ak: 'Free Water Deficit', bf: '0.45–0.6 × weight × (Na ÷ 140 − 1)', bg: '5–30 kcal/kg by risk score', bh: 'Nutrition calculation results', bi: 'Prescribed amount (mg)', bj: 'Calculation result', bk: 'Sodium is below 140 mmol/L — there is no free water deficit'};
-var $author$project$Translations$georgianStrings = {as: 'კგ', at: 'მგ', au: 'მლ', av: 'სმი', aw: 'სქესი', ch: 'ცხიმები', ax: 'მიეცით', ay: 'კკალ', az: 'მამრობითი', cs: 'ნახშირწყლები', aB: 'გ', aC: 'გადატვირთვა', bH: 'სამედიცინო კალკულატორები', aF: 'აიღეთ შპრიცში', aG: 'მდედრობითი', aI: 'სიმაღლე (სმ)', aJ: 'ლ', aK: 'შედეგი', aL: 'ნატრიუმი (მმოლ/ლ)', aM: 'წონა (კგ)', aN: '65 წლის ან უფროსი', aP: 'აბი', aQ: 'კრიტიკულ მდგომარეობაში', cT: 'ცილები', aS: 'გამოთვლა', ag: 'კვება', aU: 'აბის დოზირება', aV: 'შეიყვანეთ მონაცემები და დააჭირეთ „გამოთვლა“. შედეგი და გამოთვლა აქ გამოჩნდება.', aY: 'წონის კლება ბოლო 3–6 თვეში', aZ: 'პერორალური აბის დოზირება', a_: 'დოზა ÷ აბის სიძლიერე', a$: 'ნატრიუმი (მმოლ/ლ)', a0: 'წონა (კგ)', a1: 'ხელთ არსებული რაოდენობა (მგ)', a2: 'თხევადი მედიკამენტი', a3: 'აბის სიძლიერე (მგ)', a4: 'ხელთ არსებული მოცულობა (მლ)', a5: 'დღიური კალორიები', a6: 'შეიყვანეთ ვალიდური მონაცემები', a7: 'დოზა ÷ ხელთ არსებული რაოდენობა × მოცულობა', a8: 'კვების კალკულატორი', c7: 'English', a9: 'პერორალური თხევადი მედიკამენტი', dc: 'ინგლისურზე გადართვა', bb: 'შესავსები თავისუფალი წყალი', bc: 'არა', be: 'ყველა მნიშვნელობა უნდა იყოს ნულზე მეტი', ak: 'თავისუფალი წყლის დეფიციტი', bf: '0.45–0.6 × წონა × (Na ÷ 140 − 1)', bg: '5–30 კკალ/კგ რისკის ქულის მიხედვით', bh: 'კვების გამოთვლის შედეგები', bi: 'გამოწერილი რაოდენობა (მგ)', bj: 'გამოთვლის შედეგი', bk: 'ნატრიუმი 140 მმოლ/ლ-ზე დაბალია — თავისუფალი წყლის დეფიციტი არ არის'};
-var $author$project$Translations$getStrings = function (language) {
-	if (!language) {
-		return $author$project$Translations$englishStrings;
-	} else {
-		return $author$project$Translations$georgianStrings;
-	}
-};
-var $author$project$Main$NutritionMsg = function (a) {
-	return {$: 3, a: a};
-};
-var $author$project$Main$ToggleLanguage = {$: 0};
-var $author$project$Main$HandleFreeWaterDeficitMsg = function (a) {
 	return {$: 4, a: a};
 };
+var $author$project$Main$LiquidsMsg = function (a) {
+	return {$: 5, a: a};
+};
+var $author$project$Main$NutritionMsg = function (a) {
+	return {$: 6, a: a};
+};
+var $author$project$Main$ToggleFavorite = function (a) {
+	return {$: 3, a: a};
+};
+var $author$project$Main$HandleFreeWaterDeficitMsg = function (a) {
+	return {$: 7, a: a};
+};
+var $author$project$Main$viewCalculator = F3(
+	function (strings, model, calculator) {
+		var isFavorite = A2($elm$core$List$member, calculator, model.O);
+		var _v0 = function () {
+			switch (calculator) {
+				case 0:
+					return _Utils_Tuple2(
+						strings.cX,
+						A2(
+							$elm$html$Html$map,
+							$author$project$Main$PillsMsg,
+							A2($author$project$Calculators$Pills$view, strings, model.ae)));
+				case 1:
+					return _Utils_Tuple2(
+						strings.db,
+						A2(
+							$elm$html$Html$map,
+							$author$project$Main$LiquidsMsg,
+							A2($author$project$Calculators$Liquids$view, strings, model.aj)));
+				case 2:
+					return _Utils_Tuple2(
+						strings.Y,
+						A2(
+							$elm$html$Html$map,
+							$author$project$Main$NutritionMsg,
+							A2($author$project$Calculators$Nutrition$view, strings, model.Y)));
+				default:
+					return _Utils_Tuple2(
+						strings._,
+						A2(
+							$elm$html$Html$map,
+							$author$project$Main$HandleFreeWaterDeficitMsg,
+							A2($author$project$Calculators$FreeWaterDeficit$view, strings, model._)));
+			}
+		}();
+		var title = _v0.a;
+		var card = _v0.b;
+		return A2(
+			$elm$html$Html$div,
+			_List_fromArray(
+				[
+					$elm$html$Html$Attributes$class('card-slot')
+				]),
+			_List_fromArray(
+				[
+					A2(
+					$elm$html$Html$button,
+					_List_fromArray(
+						[
+							$elm$html$Html$Attributes$class('favorite-toggle'),
+							$elm$html$Html$Attributes$type_('button'),
+							$elm$html$Html$Events$onClick(
+							$author$project$Main$ToggleFavorite(calculator)),
+							A2(
+							$elm$html$Html$Attributes$attribute,
+							'aria-pressed',
+							isFavorite ? 'true' : 'false'),
+							A2(
+							$elm$html$Html$Attributes$attribute,
+							'aria-label',
+							strings.c1(title))
+						]),
+					_List_fromArray(
+						[
+							$elm$html$Html$text(
+							isFavorite ? '★' : '☆')
+						])),
+					card
+				]));
+	});
 var $author$project$Main$view = function (model) {
+	var visibleCalculators = function () {
+		var _v0 = model.V;
+		if (!_v0) {
+			return $author$project$Favorites$all;
+		} else {
+			return A2(
+				$elm$core$List$filter,
+				function (calculator) {
+					return A2($elm$core$List$member, calculator, model.O);
+				},
+				$author$project$Favorites$all);
+		}
+	}();
 	var strings = $author$project$Translations$getStrings(model.v);
 	return {
-		cf: _List_fromArray(
+		ce: _List_fromArray(
 			[
 				A2(
 				$elm$html$Html$header,
@@ -5829,13 +6174,30 @@ var $author$project$Main$view = function (model) {
 				_List_fromArray(
 					[
 						A2(
+						$elm$html$Html$nav,
+						_List_fromArray(
+							[
+								$elm$html$Html$Attributes$class('page-nav')
+							]),
+						_List_fromArray(
+							[
+								A2(
+								$elm$html$Html$ul,
+								_List_Nil,
+								_List_fromArray(
+									[
+										A3($author$project$Main$navLink, !model.V, '#', strings.dd),
+										A3($author$project$Main$navLink, model.V === 1, '#favorites', strings.O)
+									]))
+							])),
+						A2(
 						$elm$html$Html$button,
 						_List_fromArray(
 							[
 								$elm$html$Html$Attributes$class('lang-toggle'),
 								$elm$html$Html$Attributes$type_('button'),
 								$elm$html$Html$Events$onClick($author$project$Main$ToggleLanguage),
-								A2($elm$html$Html$Attributes$attribute, 'aria-label', strings.dc),
+								A2($elm$html$Html$Attributes$attribute, 'aria-label', strings.dh),
 								A2(
 								$elm$html$Html$Attributes$attribute,
 								'lang',
@@ -5843,7 +6205,7 @@ var $author$project$Main$view = function (model) {
 							]),
 						_List_fromArray(
 							[
-								$elm$html$Html$text(strings.c7)
+								$elm$html$Html$text(strings.da)
 							]))
 					])),
 				A2(
@@ -5851,400 +6213,31 @@ var $author$project$Main$view = function (model) {
 				_List_Nil,
 				_List_fromArray(
 					[
-						A2(
+						$elm$core$List$isEmpty(visibleCalculators) ? A2(
+						$elm$html$Html$p,
+						_List_fromArray(
+							[
+								$elm$html$Html$Attributes$class('empty-state')
+							]),
+						_List_fromArray(
+							[
+								$elm$html$Html$text(strings.c_)
+							])) : A2(
 						$elm$html$Html$div,
 						_List_fromArray(
 							[
 								$elm$html$Html$Attributes$class('calculators')
 							]),
-						_List_fromArray(
-							[
-								A2(
-								$elm$html$Html$map,
-								$author$project$Main$PillsMsg,
-								A2($author$project$Calculators$Pills$view, strings, model.aa)),
-								A2(
-								$elm$html$Html$map,
-								$author$project$Main$LiquidsMsg,
-								A2($author$project$Calculators$Liquids$view, strings, model.af)),
-								A2(
-								$elm$html$Html$map,
-								$author$project$Main$NutritionMsg,
-								A2($author$project$Calculators$Nutrition$view, strings, model.ag)),
-								A2(
-								$elm$html$Html$map,
-								$author$project$Main$HandleFreeWaterDeficitMsg,
-								A2($author$project$Calculators$FreeWaterDeficit$view, strings, model.ak))
-							]))
+						A2(
+							$elm$core$List$map,
+							A2($author$project$Main$viewCalculator, strings, model),
+							visibleCalculators))
 					]))
 			]),
 		bH: strings.bH
 	};
 };
-var $elm$core$String$isEmpty = function (string) {
-	return string === '';
-};
-var $author$project$Calculators$Pills$update = F3(
-	function (msg, model, strings) {
-		switch (msg.$) {
-			case 0:
-				var newPrescribed = msg.a;
-				return _Utils_update(
-					model,
-					{y: $elm$core$Maybe$Nothing, B: false, P: newPrescribed});
-			case 1:
-				var newTablet = msg.a;
-				return _Utils_update(
-					model,
-					{y: $elm$core$Maybe$Nothing, N: newTablet, B: false});
-			case 2:
-				if ($elm$core$String$isEmpty(model.P) || $elm$core$String$isEmpty(model.N)) {
-					return _Utils_update(
-						model,
-						{
-							y: $elm$core$Maybe$Just(strings.a6),
-							aK: '0.0',
-							B: true
-						});
-				} else {
-					var _v1 = _Utils_Tuple2(
-						$author$project$Functions$strToFloat(model.P),
-						$author$project$Functions$strToFloat(model.N));
-					if ((!_v1.a.$) && (!_v1.b.$)) {
-						var prescribed = _v1.a.a;
-						var tablet = _v1.b.a;
-						return ((prescribed <= 0) || (tablet <= 0)) ? _Utils_update(
-							model,
-							{
-								y: $elm$core$Maybe$Just(strings.be),
-								aK: '0.0',
-								B: true
-							}) : _Utils_update(
-							model,
-							{
-								y: $elm$core$Maybe$Nothing,
-								aK: $author$project$Functions$floatToStr(
-									$author$project$Functions$roundToTwoDecimals(prescribed / tablet)),
-								B: true
-							});
-					} else {
-						return _Utils_update(
-							model,
-							{
-								y: $elm$core$Maybe$Just(strings.a6),
-								aK: '0.0',
-								B: true
-							});
-					}
-				}
-			default:
-				return $author$project$Calculators$Pills$init;
-		}
-	});
-var $author$project$Calculators$Liquids$update = F3(
-	function (msg, model, strings) {
-		switch (msg.$) {
-			case 0:
-				var newPrescribedLiquid = msg.a;
-				return _Utils_update(
-					model,
-					{y: $elm$core$Maybe$Nothing, B: false, Q: newPrescribedLiquid});
-			case 1:
-				var newLiquidDosageAthand = msg.a;
-				return _Utils_update(
-					model,
-					{y: $elm$core$Maybe$Nothing, B: false, R: newLiquidDosageAthand});
-			case 2:
-				var newLiquidVolumeAtHand = msg.a;
-				return _Utils_update(
-					model,
-					{y: $elm$core$Maybe$Nothing, B: false, S: newLiquidVolumeAtHand});
-			case 3:
-				if ($elm$core$String$isEmpty(model.Q) || ($elm$core$String$isEmpty(model.R) || $elm$core$String$isEmpty(model.S))) {
-					return _Utils_update(
-						model,
-						{
-							y: $elm$core$Maybe$Just(strings.a6),
-							aK: '0.0',
-							B: true
-						});
-				} else {
-					var _v1 = _Utils_Tuple3(
-						$author$project$Functions$strToFloat(model.Q),
-						$author$project$Functions$strToFloat(model.R),
-						$author$project$Functions$strToFloat(model.S));
-					if (((!_v1.a.$) && (!_v1.b.$)) && (!_v1.c.$)) {
-						var prescribed = _v1.a.a;
-						var dosage = _v1.b.a;
-						var volume = _v1.c.a;
-						return ((prescribed <= 0) || ((dosage <= 0) || (volume <= 0))) ? _Utils_update(
-							model,
-							{
-								y: $elm$core$Maybe$Just(strings.be),
-								aK: '0.0',
-								B: true
-							}) : _Utils_update(
-							model,
-							{
-								y: $elm$core$Maybe$Nothing,
-								aK: $author$project$Functions$floatToStr(
-									$author$project$Functions$roundToTwoDecimals((prescribed / dosage) * volume)),
-								B: true
-							});
-					} else {
-						return _Utils_update(
-							model,
-							{
-								y: $elm$core$Maybe$Just(strings.a6),
-								aK: '0.0',
-								B: true
-							});
-					}
-				}
-			default:
-				return $author$project$Calculators$Liquids$init;
-		}
-	});
-var $elm$core$Basics$pow = _Basics_pow;
-var $author$project$Functions$calculateBMI = F2(
-	function (weight, height) {
-		var heightInMeters = height / 100;
-		return weight / A2($elm$core$Basics$pow, heightInMeters, 2);
-	});
-var $author$project$Functions$scoreCalculator = F3(
-	function (bmi, weightLoss, criticalStatus) {
-		var weightLossScore = function () {
-			switch (weightLoss) {
-				case 0:
-					return 0;
-				case 1:
-					return 0;
-				case 2:
-					return 1;
-				case 3:
-					return 2;
-				default:
-					return 0;
-			}
-		}();
-		var criticalScore = criticalStatus ? 2 : 0;
-		var bmiScore = (bmi > 20) ? 0 : ((bmi < 18.5) ? 2 : 1);
-		return (bmiScore + weightLossScore) + criticalScore;
-	});
-var $author$project$Functions$formatToDecimals = F2(
-	function (decimals, value) {
-		var multiplier = A2($elm$core$Basics$pow, 10, decimals);
-		var rounded = $elm$core$Basics$round(value * multiplier);
-		return $elm$core$String$fromFloat(rounded / multiplier);
-	});
-var $author$project$Functions$NutritionResult = F4(
-	function (calories, proteins, fats, carbs) {
-		return {ch: fats, cs: carbs, cO: calories, cT: proteins};
-	});
-var $author$project$Functions$calculateCalories = F3(
-	function (weight, bmi, score) {
-		var energy = (score <= 1) ? (25 * weight) : ((bmi < 14) ? (5 * weight) : ((bmi < 16) ? (10 * weight) : (30 * weight)));
-		return A4($author$project$Functions$NutritionResult, energy, (energy * 0.25) / 4, (energy * 0.25) / 9, (energy * 0.5) / 4);
-	});
-var $author$project$Calculators$Nutrition$update = F3(
-	function (msg, model, strings) {
-		switch (msg.$) {
-			case 0:
-				var newWeight = msg.a;
-				return _Utils_update(
-					model,
-					{y: $elm$core$Maybe$Nothing, aM: newWeight, B: false});
-			case 1:
-				var newHeight = msg.a;
-				return _Utils_update(
-					model,
-					{y: $elm$core$Maybe$Nothing, aI: newHeight, B: false});
-			case 2:
-				var newWeightLoss = msg.a;
-				return _Utils_update(
-					model,
-					{y: $elm$core$Maybe$Nothing, B: false, aY: newWeightLoss});
-			case 3:
-				var newCritical = msg.a;
-				return _Utils_update(
-					model,
-					{y: $elm$core$Maybe$Nothing, aQ: newCritical, B: false});
-			case 4:
-				if ($elm$core$String$isEmpty(model.aM) || $elm$core$String$isEmpty(model.aI)) {
-					return _Utils_update(
-						model,
-						{
-							y: $elm$core$Maybe$Just(strings.a6),
-							B: true
-						});
-				} else {
-					var _v1 = _Utils_Tuple2(
-						$author$project$Functions$strToFloat(model.aM),
-						$author$project$Functions$strToFloat(model.aI));
-					if ((!_v1.a.$) && (!_v1.b.$)) {
-						var weight = _v1.a.a;
-						var height = _v1.b.a;
-						if ((weight <= 0) || (height <= 0)) {
-							return _Utils_update(
-								model,
-								{
-									y: $elm$core$Maybe$Just(strings.be),
-									B: true
-								});
-						} else {
-							var bmi = A2($author$project$Functions$calculateBMI, weight, height);
-							var score = A3($author$project$Functions$scoreCalculator, bmi, model.aY, model.aQ);
-							var nutrition = A3($author$project$Functions$calculateCalories, weight, bmi, score);
-							return _Utils_update(
-								model,
-								{
-									av: $author$project$Functions$floatToStr(
-										$author$project$Functions$roundToTwoDecimals(bmi)),
-									ch: A2($author$project$Functions$formatToDecimals, 0, nutrition.ch),
-									cs: A2($author$project$Functions$formatToDecimals, 0, nutrition.cs),
-									y: $elm$core$Maybe$Nothing,
-									cO: $author$project$Functions$floatToStr(
-										$author$project$Functions$roundToTwoDecimals(nutrition.cO)),
-									cT: A2($author$project$Functions$formatToDecimals, 0, nutrition.cT),
-									B: true
-								});
-						}
-					} else {
-						return _Utils_update(
-							model,
-							{
-								y: $elm$core$Maybe$Just(strings.a6),
-								B: true
-							});
-					}
-				}
-			default:
-				return $author$project$Calculators$Nutrition$init;
-		}
-	});
-var $author$project$Functions$calculateFreeWaterDeficit = F4(
-	function (sex, elderly, weight, sodium) {
-		return (A2($author$project$Functions$totalBodyWaterFactor, sex, elderly) * weight) * ((sodium / 140) - 1);
-	});
-var $author$project$Calculators$FreeWaterDeficit$update = F3(
-	function (msg, model, strings) {
-		switch (msg.$) {
-			case 0:
-				var weight = msg.a;
-				return _Utils_update(
-					model,
-					{y: $elm$core$Maybe$Nothing, aK: $elm$core$Maybe$Nothing, aM: weight});
-			case 1:
-				var sodium = msg.a;
-				return _Utils_update(
-					model,
-					{y: $elm$core$Maybe$Nothing, aK: $elm$core$Maybe$Nothing, aL: sodium});
-			case 2:
-				var sex = msg.a;
-				return _Utils_update(
-					model,
-					{aw: sex, y: $elm$core$Maybe$Nothing, aK: $elm$core$Maybe$Nothing});
-			case 3:
-				var elderly = msg.a;
-				return _Utils_update(
-					model,
-					{y: $elm$core$Maybe$Nothing, aK: $elm$core$Maybe$Nothing, aN: elderly});
-			case 4:
-				var _v1 = _Utils_Tuple2(
-					$author$project$Functions$strToFloat(model.aM),
-					$author$project$Functions$strToFloat(model.aL));
-				if ((!_v1.a.$) && (!_v1.b.$)) {
-					var weight = _v1.a.a;
-					var sodium = _v1.b.a;
-					return ((weight <= 0) || (sodium <= 0)) ? _Utils_update(
-						model,
-						{
-							y: $elm$core$Maybe$Just(strings.be),
-							aK: $elm$core$Maybe$Nothing
-						}) : ((sodium < 140) ? _Utils_update(
-						model,
-						{
-							y: $elm$core$Maybe$Just(strings.bk),
-							aK: $elm$core$Maybe$Nothing
-						}) : _Utils_update(
-						model,
-						{
-							y: $elm$core$Maybe$Nothing,
-							aK: $elm$core$Maybe$Just(
-								$author$project$Functions$roundToTwoDecimals(
-									A4($author$project$Functions$calculateFreeWaterDeficit, model.aw, model.aN, weight, sodium)))
-						}));
-				} else {
-					return _Utils_update(
-						model,
-						{
-							y: $elm$core$Maybe$Just(strings.a6),
-							aK: $elm$core$Maybe$Nothing
-						});
-				}
-			default:
-				return $author$project$Calculators$FreeWaterDeficit$init;
-		}
-	});
-var $author$project$Main$setLangAttribute = _Platform_outgoingPort('setLangAttribute', $elm$json$Json$Encode$string);
-var $author$project$Main$update = F2(
-	function (msg, model) {
-		switch (msg.$) {
-			case 0:
-				var newLanguage = (!model.v) ? 1 : 0;
-				var langAttribute = function () {
-					if (!newLanguage) {
-						return 'en';
-					} else {
-						return 'ka';
-					}
-				}();
-				return _Utils_Tuple2(
-					_Utils_update(
-						model,
-						{v: newLanguage}),
-					$author$project$Main$setLangAttribute(langAttribute));
-			case 1:
-				var subMsg = msg.a;
-				var strings = $author$project$Translations$getStrings(model.v);
-				return _Utils_Tuple2(
-					_Utils_update(
-						model,
-						{
-							aa: A3($author$project$Calculators$Pills$update, subMsg, model.aa, strings)
-						}),
-					$elm$core$Platform$Cmd$none);
-			case 2:
-				var subMsg = msg.a;
-				var strings = $author$project$Translations$getStrings(model.v);
-				return _Utils_Tuple2(
-					_Utils_update(
-						model,
-						{
-							af: A3($author$project$Calculators$Liquids$update, subMsg, model.af, strings)
-						}),
-					$elm$core$Platform$Cmd$none);
-			case 3:
-				var subMsg = msg.a;
-				var strings = $author$project$Translations$getStrings(model.v);
-				return _Utils_Tuple2(
-					_Utils_update(
-						model,
-						{
-							ag: A3($author$project$Calculators$Nutrition$update, subMsg, model.ag, strings)
-						}),
-					$elm$core$Platform$Cmd$none);
-			default:
-				var subMsg = msg.a;
-				var strings = $author$project$Translations$getStrings(model.v);
-				var updatedFreeWaterDeficit = A3($author$project$Calculators$FreeWaterDeficit$update, subMsg, model.ak, strings);
-				return _Utils_Tuple2(
-					_Utils_update(
-						model,
-						{ak: updatedFreeWaterDeficit}),
-					$elm$core$Platform$Cmd$none);
-		}
-	});
+var $elm$json$Json$Decode$value = _Json_decodeValue;
 var $elm$core$Basics$never = function (_v0) {
 	never:
 	while (true) {
@@ -6357,9 +6350,12 @@ var $elm$core$String$left = F2(
 		return (n < 1) ? '' : A3($elm$core$String$slice, 0, n, string);
 	});
 var $elm$core$String$indexes = _String_indexes;
+var $elm$core$String$isEmpty = function (string) {
+	return string === '';
+};
 var $elm$url$Url$Url = F6(
 	function (protocol, host, port_, path, query, fragment) {
-		return {bq: host, br: path, bE: port_, bF: query, bR: fragment, bU: protocol};
+		return {bq: host, br: path, bE: port_, bF: query, cQ: fragment, bT: protocol};
 	});
 var $elm$core$String$contains = _String_contains;
 var $elm$url$Url$chompBeforePath = F5(
@@ -6464,15 +6460,489 @@ var $elm$url$Url$fromString = function (str) {
 		1,
 		A2($elm$core$String$dropLeft, 8, str)) : $elm$core$Maybe$Nothing);
 };
-var $elm$browser$Browser$document = _Browser_document;
-var $author$project$Main$main = $elm$browser$Browser$document(
+var $elm$browser$Browser$Navigation$load = _Browser_load;
+var $elm$json$Json$Encode$list = F2(
+	function (func, entries) {
+		return _Json_wrap(
+			A3(
+				$elm$core$List$foldl,
+				_Json_addEntry(func),
+				_Json_emptyArray(0),
+				entries));
+	});
+var $author$project$Favorites$encode = function (favorites) {
+	return A2(
+		$elm$json$Json$Encode$list,
+		A2($elm$core$Basics$composeR, $author$project$Favorites$toKey, $elm$json$Json$Encode$string),
+		favorites);
+};
+var $elm$core$Basics$neq = _Utils_notEqual;
+var $author$project$Favorites$toggle = F2(
+	function (calculator, favorites) {
+		return A2($elm$core$List$member, calculator, favorites) ? A2(
+			$elm$core$List$filter,
+			$elm$core$Basics$neq(calculator),
+			favorites) : _Utils_ap(
+			favorites,
+			_List_fromArray(
+				[calculator]));
+	});
+var $author$project$Calculators$Pills$update = F3(
+	function (msg, model, strings) {
+		switch (msg.$) {
+			case 0:
+				var newPrescribed = msg.a;
+				return _Utils_update(
+					model,
+					{y: $elm$core$Maybe$Nothing, B: false, Q: newPrescribed});
+			case 1:
+				var newTablet = msg.a;
+				return _Utils_update(
+					model,
+					{y: $elm$core$Maybe$Nothing, N: newTablet, B: false});
+			case 2:
+				if ($elm$core$String$isEmpty(model.Q) || $elm$core$String$isEmpty(model.N)) {
+					return _Utils_update(
+						model,
+						{
+							y: $elm$core$Maybe$Just(strings.a8),
+							aN: '0.0',
+							B: true
+						});
+				} else {
+					var _v1 = _Utils_Tuple2(
+						$author$project$Functions$strToFloat(model.Q),
+						$author$project$Functions$strToFloat(model.N));
+					if ((!_v1.a.$) && (!_v1.b.$)) {
+						var prescribed = _v1.a.a;
+						var tablet = _v1.b.a;
+						return ((prescribed <= 0) || (tablet <= 0)) ? _Utils_update(
+							model,
+							{
+								y: $elm$core$Maybe$Just(strings.bf),
+								aN: '0.0',
+								B: true
+							}) : _Utils_update(
+							model,
+							{
+								y: $elm$core$Maybe$Nothing,
+								aN: $author$project$Functions$floatToStr(
+									$author$project$Functions$roundToTwoDecimals(prescribed / tablet)),
+								B: true
+							});
+					} else {
+						return _Utils_update(
+							model,
+							{
+								y: $elm$core$Maybe$Just(strings.a8),
+								aN: '0.0',
+								B: true
+							});
+					}
+				}
+			default:
+				return $author$project$Calculators$Pills$init;
+		}
+	});
+var $author$project$Calculators$Liquids$update = F3(
+	function (msg, model, strings) {
+		switch (msg.$) {
+			case 0:
+				var newPrescribedLiquid = msg.a;
+				return _Utils_update(
+					model,
+					{y: $elm$core$Maybe$Nothing, B: false, R: newPrescribedLiquid});
+			case 1:
+				var newLiquidDosageAthand = msg.a;
+				return _Utils_update(
+					model,
+					{y: $elm$core$Maybe$Nothing, B: false, S: newLiquidDosageAthand});
+			case 2:
+				var newLiquidVolumeAtHand = msg.a;
+				return _Utils_update(
+					model,
+					{y: $elm$core$Maybe$Nothing, B: false, T: newLiquidVolumeAtHand});
+			case 3:
+				if ($elm$core$String$isEmpty(model.R) || ($elm$core$String$isEmpty(model.S) || $elm$core$String$isEmpty(model.T))) {
+					return _Utils_update(
+						model,
+						{
+							y: $elm$core$Maybe$Just(strings.a8),
+							aN: '0.0',
+							B: true
+						});
+				} else {
+					var _v1 = _Utils_Tuple3(
+						$author$project$Functions$strToFloat(model.R),
+						$author$project$Functions$strToFloat(model.S),
+						$author$project$Functions$strToFloat(model.T));
+					if (((!_v1.a.$) && (!_v1.b.$)) && (!_v1.c.$)) {
+						var prescribed = _v1.a.a;
+						var dosage = _v1.b.a;
+						var volume = _v1.c.a;
+						return ((prescribed <= 0) || ((dosage <= 0) || (volume <= 0))) ? _Utils_update(
+							model,
+							{
+								y: $elm$core$Maybe$Just(strings.bf),
+								aN: '0.0',
+								B: true
+							}) : _Utils_update(
+							model,
+							{
+								y: $elm$core$Maybe$Nothing,
+								aN: $author$project$Functions$floatToStr(
+									$author$project$Functions$roundToTwoDecimals((prescribed / dosage) * volume)),
+								B: true
+							});
+					} else {
+						return _Utils_update(
+							model,
+							{
+								y: $elm$core$Maybe$Just(strings.a8),
+								aN: '0.0',
+								B: true
+							});
+					}
+				}
+			default:
+				return $author$project$Calculators$Liquids$init;
+		}
+	});
+var $elm$core$Basics$pow = _Basics_pow;
+var $author$project$Functions$calculateBMI = F2(
+	function (weight, height) {
+		var heightInMeters = height / 100;
+		return weight / A2($elm$core$Basics$pow, heightInMeters, 2);
+	});
+var $author$project$Functions$scoreCalculator = F3(
+	function (bmi, weightLoss, criticalStatus) {
+		var weightLossScore = function () {
+			switch (weightLoss) {
+				case 0:
+					return 0;
+				case 1:
+					return 0;
+				case 2:
+					return 1;
+				case 3:
+					return 2;
+				default:
+					return 0;
+			}
+		}();
+		var criticalScore = criticalStatus ? 2 : 0;
+		var bmiScore = (bmi > 20) ? 0 : ((bmi < 18.5) ? 2 : 1);
+		return (bmiScore + weightLossScore) + criticalScore;
+	});
+var $author$project$Functions$formatToDecimals = F2(
+	function (decimals, value) {
+		var multiplier = A2($elm$core$Basics$pow, 10, decimals);
+		var rounded = $elm$core$Basics$round(value * multiplier);
+		return $elm$core$String$fromFloat(rounded / multiplier);
+	});
+var $author$project$Functions$NutritionResult = F4(
+	function (calories, proteins, fats, carbs) {
+		return {cg: fats, cr: carbs, cN: calories, cT: proteins};
+	});
+var $author$project$Functions$calculateCalories = F3(
+	function (weight, bmi, score) {
+		var energy = (score <= 1) ? (25 * weight) : ((bmi < 14) ? (5 * weight) : ((bmi < 16) ? (10 * weight) : (30 * weight)));
+		return A4($author$project$Functions$NutritionResult, energy, (energy * 0.25) / 4, (energy * 0.25) / 9, (energy * 0.5) / 4);
+	});
+var $author$project$Calculators$Nutrition$update = F3(
+	function (msg, model, strings) {
+		switch (msg.$) {
+			case 0:
+				var newWeight = msg.a;
+				return _Utils_update(
+					model,
+					{y: $elm$core$Maybe$Nothing, aP: newWeight, B: false});
+			case 1:
+				var newHeight = msg.a;
+				return _Utils_update(
+					model,
+					{y: $elm$core$Maybe$Nothing, aL: newHeight, B: false});
+			case 2:
+				var newWeightLoss = msg.a;
+				return _Utils_update(
+					model,
+					{y: $elm$core$Maybe$Nothing, B: false, a_: newWeightLoss});
+			case 3:
+				var newCritical = msg.a;
+				return _Utils_update(
+					model,
+					{y: $elm$core$Maybe$Nothing, aT: newCritical, B: false});
+			case 4:
+				if ($elm$core$String$isEmpty(model.aP) || $elm$core$String$isEmpty(model.aL)) {
+					return _Utils_update(
+						model,
+						{
+							y: $elm$core$Maybe$Just(strings.a8),
+							B: true
+						});
+				} else {
+					var _v1 = _Utils_Tuple2(
+						$author$project$Functions$strToFloat(model.aP),
+						$author$project$Functions$strToFloat(model.aL));
+					if ((!_v1.a.$) && (!_v1.b.$)) {
+						var weight = _v1.a.a;
+						var height = _v1.b.a;
+						if ((weight <= 0) || (height <= 0)) {
+							return _Utils_update(
+								model,
+								{
+									y: $elm$core$Maybe$Just(strings.bf),
+									B: true
+								});
+						} else {
+							var bmi = A2($author$project$Functions$calculateBMI, weight, height);
+							var score = A3($author$project$Functions$scoreCalculator, bmi, model.a_, model.aT);
+							var nutrition = A3($author$project$Functions$calculateCalories, weight, bmi, score);
+							return _Utils_update(
+								model,
+								{
+									ax: $author$project$Functions$floatToStr(
+										$author$project$Functions$roundToTwoDecimals(bmi)),
+									cg: A2($author$project$Functions$formatToDecimals, 0, nutrition.cg),
+									cr: A2($author$project$Functions$formatToDecimals, 0, nutrition.cr),
+									y: $elm$core$Maybe$Nothing,
+									cN: $author$project$Functions$floatToStr(
+										$author$project$Functions$roundToTwoDecimals(nutrition.cN)),
+									cT: A2($author$project$Functions$formatToDecimals, 0, nutrition.cT),
+									B: true
+								});
+						}
+					} else {
+						return _Utils_update(
+							model,
+							{
+								y: $elm$core$Maybe$Just(strings.a8),
+								B: true
+							});
+					}
+				}
+			default:
+				return $author$project$Calculators$Nutrition$init;
+		}
+	});
+var $author$project$Functions$calculateFreeWaterDeficit = F4(
+	function (sex, elderly, weight, sodium) {
+		return (A2($author$project$Functions$totalBodyWaterFactor, sex, elderly) * weight) * ((sodium / 140) - 1);
+	});
+var $author$project$Calculators$FreeWaterDeficit$update = F3(
+	function (msg, model, strings) {
+		switch (msg.$) {
+			case 0:
+				var weight = msg.a;
+				return _Utils_update(
+					model,
+					{y: $elm$core$Maybe$Nothing, aN: $elm$core$Maybe$Nothing, aP: weight});
+			case 1:
+				var sodium = msg.a;
+				return _Utils_update(
+					model,
+					{y: $elm$core$Maybe$Nothing, aN: $elm$core$Maybe$Nothing, aO: sodium});
+			case 2:
+				var sex = msg.a;
+				return _Utils_update(
+					model,
+					{az: sex, y: $elm$core$Maybe$Nothing, aN: $elm$core$Maybe$Nothing});
+			case 3:
+				var elderly = msg.a;
+				return _Utils_update(
+					model,
+					{y: $elm$core$Maybe$Nothing, aN: $elm$core$Maybe$Nothing, aQ: elderly});
+			case 4:
+				var _v1 = _Utils_Tuple2(
+					$author$project$Functions$strToFloat(model.aP),
+					$author$project$Functions$strToFloat(model.aO));
+				if ((!_v1.a.$) && (!_v1.b.$)) {
+					var weight = _v1.a.a;
+					var sodium = _v1.b.a;
+					return ((weight <= 0) || (sodium <= 0)) ? _Utils_update(
+						model,
+						{
+							y: $elm$core$Maybe$Just(strings.bf),
+							aN: $elm$core$Maybe$Nothing
+						}) : ((sodium < 140) ? _Utils_update(
+						model,
+						{
+							y: $elm$core$Maybe$Just(strings.bl),
+							aN: $elm$core$Maybe$Nothing
+						}) : _Utils_update(
+						model,
+						{
+							y: $elm$core$Maybe$Nothing,
+							aN: $elm$core$Maybe$Just(
+								$author$project$Functions$roundToTwoDecimals(
+									A4($author$project$Functions$calculateFreeWaterDeficit, model.az, model.aQ, weight, sodium)))
+						}));
+				} else {
+					return _Utils_update(
+						model,
+						{
+							y: $elm$core$Maybe$Just(strings.a8),
+							aN: $elm$core$Maybe$Nothing
+						});
+				}
+			default:
+				return $author$project$Calculators$FreeWaterDeficit$init;
+		}
+	});
+var $elm$browser$Browser$Navigation$pushUrl = _Browser_pushUrl;
+var $elm$url$Url$addPort = F2(
+	function (maybePort, starter) {
+		if (maybePort.$ === 1) {
+			return starter;
+		} else {
+			var port_ = maybePort.a;
+			return starter + (':' + $elm$core$String$fromInt(port_));
+		}
+	});
+var $elm$url$Url$addPrefixed = F3(
+	function (prefix, maybeSegment, starter) {
+		if (maybeSegment.$ === 1) {
+			return starter;
+		} else {
+			var segment = maybeSegment.a;
+			return _Utils_ap(
+				starter,
+				_Utils_ap(prefix, segment));
+		}
+	});
+var $elm$url$Url$toString = function (url) {
+	var http = function () {
+		var _v0 = url.bT;
+		if (!_v0) {
+			return 'http://';
+		} else {
+			return 'https://';
+		}
+	}();
+	return A3(
+		$elm$url$Url$addPrefixed,
+		'#',
+		url.cQ,
+		A3(
+			$elm$url$Url$addPrefixed,
+			'?',
+			url.bF,
+			_Utils_ap(
+				A2(
+					$elm$url$Url$addPort,
+					url.bE,
+					_Utils_ap(http, url.bq)),
+				url.br)));
+};
+var $author$project$Main$saveFavorites = _Platform_outgoingPort('saveFavorites', $elm$core$Basics$identity);
+var $author$project$Main$setLangAttribute = _Platform_outgoingPort('setLangAttribute', $elm$json$Json$Encode$string);
+var $author$project$Main$update = F2(
+	function (msg, model) {
+		switch (msg.$) {
+			case 0:
+				var newLanguage = (!model.v) ? 1 : 0;
+				var langAttribute = function () {
+					if (!newLanguage) {
+						return 'en';
+					} else {
+						return 'ka';
+					}
+				}();
+				return _Utils_Tuple2(
+					_Utils_update(
+						model,
+						{v: newLanguage}),
+					$author$project$Main$setLangAttribute(langAttribute));
+			case 1:
+				if (!msg.a.$) {
+					var url = msg.a.a;
+					return _Utils_Tuple2(
+						model,
+						A2(
+							$elm$browser$Browser$Navigation$pushUrl,
+							model.ay,
+							$elm$url$Url$toString(url)));
+				} else {
+					var url = msg.a.a;
+					return _Utils_Tuple2(
+						model,
+						$elm$browser$Browser$Navigation$load(url));
+				}
+			case 2:
+				var url = msg.a;
+				return _Utils_Tuple2(
+					_Utils_update(
+						model,
+						{
+							V: $author$project$Main$pageFromUrl(url)
+						}),
+					$elm$core$Platform$Cmd$none);
+			case 3:
+				var calculator = msg.a;
+				var favorites = A2($author$project$Favorites$toggle, calculator, model.O);
+				return _Utils_Tuple2(
+					_Utils_update(
+						model,
+						{O: favorites}),
+					$author$project$Main$saveFavorites(
+						$author$project$Favorites$encode(favorites)));
+			case 4:
+				var subMsg = msg.a;
+				var strings = $author$project$Translations$getStrings(model.v);
+				return _Utils_Tuple2(
+					_Utils_update(
+						model,
+						{
+							ae: A3($author$project$Calculators$Pills$update, subMsg, model.ae, strings)
+						}),
+					$elm$core$Platform$Cmd$none);
+			case 5:
+				var subMsg = msg.a;
+				var strings = $author$project$Translations$getStrings(model.v);
+				return _Utils_Tuple2(
+					_Utils_update(
+						model,
+						{
+							aj: A3($author$project$Calculators$Liquids$update, subMsg, model.aj, strings)
+						}),
+					$elm$core$Platform$Cmd$none);
+			case 6:
+				var subMsg = msg.a;
+				var strings = $author$project$Translations$getStrings(model.v);
+				return _Utils_Tuple2(
+					_Utils_update(
+						model,
+						{
+							Y: A3($author$project$Calculators$Nutrition$update, subMsg, model.Y, strings)
+						}),
+					$elm$core$Platform$Cmd$none);
+			default:
+				var subMsg = msg.a;
+				var strings = $author$project$Translations$getStrings(model.v);
+				var updatedFreeWaterDeficit = A3($author$project$Calculators$FreeWaterDeficit$update, subMsg, model._, strings);
+				return _Utils_Tuple2(
+					_Utils_update(
+						model,
+						{_: updatedFreeWaterDeficit}),
+					$elm$core$Platform$Cmd$none);
+		}
+	});
+var $author$project$Main$UrlChanged = function (a) {
+	return {$: 2, a: a};
+};
+var $author$project$Main$LinkClicked = function (a) {
+	return {$: 1, a: a};
+};
+var $elm$browser$Browser$application = _Browser_application;
+var $author$project$Main$main = $elm$browser$Browser$application(
 	{
-		ci: $author$project$Main$init,
-		cq: $author$project$Main$view,
-		cH: $author$project$Main$update,
-		c8: function (_v0) {
+		ch: $author$project$Main$init,
+		cp: $author$project$Main$view,
+		cG: $author$project$Main$update,
+		c$: $author$project$Main$UrlChanged,
+		c5: $author$project$Main$LinkClicked,
+		dc: function (_v0) {
 			return $elm$core$Platform$Sub$none;
 		}
 	});
-_Platform_export({'Main':{'init':$author$project$Main$main(
-	$elm$json$Json$Decode$succeed(0))(0)}});}(this));
+_Platform_export({'Main':{'init':$author$project$Main$main($elm$json$Json$Decode$value)(0)}});}(this));
