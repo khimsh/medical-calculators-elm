@@ -1,8 +1,7 @@
-module Functions exposing (..)
+module Functions exposing (NutritionResult, Sex(..), calculateBMI, calculateCalories, calculateFreeWaterDeficit, errorDisplay, floatToStr, formatToDecimals, roundToTwoDecimals, scoreCalculator, strToFloat, totalBodyWaterFactor)
 
-import Html exposing (button, div, input, label, text)
-import Html.Attributes exposing (attribute, class, for, id, type_, value)
-import Html.Events exposing (onClick, onInput)
+import Html exposing (div, text)
+import Html.Attributes exposing (attribute, class)
 
 
 {-| Parses a user-entered number. Returns Nothing for empty or unparseable
@@ -153,45 +152,8 @@ calculateFreeWaterDeficit sex elderly weight sodium =
     totalBodyWaterFactor sex elderly * weight * (sodium / 140 - 1)
 
 
-fieldGroup : String -> String -> String -> String -> (String -> msg) -> Html.Html msg
-fieldGroup labelText inputId placeholderText valueText onInputMsg =
-    div []
-        [ label [ for inputId ] [ text labelText ]
-        , input
-            [ id inputId
-            , Html.Attributes.attribute "placeholder" placeholderText
-            , Html.Attributes.value valueText
-            , onInput onInputMsg
-            , type_ "number"
-            , attribute "min" "0"
-            , Html.Attributes.autocomplete False
-            ]
-            []
-        ]
-
-
 errorDisplay : String -> Html.Html msg
 errorDisplay errorMessage =
     div [ class "error", attribute "role" "alert" ]
         [ Html.p [] [ text errorMessage ]
         ]
-
-
-calculateButton : String -> String -> msg -> Html.Html msg
-calculateButton buttonText ariaLabel onClickMsg =
-    button
-        [ type_ "button"
-        , onClick onClickMsg
-        , attribute "aria-label" ariaLabel
-        ]
-        [ text buttonText ]
-
-
-resetButton : String -> String -> msg -> Html.Html msg
-resetButton buttonText ariaLabel onClickMsg =
-    button
-        [ type_ "reset"
-        , onClick onClickMsg
-        , attribute "aria-label" ariaLabel
-        ]
-        [ text buttonText ]

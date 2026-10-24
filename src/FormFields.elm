@@ -1,4 +1,4 @@
-module FormFields exposing (checkboxField, numberField, optionButtonsField, textField)
+module FormFields exposing (checkboxField, numberField, optionButtonsField)
 
 import Html exposing (Html, div, fieldset, input, label, legend, text)
 import Html.Attributes exposing (attribute, checked, class, for, id, name, placeholder, type_, value)
@@ -18,24 +18,6 @@ numberField labelText inputId placeholderText valueText onInputMsg =
             , value valueText
             , onInput onInputMsg
             , attribute "min" "0"
-            , attribute "autocomplete" "off"
-            ]
-            []
-        ]
-
-
-{-| Text input field with label
--}
-textField : String -> String -> String -> String -> (String -> msg) -> Html msg
-textField labelText inputId placeholderText valueText onInputMsg =
-    div [ class "field" ]
-        [ label [ for inputId ] [ text labelText ]
-        , input
-            [ id inputId
-            , type_ "text"
-            , placeholder placeholderText
-            , value valueText
-            , onInput onInputMsg
             , attribute "autocomplete" "off"
             ]
             []
