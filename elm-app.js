@@ -4860,7 +4860,7 @@ var $author$project$Favorites$Nutrition = 2;
 var $author$project$Favorites$IvInfusionRate = 4;
 var $author$project$Favorites$FreeWaterDeficit = 3;
 var $author$project$Favorites$all = _List_fromArray(
-	[0, 1, 2, 3, 4]);
+	[0, 1, 4, 3, 2]);
 var $elm$json$Json$Decode$list = _Json_decodeList;
 var $author$project$Favorites$toKey = function (calculator) {
 	switch (calculator) {
@@ -5037,21 +5037,12 @@ var $elm$virtual_dom$VirtualDom$toHandlerInt = function (handler) {
 };
 var $elm$html$Html$p = _VirtualDom_node('p');
 var $elm$html$Html$ul = _VirtualDom_node('ul');
+var $author$project$Categories$MedicationDosing = 0;
+var $author$project$Categories$NutritionCategory = 2;
+var $author$project$Categories$FluidsAndElectrolytes = 1;
+var $author$project$Categories$all = _List_fromArray(
+	[0, 1, 2]);
 var $elm$html$Html$div = _VirtualDom_node('div');
-var $elm$core$List$map = F2(
-	function (f, xs) {
-		return A3(
-			$elm$core$List$foldr,
-			F2(
-				function (x, acc) {
-					return A2(
-						$elm$core$List$cons,
-						f(x),
-						acc);
-				}),
-			_List_Nil,
-			xs);
-	});
 var $elm$html$Html$nav = _VirtualDom_node('nav');
 var $elm$virtual_dom$VirtualDom$text = _VirtualDom_text;
 var $elm$html$Html$text = $elm$virtual_dom$VirtualDom$text;
@@ -5131,6 +5122,24 @@ var $elm$html$Html$Events$onClick = function (msg) {
 		'click',
 		$elm$json$Json$Decode$succeed(msg));
 };
+var $elm$core$List$maybeCons = F3(
+	function (f, mx, xs) {
+		var _v0 = f(mx);
+		if (!_v0.$) {
+			var x = _v0.a;
+			return A2($elm$core$List$cons, x, xs);
+		} else {
+			return xs;
+		}
+	});
+var $elm$core$List$filterMap = F2(
+	function (f, xs) {
+		return A3(
+			$elm$core$List$foldr,
+			$elm$core$List$maybeCons(f),
+			_List_Nil,
+			xs);
+	});
 var $author$project$Translations$englishStrings = {
 	ax: 'kg',
 	ay: 'mg',
@@ -5201,12 +5210,15 @@ var $author$project$Translations$englishStrings = {
 	ac: 'Free Water Deficit',
 	bv: '0.45–0.6 × weight × (Na ÷ 140 − 1)',
 	bw: 'Duration',
+	dA: 'Medication dosing',
 	bx: '5–30 kcal/kg by risk score',
 	by: 'Nutrition calculation results',
 	bz: 'Prescribed amount (mg)',
 	bA: 'Calculation result',
 	bB: 'volume ÷ hours; volume × drop factor ÷ minutes',
-	bC: 'Sodium is below 140 mmol/L — there is no free water deficit'
+	dC: 'Nutrition',
+	bC: 'Sodium is below 140 mmol/L — there is no free water deficit',
+	dF: 'Fluids & electrolytes'
 };
 var $author$project$Translations$georgianStrings = {
 	ax: 'კგ',
@@ -5278,12 +5290,15 @@ var $author$project$Translations$georgianStrings = {
 	ac: 'თავისუფალი წყლის დეფიციტი',
 	bv: '0.45–0.6 × წონა × (Na ÷ 140 − 1)',
 	bw: 'ხანგრძლივობა',
+	dA: 'მედიკამენტების დოზირება',
 	bx: '5–30 კკალ/კგ რისკის ქულის მიხედვით',
 	by: 'კვების გამოთვლის შედეგები',
 	bz: 'გამოწერილი რაოდენობა (მგ)',
 	bA: 'გამოთვლის შედეგი',
 	bB: 'მოცულობა ÷ საათი; მოცულობა × წვეთის ფაქტორი ÷ წუთი',
-	bC: 'ნატრიუმი 140 მმოლ/ლ-ზე დაბალია — თავისუფალი წყლის დეფიციტი არ არის'
+	dC: 'კვება',
+	bC: 'ნატრიუმი 140 მმოლ/ლ-ზე დაბალია — თავისუფალი წყლის დეფიციტი არ არის',
+	dF: 'სითხეები და ელექტროლიტები'
 };
 var $author$project$Translations$getStrings = function (language) {
 	if (!language) {
@@ -5292,10 +5307,60 @@ var $author$project$Translations$getStrings = function (language) {
 		return $author$project$Translations$georgianStrings;
 	}
 };
-var $author$project$Main$ToggleLanguage = {$: 0};
+var $elm$html$Html$h2 = _VirtualDom_node('h2');
+var $elm$html$Html$Attributes$id = $elm$html$Html$Attributes$stringProperty('id');
+var $elm$core$List$map = F2(
+	function (f, xs) {
+		return A3(
+			$elm$core$List$foldr,
+			F2(
+				function (x, acc) {
+					return A2(
+						$elm$core$List$cons,
+						f(x),
+						acc);
+				}),
+			_List_Nil,
+			xs);
+	});
+var $author$project$Categories$title = F2(
+	function (strings, category) {
+		switch (category) {
+			case 0:
+				return strings.dA;
+			case 1:
+				return strings.dF;
+			default:
+				return strings.dC;
+		}
+	});
+var $elm$html$Html$section = _VirtualDom_node('section');
+var $author$project$Main$categoryId = function (category) {
+	switch (category) {
+		case 0:
+			return 'category-medication-dosing';
+		case 1:
+			return 'category-fluids-and-electrolytes';
+		default:
+			return 'category-nutrition';
+	}
+};
+var $author$project$Categories$calculators = function (category) {
+	switch (category) {
+		case 0:
+			return _List_fromArray(
+				[0, 1, 4]);
+		case 1:
+			return _List_fromArray(
+				[3]);
+		default:
+			return _List_fromArray(
+				[2]);
+	}
+};
 var $elm$virtual_dom$VirtualDom$map = _VirtualDom_map;
 var $elm$html$Html$map = $elm$virtual_dom$VirtualDom$map;
-var $elm$html$Html$h2 = _VirtualDom_node('h2');
+var $elm$html$Html$h3 = _VirtualDom_node('h3');
 var $elm$html$Html$form = _VirtualDom_node('form');
 var $elm$html$Html$article = _VirtualDom_node('article');
 var $elm$html$Html$Attributes$autocomplete = function (bool) {
@@ -5321,7 +5386,7 @@ var $author$project$Calculators$Card$view = F4(
 					_List_fromArray(
 						[
 							A2(
-							$elm$html$Html$h2,
+							$elm$html$Html$h3,
 							_List_Nil,
 							_List_fromArray(
 								[
@@ -5492,7 +5557,6 @@ var $author$project$Calculators$Label$empty = function (hint) {
 			]));
 };
 var $author$project$Calculators$Pills$Calculate = {$: 2};
-var $elm$html$Html$Attributes$id = $elm$html$Html$Attributes$stringProperty('id');
 var $elm$html$Html$Attributes$for = $elm$html$Html$Attributes$stringProperty('htmlFor');
 var $elm$html$Html$input = _VirtualDom_node('input');
 var $elm$html$Html$label = _VirtualDom_node('label');
@@ -6369,6 +6433,49 @@ var $author$project$Main$viewCalculator = F3(
 					card
 				]));
 	});
+var $author$project$Main$viewCategory = F4(
+	function (strings, model, visibleCalculators, category) {
+		var calculators = A2(
+			$elm$core$List$filter,
+			function (calculator) {
+				return A2($elm$core$List$member, calculator, visibleCalculators);
+			},
+			$author$project$Categories$calculators(category));
+		var headingId = $author$project$Main$categoryId(category);
+		return $elm$core$List$isEmpty(calculators) ? $elm$core$Maybe$Nothing : $elm$core$Maybe$Just(
+			A2(
+				$elm$html$Html$section,
+				_List_fromArray(
+					[
+						$elm$html$Html$Attributes$class('category'),
+						A2($elm$html$Html$Attributes$attribute, 'aria-labelledby', headingId)
+					]),
+				_List_fromArray(
+					[
+						A2(
+						$elm$html$Html$h2,
+						_List_fromArray(
+							[
+								$elm$html$Html$Attributes$id(headingId)
+							]),
+						_List_fromArray(
+							[
+								$elm$html$Html$text(
+								A2($author$project$Categories$title, strings, category))
+							])),
+						A2(
+						$elm$html$Html$div,
+						_List_fromArray(
+							[
+								$elm$html$Html$Attributes$class('calculators')
+							]),
+						A2(
+							$elm$core$List$map,
+							A2($author$project$Main$viewCalculator, strings, model),
+							calculators))
+					])));
+	});
+var $author$project$Main$ToggleLanguage = {$: 0};
 var $author$project$Main$view = function (model) {
 	var visibleCalculators = function () {
 		var _v0 = model.W;
@@ -6448,12 +6555,12 @@ var $author$project$Main$view = function (model) {
 						$elm$html$Html$div,
 						_List_fromArray(
 							[
-								$elm$html$Html$Attributes$class('calculators')
+								$elm$html$Html$Attributes$class('categories')
 							]),
 						A2(
-							$elm$core$List$map,
-							A2($author$project$Main$viewCalculator, strings, model),
-							visibleCalculators))
+							$elm$core$List$filterMap,
+							A3($author$project$Main$viewCategory, strings, model, visibleCalculators),
+							$author$project$Categories$all))
 					]))
 			]),
 		bY: strings.bY
