@@ -5199,26 +5199,27 @@ var $author$project$Translations$englishStrings = {
 	bn: 'Nutrition Calculator',
 	dr: 'ქართული',
 	ds: 'Peroral Liquids Dosage',
-	du: 'All',
+	du: '⚠ TESTING PURPOSES ONLY - This application is currently in development and testing phase. Do not use for clinical decisions.',
+	dv: 'All',
 	bo: 'drops/min',
 	bp: 'Volume (mL)',
 	ab: 'IV infusion rate',
-	dy: 'Switch to Georgian',
+	dz: 'Switch to Georgian',
 	br: 'Free water to replace',
 	bs: 'None',
 	bu: 'All values must be greater than zero',
 	ac: 'Free Water Deficit',
 	bv: '0.45–0.6 × weight × (Na ÷ 140 − 1)',
 	bw: 'Duration',
-	dA: 'Medication dosing',
+	dB: 'Medication dosing',
 	bx: '5–30 kcal/kg by risk score',
 	by: 'Nutrition calculation results',
 	bz: 'Prescribed amount (mg)',
 	bA: 'Calculation result',
 	bB: 'volume ÷ hours; volume × drop factor ÷ minutes',
-	dC: 'Nutrition',
+	dD: 'Nutrition',
 	bC: 'Sodium is below 140 mmol/L — there is no free water deficit',
-	dF: 'Fluids & electrolytes'
+	dG: 'Fluids & electrolytes'
 };
 var $author$project$Translations$georgianStrings = {
 	ax: 'კგ',
@@ -5279,26 +5280,27 @@ var $author$project$Translations$georgianStrings = {
 	bn: 'კვების კალკულატორი',
 	dr: 'English',
 	ds: 'პერორალური თხევადი მედიკამენტი',
-	du: 'ყველა',
+	du: '⚠ მხოლოდ ტესტირებისთვის - ეს აპლიკაცია ამჟამად განვითარებისა და ტესტირების ფაზაშია. არ გამოიყენოთ კლინიკური გადაწყვეტილებებისთვის.',
+	dv: 'ყველა',
 	bo: 'წვეთი/წთ',
 	bp: 'მოცულობა (მლ)',
 	ab: 'ინფუზიის სიჩქარე',
-	dy: 'ინგლისურზე გადართვა',
+	dz: 'ინგლისურზე გადართვა',
 	br: 'შესავსები თავისუფალი წყალი',
 	bs: 'არა',
 	bu: 'ყველა მნიშვნელობა უნდა იყოს ნულზე მეტი',
 	ac: 'თავისუფალი წყლის დეფიციტი',
 	bv: '0.45–0.6 × წონა × (Na ÷ 140 − 1)',
 	bw: 'ხანგრძლივობა',
-	dA: 'მედიკამენტების დოზირება',
+	dB: 'მედიკამენტების დოზირება',
 	bx: '5–30 კკალ/კგ რისკის ქულის მიხედვით',
 	by: 'კვების გამოთვლის შედეგები',
 	bz: 'გამოწერილი რაოდენობა (მგ)',
 	bA: 'გამოთვლის შედეგი',
 	bB: 'მოცულობა ÷ საათი; მოცულობა × წვეთის ფაქტორი ÷ წუთი',
-	dC: 'კვება',
+	dD: 'კვება',
 	bC: 'ნატრიუმი 140 მმოლ/ლ-ზე დაბალია — თავისუფალი წყლის დეფიციტი არ არის',
-	dF: 'სითხეები და ელექტროლიტები'
+	dG: 'სითხეები და ელექტროლიტები'
 };
 var $author$project$Translations$getStrings = function (language) {
 	if (!language) {
@@ -5327,11 +5329,11 @@ var $author$project$Categories$title = F2(
 	function (strings, category) {
 		switch (category) {
 			case 0:
-				return strings.dA;
+				return strings.dB;
 			case 1:
-				return strings.dF;
+				return strings.dG;
 			default:
-				return strings.dC;
+				return strings.dD;
 		}
 	});
 var $elm$html$Html$section = _VirtualDom_node('section');
@@ -6515,7 +6517,7 @@ var $author$project$Main$view = function (model) {
 								_List_Nil,
 								_List_fromArray(
 									[
-										A3($author$project$Main$navLink, !model.W, '#', strings.du),
+										A3($author$project$Main$navLink, !model.W, '#', strings.dv),
 										A3($author$project$Main$navLink, model.W === 1, '#favorites', strings.P)
 									]))
 							])),
@@ -6526,7 +6528,7 @@ var $author$project$Main$view = function (model) {
 								$elm$html$Html$Attributes$class('lang-toggle'),
 								$elm$html$Html$Attributes$type_('button'),
 								$elm$html$Html$Events$onClick($author$project$Main$ToggleLanguage),
-								A2($elm$html$Html$Attributes$attribute, 'aria-label', strings.dy),
+								A2($elm$html$Html$Attributes$attribute, 'aria-label', strings.dz),
 								A2(
 								$elm$html$Html$Attributes$attribute,
 								'lang',
@@ -6542,6 +6544,16 @@ var $author$project$Main$view = function (model) {
 				_List_Nil,
 				_List_fromArray(
 					[
+						A2(
+						$elm$html$Html$p,
+						_List_fromArray(
+							[
+								$elm$html$Html$Attributes$class('testing-banner')
+							]),
+						_List_fromArray(
+							[
+								$elm$html$Html$text(strings.du)
+							])),
 						$elm$core$List$isEmpty(visibleCalculators) ? A2(
 						$elm$html$Html$p,
 						_List_fromArray(

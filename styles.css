@@ -38,6 +38,7 @@
   --error-bg: #fdecea;
   --notice: #7a4b00;
   --notice-bg: #fff4de;
+  --banner-orange: oklch(0.7 0.18 55);
 
   --font: FiraGO, "Noto Sans Georgian", system-ui, sans-serif;
   --radius: 1rem;
@@ -142,6 +143,21 @@ input {
 
 .lang-toggle:hover {
   background: var(--accent-soft);
+}
+
+/* Testing-only banner: its own style, separate from notices, errors and results */
+
+.testing-banner {
+  padding: 0.75rem 1rem;
+  margin-bottom: 1.5rem;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  line-height: 1.5;
+  color: var(--text);
+  background: var(--surface);
+  border-left: 4px solid var(--banner-orange);
+  border-radius: var(--radius-small);
+  box-shadow: 0 1px 2px rgb(11 13 46 / 0.08);
 }
 
 /* Categories */
