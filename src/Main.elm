@@ -219,7 +219,8 @@ view model =
                 [ text strings.otherLanguage ]
             ]
         , main_ []
-            [ if List.isEmpty visibleCalculators then
+            [ p [ class "testing-banner" ] [ text strings.testingBanner ]
+            , if List.isEmpty visibleCalculators then
                 p [ class "empty-state" ] [ text strings.noFavorites ]
 
               else

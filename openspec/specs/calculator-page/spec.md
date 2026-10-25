@@ -63,7 +63,7 @@ The page SHALL provide one button that switches all visible text between Georgia
 - **THEN** the entered values remain in their fields
 
 ### Requirement: Browser tab title
-The document title SHALL be the localized app title, and no visible title heading or disclaimer banner SHALL be rendered on the page.
+The document title SHALL be the localized app title, and no visible title heading SHALL be rendered on the page. The testing-only banner required by `mvp-release` MAY be shown; it is not a title heading.
 
 #### Scenario: Title in English
 - **WHEN** the language is English

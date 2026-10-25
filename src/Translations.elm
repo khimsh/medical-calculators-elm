@@ -83,6 +83,7 @@ type alias Strings =
     , dropsPerMl : String
     , hoursShort : String
     , minutesShort : String
+    , testingBanner : String
     }
 
 
@@ -164,6 +165,7 @@ englishStrings =
     , dropsPerMl = "drops/mL"
     , hoursShort = "h"
     , minutesShort = "min"
+    , testingBanner = "⚠ TESTING PURPOSES ONLY - This application is currently in development and testing phase. Do not use for clinical decisions."
     }
 
 
@@ -245,6 +247,7 @@ georgianStrings =
     , dropsPerMl = "წვეთი/მლ"
     , hoursShort = "სთ"
     , minutesShort = "წთ"
+    , testingBanner = "⚠ მხოლოდ ტესტირებისთვის - ეს აპლიკაცია ამჟამად განვითარებისა და ტესტირების ფაზაშია. არ გამოიყენოთ კლინიკური გადაწყვეტილებებისთვის."
     }
 
 
