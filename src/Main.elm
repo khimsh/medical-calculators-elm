@@ -142,66 +142,39 @@ update msg model =
             )
 
         PillsMsg subMsg ->
-            let
-                strings =
-                    getStrings model.language
-            in
-            ( { model | pills = Pills.update subMsg model.pills strings }
+            ( { model | pills = Pills.update subMsg model.pills }
             , Cmd.none
             )
 
         LiquidsMsg subMsg ->
-            let
-                strings =
-                    getStrings model.language
-            in
-            ( { model | liquids = Liquids.update subMsg model.liquids strings }
+            ( { model | liquids = Liquids.update subMsg model.liquids }
             , Cmd.none
             )
 
         NutritionMsg subMsg ->
-            let
-                strings =
-                    getStrings model.language
-            in
-            ( { model | nutrition = Nutrition.update subMsg model.nutrition strings }
+            ( { model | nutrition = Nutrition.update subMsg model.nutrition }
             , Cmd.none
             )
 
         HandleFreeWaterDeficitMsg subMsg ->
             let
-                strings =
-                    getStrings model.language
-
                 updatedFreeWaterDeficit =
-                    FreeWaterDeficit.update subMsg model.freeWaterDeficit strings
+                    FreeWaterDeficit.update subMsg model.freeWaterDeficit
             in
             ( { model | freeWaterDeficit = updatedFreeWaterDeficit }, Cmd.none )
 
         IvInfusionRateMsg subMsg ->
-            let
-                strings =
-                    getStrings model.language
-            in
-            ( { model | ivInfusionRate = IvInfusionRate.update subMsg model.ivInfusionRate strings }
+            ( { model | ivInfusionRate = IvInfusionRate.update subMsg model.ivInfusionRate }
             , Cmd.none
             )
 
         BodySurfaceAreaMsg subMsg ->
-            let
-                strings =
-                    getStrings model.language
-            in
-            ( { model | bodySurfaceArea = BodySurfaceArea.update subMsg model.bodySurfaceArea strings }
+            ( { model | bodySurfaceArea = BodySurfaceArea.update subMsg model.bodySurfaceArea }
             , Cmd.none
             )
 
         WeightBasedDoseMsg subMsg ->
-            let
-                strings =
-                    getStrings model.language
-            in
-            ( { model | weightBasedDose = WeightBasedDose.update subMsg model.weightBasedDose strings }
+            ( { model | weightBasedDose = WeightBasedDose.update subMsg model.weightBasedDose }
             , Cmd.none
             )
 

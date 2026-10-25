@@ -62,6 +62,14 @@ The page SHALL provide one button that switches all visible text between Georgia
 - **WHEN** the user has entered values in a calculator and presses the language toggle
 - **THEN** the entered values remain in their fields
 
+#### Scenario: Switching translates a shown error
+- **WHEN** a calculator shows an input error in Georgian, for example after Calculate with an empty field, and the user presses the language toggle
+- **THEN** the same error is shown in English, and it is still shown as an error
+
+#### Scenario: Switching translates the free water deficit notice
+- **WHEN** the free water deficit calculator shows that sodium is not elevated, and the user presses the language toggle
+- **THEN** the same notice is shown in the new language, and it is still shown as a notice, not as an error
+
 ### Requirement: Browser tab title
 The document title SHALL be the localized app title, and no visible title heading SHALL be rendered on the page. The testing-only banner required by `mvp-release` MAY be shown; it is not a title heading.
 

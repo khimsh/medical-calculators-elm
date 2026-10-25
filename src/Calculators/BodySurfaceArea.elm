@@ -1,9 +1,10 @@
-module Calculators.BodySurfaceArea exposing (Model, Msg(..), init, update, view)
+module Calculators.BodySurfaceArea exposing (Model, Msg(..), formatBsa, init, update, view)
 
 import Calculators.Card as Card
+import Calculators.InputError as InputError exposing (InputError(..))
 import Calculators.Label as Label
 import FormFields exposing (numberField)
-import Functions exposing (calculateBodySurfaceArea, errorDisplay, strToFloat)
+import Functions exposing (calculateBodySurfaceArea, strToFloat)
 import Html exposing (Html)
 import Translations exposing (Strings)
 
@@ -16,7 +17,7 @@ type alias Model =
     { height : String
     , weight : String
     , result : Maybe Float
-    , error : Maybe String
+    , error : Maybe InputError
     }
 
 
@@ -40,8 +41,8 @@ type Msg
     | Reset
 
 
-update : Msg -> Model -> Strings -> Model
-update msg model strings =
+update : Msg -> Model -> Model
+update msg model =
     case msg of
         UpdateHeight height ->
             { model | height = height, result = Nothing, error = Nothing }
@@ -53,7 +54,7 @@ update msg model strings =
             case ( strToFloat model.height, strToFloat model.weight ) of
                 ( Just height, Just weight ) ->
                     if height <= 0 || weight <= 0 then
-                        { model | error = Just strings.zeroNotAccepted, result = Nothing }
+                        { model | error = Just NotPositive, result = Nothing }
 
                     else
                         { model
@@ -62,7 +63,7 @@ update msg model strings =
                         }
 
                 _ ->
-                    { model | error = Just strings.invalidInputs, result = Nothing }
+                    { model | error = Just InvalidInputs, result = Nothing }
 
         Reset ->
             init
@@ -103,7 +104,7 @@ view strings model =
         }
         (case ( model.error, model.result ) of
             ( Just error, _ ) ->
-                errorDisplay error
+                InputError.view strings error
 
             ( Nothing, Just bsa ) ->
                 Label.view strings.calculationResult

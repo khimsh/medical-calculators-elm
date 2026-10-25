@@ -1,9 +1,10 @@
 module Calculators.Nutrition exposing (Model, Msg(..), init, update, view)
 
 import Calculators.Card as Card
+import Calculators.InputError as InputError exposing (InputError(..))
 import Calculators.Label as Label
 import FormFields exposing (checkboxField, numberField, optionButtonsField)
-import Functions exposing (calculateBMI, calculateCalories, errorDisplay, floatToStr, formatToDecimals, roundToTwoDecimals, scoreCalculator, strToFloat)
+import Functions exposing (calculateBMI, calculateCalories, floatToStr, formatToDecimals, roundToTwoDecimals, scoreCalculator, strToFloat)
 import Html exposing (dd, div, dl, dt, text)
 import Html.Attributes exposing (class)
 import Translations exposing (Strings)
@@ -19,7 +20,7 @@ type alias Model =
     , proteins : String
     , fats : String
     , carbs : String
-    , error : Maybe String
+    , error : Maybe InputError
     , calculated : Bool
     }
 
@@ -49,8 +50,8 @@ type Msg
     | Reset
 
 
-update : Msg -> Model -> Strings -> Model
-update msg model strings =
+update : Msg -> Model -> Model
+update msg model =
     case msg of
         ChangeWeight newWeight ->
             { model | weight = newWeight, calculated = False, error = Nothing }
@@ -66,13 +67,13 @@ update msg model strings =
 
         Calculate ->
             if String.isEmpty model.weight || String.isEmpty model.height then
-                { model | error = Just strings.invalidInputs, calculated = True }
+                { model | error = Just InvalidInputs, calculated = True }
 
             else
                 case ( strToFloat model.weight, strToFloat model.height ) of
                     ( Just weight, Just height ) ->
                         if weight <= 0 || height <= 0 then
-                            { model | error = Just strings.zeroNotAccepted, calculated = True }
+                            { model | error = Just NotPositive, calculated = True }
 
                         else
                             let
@@ -96,7 +97,7 @@ update msg model strings =
                             }
 
                     _ ->
-                        { model | error = Just strings.invalidInputs, calculated = True }
+                        { model | error = Just InvalidInputs, calculated = True }
 
         Reset ->
             init
@@ -130,7 +131,7 @@ view strings model =
         }
         (case model.error of
             Just error ->
-                errorDisplay error
+                InputError.view strings error
 
             Nothing ->
                 if model.calculated then

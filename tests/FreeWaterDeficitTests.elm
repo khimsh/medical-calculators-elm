@@ -1,24 +1,19 @@
 module FreeWaterDeficitTests exposing (tests)
 
-import Calculators.FreeWaterDeficit exposing (Model, Msg(..), init, update)
+import Calculators.FreeWaterDeficit exposing (Model, Msg(..), Problem(..), init, update)
+import Calculators.InputError exposing (InputError(..))
 import Expect
 import Functions exposing (Sex(..))
 import Test exposing (Test, describe, test)
-import Translations exposing (Strings, englishStrings)
 
 
 
 -- TESTS
 
 
-testStrings : Strings
-testStrings =
-    englishStrings
-
-
 calculate : Model -> Model
 calculate model =
-    update Calculate model testStrings
+    update Calculate model
 
 
 tests : Test
@@ -55,39 +50,39 @@ tests =
                     updatedModel =
                         calculate { init | weight = "70", sodium = "130" }
                 in
-                Expect.equal ( updatedModel.result, updatedModel.error ) ( Nothing, Just testStrings.sodiumNotElevated )
+                Expect.equal ( updatedModel.result, updatedModel.error ) ( Nothing, Just SodiumNotElevated )
         , test "Zero weight is rejected" <|
             \_ ->
                 calculate { init | weight = "0", sodium = "150" }
                     |> .error
-                    |> Expect.equal (Just testStrings.zeroNotAccepted)
+                    |> Expect.equal (Just (InputProblem NotPositive))
         , test "Negative weight is rejected" <|
             \_ ->
                 calculate { init | weight = "-70", sodium = "150" }
                     |> .error
-                    |> Expect.equal (Just testStrings.zeroNotAccepted)
+                    |> Expect.equal (Just (InputProblem NotPositive))
         , test "Zero sodium is rejected" <|
             \_ ->
                 calculate { init | weight = "70", sodium = "0" }
                     |> .error
-                    |> Expect.equal (Just testStrings.zeroNotAccepted)
+                    |> Expect.equal (Just (InputProblem NotPositive))
         , test "Unparseable input results in error" <|
             \_ ->
                 calculate { init | weight = "abc", sodium = "150" }
                     |> .error
-                    |> Expect.equal (Just testStrings.invalidInputs)
+                    |> Expect.equal (Just (InputProblem InvalidInputs))
         , test "Calculate with empty inputs results in error" <|
             \_ ->
                 calculate init
                     |> .error
-                    |> Expect.equal (Just testStrings.invalidInputs)
+                    |> Expect.equal (Just (InputProblem InvalidInputs))
         , test "Editing sodium clears the previous result" <|
             \_ ->
                 let
                     calculated =
                         calculate { init | weight = "70", sodium = "150" }
                 in
-                update (UpdateSodium "160") calculated testStrings
+                update (UpdateSodium "160") calculated
                     |> .result
                     |> Expect.equal Nothing
         ]

@@ -1,23 +1,19 @@
 module BodySurfaceAreaTests exposing (tests)
 
-import Calculators.BodySurfaceArea exposing (Model, Msg(..), init, update)
+import Calculators.BodySurfaceArea exposing (Model, Msg(..), formatBsa, init, update)
+import Calculators.InputError as InputError exposing (InputError(..))
 import Expect
 import Test exposing (Test, describe, test)
-import Translations exposing (Strings, englishStrings)
+import Translations exposing (englishStrings, georgianStrings)
 
 
 
 -- TESTS
 
 
-testStrings : Strings
-testStrings =
-    englishStrings
-
-
 calculate : Model -> Model
 calculate model =
-    update Calculate model testStrings
+    update Calculate model
 
 
 withInputs : String -> String -> Model
@@ -53,44 +49,59 @@ tests =
                     model =
                         withInputs "170" ""
                 in
-                Expect.equal ( model.error, model.result ) ( Just testStrings.invalidInputs, Nothing )
+                Expect.equal ( model.error, model.result ) ( Just InvalidInputs, Nothing )
         , test "non-numeric height shows the invalid inputs error" <|
             \_ ->
                 let
                     model =
                         withInputs "tall" "70"
                 in
-                Expect.equal ( model.error, model.result ) ( Just testStrings.invalidInputs, Nothing )
+                Expect.equal ( model.error, model.result ) ( Just InvalidInputs, Nothing )
         , test "zero height shows the values must be greater than zero error" <|
             \_ ->
                 let
                     model =
                         withInputs "0" "70"
                 in
-                Expect.equal ( model.error, model.result ) ( Just testStrings.zeroNotAccepted, Nothing )
+                Expect.equal ( model.error, model.result ) ( Just NotPositive, Nothing )
         , test "negative weight shows the values must be greater than zero error" <|
             \_ ->
                 let
                     model =
                         withInputs "170" "-70"
                 in
-                Expect.equal ( model.error, model.result ) ( Just testStrings.zeroNotAccepted, Nothing )
+                Expect.equal ( model.error, model.result ) ( Just NotPositive, Nothing )
         , test "changing the height clears a shown result" <|
             \_ ->
                 let
                     model =
-                        update (UpdateHeight "171") (withInputs "170" "70") testStrings
+                        update (UpdateHeight "171") (withInputs "170" "70")
                 in
                 Expect.equal ( model.result, model.error ) ( Nothing, Nothing )
         , test "changing the weight clears a shown error" <|
             \_ ->
                 let
                     model =
-                        update (UpdateWeight "71") (withInputs "170" "") testStrings
+                        update (UpdateWeight "71") (withInputs "170" "")
                 in
                 Expect.equal ( model.result, model.error ) ( Nothing, Nothing )
         , test "reset restores the empty state" <|
             \_ ->
-                update Reset (withInputs "170" "70") testStrings
+                update Reset (withInputs "170" "70")
                     |> Expect.equal init
+        , test "2 m² is shown with two decimal places" <|
+            \_ ->
+                formatBsa 2
+                    |> Expect.equal "2.00"
+        , test "1.8181 m² is shown as 1.82" <|
+            \_ ->
+                formatBsa 1.8181
+                    |> Expect.equal "1.82"
+        , test "0.05 m² keeps its leading zero" <|
+            \_ ->
+                formatBsa 0.05
+                    |> Expect.equal "0.05"
+        , test "the unit is m² in English and მ² in Georgian" <|
+            \_ ->
+                Expect.equal ( englishStrings.bsaUnit, georgianStrings.bsaUnit ) ( "m²", "მ²" )
         ]

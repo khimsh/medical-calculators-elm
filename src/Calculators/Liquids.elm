@@ -1,9 +1,10 @@
 module Calculators.Liquids exposing (Model, Msg(..), init, update, view)
 
 import Calculators.Card as Card
+import Calculators.InputError as InputError exposing (InputError(..))
 import Calculators.Label as Label
 import FormFields exposing (numberField)
-import Functions exposing (errorDisplay, floatToStr, roundToTwoDecimals, strToFloat)
+import Functions exposing (floatToStr, roundToTwoDecimals, strToFloat)
 import Html
 import Translations exposing (Strings)
 
@@ -13,7 +14,7 @@ type alias Model =
     , liquidDosageAthand : String
     , liquidVolumeAtHand : String
     , result : String
-    , error : Maybe String
+    , error : Maybe InputError
     , calculated : Bool
     }
 
@@ -37,8 +38,8 @@ type Msg
     | Reset
 
 
-update : Msg -> Model -> Strings -> Model
-update msg model strings =
+update : Msg -> Model -> Model
+update msg model =
     case msg of
         ChangePrescribedLiquid newPrescribedLiquid ->
             { model | prescribedLiquid = newPrescribedLiquid, calculated = False, error = Nothing }
@@ -51,19 +52,19 @@ update msg model strings =
 
         Calculate ->
             if String.isEmpty model.prescribedLiquid || String.isEmpty model.liquidDosageAthand || String.isEmpty model.liquidVolumeAtHand then
-                { model | error = Just strings.invalidInputs, result = "0.0", calculated = True }
+                { model | error = Just InvalidInputs, result = "0.0", calculated = True }
 
             else
                 case ( strToFloat model.prescribedLiquid, strToFloat model.liquidDosageAthand, strToFloat model.liquidVolumeAtHand ) of
                     ( Just prescribed, Just dosage, Just volume ) ->
                         if prescribed <= 0 || dosage <= 0 || volume <= 0 then
-                            { model | error = Just strings.zeroNotAccepted, result = "0.0", calculated = True }
+                            { model | error = Just NotPositive, result = "0.0", calculated = True }
 
                         else
                             { model | result = floatToStr (roundToTwoDecimals ((prescribed / dosage) * volume)), error = Nothing, calculated = True }
 
                     _ ->
-                        { model | error = Just strings.invalidInputs, result = "0.0", calculated = True }
+                        { model | error = Just InvalidInputs, result = "0.0", calculated = True }
 
         Reset ->
             init
@@ -88,7 +89,7 @@ view strings model =
         }
         (case model.error of
             Just error ->
-                errorDisplay error
+                InputError.view strings error
 
             Nothing ->
                 if model.calculated then

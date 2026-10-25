@@ -1,23 +1,18 @@
 module IvInfusionRateTests exposing (tests)
 
+import Calculators.InputError as InputError exposing (InputError(..))
 import Calculators.IvInfusionRate exposing (DurationUnit(..), Model, Msg(..), init, update)
 import Expect
 import Test exposing (Test, describe, test)
-import Translations exposing (Strings, englishStrings)
 
 
 
 -- TESTS
 
 
-testStrings : Strings
-testStrings =
-    englishStrings
-
-
 calculate : Model -> Model
 calculate model =
-    update Calculate model testStrings
+    update Calculate model
 
 
 tests : Test
@@ -69,36 +64,36 @@ tests =
                     updatedModel =
                         calculate { init | volume = "500" }
                 in
-                Expect.equal ( updatedModel.result, updatedModel.error ) ( Nothing, Just testStrings.invalidInputs )
+                Expect.equal ( updatedModel.result, updatedModel.error ) ( Nothing, Just InvalidInputs )
         , test "Zero duration is rejected" <|
             \_ ->
                 let
                     updatedModel =
                         calculate { init | volume = "500", duration = "0" }
                 in
-                Expect.equal ( updatedModel.result, updatedModel.error ) ( Nothing, Just testStrings.zeroNotAccepted )
+                Expect.equal ( updatedModel.result, updatedModel.error ) ( Nothing, Just NotPositive )
         , test "Negative volume is rejected" <|
             \_ ->
                 let
                     updatedModel =
                         calculate { init | volume = "-100", duration = "2" }
                 in
-                Expect.equal ( updatedModel.result, updatedModel.error ) ( Nothing, Just testStrings.zeroNotAccepted )
+                Expect.equal ( updatedModel.result, updatedModel.error ) ( Nothing, Just NotPositive )
         , test "Changing the drop factor clears the result" <|
             \_ ->
                 let
                     updatedModel =
-                        update (UpdateDropFactor 60) (calculate { init | volume = "1000", duration = "8" }) testStrings
+                        update (UpdateDropFactor 60) (calculate { init | volume = "1000", duration = "8" })
                 in
                 Expect.equal ( updatedModel.result, updatedModel.dropFactor ) ( Nothing, 60 )
         , test "Changing an input clears an error" <|
             \_ ->
-                update (UpdateDuration "2") (calculate { init | volume = "500" }) testStrings
+                update (UpdateDuration "2") (calculate { init | volume = "500" })
                     |> .error
                     |> Expect.equal Nothing
         , test "Reset restores the defaults" <|
             \_ ->
                 calculate { init | volume = "1000", duration = "30", durationUnit = Minutes, dropFactor = 60 }
-                    |> (\model -> update Reset model testStrings)
+                    |> (\model -> update Reset model)
                     |> Expect.equal init
         ]

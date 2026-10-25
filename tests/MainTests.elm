@@ -1,10 +1,10 @@
 module MainTests exposing (..)
 
+import Calculators.InputError as InputError
 import Calculators.Liquids as Liquids
 import Calculators.Pills as Pills
 import Expect
 import Test exposing (Test, describe, test)
-import Translations exposing (englishStrings)
 
 
 suite : Test
@@ -21,7 +21,7 @@ suite =
                             { initial | prescribed = "100", tabletMg = "50" }
 
                         updated =
-                            Pills.update Pills.Calculate model englishStrings
+                            Pills.update Pills.Calculate model
                     in
                     updated.result
                         |> Expect.equal "2"
@@ -35,7 +35,7 @@ suite =
                             { initial | prescribed = "75", tabletMg = "50" }
 
                         updated =
-                            Pills.update Pills.Calculate model englishStrings
+                            Pills.update Pills.Calculate model
                     in
                     updated.result
                         |> Expect.equal "1.5"
@@ -49,15 +49,15 @@ suite =
                             { initial | prescribed = "100", tabletMg = "0" }
 
                         updated =
-                            Pills.update Pills.Calculate model englishStrings
+                            Pills.update Pills.Calculate model
                     in
                     updated.error
-                        |> Expect.equal (Just englishStrings.zeroNotAccepted)
+                        |> Expect.equal (Just InputError.NotPositive)
             , test "rejects empty inputs" <|
                 \_ ->
-                    Pills.update Pills.Calculate Pills.init englishStrings
+                    Pills.update Pills.Calculate Pills.init
                         |> .error
-                        |> Expect.equal (Just englishStrings.invalidInputs)
+                        |> Expect.equal (Just InputError.InvalidInputs)
             , test "rounds to two decimals" <|
                 \_ ->
                     let
@@ -68,7 +68,7 @@ suite =
                             { initial | prescribed = "100", tabletMg = "30" }
 
                         updated =
-                            Pills.update Pills.Calculate model englishStrings
+                            Pills.update Pills.Calculate model
                     in
                     updated.result
                         |> Expect.equal "3.33"
@@ -79,10 +79,10 @@ suite =
                             Pills.init
 
                         calculated =
-                            Pills.update Pills.Calculate { initial | prescribed = "100", tabletMg = "50" } englishStrings
+                            Pills.update Pills.Calculate { initial | prescribed = "100", tabletMg = "50" }
 
                         edited =
-                            Pills.update (Pills.ChangePrescribed "200") calculated englishStrings
+                            Pills.update (Pills.ChangePrescribed "200") calculated
                     in
                     edited.calculated
                         |> Expect.equal False
@@ -102,7 +102,7 @@ suite =
                             }
 
                         updated =
-                            Liquids.update Liquids.Calculate model englishStrings
+                            Liquids.update Liquids.Calculate model
                     in
                     updated.result
                         |> Expect.equal "20"
@@ -120,15 +120,15 @@ suite =
                             }
 
                         updated =
-                            Liquids.update Liquids.Calculate model englishStrings
+                            Liquids.update Liquids.Calculate model
                     in
                     updated.error
-                        |> Expect.equal (Just englishStrings.zeroNotAccepted)
+                        |> Expect.equal (Just InputError.NotPositive)
             , test "rejects empty inputs" <|
                 \_ ->
-                    Liquids.update Liquids.Calculate Liquids.init englishStrings
+                    Liquids.update Liquids.Calculate Liquids.init
                         |> .error
-                        |> Expect.equal (Just englishStrings.invalidInputs)
+                        |> Expect.equal (Just InputError.InvalidInputs)
             , test "rounds to two decimals" <|
                 \_ ->
                     let
@@ -143,7 +143,7 @@ suite =
                             }
 
                         updated =
-                            Liquids.update Liquids.Calculate model englishStrings
+                            Liquids.update Liquids.Calculate model
                     in
                     updated.result
                         |> Expect.equal "3.33"
@@ -160,10 +160,9 @@ suite =
                                     , liquidDosageAthand = "50"
                                     , liquidVolumeAtHand = "10"
                                 }
-                                englishStrings
 
                         edited =
-                            Liquids.update (Liquids.ChangeLiquidVolumeAtHand "5") calculated englishStrings
+                            Liquids.update (Liquids.ChangeLiquidVolumeAtHand "5") calculated
                     in
                     edited.calculated
                         |> Expect.equal False

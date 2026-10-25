@@ -1,24 +1,19 @@
 module WeightBasedDoseTests exposing (tests)
 
+import Calculators.InputError as InputError exposing (InputError(..))
 import Calculators.WeightBasedDose exposing (Model, Msg(..), init, update)
 import Expect
 import Functions exposing (formatToDecimals)
 import Test exposing (Test, describe, test)
-import Translations exposing (Strings, englishStrings)
 
 
 
 -- TESTS
 
 
-testStrings : Strings
-testStrings =
-    englishStrings
-
-
 calculate : Model -> Model
 calculate model =
-    update Calculate model testStrings
+    update Calculate model
 
 
 withInputs : String -> String -> Model
@@ -64,44 +59,44 @@ tests =
                     model =
                         withInputs "15" ""
                 in
-                Expect.equal ( model.error, model.result ) ( Just testStrings.invalidInputs, Nothing )
+                Expect.equal ( model.error, model.result ) ( Just InvalidInputs, Nothing )
         , test "non-numeric dose per kg shows the invalid inputs error" <|
             \_ ->
                 let
                     model =
                         withInputs "abc" "70"
                 in
-                Expect.equal ( model.error, model.result ) ( Just testStrings.invalidInputs, Nothing )
+                Expect.equal ( model.error, model.result ) ( Just InvalidInputs, Nothing )
         , test "zero dose per kg shows the values must be greater than zero error" <|
             \_ ->
                 let
                     model =
                         withInputs "0" "70"
                 in
-                Expect.equal ( model.error, model.result ) ( Just testStrings.zeroNotAccepted, Nothing )
+                Expect.equal ( model.error, model.result ) ( Just NotPositive, Nothing )
         , test "negative weight shows the values must be greater than zero error" <|
             \_ ->
                 let
                     model =
                         withInputs "15" "-70"
                 in
-                Expect.equal ( model.error, model.result ) ( Just testStrings.zeroNotAccepted, Nothing )
+                Expect.equal ( model.error, model.result ) ( Just NotPositive, Nothing )
         , test "changing the weight clears a shown result" <|
             \_ ->
                 let
                     model =
-                        update (UpdateWeight "71") (withInputs "15" "70") testStrings
+                        update (UpdateWeight "71") (withInputs "15" "70")
                 in
                 Expect.equal ( model.result, model.error ) ( Nothing, Nothing )
         , test "changing the dose per kg clears a shown error" <|
             \_ ->
                 let
                     model =
-                        update (UpdateDosePerKg "16") (withInputs "15" "") testStrings
+                        update (UpdateDosePerKg "16") (withInputs "15" "")
                 in
                 Expect.equal ( model.result, model.error ) ( Nothing, Nothing )
         , test "reset restores the empty state" <|
             \_ ->
-                update Reset (withInputs "15" "70") testStrings
+                update Reset (withInputs "15" "70")
                     |> Expect.equal init
         ]

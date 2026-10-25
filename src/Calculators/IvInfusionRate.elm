@@ -1,9 +1,10 @@
 module Calculators.IvInfusionRate exposing (DurationUnit(..), Model, Msg(..), Rates, init, update, view)
 
 import Calculators.Card as Card
+import Calculators.InputError as InputError exposing (InputError(..))
 import Calculators.Label as Label
 import FormFields exposing (numberField, optionButtonsField)
-import Functions exposing (calculateDripRate, calculatePumpRate, errorDisplay, floatToStr, formatToDecimals, strToFloat)
+import Functions exposing (calculateDripRate, calculatePumpRate, floatToStr, formatToDecimals, strToFloat)
 import Html exposing (Html, dd, div, dl, dt, text)
 import Html.Attributes exposing (class)
 import Translations exposing (Strings)
@@ -32,7 +33,7 @@ type alias Model =
     , durationUnit : DurationUnit
     , dropFactor : Int
     , result : Maybe Rates
-    , error : Maybe String
+    , error : Maybe InputError
     }
 
 
@@ -65,8 +66,8 @@ type Msg
     | Reset
 
 
-update : Msg -> Model -> Strings -> Model
-update msg model strings =
+update : Msg -> Model -> Model
+update msg model =
     case msg of
         UpdateVolume volume ->
             { model | volume = volume, result = Nothing, error = Nothing }
@@ -84,7 +85,7 @@ update msg model strings =
             case ( strToFloat model.volume, strToFloat model.duration ) of
                 ( Just volume, Just duration ) ->
                     if volume <= 0 || duration <= 0 then
-                        { model | error = Just strings.zeroNotAccepted, result = Nothing }
+                        { model | error = Just NotPositive, result = Nothing }
 
                     else
                         { model
@@ -97,7 +98,7 @@ update msg model strings =
                         }
 
                 _ ->
-                    { model | error = Just strings.invalidInputs, result = Nothing }
+                    { model | error = Just InvalidInputs, result = Nothing }
 
         Reset ->
             init
@@ -167,7 +168,7 @@ view strings model =
         }
         (case ( model.error, model.result ) of
             ( Just error, _ ) ->
-                errorDisplay error
+                InputError.view strings error
 
             ( Nothing, Just rates ) ->
                 let

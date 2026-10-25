@@ -1,7 +1,4 @@
-module Functions exposing (NutritionResult, Sex(..), calculateBMI, calculateBodySurfaceArea, calculateCalories, calculateDripRate, calculateFreeWaterDeficit, calculatePumpRate, calculateWeightBasedDose, errorDisplay, floatToStr, formatToDecimals, roundToTwoDecimals, scoreCalculator, strToFloat, totalBodyWaterFactor)
-
-import Html exposing (div, text)
-import Html.Attributes exposing (attribute, class)
+module Functions exposing (NutritionResult, Sex(..), calculateBMI, calculateBodySurfaceArea, calculateCalories, calculateDripRate, calculateFreeWaterDeficit, calculatePumpRate, calculateWeightBasedDose, floatToStr, formatToDecimals, roundToTwoDecimals, scoreCalculator, strToFloat, totalBodyWaterFactor)
 
 
 {-| Parses a user-entered number. Returns Nothing for empty or unparseable
@@ -178,10 +175,3 @@ calculateBodySurfaceArea height weight =
 calculateWeightBasedDose : Float -> Float -> Float
 calculateWeightBasedDose dosePerKg weight =
     dosePerKg * weight
-
-
-errorDisplay : String -> Html.Html msg
-errorDisplay errorMessage =
-    div [ class "error", attribute "role" "alert" ]
-        [ Html.p [] [ text errorMessage ]
-        ]

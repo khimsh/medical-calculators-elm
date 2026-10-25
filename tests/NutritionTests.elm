@@ -1,23 +1,18 @@
 module NutritionTests exposing (tests)
 
+import Calculators.InputError as InputError exposing (InputError(..))
 import Calculators.Nutrition exposing (Model, Msg(..), init, update)
 import Expect
 import Test exposing (Test, describe, test)
-import Translations exposing (Strings, englishStrings)
 
 
 
 -- TESTS
 
 
-testStrings : Strings
-testStrings =
-    englishStrings
-
-
 calculate : Model -> Model
 calculate model =
-    update Calculate model testStrings
+    update Calculate model
 
 
 tests : Test
@@ -37,29 +32,29 @@ tests =
             \_ ->
                 calculate init
                     |> .error
-                    |> Expect.equal (Just testStrings.invalidInputs)
+                    |> Expect.equal (Just InvalidInputs)
         , test "Zero height is rejected" <|
             \_ ->
                 calculate { init | weight = "70", height = "0" }
                     |> .error
-                    |> Expect.equal (Just testStrings.zeroNotAccepted)
+                    |> Expect.equal (Just NotPositive)
         , test "Negative weight is rejected" <|
             \_ ->
                 calculate { init | weight = "-70", height = "175" }
                     |> .error
-                    |> Expect.equal (Just testStrings.zeroNotAccepted)
+                    |> Expect.equal (Just NotPositive)
         , test "Unparseable input results in error" <|
             \_ ->
                 calculate { init | weight = "abc", height = "175" }
                     |> .error
-                    |> Expect.equal (Just testStrings.invalidInputs)
+                    |> Expect.equal (Just InvalidInputs)
         , test "Editing an input hides the previous result" <|
             \_ ->
                 let
                     calculated =
                         calculate { init | weight = "70", height = "175" }
                 in
-                update (ChangeWeight "80") calculated testStrings
+                update (ChangeWeight "80") calculated
                     |> .calculated
                     |> Expect.equal False
         ]

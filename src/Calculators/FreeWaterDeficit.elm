@@ -1,9 +1,10 @@
-module Calculators.FreeWaterDeficit exposing (Model, Msg(..), init, update, view)
+module Calculators.FreeWaterDeficit exposing (Model, Msg(..), Problem(..), init, update, view)
 
 import Calculators.Card as Card
+import Calculators.InputError as InputError exposing (InputError(..))
 import Calculators.Label as Label
 import FormFields exposing (checkboxField, numberField, optionButtonsField)
-import Functions exposing (Sex(..), calculateFreeWaterDeficit, errorDisplay, floatToStr, roundToTwoDecimals, strToFloat, totalBodyWaterFactor)
+import Functions exposing (Sex(..), calculateFreeWaterDeficit, floatToStr, roundToTwoDecimals, strToFloat, totalBodyWaterFactor)
 import Html exposing (Html)
 import Translations exposing (Strings)
 
@@ -18,8 +19,15 @@ type alias Model =
     , sex : Sex
     , elderly : Bool
     , result : Maybe Float
-    , error : Maybe String
+    , error : Maybe Problem
     }
+
+
+{-| Low sodium is not an input error: it is shown as a notice, not an alert.
+-}
+type Problem
+    = InputProblem InputError
+    | SodiumNotElevated
 
 
 init : Model
@@ -46,8 +54,8 @@ type Msg
     | Reset
 
 
-update : Msg -> Model -> Strings -> Model
-update msg model strings =
+update : Msg -> Model -> Model
+update msg model =
     case msg of
         UpdateWeight weight ->
             { model | weight = weight, result = Nothing, error = Nothing }
@@ -65,10 +73,10 @@ update msg model strings =
             case ( strToFloat model.weight, strToFloat model.sodium ) of
                 ( Just weight, Just sodium ) ->
                     if weight <= 0 || sodium <= 0 then
-                        { model | error = Just strings.zeroNotAccepted, result = Nothing }
+                        { model | error = Just (InputProblem NotPositive), result = Nothing }
 
                     else if sodium < 140 then
-                        { model | error = Just strings.sodiumNotElevated, result = Nothing }
+                        { model | error = Just SodiumNotElevated, result = Nothing }
 
                     else
                         { model
@@ -77,7 +85,7 @@ update msg model strings =
                         }
 
                 _ ->
-                    { model | error = Just strings.invalidInputs, result = Nothing }
+                    { model | error = Just (InputProblem InvalidInputs), result = Nothing }
 
         Reset ->
             init
@@ -112,12 +120,11 @@ view strings model =
         , resetText = strings.reset
         }
         (case ( model.error, model.result ) of
-            ( Just error, _ ) ->
-                if error == strings.sodiumNotElevated then
-                    Label.notice error
+            ( Just SodiumNotElevated, _ ) ->
+                Label.notice strings.sodiumNotElevated
 
-                else
-                    errorDisplay error
+            ( Just (InputProblem error), _ ) ->
+                InputError.view strings error
 
             ( Nothing, Just result ) ->
                 Label.view strings.calculationResult
