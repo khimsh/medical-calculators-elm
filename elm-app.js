@@ -4489,15 +4489,15 @@ var $elm$core$Array$toList = function (array) {
 var $elm$core$Basics$GT = 2;
 var $elm$core$Basics$False = 1;
 var $elm$core$Maybe$Nothing = {$: 1};
-var $author$project$Calculators$Pills$init = {y: $elm$core$Maybe$Nothing, aV: '0.0', O: '', B: false, R: ''};
-var $author$project$Calculators$Liquids$init = {y: $elm$core$Maybe$Nothing, aV: '', B: false, S: '', T: '', U: ''};
-var $author$project$Calculators$Nutrition$init = {aD: '', cG: '', cR: '', y: $elm$core$Maybe$Nothing, aT: '', aX: '', db: '', a2: false, dh: '', B: false, bh: 0};
+var $author$project$Calculators$Pills$init = {x: $elm$core$Maybe$Nothing, aV: '0.0', N: '', A: false, Q: ''};
+var $author$project$Calculators$Liquids$init = {x: $elm$core$Maybe$Nothing, aV: '', A: false, R: '', S: '', T: ''};
+var $author$project$Calculators$Nutrition$init = {aD: '', cG: '', cR: '', x: $elm$core$Maybe$Nothing, aT: '', aX: '', db: '', a2: false, dh: '', A: false, bh: 0};
 var $author$project$Calculators$IvInfusionRate$Hours = 0;
-var $author$project$Calculators$IvInfusionRate$init = {y: $elm$core$Maybe$Nothing, aV: $elm$core$Maybe$Nothing, M: '', Y: '', bb: 20, bn: 0};
-var $author$project$Calculators$BodySurfaceArea$init = {y: $elm$core$Maybe$Nothing, aT: '', aV: $elm$core$Maybe$Nothing, aX: ''};
-var $author$project$Calculators$WeightBasedDose$init = {y: $elm$core$Maybe$Nothing, aV: $elm$core$Maybe$Nothing, aX: '', a7: ''};
+var $author$project$Calculators$IvInfusionRate$init = {x: $elm$core$Maybe$Nothing, aV: $elm$core$Maybe$Nothing, L: '', X: '', bb: 20, bn: 0};
+var $author$project$Calculators$BodySurfaceArea$init = {x: $elm$core$Maybe$Nothing, aT: '', aV: $elm$core$Maybe$Nothing, aX: ''};
+var $author$project$Calculators$WeightBasedDose$init = {x: $elm$core$Maybe$Nothing, aV: $elm$core$Maybe$Nothing, aX: '', a7: ''};
 var $author$project$Functions$Male = 0;
-var $author$project$Calculators$FreeWaterDeficit$init = {aF: 0, y: $elm$core$Maybe$Nothing, aV: $elm$core$Maybe$Nothing, aW: '', aX: '', aZ: false};
+var $author$project$Calculators$FreeWaterDeficit$init = {aF: 0, x: $elm$core$Maybe$Nothing, aV: $elm$core$Maybe$Nothing, aW: '', aX: '', aZ: false};
 var $elm$core$Result$Ok = function (a) {
 	return {$: 0, a: a};
 };
@@ -5052,11 +5052,11 @@ var $author$project$Main$init = F3(
 		return _Utils_Tuple2(
 			{
 				aE: key,
-				W: $author$project$Main$pageFromUrl(url),
+				V: $author$project$Main$pageFromUrl(url),
 				aj: $author$project$Calculators$Pills$init,
 				ao: $author$project$Calculators$Liquids$init,
-				q: 1,
-				P: $author$project$Favorites$decode(flags),
+				Y: 1,
+				O: $author$project$Favorites$decode(flags),
 				_: $author$project$Calculators$Nutrition$init,
 				ab: $author$project$Calculators$IvInfusionRate$init,
 				ac: $author$project$Calculators$BodySurfaceArea$init,
@@ -5222,7 +5222,7 @@ var $author$project$Translations$englishStrings = {
 	a5: 'Pump rate',
 	a6: 'Calculate',
 	a7: 'Dose per kg (mg/kg)',
-	P: 'Favorites',
+	O: 'Favorites',
 	a9: 'mL/h',
 	_: 'Nutrition',
 	ba: '√(height cm × weight kg ÷ 3600)',
@@ -5301,7 +5301,7 @@ var $author$project$Translations$georgianStrings = {
 	aV: 'შედეგი',
 	aW: 'ნატრიუმი (მმოლ/ლ)',
 	aX: 'წონა (კგ)',
-	aY: 'm²',
+	aY: 'მ²',
 	aZ: '65 წლის ან უფროსი',
 	a_: 'მგ/კგ',
 	a$: 'წუთი',
@@ -5312,7 +5312,7 @@ var $author$project$Translations$georgianStrings = {
 	a5: 'ინფუზომატის სიჩქარე',
 	a6: 'გამოთვლა',
 	a7: 'დოზა კგ-ზე (მგ/კგ)',
-	P: 'რჩეულები',
+	O: 'რჩეულები',
 	a9: 'მლ/სთ',
 	_: 'კვება',
 	ba: '√(სიმაღლე სმ × წონა კგ ÷ 3600)',
@@ -5604,6 +5604,35 @@ var $author$project$Calculators$Label$view = F2(
 								reading.ce))
 						]))));
 	});
+var $author$project$Calculators$InputError$text = F2(
+	function (strings, error) {
+		if (!error) {
+			return strings.bt;
+		} else {
+			return strings.bC;
+		}
+	});
+var $author$project$Calculators$InputError$view = F2(
+	function (strings, error) {
+		return A2(
+			$elm$html$Html$div,
+			_List_fromArray(
+				[
+					$elm$html$Html$Attributes$class('error'),
+					A2($elm$html$Html$Attributes$attribute, 'role', 'alert')
+				]),
+			_List_fromArray(
+				[
+					A2(
+					$elm$html$Html$p,
+					_List_Nil,
+					_List_fromArray(
+						[
+							$elm$html$Html$text(
+							A2($author$project$Calculators$InputError$text, strings, error))
+						]))
+				]));
+	});
 var $author$project$Calculators$Pills$Reset = {$: 3};
 var $author$project$Calculators$Label$empty = function (hint) {
 	return A2(
@@ -5694,25 +5723,6 @@ var $author$project$FormFields$numberField = F4(
 					_List_Nil)
 				]));
 	});
-var $author$project$Functions$errorDisplay = function (errorMessage) {
-	return A2(
-		$elm$html$Html$div,
-		_List_fromArray(
-			[
-				$elm$html$Html$Attributes$class('error'),
-				A2($elm$html$Html$Attributes$attribute, 'role', 'alert')
-			]),
-		_List_fromArray(
-			[
-				A2(
-				$elm$html$Html$p,
-				_List_Nil,
-				_List_fromArray(
-					[
-						$elm$html$Html$text(errorMessage)
-					]))
-			]));
-};
 var $author$project$Calculators$Pills$ChangeTabletMg = function (a) {
 	return {$: 1, a: a};
 };
@@ -5726,17 +5736,17 @@ var $author$project$Calculators$Pills$view = F2(
 			{b5: strings.dl, ca: strings.bj, cq: strings.aN + (': ' + strings.dl), cw: strings.a6 + (': ' + strings.dl)},
 			_List_fromArray(
 				[
-					A4($author$project$FormFields$numberField, strings.bH, 'pills-prescribed-amount', model.R, $author$project$Calculators$Pills$ChangePrescribed),
-					A4($author$project$FormFields$numberField, strings.bq, 'pills-tablet-mg', model.O, $author$project$Calculators$Pills$ChangeTabletMg)
+					A4($author$project$FormFields$numberField, strings.bH, 'pills-prescribed-amount', model.Q, $author$project$Calculators$Pills$ChangePrescribed),
+					A4($author$project$FormFields$numberField, strings.bq, 'pills-tablet-mg', model.N, $author$project$Calculators$Pills$ChangeTabletMg)
 				]),
 			{ci: $author$project$Calculators$Pills$Reset, cp: strings.aN, ct: $author$project$Calculators$Pills$Calculate, cv: strings.a6},
 			function () {
-				var _v0 = model.y;
+				var _v0 = model.x;
 				if (!_v0.$) {
 					var error = _v0.a;
-					return $author$project$Functions$errorDisplay(error);
+					return A2($author$project$Calculators$InputError$view, strings, error);
 				} else {
-					return model.B ? A2(
+					return model.A ? A2(
 						$author$project$Calculators$Label$view,
 						strings.bI,
 						{
@@ -5745,7 +5755,7 @@ var $author$project$Calculators$Pills$view = F2(
 							b5: strings.aH,
 							al: model.aV,
 							ce: _List_fromArray(
-								[model.R + (' ' + (strings.aB + (' ÷ ' + (model.O + (' ' + strings.aB)))))])
+								[model.Q + (' ' + (strings.aB + (' ÷ ' + (model.N + (' ' + strings.aB)))))])
 						}) : $author$project$Calculators$Label$empty(strings.be);
 				}
 			}());
@@ -5768,18 +5778,18 @@ var $author$project$Calculators$Liquids$view = F2(
 			{b5: strings.dB, ca: strings.bu, cq: strings.aN + (': ' + strings.bo), cw: strings.a6 + (': ' + strings.bo)},
 			_List_fromArray(
 				[
-					A4($author$project$FormFields$numberField, strings.bH, 'liquid-prescribed-amount', model.S, $author$project$Calculators$Liquids$ChangePrescribedLiquid),
-					A4($author$project$FormFields$numberField, strings.bm, 'liquid-available-amount', model.T, $author$project$Calculators$Liquids$ChangeLiquidDosageAthand),
-					A4($author$project$FormFields$numberField, strings.br, 'liquid-available-volume', model.U, $author$project$Calculators$Liquids$ChangeLiquidVolumeAtHand)
+					A4($author$project$FormFields$numberField, strings.bH, 'liquid-prescribed-amount', model.R, $author$project$Calculators$Liquids$ChangePrescribedLiquid),
+					A4($author$project$FormFields$numberField, strings.bm, 'liquid-available-amount', model.S, $author$project$Calculators$Liquids$ChangeLiquidDosageAthand),
+					A4($author$project$FormFields$numberField, strings.br, 'liquid-available-volume', model.T, $author$project$Calculators$Liquids$ChangeLiquidVolumeAtHand)
 				]),
 			{ci: $author$project$Calculators$Liquids$Reset, cp: strings.aN, ct: $author$project$Calculators$Liquids$Calculate, cv: strings.a6},
 			function () {
-				var _v0 = model.y;
+				var _v0 = model.x;
 				if (!_v0.$) {
 					var error = _v0.a;
-					return $author$project$Functions$errorDisplay(error);
+					return A2($author$project$Calculators$InputError$view, strings, error);
 				} else {
-					return model.B ? A2(
+					return model.A ? A2(
 						$author$project$Calculators$Label$view,
 						strings.bI,
 						{
@@ -5788,7 +5798,7 @@ var $author$project$Calculators$Liquids$view = F2(
 							b5: strings.aQ,
 							al: model.aV,
 							ce: _List_fromArray(
-								[model.S + (' ' + (strings.aB + (' ÷ ' + (model.T + (' ' + (strings.aB + (' × ' + (model.U + (' ' + strings.aC)))))))))])
+								[model.R + (' ' + (strings.aB + (' ÷ ' + (model.S + (' ' + (strings.aB + (' × ' + (model.T + (' ' + strings.aC)))))))))])
 						}) : $author$project$Calculators$Label$empty(strings.be);
 				}
 			}());
@@ -6034,12 +6044,12 @@ var $author$project$Calculators$Nutrition$view = F2(
 				]),
 			{ci: $author$project$Calculators$Nutrition$Reset, cp: strings.aN, ct: $author$project$Calculators$Nutrition$Calculate, cv: strings.a6},
 			function () {
-				var _v0 = model.y;
+				var _v0 = model.x;
 				if (!_v0.$) {
 					var error = _v0.a;
-					return $author$project$Functions$errorDisplay(error);
+					return A2($author$project$Calculators$InputError$view, strings, error);
 				} else {
-					if (model.B) {
+					if (model.A) {
 						var perKg = A2(
 							$elm$core$Maybe$withDefault,
 							'',
@@ -6162,7 +6172,7 @@ var $author$project$Calculators$IvInfusionRate$view = F2(
 			{b5: strings.ab, ca: strings.bJ, cq: strings.aN + (': ' + strings.ab), cw: strings.a6 + (': ' + strings.ab)},
 			_List_fromArray(
 				[
-					A4($author$project$FormFields$numberField, strings.bx, 'infusion-volume', model.M, $author$project$Calculators$IvInfusionRate$UpdateVolume),
+					A4($author$project$FormFields$numberField, strings.bx, 'infusion-volume', model.L, $author$project$Calculators$IvInfusionRate$UpdateVolume),
 					A2(
 					$elm$html$Html$div,
 					_List_fromArray(
@@ -6171,7 +6181,7 @@ var $author$project$Calculators$IvInfusionRate$view = F2(
 						]),
 					_List_fromArray(
 						[
-							A4($author$project$FormFields$numberField, strings.bE, 'infusion-duration', model.Y, $author$project$Calculators$IvInfusionRate$UpdateDuration),
+							A4($author$project$FormFields$numberField, strings.bE, 'infusion-duration', model.X, $author$project$Calculators$IvInfusionRate$UpdateDuration),
 							A5(
 							$author$project$FormFields$optionButtonsField,
 							strings.bn,
@@ -6211,10 +6221,10 @@ var $author$project$Calculators$IvInfusionRate$view = F2(
 				]),
 			{ci: $author$project$Calculators$IvInfusionRate$Reset, cp: strings.aN, ct: $author$project$Calculators$IvInfusionRate$Calculate, cv: strings.a6},
 			function () {
-				var _v0 = _Utils_Tuple2(model.y, model.aV);
+				var _v0 = _Utils_Tuple2(model.x, model.aV);
 				if (!_v0.a.$) {
 					var error = _v0.a.a;
-					return $author$project$Functions$errorDisplay(error);
+					return A2($author$project$Calculators$InputError$view, strings, error);
 				} else {
 					if (!_v0.b.$) {
 						var _v1 = _v0.a;
@@ -6222,7 +6232,7 @@ var $author$project$Calculators$IvInfusionRate$view = F2(
 						var duration = A2(
 							$elm$core$Maybe$withDefault,
 							0,
-							$author$project$Functions$strToFloat(model.Y));
+							$author$project$Functions$strToFloat(model.X));
 						return A2(
 							$author$project$Calculators$Label$view,
 							strings.bI,
@@ -6265,11 +6275,11 @@ var $author$project$Calculators$IvInfusionRate$view = F2(
 								al: $author$project$Functions$floatToStr(rates.a9),
 								ce: _List_fromArray(
 									[
-										model.M + (' ' + (strings.aC + (' ÷ ' + (A2(
+										model.L + (' ' + (strings.aC + (' ÷ ' + (A2(
 										$author$project$Functions$formatToDecimals,
 										2,
 										A2($author$project$Calculators$IvInfusionRate$durationInHours, model.bn, duration)) + (' ' + strings.bd))))),
-										model.M + (' ' + (strings.aC + (' × ' + ($elm$core$String$fromInt(model.bb) + (' ÷ ' + (A2(
+										model.L + (' ' + (strings.aC + (' × ' + ($elm$core$String$fromInt(model.bb) + (' ÷ ' + (A2(
 										$author$project$Functions$formatToDecimals,
 										2,
 										A2($author$project$Calculators$IvInfusionRate$durationInMinutes, model.bn, duration)) + (' ' + strings.bp)))))))
@@ -6339,10 +6349,10 @@ var $author$project$Calculators$BodySurfaceArea$view = F2(
 				]),
 			{ci: $author$project$Calculators$BodySurfaceArea$Reset, cp: strings.aN, ct: $author$project$Calculators$BodySurfaceArea$Calculate, cv: strings.a6},
 			function () {
-				var _v0 = _Utils_Tuple2(model.y, model.aV);
+				var _v0 = _Utils_Tuple2(model.x, model.aV);
 				if (!_v0.a.$) {
 					var error = _v0.a.a;
-					return $author$project$Functions$errorDisplay(error);
+					return A2($author$project$Calculators$InputError$view, strings, error);
 				} else {
 					if (!_v0.b.$) {
 						var _v1 = _v0.a;
@@ -6386,10 +6396,10 @@ var $author$project$Calculators$WeightBasedDose$view = F2(
 				]),
 			{ci: $author$project$Calculators$WeightBasedDose$Reset, cp: strings.aN, ct: $author$project$Calculators$WeightBasedDose$Calculate, cv: strings.a6},
 			function () {
-				var _v0 = _Utils_Tuple2(model.y, model.aV);
+				var _v0 = _Utils_Tuple2(model.x, model.aV);
 				if (!_v0.a.$) {
 					var error = _v0.a.a;
-					return $author$project$Functions$errorDisplay(error);
+					return A2($author$project$Calculators$InputError$view, strings, error);
 				} else {
 					if (!_v0.b.$) {
 						var _v1 = _v0.a;
@@ -6505,13 +6515,18 @@ var $author$project$Calculators$FreeWaterDeficit$view = F2(
 				]),
 			{ci: $author$project$Calculators$FreeWaterDeficit$Reset, cp: strings.aN, ct: $author$project$Calculators$FreeWaterDeficit$Calculate, cv: strings.a6},
 			function () {
-				var _v0 = _Utils_Tuple2(model.y, model.aV);
+				var _v0 = _Utils_Tuple2(model.x, model.aV);
 				if (!_v0.a.$) {
-					var error = _v0.a.a;
-					return _Utils_eq(error, strings.bK) ? $author$project$Calculators$Label$notice(error) : $author$project$Functions$errorDisplay(error);
+					if (_v0.a.a.$ === 1) {
+						var _v1 = _v0.a.a;
+						return $author$project$Calculators$Label$notice(strings.bK);
+					} else {
+						var error = _v0.a.a.a;
+						return A2($author$project$Calculators$InputError$view, strings, error);
+					}
 				} else {
 					if (!_v0.b.$) {
-						var _v1 = _v0.a;
+						var _v2 = _v0.a;
 						var result = _v0.b.a;
 						return A2(
 							$author$project$Calculators$Label$view,
@@ -6528,8 +6543,8 @@ var $author$project$Calculators$FreeWaterDeficit$view = F2(
 									])
 							});
 					} else {
-						var _v2 = _v0.a;
-						var _v3 = _v0.b;
+						var _v3 = _v0.a;
+						var _v4 = _v0.b;
 						return $author$project$Calculators$Label$empty(strings.be);
 					}
 				}
@@ -6561,7 +6576,7 @@ var $author$project$Main$HandleFreeWaterDeficitMsg = function (a) {
 };
 var $author$project$Main$viewCalculator = F3(
 	function (strings, model, calculator) {
-		var isFavorite = A2($elm$core$List$member, calculator, model.P);
+		var isFavorite = A2($elm$core$List$member, calculator, model.O);
 		var _v0 = function () {
 			switch (calculator) {
 				case 0:
@@ -6695,19 +6710,19 @@ var $author$project$Main$viewCategory = F4(
 var $author$project$Main$ToggleLanguage = {$: 0};
 var $author$project$Main$view = function (model) {
 	var visibleCalculators = function () {
-		var _v0 = model.W;
+		var _v0 = model.V;
 		if (!_v0) {
 			return $author$project$Favorites$all;
 		} else {
 			return A2(
 				$elm$core$List$filter,
 				function (calculator) {
-					return A2($elm$core$List$member, calculator, model.P);
+					return A2($elm$core$List$member, calculator, model.O);
 				},
 				$author$project$Favorites$all);
 		}
 	}();
-	var strings = $author$project$Translations$getStrings(model.q);
+	var strings = $author$project$Translations$getStrings(model.Y);
 	return {
 		cE: _List_fromArray(
 			[
@@ -6732,8 +6747,8 @@ var $author$project$Main$view = function (model) {
 								_List_Nil,
 								_List_fromArray(
 									[
-										A3($author$project$Main$navLink, !model.W, '#', strings.dE),
-										A3($author$project$Main$navLink, model.W === 1, '#favorites', strings.P)
+										A3($author$project$Main$navLink, !model.V, '#', strings.dE),
+										A3($author$project$Main$navLink, model.V === 1, '#favorites', strings.O)
 									]))
 							])),
 						A2(
@@ -6747,7 +6762,7 @@ var $author$project$Main$view = function (model) {
 								A2(
 								$elm$html$Html$Attributes$attribute,
 								'lang',
-								(!model.q) ? 'ka' : 'en')
+								(!model.Y) ? 'ka' : 'en')
 							]),
 						_List_fromArray(
 							[
@@ -7042,56 +7057,58 @@ var $author$project$Favorites$toggle = F2(
 			_List_fromArray(
 				[calculator]));
 	});
-var $author$project$Calculators$Pills$update = F3(
-	function (msg, model, strings) {
+var $author$project$Calculators$InputError$NotPositive = 1;
+var $author$project$Calculators$InputError$InvalidInputs = 0;
+var $author$project$Calculators$Pills$update = F2(
+	function (msg, model) {
 		switch (msg.$) {
 			case 0:
 				var newPrescribed = msg.a;
 				return _Utils_update(
 					model,
-					{y: $elm$core$Maybe$Nothing, B: false, R: newPrescribed});
+					{x: $elm$core$Maybe$Nothing, A: false, Q: newPrescribed});
 			case 1:
 				var newTablet = msg.a;
 				return _Utils_update(
 					model,
-					{y: $elm$core$Maybe$Nothing, O: newTablet, B: false});
+					{x: $elm$core$Maybe$Nothing, N: newTablet, A: false});
 			case 2:
-				if ($elm$core$String$isEmpty(model.R) || $elm$core$String$isEmpty(model.O)) {
+				if ($elm$core$String$isEmpty(model.Q) || $elm$core$String$isEmpty(model.N)) {
 					return _Utils_update(
 						model,
 						{
-							y: $elm$core$Maybe$Just(strings.bt),
+							x: $elm$core$Maybe$Just(0),
 							aV: '0.0',
-							B: true
+							A: true
 						});
 				} else {
 					var _v1 = _Utils_Tuple2(
-						$author$project$Functions$strToFloat(model.R),
-						$author$project$Functions$strToFloat(model.O));
+						$author$project$Functions$strToFloat(model.Q),
+						$author$project$Functions$strToFloat(model.N));
 					if ((!_v1.a.$) && (!_v1.b.$)) {
 						var prescribed = _v1.a.a;
 						var tablet = _v1.b.a;
 						return ((prescribed <= 0) || (tablet <= 0)) ? _Utils_update(
 							model,
 							{
-								y: $elm$core$Maybe$Just(strings.bC),
+								x: $elm$core$Maybe$Just(1),
 								aV: '0.0',
-								B: true
+								A: true
 							}) : _Utils_update(
 							model,
 							{
-								y: $elm$core$Maybe$Nothing,
+								x: $elm$core$Maybe$Nothing,
 								aV: $author$project$Functions$floatToStr(
 									$author$project$Functions$roundToTwoDecimals(prescribed / tablet)),
-								B: true
+								A: true
 							});
 					} else {
 						return _Utils_update(
 							model,
 							{
-								y: $elm$core$Maybe$Just(strings.bt),
+								x: $elm$core$Maybe$Just(0),
 								aV: '0.0',
-								B: true
+								A: true
 							});
 					}
 				}
@@ -7099,38 +7116,38 @@ var $author$project$Calculators$Pills$update = F3(
 				return $author$project$Calculators$Pills$init;
 		}
 	});
-var $author$project$Calculators$Liquids$update = F3(
-	function (msg, model, strings) {
+var $author$project$Calculators$Liquids$update = F2(
+	function (msg, model) {
 		switch (msg.$) {
 			case 0:
 				var newPrescribedLiquid = msg.a;
 				return _Utils_update(
 					model,
-					{y: $elm$core$Maybe$Nothing, B: false, S: newPrescribedLiquid});
+					{x: $elm$core$Maybe$Nothing, A: false, R: newPrescribedLiquid});
 			case 1:
 				var newLiquidDosageAthand = msg.a;
 				return _Utils_update(
 					model,
-					{y: $elm$core$Maybe$Nothing, B: false, T: newLiquidDosageAthand});
+					{x: $elm$core$Maybe$Nothing, A: false, S: newLiquidDosageAthand});
 			case 2:
 				var newLiquidVolumeAtHand = msg.a;
 				return _Utils_update(
 					model,
-					{y: $elm$core$Maybe$Nothing, B: false, U: newLiquidVolumeAtHand});
+					{x: $elm$core$Maybe$Nothing, A: false, T: newLiquidVolumeAtHand});
 			case 3:
-				if ($elm$core$String$isEmpty(model.S) || ($elm$core$String$isEmpty(model.T) || $elm$core$String$isEmpty(model.U))) {
+				if ($elm$core$String$isEmpty(model.R) || ($elm$core$String$isEmpty(model.S) || $elm$core$String$isEmpty(model.T))) {
 					return _Utils_update(
 						model,
 						{
-							y: $elm$core$Maybe$Just(strings.bt),
+							x: $elm$core$Maybe$Just(0),
 							aV: '0.0',
-							B: true
+							A: true
 						});
 				} else {
 					var _v1 = _Utils_Tuple3(
+						$author$project$Functions$strToFloat(model.R),
 						$author$project$Functions$strToFloat(model.S),
-						$author$project$Functions$strToFloat(model.T),
-						$author$project$Functions$strToFloat(model.U));
+						$author$project$Functions$strToFloat(model.T));
 					if (((!_v1.a.$) && (!_v1.b.$)) && (!_v1.c.$)) {
 						var prescribed = _v1.a.a;
 						var dosage = _v1.b.a;
@@ -7138,24 +7155,24 @@ var $author$project$Calculators$Liquids$update = F3(
 						return ((prescribed <= 0) || ((dosage <= 0) || (volume <= 0))) ? _Utils_update(
 							model,
 							{
-								y: $elm$core$Maybe$Just(strings.bC),
+								x: $elm$core$Maybe$Just(1),
 								aV: '0.0',
-								B: true
+								A: true
 							}) : _Utils_update(
 							model,
 							{
-								y: $elm$core$Maybe$Nothing,
+								x: $elm$core$Maybe$Nothing,
 								aV: $author$project$Functions$floatToStr(
 									$author$project$Functions$roundToTwoDecimals((prescribed / dosage) * volume)),
-								B: true
+								A: true
 							});
 					} else {
 						return _Utils_update(
 							model,
 							{
-								y: $elm$core$Maybe$Just(strings.bt),
+								x: $elm$core$Maybe$Just(0),
 								aV: '0.0',
-								B: true
+								A: true
 							});
 					}
 				}
@@ -7197,36 +7214,36 @@ var $author$project$Functions$calculateCalories = F3(
 		var energy = (score <= 1) ? (25 * weight) : ((bmi < 14) ? (5 * weight) : ((bmi < 16) ? (10 * weight) : (30 * weight)));
 		return A4($author$project$Functions$NutritionResult, energy, (energy * 0.25) / 4, (energy * 0.25) / 9, (energy * 0.5) / 4);
 	});
-var $author$project$Calculators$Nutrition$update = F3(
-	function (msg, model, strings) {
+var $author$project$Calculators$Nutrition$update = F2(
+	function (msg, model) {
 		switch (msg.$) {
 			case 0:
 				var newWeight = msg.a;
 				return _Utils_update(
 					model,
-					{y: $elm$core$Maybe$Nothing, aX: newWeight, B: false});
+					{x: $elm$core$Maybe$Nothing, aX: newWeight, A: false});
 			case 1:
 				var newHeight = msg.a;
 				return _Utils_update(
 					model,
-					{y: $elm$core$Maybe$Nothing, aT: newHeight, B: false});
+					{x: $elm$core$Maybe$Nothing, aT: newHeight, A: false});
 			case 2:
 				var newWeightLoss = msg.a;
 				return _Utils_update(
 					model,
-					{y: $elm$core$Maybe$Nothing, B: false, bh: newWeightLoss});
+					{x: $elm$core$Maybe$Nothing, A: false, bh: newWeightLoss});
 			case 3:
 				var newCritical = msg.a;
 				return _Utils_update(
 					model,
-					{y: $elm$core$Maybe$Nothing, a2: newCritical, B: false});
+					{x: $elm$core$Maybe$Nothing, a2: newCritical, A: false});
 			case 4:
 				if ($elm$core$String$isEmpty(model.aX) || $elm$core$String$isEmpty(model.aT)) {
 					return _Utils_update(
 						model,
 						{
-							y: $elm$core$Maybe$Just(strings.bt),
-							B: true
+							x: $elm$core$Maybe$Just(0),
+							A: true
 						});
 				} else {
 					var _v1 = _Utils_Tuple2(
@@ -7239,8 +7256,8 @@ var $author$project$Calculators$Nutrition$update = F3(
 							return _Utils_update(
 								model,
 								{
-									y: $elm$core$Maybe$Just(strings.bC),
-									B: true
+									x: $elm$core$Maybe$Just(1),
+									A: true
 								});
 						} else {
 							var bmi = A2($author$project$Functions$calculateBMI, weight, height);
@@ -7253,19 +7270,19 @@ var $author$project$Calculators$Nutrition$update = F3(
 										$author$project$Functions$roundToTwoDecimals(bmi)),
 									cG: A2($author$project$Functions$formatToDecimals, 0, nutrition.cG),
 									cR: A2($author$project$Functions$formatToDecimals, 0, nutrition.cR),
-									y: $elm$core$Maybe$Nothing,
+									x: $elm$core$Maybe$Nothing,
 									db: $author$project$Functions$floatToStr(
 										$author$project$Functions$roundToTwoDecimals(nutrition.db)),
 									dh: A2($author$project$Functions$formatToDecimals, 0, nutrition.dh),
-									B: true
+									A: true
 								});
 						}
 					} else {
 						return _Utils_update(
 							model,
 							{
-								y: $elm$core$Maybe$Just(strings.bt),
-								B: true
+								x: $elm$core$Maybe$Just(0),
+								A: true
 							});
 					}
 				}
@@ -7284,45 +7301,45 @@ var $author$project$Functions$calculatePumpRate = F2(
 var $author$project$Calculators$IvInfusionRate$roundToOneDecimal = function (number) {
 	return $elm$core$Basics$round(number * 10) / 10;
 };
-var $author$project$Calculators$IvInfusionRate$update = F3(
-	function (msg, model, strings) {
+var $author$project$Calculators$IvInfusionRate$update = F2(
+	function (msg, model) {
 		switch (msg.$) {
 			case 0:
 				var volume = msg.a;
 				return _Utils_update(
 					model,
-					{y: $elm$core$Maybe$Nothing, aV: $elm$core$Maybe$Nothing, M: volume});
+					{x: $elm$core$Maybe$Nothing, aV: $elm$core$Maybe$Nothing, L: volume});
 			case 1:
 				var duration = msg.a;
 				return _Utils_update(
 					model,
-					{y: $elm$core$Maybe$Nothing, aV: $elm$core$Maybe$Nothing, Y: duration});
+					{x: $elm$core$Maybe$Nothing, aV: $elm$core$Maybe$Nothing, X: duration});
 			case 2:
 				var durationUnit = msg.a;
 				return _Utils_update(
 					model,
-					{y: $elm$core$Maybe$Nothing, aV: $elm$core$Maybe$Nothing, bn: durationUnit});
+					{x: $elm$core$Maybe$Nothing, aV: $elm$core$Maybe$Nothing, bn: durationUnit});
 			case 3:
 				var dropFactor = msg.a;
 				return _Utils_update(
 					model,
-					{y: $elm$core$Maybe$Nothing, aV: $elm$core$Maybe$Nothing, bb: dropFactor});
+					{x: $elm$core$Maybe$Nothing, aV: $elm$core$Maybe$Nothing, bb: dropFactor});
 			case 4:
 				var _v1 = _Utils_Tuple2(
-					$author$project$Functions$strToFloat(model.M),
-					$author$project$Functions$strToFloat(model.Y));
+					$author$project$Functions$strToFloat(model.L),
+					$author$project$Functions$strToFloat(model.X));
 				if ((!_v1.a.$) && (!_v1.b.$)) {
 					var volume = _v1.a.a;
 					var duration = _v1.b.a;
 					return ((volume <= 0) || (duration <= 0)) ? _Utils_update(
 						model,
 						{
-							y: $elm$core$Maybe$Just(strings.bC),
+							x: $elm$core$Maybe$Just(1),
 							aV: $elm$core$Maybe$Nothing
 						}) : _Utils_update(
 						model,
 						{
-							y: $elm$core$Maybe$Nothing,
+							x: $elm$core$Maybe$Nothing,
 							aV: $elm$core$Maybe$Just(
 								{
 									a9: $author$project$Calculators$IvInfusionRate$roundToOneDecimal(
@@ -7342,7 +7359,7 @@ var $author$project$Calculators$IvInfusionRate$update = F3(
 					return _Utils_update(
 						model,
 						{
-							y: $elm$core$Maybe$Just(strings.bt),
+							x: $elm$core$Maybe$Just(0),
 							aV: $elm$core$Maybe$Nothing
 						});
 				}
@@ -7355,19 +7372,19 @@ var $author$project$Functions$calculateBodySurfaceArea = F2(
 	function (height, weight) {
 		return $elm$core$Basics$sqrt((height * weight) / 3600);
 	});
-var $author$project$Calculators$BodySurfaceArea$update = F3(
-	function (msg, model, strings) {
+var $author$project$Calculators$BodySurfaceArea$update = F2(
+	function (msg, model) {
 		switch (msg.$) {
 			case 0:
 				var height = msg.a;
 				return _Utils_update(
 					model,
-					{y: $elm$core$Maybe$Nothing, aT: height, aV: $elm$core$Maybe$Nothing});
+					{x: $elm$core$Maybe$Nothing, aT: height, aV: $elm$core$Maybe$Nothing});
 			case 1:
 				var weight = msg.a;
 				return _Utils_update(
 					model,
-					{y: $elm$core$Maybe$Nothing, aV: $elm$core$Maybe$Nothing, aX: weight});
+					{x: $elm$core$Maybe$Nothing, aV: $elm$core$Maybe$Nothing, aX: weight});
 			case 2:
 				var _v1 = _Utils_Tuple2(
 					$author$project$Functions$strToFloat(model.aT),
@@ -7378,12 +7395,12 @@ var $author$project$Calculators$BodySurfaceArea$update = F3(
 					return ((height <= 0) || (weight <= 0)) ? _Utils_update(
 						model,
 						{
-							y: $elm$core$Maybe$Just(strings.bC),
+							x: $elm$core$Maybe$Just(1),
 							aV: $elm$core$Maybe$Nothing
 						}) : _Utils_update(
 						model,
 						{
-							y: $elm$core$Maybe$Nothing,
+							x: $elm$core$Maybe$Nothing,
 							aV: $elm$core$Maybe$Just(
 								A2($author$project$Functions$calculateBodySurfaceArea, height, weight))
 						});
@@ -7391,7 +7408,7 @@ var $author$project$Calculators$BodySurfaceArea$update = F3(
 					return _Utils_update(
 						model,
 						{
-							y: $elm$core$Maybe$Just(strings.bt),
+							x: $elm$core$Maybe$Just(0),
 							aV: $elm$core$Maybe$Nothing
 						});
 				}
@@ -7403,19 +7420,19 @@ var $author$project$Functions$calculateWeightBasedDose = F2(
 	function (dosePerKg, weight) {
 		return dosePerKg * weight;
 	});
-var $author$project$Calculators$WeightBasedDose$update = F3(
-	function (msg, model, strings) {
+var $author$project$Calculators$WeightBasedDose$update = F2(
+	function (msg, model) {
 		switch (msg.$) {
 			case 0:
 				var dosePerKg = msg.a;
 				return _Utils_update(
 					model,
-					{y: $elm$core$Maybe$Nothing, aV: $elm$core$Maybe$Nothing, a7: dosePerKg});
+					{x: $elm$core$Maybe$Nothing, aV: $elm$core$Maybe$Nothing, a7: dosePerKg});
 			case 1:
 				var weight = msg.a;
 				return _Utils_update(
 					model,
-					{y: $elm$core$Maybe$Nothing, aV: $elm$core$Maybe$Nothing, aX: weight});
+					{x: $elm$core$Maybe$Nothing, aV: $elm$core$Maybe$Nothing, aX: weight});
 			case 2:
 				var _v1 = _Utils_Tuple2(
 					$author$project$Functions$strToFloat(model.a7),
@@ -7426,12 +7443,12 @@ var $author$project$Calculators$WeightBasedDose$update = F3(
 					return ((dosePerKg <= 0) || (weight <= 0)) ? _Utils_update(
 						model,
 						{
-							y: $elm$core$Maybe$Just(strings.bC),
+							x: $elm$core$Maybe$Just(1),
 							aV: $elm$core$Maybe$Nothing
 						}) : _Utils_update(
 						model,
 						{
-							y: $elm$core$Maybe$Nothing,
+							x: $elm$core$Maybe$Nothing,
 							aV: $elm$core$Maybe$Just(
 								A2($author$project$Functions$calculateWeightBasedDose, dosePerKg, weight))
 						});
@@ -7439,7 +7456,7 @@ var $author$project$Calculators$WeightBasedDose$update = F3(
 					return _Utils_update(
 						model,
 						{
-							y: $elm$core$Maybe$Just(strings.bt),
+							x: $elm$core$Maybe$Just(0),
 							aV: $elm$core$Maybe$Nothing
 						});
 				}
@@ -7447,33 +7464,37 @@ var $author$project$Calculators$WeightBasedDose$update = F3(
 				return $author$project$Calculators$WeightBasedDose$init;
 		}
 	});
+var $author$project$Calculators$FreeWaterDeficit$InputProblem = function (a) {
+	return {$: 0, a: a};
+};
+var $author$project$Calculators$FreeWaterDeficit$SodiumNotElevated = {$: 1};
 var $author$project$Functions$calculateFreeWaterDeficit = F4(
 	function (sex, elderly, weight, sodium) {
 		return (A2($author$project$Functions$totalBodyWaterFactor, sex, elderly) * weight) * ((sodium / 140) - 1);
 	});
-var $author$project$Calculators$FreeWaterDeficit$update = F3(
-	function (msg, model, strings) {
+var $author$project$Calculators$FreeWaterDeficit$update = F2(
+	function (msg, model) {
 		switch (msg.$) {
 			case 0:
 				var weight = msg.a;
 				return _Utils_update(
 					model,
-					{y: $elm$core$Maybe$Nothing, aV: $elm$core$Maybe$Nothing, aX: weight});
+					{x: $elm$core$Maybe$Nothing, aV: $elm$core$Maybe$Nothing, aX: weight});
 			case 1:
 				var sodium = msg.a;
 				return _Utils_update(
 					model,
-					{y: $elm$core$Maybe$Nothing, aV: $elm$core$Maybe$Nothing, aW: sodium});
+					{x: $elm$core$Maybe$Nothing, aV: $elm$core$Maybe$Nothing, aW: sodium});
 			case 2:
 				var sex = msg.a;
 				return _Utils_update(
 					model,
-					{aF: sex, y: $elm$core$Maybe$Nothing, aV: $elm$core$Maybe$Nothing});
+					{aF: sex, x: $elm$core$Maybe$Nothing, aV: $elm$core$Maybe$Nothing});
 			case 3:
 				var elderly = msg.a;
 				return _Utils_update(
 					model,
-					{y: $elm$core$Maybe$Nothing, aV: $elm$core$Maybe$Nothing, aZ: elderly});
+					{x: $elm$core$Maybe$Nothing, aV: $elm$core$Maybe$Nothing, aZ: elderly});
 			case 4:
 				var _v1 = _Utils_Tuple2(
 					$author$project$Functions$strToFloat(model.aX),
@@ -7484,17 +7505,18 @@ var $author$project$Calculators$FreeWaterDeficit$update = F3(
 					return ((weight <= 0) || (sodium <= 0)) ? _Utils_update(
 						model,
 						{
-							y: $elm$core$Maybe$Just(strings.bC),
+							x: $elm$core$Maybe$Just(
+								$author$project$Calculators$FreeWaterDeficit$InputProblem(1)),
 							aV: $elm$core$Maybe$Nothing
 						}) : ((sodium < 140) ? _Utils_update(
 						model,
 						{
-							y: $elm$core$Maybe$Just(strings.bK),
+							x: $elm$core$Maybe$Just($author$project$Calculators$FreeWaterDeficit$SodiumNotElevated),
 							aV: $elm$core$Maybe$Nothing
 						}) : _Utils_update(
 						model,
 						{
-							y: $elm$core$Maybe$Nothing,
+							x: $elm$core$Maybe$Nothing,
 							aV: $elm$core$Maybe$Just(
 								$author$project$Functions$roundToTwoDecimals(
 									A4($author$project$Functions$calculateFreeWaterDeficit, model.aF, model.aZ, weight, sodium)))
@@ -7503,7 +7525,8 @@ var $author$project$Calculators$FreeWaterDeficit$update = F3(
 					return _Utils_update(
 						model,
 						{
-							y: $elm$core$Maybe$Just(strings.bt),
+							x: $elm$core$Maybe$Just(
+								$author$project$Calculators$FreeWaterDeficit$InputProblem(0)),
 							aV: $elm$core$Maybe$Nothing
 						});
 				}
@@ -7562,7 +7585,7 @@ var $author$project$Main$update = F2(
 	function (msg, model) {
 		switch (msg.$) {
 			case 0:
-				var newLanguage = (!model.q) ? 1 : 0;
+				var newLanguage = (!model.Y) ? 1 : 0;
 				var langAttribute = function () {
 					if (!newLanguage) {
 						return 'en';
@@ -7573,7 +7596,7 @@ var $author$project$Main$update = F2(
 				return _Utils_Tuple2(
 					_Utils_update(
 						model,
-						{q: newLanguage}),
+						{Y: newLanguage}),
 					$author$project$Main$setLangAttribute(langAttribute));
 			case 1:
 				if (!msg.a.$) {
@@ -7596,52 +7619,48 @@ var $author$project$Main$update = F2(
 					_Utils_update(
 						model,
 						{
-							W: $author$project$Main$pageFromUrl(url)
+							V: $author$project$Main$pageFromUrl(url)
 						}),
 					$elm$core$Platform$Cmd$none);
 			case 3:
 				var calculator = msg.a;
-				var favorites = A2($author$project$Favorites$toggle, calculator, model.P);
+				var favorites = A2($author$project$Favorites$toggle, calculator, model.O);
 				return _Utils_Tuple2(
 					_Utils_update(
 						model,
-						{P: favorites}),
+						{O: favorites}),
 					$author$project$Main$saveFavorites(
 						$author$project$Favorites$encode(favorites)));
 			case 4:
 				var subMsg = msg.a;
-				var strings = $author$project$Translations$getStrings(model.q);
 				return _Utils_Tuple2(
 					_Utils_update(
 						model,
 						{
-							aj: A3($author$project$Calculators$Pills$update, subMsg, model.aj, strings)
+							aj: A2($author$project$Calculators$Pills$update, subMsg, model.aj)
 						}),
 					$elm$core$Platform$Cmd$none);
 			case 5:
 				var subMsg = msg.a;
-				var strings = $author$project$Translations$getStrings(model.q);
 				return _Utils_Tuple2(
 					_Utils_update(
 						model,
 						{
-							ao: A3($author$project$Calculators$Liquids$update, subMsg, model.ao, strings)
+							ao: A2($author$project$Calculators$Liquids$update, subMsg, model.ao)
 						}),
 					$elm$core$Platform$Cmd$none);
 			case 6:
 				var subMsg = msg.a;
-				var strings = $author$project$Translations$getStrings(model.q);
 				return _Utils_Tuple2(
 					_Utils_update(
 						model,
 						{
-							_: A3($author$project$Calculators$Nutrition$update, subMsg, model._, strings)
+							_: A2($author$project$Calculators$Nutrition$update, subMsg, model._)
 						}),
 					$elm$core$Platform$Cmd$none);
 			case 7:
 				var subMsg = msg.a;
-				var strings = $author$project$Translations$getStrings(model.q);
-				var updatedFreeWaterDeficit = A3($author$project$Calculators$FreeWaterDeficit$update, subMsg, model.ae, strings);
+				var updatedFreeWaterDeficit = A2($author$project$Calculators$FreeWaterDeficit$update, subMsg, model.ae);
 				return _Utils_Tuple2(
 					_Utils_update(
 						model,
@@ -7649,32 +7668,29 @@ var $author$project$Main$update = F2(
 					$elm$core$Platform$Cmd$none);
 			case 8:
 				var subMsg = msg.a;
-				var strings = $author$project$Translations$getStrings(model.q);
 				return _Utils_Tuple2(
 					_Utils_update(
 						model,
 						{
-							ab: A3($author$project$Calculators$IvInfusionRate$update, subMsg, model.ab, strings)
+							ab: A2($author$project$Calculators$IvInfusionRate$update, subMsg, model.ab)
 						}),
 					$elm$core$Platform$Cmd$none);
 			case 9:
 				var subMsg = msg.a;
-				var strings = $author$project$Translations$getStrings(model.q);
 				return _Utils_Tuple2(
 					_Utils_update(
 						model,
 						{
-							ac: A3($author$project$Calculators$BodySurfaceArea$update, subMsg, model.ac, strings)
+							ac: A2($author$project$Calculators$BodySurfaceArea$update, subMsg, model.ac)
 						}),
 					$elm$core$Platform$Cmd$none);
 			default:
 				var subMsg = msg.a;
-				var strings = $author$project$Translations$getStrings(model.q);
 				return _Utils_Tuple2(
 					_Utils_update(
 						model,
 						{
-							ad: A3($author$project$Calculators$WeightBasedDose$update, subMsg, model.ad, strings)
+							ad: A2($author$project$Calculators$WeightBasedDose$update, subMsg, model.ad)
 						}),
 					$elm$core$Platform$Cmd$none);
 		}
