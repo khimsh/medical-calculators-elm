@@ -1,4 +1,4 @@
-module Functions exposing (NutritionResult, Sex(..), calculateBMI, calculateCalories, calculateDripRate, calculateFreeWaterDeficit, calculatePumpRate, errorDisplay, floatToStr, formatToDecimals, roundToTwoDecimals, scoreCalculator, strToFloat, totalBodyWaterFactor)
+module Functions exposing (NutritionResult, Sex(..), calculateBMI, calculateBodySurfaceArea, calculateCalories, calculateDripRate, calculateFreeWaterDeficit, calculatePumpRate, errorDisplay, floatToStr, formatToDecimals, roundToTwoDecimals, scoreCalculator, strToFloat, totalBodyWaterFactor)
 
 import Html exposing (div, text)
 import Html.Attributes exposing (attribute, class)
@@ -164,6 +164,13 @@ calculatePumpRate volume hours =
 calculateDripRate : Float -> Int -> Float -> Float
 calculateDripRate volume dropFactor minutes =
     volume * toFloat dropFactor / minutes
+
+
+{-| Body surface area in m² (Mosteller): √(height cm × weight kg ÷ 3600).
+-}
+calculateBodySurfaceArea : Float -> Float -> Float
+calculateBodySurfaceArea height weight =
+    sqrt (height * weight / 3600)
 
 
 errorDisplay : String -> Html.Html msg

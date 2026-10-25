@@ -2,6 +2,7 @@ port module Main exposing (main)
 
 import Browser
 import Browser.Navigation as Nav
+import Calculators.BodySurfaceArea as BodySurfaceArea
 import Calculators.FreeWaterDeficit as FreeWaterDeficit
 import Calculators.IvInfusionRate as IvInfusionRate
 import Calculators.Liquids as Liquids
@@ -60,6 +61,7 @@ type alias Model =
     , nutrition : Nutrition.Model
     , freeWaterDeficit : FreeWaterDeficit.Model
     , ivInfusionRate : IvInfusionRate.Model
+    , bodySurfaceArea : BodySurfaceArea.Model
     }
 
 
@@ -74,6 +76,7 @@ init flags url key =
       , nutrition = Nutrition.init
       , freeWaterDeficit = FreeWaterDeficit.init
       , ivInfusionRate = IvInfusionRate.init
+      , bodySurfaceArea = BodySurfaceArea.init
       }
     , Cmd.none
     )
@@ -89,6 +92,7 @@ type Msg
     | NutritionMsg Nutrition.Msg
     | HandleFreeWaterDeficitMsg FreeWaterDeficit.Msg
     | IvInfusionRateMsg IvInfusionRate.Msg
+    | BodySurfaceAreaMsg BodySurfaceArea.Msg
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -176,6 +180,15 @@ update msg model =
                     getStrings model.language
             in
             ( { model | ivInfusionRate = IvInfusionRate.update subMsg model.ivInfusionRate strings }
+            , Cmd.none
+            )
+
+        BodySurfaceAreaMsg subMsg ->
+            let
+                strings =
+                    getStrings model.language
+            in
+            ( { model | bodySurfaceArea = BodySurfaceArea.update subMsg model.bodySurfaceArea strings }
             , Cmd.none
             )
 
@@ -303,6 +316,9 @@ viewCalculator strings model calculator =
 
                 Favorites.IvInfusionRate ->
                     ( strings.ivInfusionRate, Html.map IvInfusionRateMsg (IvInfusionRate.view strings model.ivInfusionRate) )
+
+                Favorites.BodySurfaceArea ->
+                    ( strings.bodySurfaceArea, Html.map BodySurfaceAreaMsg (BodySurfaceArea.view strings model.bodySurfaceArea) )
 
         isFavorite =
             List.member calculator model.favorites

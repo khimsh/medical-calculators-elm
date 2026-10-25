@@ -1,7 +1,7 @@
 module FunctionsTests exposing (..)
 
 import Expect
-import Functions exposing (calculateBMI, calculateCalories, calculateDripRate, calculatePumpRate, scoreCalculator, strToFloat)
+import Functions exposing (calculateBMI, calculateBodySurfaceArea, calculateCalories, calculateDripRate, calculatePumpRate, scoreCalculator, strToFloat)
 import Test exposing (Test, describe, test)
 
 
@@ -133,5 +133,19 @@ suite =
                     calculateDripRate 249 10 60
                         |> round
                         |> Expect.equal 42
+            ]
+        , describe "calculateBodySurfaceArea"
+            [ test "170 cm and 70 kg is about 1.82 m²" <|
+                \_ ->
+                    calculateBodySurfaceArea 170 70
+                        |> Expect.within (Expect.Absolute 0.005) 1.82
+            , test "180 cm and 80 kg is 2.00 m²" <|
+                \_ ->
+                    calculateBodySurfaceArea 180 80
+                        |> Expect.within (Expect.Absolute 0.0001) 2
+            , test "160 cm and 50 kg is about 1.49 m²" <|
+                \_ ->
+                    calculateBodySurfaceArea 160 50
+                        |> Expect.within (Expect.Absolute 0.005) 1.49
             ]
         ]

@@ -10,11 +10,12 @@ type Calculator
     | Nutrition
     | FreeWaterDeficit
     | IvInfusionRate
+    | BodySurfaceArea
 
 
 all : List Calculator
 all =
-    [ Pills, Liquids, IvInfusionRate, FreeWaterDeficit, Nutrition ]
+    [ Pills, Liquids, IvInfusionRate, BodySurfaceArea, FreeWaterDeficit, Nutrition ]
 
 
 toKey : Calculator -> String
@@ -34,6 +35,9 @@ toKey calculator =
 
         IvInfusionRate ->
             "iv-infusion-rate"
+
+        BodySurfaceArea ->
+            "body-surface-area"
 
 
 fromKey : String -> Maybe Calculator

@@ -18,17 +18,12 @@ Sources listed here are **proposed** until they are confirmed in each calculator
 - [x] IV infusion rate (pump rate in mL/h and drip rate in drops/min)
 - [x] Free water deficit
 - [x] Nutrition
+- [x] Body surface area (BSA)
 
 ## To do
 
 ### Medication dosing
 
-- [ ] 1. Body surface area (BSA)
-  - **Formula:** √(height cm × weight kg / 3600)
-  - **Inputs:** height (cm), weight (kg)
-  - **Category:** Medication dosing
-  - **Proposed source:** Mosteller, NEJM 1987;317:1098
-  - **Notes:** Number fields only.
 - [ ] 2. Weight-based dose
   - **Formula:** dose (mg/kg) × weight (kg)
   - **Inputs:** dose per kg (mg/kg), weight (kg)

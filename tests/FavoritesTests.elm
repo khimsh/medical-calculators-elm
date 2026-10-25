@@ -49,6 +49,11 @@ suite =
                     Encode.list Encode.string [ "iv-infusion-rate" ]
                         |> Favorites.decode
                         |> Expect.equal [ IvInfusionRate ]
+            , test "reads the body surface area key" <|
+                \_ ->
+                    Encode.list Encode.string [ "body-surface-area" ]
+                        |> Favorites.decode
+                        |> Expect.equal [ BodySurfaceArea ]
             , test "gives no favorites for a non-list value" <|
                 \_ ->
                     Encode.string "garbage"
