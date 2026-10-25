@@ -100,7 +100,7 @@ The page SHALL render Georgian and Latin text in the FiraGO font loaded from the
 - **THEN** font files are requested only from the app's own origin
 
 ### Requirement: Responsive layout
-The page SHALL show each calculator as a separate card, in one column on narrow screens and two columns on wide screens, with no horizontal scrolling at 320 px width or wider.
+The page SHALL show each calculator as a separate card, in a single column at every viewport width, with no horizontal scrolling at 320 px width or wider. Each card MUST be no wider than a readable measure. The cards MUST be centred on the page, and each category heading MUST align with the left edge of its cards.
 
 #### Scenario: Phone width
 - **WHEN** the viewport is 375 px wide
@@ -108,7 +108,26 @@ The page SHALL show each calculator as a separate card, in one column on narrow 
 
 #### Scenario: Desktop width
 - **WHEN** the viewport is 1280 px wide
-- **THEN** the calculators are arranged in two columns
+- **THEN** the calculators are still stacked in one column, and each card is narrower than the page
+
+#### Scenario: Neighbouring cards
+- **WHEN** two calculators have different amounts of content
+- **THEN** each card's height follows its own content and does not change the height of the cards around it
+
+### Requirement: Text hierarchy
+Bold text (font weight 700) SHALL be used only for category headings and calculated result values. Card titles, field labels, legends, buttons, navigation links, and the testing-only banner MUST NOT use weight 700. Hierarchy between these elements SHALL be carried by size, colour, and spacing.
+
+#### Scenario: Category heading
+- **WHEN** a category heading is shown
+- **THEN** it is in bold and larger than the card titles beneath it
+
+#### Scenario: Card title and labels
+- **WHEN** a card title, field label, or option button is shown
+- **THEN** it is not bold and is no heavier than medium weight (500)
+
+#### Scenario: Calculated result
+- **WHEN** a calculated result value is shown
+- **THEN** it is in bold and is the largest text in the card
 
 ### Requirement: Result presentation
 A calculated result SHALL show its value and unit prominently in the accent colour, with the working lines in smaller muted text; input errors and clinical notices MUST be visually distinct from results and from each other. Results remain text, with no syringe or tablet graphics.
