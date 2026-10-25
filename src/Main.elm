@@ -8,6 +8,7 @@ import Calculators.IvInfusionRate as IvInfusionRate
 import Calculators.Liquids as Liquids
 import Calculators.Nutrition as Nutrition
 import Calculators.Pills as Pills
+import Calculators.WeightBasedDose as WeightBasedDose
 import Categories exposing (Category(..))
 import Favorites exposing (Calculator)
 import Html exposing (Html, a, button, div, h2, header, li, main_, nav, p, section, text, ul)
@@ -62,6 +63,7 @@ type alias Model =
     , freeWaterDeficit : FreeWaterDeficit.Model
     , ivInfusionRate : IvInfusionRate.Model
     , bodySurfaceArea : BodySurfaceArea.Model
+    , weightBasedDose : WeightBasedDose.Model
     }
 
 
@@ -77,6 +79,7 @@ init flags url key =
       , freeWaterDeficit = FreeWaterDeficit.init
       , ivInfusionRate = IvInfusionRate.init
       , bodySurfaceArea = BodySurfaceArea.init
+      , weightBasedDose = WeightBasedDose.init
       }
     , Cmd.none
     )
@@ -93,6 +96,7 @@ type Msg
     | HandleFreeWaterDeficitMsg FreeWaterDeficit.Msg
     | IvInfusionRateMsg IvInfusionRate.Msg
     | BodySurfaceAreaMsg BodySurfaceArea.Msg
+    | WeightBasedDoseMsg WeightBasedDose.Msg
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -189,6 +193,15 @@ update msg model =
                     getStrings model.language
             in
             ( { model | bodySurfaceArea = BodySurfaceArea.update subMsg model.bodySurfaceArea strings }
+            , Cmd.none
+            )
+
+        WeightBasedDoseMsg subMsg ->
+            let
+                strings =
+                    getStrings model.language
+            in
+            ( { model | weightBasedDose = WeightBasedDose.update subMsg model.weightBasedDose strings }
             , Cmd.none
             )
 
@@ -319,6 +332,9 @@ viewCalculator strings model calculator =
 
                 Favorites.BodySurfaceArea ->
                     ( strings.bodySurfaceArea, Html.map BodySurfaceAreaMsg (BodySurfaceArea.view strings model.bodySurfaceArea) )
+
+                Favorites.WeightBasedDose ->
+                    ( strings.weightBasedDose, Html.map WeightBasedDoseMsg (WeightBasedDose.view strings model.weightBasedDose) )
 
         isFavorite =
             List.member calculator model.favorites

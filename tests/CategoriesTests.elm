@@ -21,7 +21,7 @@ tests =
         , test "each category holds its calculators" <|
             \_ ->
                 List.map Categories.calculators Categories.all
-                    |> Expect.equal [ [ Pills, Liquids, IvInfusionRate, BodySurfaceArea ], [ FreeWaterDeficit ], [ Nutrition ] ]
+                    |> Expect.equal [ [ Pills, Liquids, IvInfusionRate, BodySurfaceArea, WeightBasedDose ], [ FreeWaterDeficit ], [ Nutrition ] ]
         , test "English titles" <|
             \_ ->
                 List.map (Categories.title englishStrings) Categories.all

@@ -19,17 +19,9 @@ Sources listed here are **proposed** until they are confirmed in each calculator
 - [x] Free water deficit
 - [x] Nutrition
 - [x] Body surface area (BSA)
+- [x] Weight-based dose
 
 ## To do
-
-### Medication dosing
-
-- [ ] 2. Weight-based dose
-  - **Formula:** dose (mg/kg) × weight (kg)
-  - **Inputs:** dose per kg (mg/kg), weight (kg)
-  - **Category:** Medication dosing
-  - **Proposed source:** Standard mg/kg dosing (cite in change)
-  - **Notes:** No max-dose cap, which would be patient guidance.
 
 ### Nutrition
 

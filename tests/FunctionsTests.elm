@@ -1,7 +1,7 @@
 module FunctionsTests exposing (..)
 
 import Expect
-import Functions exposing (calculateBMI, calculateBodySurfaceArea, calculateCalories, calculateDripRate, calculatePumpRate, scoreCalculator, strToFloat)
+import Functions exposing (calculateBMI, calculateBodySurfaceArea, calculateCalories, calculateDripRate, calculatePumpRate, calculateWeightBasedDose, scoreCalculator, strToFloat)
 import Test exposing (Test, describe, test)
 
 
@@ -147,5 +147,19 @@ suite =
                 \_ ->
                     calculateBodySurfaceArea 160 50
                         |> Expect.within (Expect.Absolute 0.005) 1.49
+            ]
+        , describe "calculateWeightBasedDose"
+            [ test "15 mg/kg and 70 kg is 1050 mg" <|
+                \_ ->
+                    calculateWeightBasedDose 15 70
+                        |> Expect.within (Expect.Absolute 0.0001) 1050
+            , test "2.5 mg/kg and 12.3 kg is about 30.75 mg" <|
+                \_ ->
+                    calculateWeightBasedDose 2.5 12.3
+                        |> Expect.within (Expect.Absolute 0.0001) 30.75
+            , test "0.015 mg/kg and 4.2 kg is about 0.063 mg" <|
+                \_ ->
+                    calculateWeightBasedDose 0.015 4.2
+                        |> Expect.within (Expect.Absolute 0.0001) 0.063
             ]
         ]

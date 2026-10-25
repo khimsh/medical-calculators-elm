@@ -1,4 +1,4 @@
-module Functions exposing (NutritionResult, Sex(..), calculateBMI, calculateBodySurfaceArea, calculateCalories, calculateDripRate, calculateFreeWaterDeficit, calculatePumpRate, errorDisplay, floatToStr, formatToDecimals, roundToTwoDecimals, scoreCalculator, strToFloat, totalBodyWaterFactor)
+module Functions exposing (NutritionResult, Sex(..), calculateBMI, calculateBodySurfaceArea, calculateCalories, calculateDripRate, calculateFreeWaterDeficit, calculatePumpRate, calculateWeightBasedDose, errorDisplay, floatToStr, formatToDecimals, roundToTwoDecimals, scoreCalculator, strToFloat, totalBodyWaterFactor)
 
 import Html exposing (div, text)
 import Html.Attributes exposing (attribute, class)
@@ -171,6 +171,13 @@ calculateDripRate volume dropFactor minutes =
 calculateBodySurfaceArea : Float -> Float -> Float
 calculateBodySurfaceArea height weight =
     sqrt (height * weight / 3600)
+
+
+{-| Weight-based dose in mg: dose per kg (mg/kg) × weight (kg).
+-}
+calculateWeightBasedDose : Float -> Float -> Float
+calculateWeightBasedDose dosePerKg weight =
+    dosePerKg * weight
 
 
 errorDisplay : String -> Html.Html msg

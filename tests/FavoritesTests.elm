@@ -54,6 +54,16 @@ suite =
                     Encode.list Encode.string [ "body-surface-area" ]
                         |> Favorites.decode
                         |> Expect.equal [ BodySurfaceArea ]
+            , test "reads favorites stored before weight-based dose existed" <|
+                \_ ->
+                    Encode.list Encode.string [ "pills", "body-surface-area" ]
+                        |> Favorites.decode
+                        |> Expect.equal [ Pills, BodySurfaceArea ]
+            , test "reads the weight-based dose key" <|
+                \_ ->
+                    Encode.list Encode.string [ "weight-based-dose" ]
+                        |> Favorites.decode
+                        |> Expect.equal [ WeightBasedDose ]
             , test "gives no favorites for a non-list value" <|
                 \_ ->
                     Encode.string "garbage"

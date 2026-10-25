@@ -88,6 +88,11 @@ type alias Strings =
     , bsaFormula : String
     , bsaUnit : String
     , cm : String
+    , weightBasedDose : String
+    , dosePerKg : String
+    , mgPerKg : String
+    , dose : String
+    , weightBasedDoseFormula : String
     }
 
 
@@ -173,6 +178,11 @@ englishStrings =
     , bsaFormula = "√(height cm × weight kg ÷ 3600)"
     , bsaUnit = "m²"
     , cm = "cm"
+    , weightBasedDose = "Weight-based dose"
+    , dosePerKg = "Dose per kg (mg/kg)"
+    , mgPerKg = "mg/kg"
+    , dose = "Dose"
+    , weightBasedDoseFormula = "dose per kg × weight"
     , testingBanner = "⚠ TESTING PURPOSES ONLY - This application is currently in development and testing phase. Do not use for clinical decisions."
     }
 
@@ -259,6 +269,11 @@ georgianStrings =
     , bsaFormula = "√(სიმაღლე სმ × წონა კგ ÷ 3600)"
     , bsaUnit = "m²"
     , cm = "სმ"
+    , weightBasedDose = "წონაზე დაფუძნებული დოზა"
+    , dosePerKg = "დოზა კგ-ზე (მგ/კგ)"
+    , mgPerKg = "მგ/კგ"
+    , dose = "დოზა"
+    , weightBasedDoseFormula = "დოზა კგ-ზე × წონა"
     , testingBanner = "⚠ მხოლოდ ტესტირებისთვის - ეს აპლიკაცია ამჟამად განვითარებისა და ტესტირების ფაზაშია. არ გამოიყენოთ კლინიკური გადაწყვეტილებებისთვის."
     }
 

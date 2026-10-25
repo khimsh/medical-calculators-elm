@@ -71,7 +71,9 @@ Normal vital sign ranges by age
 
 ## Pediatric Dosing
 
-- Weight-based dosing: mg/kg formulas for most pediatric medications
+- Weight-based dosing: dose (mg) = dose per kg (mg/kg) × weight (kg)
+  - Source: D. C. Morris, *Calculate with Confidence*, 8th ed. (Elsevier, 2022; ISBN 9780323696968), chapter 24, "Pediatric and Adult Dosage Calculation Based on Weight".
+  - Cross-check: RMIT University Learning Lab, "Medication dosage based on body weight" (60 kg × 12 mg/kg = 720 mg).
 
 ## Other Common Calculations
 

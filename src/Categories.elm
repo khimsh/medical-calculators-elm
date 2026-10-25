@@ -21,7 +21,7 @@ calculators : Category -> List Calculator
 calculators category =
     case category of
         MedicationDosing ->
-            [ Pills, Liquids, IvInfusionRate, BodySurfaceArea ]
+            [ Pills, Liquids, IvInfusionRate, BodySurfaceArea, WeightBasedDose ]
 
         FluidsAndElectrolytes ->
             [ FreeWaterDeficit ]
